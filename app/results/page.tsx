@@ -214,13 +214,13 @@ export default function ResultsPage() {
           </div>
         )}
 
-        <div className="mt-12 card p-8 bg-gradient-to-r from-primary-navy to-secondary-blue text-white text-center">
+        <div className="mt-12 card p-8 bg-gradient-to-br from-slate-800 to-slate-900 text-white text-center">
           <h2 className="text-3xl font-bold mb-4">Be the Next Success Story</h2>
           <p className="text-xl mb-6 text-gray-200">
             Join Amigos IAS and start your journey towards UPSC success
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/admissions" className="btn-primary bg-white text-primary-navy hover:bg-gray-100">
+            <Link href="/admissions" className="btn-primary">
               Enroll Now
             </Link>
             <Link href="/contact" className="btn-outline border-white text-white hover:bg-white hover:text-primary-navy">

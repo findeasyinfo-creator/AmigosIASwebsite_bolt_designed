@@ -17,12 +17,8 @@ export default function HomePage() {
 
 function HeroSection() {
   return (
-    <section className="relative bg-gradient-to-br from-primary-navy via-secondary-blue to-primary-navy text-white py-20 lg:py-32 overflow-hidden">
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-0 left-0 w-96 h-96 bg-primary-orange rounded-full filter blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-primary-yellow rounded-full filter blur-3xl animate-pulse delay-1000"></div>
-      </div>
-
+    <section className="relative bg-gradient-to-br from-slate-800 via-slate-700 to-slate-900 text-white py-20 lg:py-32 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-r from-primary-orange/20 to-primary-red/20"></div>
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center">
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
@@ -34,14 +30,14 @@ function HeroSection() {
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
-            <Link href="/admissions" className="btn-primary bg-white text-primary-navy hover:bg-gray-100">
+            <Link href="/admissions" className="btn-primary">
               Join Now
             </Link>
             <Link href="/contact" className="btn-secondary">
               Enquire
             </Link>
             <Link
-              href="/brochure"
+              href="/resources"
               className="btn-outline border-white text-white hover:bg-white hover:text-primary-navy"
             >
               Download Brochure
@@ -62,9 +58,9 @@ function HeroSection() {
 
 function StatCard({ number, label }: { number: string; label: string }) {
   return (
-    <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 hover:bg-white/20 transition-all duration-300">
-      <div className="text-3xl font-bold text-primary-yellow mb-2">{number}</div>
-      <div className="text-sm text-gray-200">{label}</div>
+    <div className="bg-white/98 rounded-xl p-6 hover:bg-white transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1 border border-gray-100">
+      <div className="text-3xl font-bold text-primary-orange mb-2">{number}</div>
+      <div className="text-sm text-primary-navy font-semibold">{label}</div>
     </div>
   );
 }
@@ -456,13 +452,13 @@ function AnnouncementsSection() {
   ];
 
   return (
-    <section className="py-16 bg-gradient-to-r from-primary-navy to-secondary-blue text-white">
+    <section className="py-16 bg-gradient-to-br from-orange-50 via-yellow-50 to-orange-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+          <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-primary-navy">
             Latest Announcements
           </h2>
-          <p className="text-lg text-gray-200 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-700 max-w-2xl mx-auto">
             Stay updated with our latest batches, events, and opportunities
           </p>
         </div>
@@ -471,14 +467,14 @@ function AnnouncementsSection() {
           {announcements.map((announcement, index) => (
             <div
               key={index}
-              className="bg-white/10 backdrop-blur-sm rounded-lg p-6 hover:bg-white/20 transition-all duration-300"
+              className="bg-white rounded-xl p-6 hover:shadow-2xl transition-all duration-300 border-l-4 border-primary-orange transform hover:-translate-y-1"
             >
-              <div className="inline-block px-3 py-1 bg-primary-yellow text-primary-navy rounded-full text-sm font-semibold mb-3">
+              <div className="inline-block px-3 py-1 bg-gradient-to-r from-primary-yellow to-yellow-400 text-primary-navy rounded-full text-sm font-semibold mb-3 shadow-sm">
                 {announcement.type}
               </div>
-              <h3 className="text-xl font-semibold mb-2">{announcement.title}</h3>
-              <p className="text-gray-200 mb-4">{announcement.description}</p>
-              <div className="flex items-center text-sm text-gray-300">
+              <h3 className="text-xl font-semibold mb-2 text-primary-navy">{announcement.title}</h3>
+              <p className="text-gray-700 mb-4">{announcement.description}</p>
+              <div className="flex items-center text-sm text-gray-600">
                 <svg
                   className="w-4 h-4 mr-2"
                   fill="none"
@@ -501,7 +497,7 @@ function AnnouncementsSection() {
         <div className="text-center mt-8">
           <Link
             href="/contact"
-            className="btn-primary bg-white text-primary-navy hover:bg-gray-100"
+            className="btn-primary"
           >
             Register Now
           </Link>

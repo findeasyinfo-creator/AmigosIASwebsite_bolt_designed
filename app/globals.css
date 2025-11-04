@@ -1,7 +1,45 @@
 @import "tailwindcss";
 
+@theme {
+  --color-primary-red: #C62E38;
+  --color-primary-orange: #D97000;
+  --color-primary-yellow: #E5A83C;
+  --color-primary-navy: #2C3E50;
+  --color-secondary-green: #06D6A0;
+  --color-secondary-blue: #118AB2;
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
+  }
+  
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer utilities {
+  .btn-primary {
+    @apply bg-gradient-to-r from-primary-orange to-primary-red text-white font-semibold rounded-lg 
+           shadow-lg hover:shadow-2xl transform hover:-translate-y-0.5 transition-all duration-300 
+           border-2 border-transparent hover:border-white;
+  }
+  
+  .btn-secondary {
+    @apply bg-gradient-to-r from-primary-yellow to-yellow-500 text-primary-navy font-semibold rounded-lg 
+           shadow-md hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300;
+  }
+  
+  .btn-outline {
+    @apply border-2 border-primary-orange text-primary-orange font-semibold rounded-lg 
+           hover:bg-primary-orange hover:text-white transform hover:-translate-y-0.5 
+           transition-all duration-300 shadow-sm hover:shadow-lg;
+  }
+  
+  .card {
+    @apply bg-white rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 
+           transform hover:-translate-y-1;
   }
 }
