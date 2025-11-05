@@ -34,9 +34,9 @@ export default function Header() {
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-24">
+        <div className="flex items-center justify-between h-24 xl:h-28">
           <Link href="/" className="flex items-center space-x-3 group flex-shrink-0">
-            <div className="relative w-24 h-24 transition-transform duration-300 group-hover:scale-105">
+            <div className="relative w-20 h-20 lg:w-24 lg:h-24 xl:w-28 xl:h-28 transition-transform duration-300 group-hover:scale-105">
               <Image
                 src="/Main logo Amigos.png"
                 alt="Amigos IAS Academy"

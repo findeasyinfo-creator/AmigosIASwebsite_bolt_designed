@@ -21,8 +21,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Header />
-        <main className="pt-24 min-h-screen">{children}</main>
+  <Header />
+  <main className="pt-24 xl:pt-28 min-h-screen">{children}</main>
         <Footer />
         <MobileFAB />
       </body>
