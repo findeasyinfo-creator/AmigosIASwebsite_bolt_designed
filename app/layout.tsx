@@ -1,11 +1,16 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Inter, Playfair_Display } from 'next/font/google';
 import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import MobileFAB from '@/components/MobileFAB';
 
 const inter = Inter({ subsets: ['latin'] });
+const playfair = Playfair_Display({ 
+  subsets: ['latin'],
+  variable: '--font-playfair',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: 'Amigos IAS Academy - Your UPSC Journey Starts Here',
@@ -19,7 +24,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={playfair.variable}>
       <body className={inter.className}>
   <Header />
   <main className="pt-24 xl:pt-28 min-h-screen">{children}</main>

@@ -154,7 +154,7 @@ export default function CurrentAffairsPage() {
                 setSelectedPaper('all');
                 setSelectedDate('all');
               }}
-              className="mt-4 text-sm text-primary-orange hover:underline"
+              className="mt-4 text-sm text-primary-gold hover:underline"
             >
               Clear All Filters
             </button>
@@ -169,13 +169,13 @@ export default function CurrentAffairsPage() {
           {filteredArticles.map((article) => (
             <div key={article.id} className="card p-6 hover:scale-[1.02] transition-transform duration-200">
               <div className="flex items-start justify-between mb-3">
-                <div className="inline-block px-3 py-1 bg-primary-orange/10 text-primary-orange rounded-full text-sm font-medium">
+                <div className="inline-block px-3 py-1 bg-primary-gold/10 text-primary-gold rounded-full text-sm font-medium">
                   {article.paper}
                 </div>
                 <div className="text-sm text-gray-500">{article.date}</div>
               </div>
 
-              <h3 className="text-xl font-semibold text-primary-navy mb-2 hover:text-primary-orange transition-colors">
+              <h3 className="text-xl font-semibold text-primary-navy mb-2 hover:text-primary-gold transition-colors">
                 <Link href={`/current-affairs/${article.id}`}>{article.title}</Link>
               </h3>
 
@@ -195,7 +195,7 @@ export default function CurrentAffairsPage() {
 
                 <Link
                   href={`/current-affairs/${article.id}`}
-                  className="text-primary-navy hover:text-primary-orange font-medium text-sm flex items-center"
+                  className="text-primary-navy hover:text-primary-gold font-medium text-sm flex items-center"
                 >
                   Read More
                   <svg

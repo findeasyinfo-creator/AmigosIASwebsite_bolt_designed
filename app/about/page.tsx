@@ -33,7 +33,7 @@ function VisionMissionSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           <div className="card p-8">
-            <div className="text-primary-orange mb-4">
+            <div className="text-primary-gold mb-4">
               <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   strokeLinecap="round"
@@ -104,7 +104,7 @@ function DirectorMessageSection() {
             </div>
             <div>
               <h3 className="text-2xl font-semibold text-primary-navy mb-2">Dr. Rajesh Kumar</h3>
-              <p className="text-primary-orange mb-4">Founder & Director</p>
+              <p className="text-primary-gold mb-4">Founder & Director</p>
               <div className="text-gray-600 space-y-4 leading-relaxed">
                 <p>
                   Dear Aspirants,
@@ -195,7 +195,7 @@ function FacultySection() {
               <h3 className="text-xl font-semibold text-primary-navy mb-1 text-center">
                 {member.name}
               </h3>
-              <p className="text-primary-orange font-medium mb-3 text-center">{member.subject}</p>
+              <p className="text-primary-gold font-medium mb-3 text-center">{member.subject}</p>
               <div className="space-y-2 text-sm text-gray-600">
                 <div className="flex items-center">
                   <svg className="w-4 h-4 mr-2 text-secondary-green" fill="currentColor" viewBox="0 0 20 20">
@@ -239,7 +239,7 @@ function TimelineSection() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl font-bold text-primary-navy mb-12 text-center">Our Journey</h2>
         <div className="relative">
-          <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-primary-orange"></div>
+          <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-primary-gold"></div>
           <div className="space-y-8">
             {milestones.map((milestone, index) => (
               <div key={index} className="relative pl-20">

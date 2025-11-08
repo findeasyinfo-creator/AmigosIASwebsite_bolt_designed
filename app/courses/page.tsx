@@ -117,7 +117,7 @@ export default function CoursesPage() {
           {filteredCourses.map((course) => (
             <div key={course.id} className="card p-6 flex flex-col hover:scale-[1.02] transition-transform duration-300">
               <div className="mb-4">
-                <div className="inline-block px-3 py-1 bg-primary-orange/10 text-primary-orange rounded-full text-sm font-medium mb-3">
+                <div className="inline-block px-3 py-1 bg-primary-gold/10 text-primary-gold rounded-full text-sm font-medium mb-3">
                   {course.duration}
                 </div>
                 <h3 className="text-2xl font-semibold text-primary-navy mb-3">
