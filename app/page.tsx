@@ -19,7 +19,7 @@ export default function HomePage() {
 
 function HeroSection() {
   return (
-    <section className="relative bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 text-white pt-16 pb-16 lg:pt-20 lg:pb-20 overflow-hidden">
+    <section className="relative bg-slate-950 text-white pt-20 pb-12 sm:pt-20 sm:pb-16 lg:pt-24 lg:pb-20 overflow-hidden -mt-0">
       {/* Ambient sparkle + warm glow */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[120%] h-[120%] bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.06),transparent_60%)]" />
@@ -99,6 +99,22 @@ function HeroSection() {
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center text-center">
 
+          {/* Heading - Premium gold gradient style - Above image */}
+          <div className="mb-3 sm:mb-4 w-full px-2">
+            <h1 
+              className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-black tracking-wide text-center leading-tight"
+              style={{
+                background: 'linear-gradient(135deg, #FDE68A 0%, #FCD34D 25%, #F59E0B 50%, #D97706 75%, #B45309 100%)',
+                WebkitBackgroundClip: 'text',
+                backgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                filter: `drop-shadow(2px 2px 4px rgba(0,0,0,0.5)) drop-shadow(0 0 10px rgba(251, 191, 36, 0.4))`
+              }}
+            >
+              Start Your UPSC Journey From Here!
+            </h1>
+          </div>
+
           {/* Characters cluster - fully blended with background */}
           <div className="relative w-full flex justify-center">
             {/* Glass crystal shards - left side */}
@@ -141,105 +157,6 @@ function HeroSection() {
             <div className="absolute right-[16%] top-[75%] w-12 h-16 opacity-20 pointer-events-none z-5">
               <div className="absolute inset-0 bg-gradient-to-bl from-blue-200/35 via-transparent to-transparent -rotate-20 blur-[2px]"
                    style={{ clipPath: 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)' }} />
-            </div>
-
-            {/* 3D AMIGOS text with semi-circle background */}
-            <div className="absolute top-[5%] left-1/2 -translate-x-1/2 z-0 pointer-events-none">
-              {/* Semi-circle glow backdrop */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[250px] rounded-t-full bg-gradient-to-b from-amber-400/15 via-amber-400/8 to-transparent blur-2xl" />
-              
-              {/* Diamond/Faceted 3D AMIGOS IAS text in white */}
-              <h1 
-                className="text-7xl md:text-8xl font-black tracking-wider relative text-white"
-                style={{
-                  textShadow: `
-                    2px 2px 0px rgba(200, 200, 200, 0.9),
-                    4px 4px 0px rgba(160, 160, 160, 0.8),
-                    6px 6px 0px rgba(120, 120, 120, 0.7),
-                    8px 8px 0px rgba(80, 80, 80, 0.6),
-                    10px 10px 0px rgba(50, 50, 50, 0.5),
-                    12px 12px 0px rgba(30, 30, 30, 0.4),
-                    14px 14px 0px rgba(20, 20, 20, 0.3),
-                    0 0 40px rgba(255, 255, 255, 0.3),
-                    0 0 80px rgba(255, 255, 255, 0.2)
-                  `,
-                  filter: `
-                    drop-shadow(3px 3px 2px rgba(0,0,0,0.5))
-                    drop-shadow(6px 6px 4px rgba(0,0,0,0.4))
-                    drop-shadow(9px 9px 6px rgba(0,0,0,0.3))
-                    drop-shadow(12px 12px 8px rgba(0,0,0,0.2))
-                  `,
-                  transform: 'perspective(1000px) rotateX(-8deg) rotateY(2deg)',
-                  transformStyle: 'preserve-3d'
-                }}
-              >
-                AMIGOS IAS
-              </h1>
-              
-              {/* Bright highlight on top */}
-              <h1 
-                className="absolute top-0 left-0 text-7xl md:text-8xl font-black tracking-wider"
-                style={{
-                  background: 'linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(255,255,255,0.7) 40%, transparent 70%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                  transform: 'perspective(1000px) rotateX(-8deg) rotateY(2deg)',
-                  mixBlendMode: 'overlay'
-                }}
-              >
-                AMIGOS IAS
-              </h1>
-              
-              {/* Deep shadow layers for 3D depth */}
-              <div 
-                className="absolute top-3 left-3 w-full text-7xl md:text-8xl font-black tracking-wider -z-10 opacity-40"
-                style={{
-                  color: '#1e293b',
-                  filter: 'blur(6px)',
-                  transform: 'perspective(1000px) rotateX(-8deg) rotateY(2deg) translateZ(-20px)'
-                }}
-              >
-                AMIGOS IAS
-              </div>
-              <div 
-                className="absolute top-6 left-6 w-full text-7xl md:text-8xl font-black tracking-wider -z-20 opacity-30"
-                style={{
-                  color: '#0f172a',
-                  filter: 'blur(12px)',
-                  transform: 'perspective(1000px) rotateX(-8deg) rotateY(2deg) translateZ(-40px)'
-                }}
-              >
-                AMIGOS IAS
-              </div>
-            </div>
-
-            {/* Tagline above image - Premium gold gradient style */}
-            <div className="absolute top-[-10%] left-1/2 -translate-x-1/2 z-20 pointer-events-none whitespace-nowrap">
-              <p 
-                className="text-2xl md:text-4xl lg:text-5xl font-black tracking-wide text-center"
-                style={{
-                  background: 'linear-gradient(135deg, #FDE68A 0%, #FCD34D 25%, #F59E0B 50%, #D97706 75%, #B45309 100%)',
-                  WebkitBackgroundClip: 'text',
-                  backgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  filter: `drop-shadow(2px 2px 4px rgba(0,0,0,0.5)) drop-shadow(0 0 10px rgba(251, 191, 36, 0.4))`,
-                  transform: 'perspective(800px) rotateX(-3deg)'
-                }}
-              >
-                Start Your UPSC Journey From Here!
-              </p>
-              {/* Shadow layer for extra depth */}
-              <p 
-                className="absolute top-2 left-2 text-2xl md:text-4xl lg:text-5xl font-black tracking-wide text-center -z-10 opacity-60 whitespace-nowrap"
-                style={{
-                  color: '#000000',
-                  filter: 'blur(6px)',
-                  transform: 'perspective(800px) rotateX(-3deg)'
-                }}
-              >
-                Start Your UPSC Journey From Here!
-              </p>
             </div>
 
             {/* Floating crystals radiating outward from center */}
@@ -332,29 +249,32 @@ function HeroSection() {
               <div className="absolute bottom-[25%] left-[28%] w-3 h-3 bg-white/55 rounded-full blur-sm animate-pulse delay-1800" />
             </div>
 
-            {/* Main image - clear and solid */}
-            <div
-              className="relative w-[75vw] max-w-[700px] aspect-[16/10] bg-no-repeat transition-all duration-700 ease-out"
-              style={{ 
-                backgroundImage: "url('/amigos-3d-hero.png')",
-                backgroundSize: '130%',
-                backgroundPosition: 'center 45%',
-                transform: 'translateZ(0)',
-                filter: 'saturate(0.9) brightness(1) contrast(1.05)',
-                opacity: '1'
-              }}
-              onMouseMove={(e) => {
-                const rect = e.currentTarget.getBoundingClientRect();
-                const x = (e.clientX - rect.left) / rect.width - 0.5;
-                const y = (e.clientY - rect.top) / rect.height - 0.5;
-                e.currentTarget.style.transform = `rotateX(${-y * 3}deg) rotateY(${x * 3}deg) scale(1.01)`;
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateZ(0) scale(1)';
-              }}
-              aria-label="Amigos IAS mentors"
-              role="img"
-            />
+            {/* Main image - blended with background */}
+            <div className="relative w-[75vw] max-w-[700px] aspect-[16/10]">
+              <div
+                className="absolute inset-0 bg-no-repeat transition-all duration-700 ease-out"
+                style={{ 
+                  backgroundImage: "url('/amigos-3d-hero.png')",
+                  backgroundSize: '130%',
+                  backgroundPosition: 'center 45%',
+                  transform: 'translateZ(0)',
+                  filter: 'saturate(0.9) brightness(1) contrast(1.05)',
+                  WebkitMaskImage: 'radial-gradient(ellipse 80% 75% at 50% 50%, rgba(0,0,0,1) 40%, rgba(0,0,0,0.8) 65%, rgba(0,0,0,0) 100%)',
+                  maskImage: 'radial-gradient(ellipse 80% 75% at 50% 50%, rgba(0,0,0,1) 40%, rgba(0,0,0,0.8) 65%, rgba(0,0,0,0) 100%)'
+                }}
+                onMouseMove={(e) => {
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  const x = (e.clientX - rect.left) / rect.width - 0.5;
+                  const y = (e.clientY - rect.top) / rect.height - 0.5;
+                  e.currentTarget.style.transform = `rotateX(${-y * 3}deg) rotateY(${x * 3}deg) scale(1.01)`;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateZ(0) scale(1)';
+                }}
+                aria-label="Amigos IAS mentors"
+                role="img"
+              />
+            </div>
           </div>
 
           {/* Stats */}

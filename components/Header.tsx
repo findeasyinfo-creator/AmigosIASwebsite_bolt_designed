@@ -38,7 +38,7 @@ export default function Header() {
       }`}
     >
       <div className="w-full px-2 sm:px-3 lg:px-4">
-        <div className="grid grid-cols-[auto_1fr_auto] items-center h-20 xl:h-24 gap-3 lg:gap-5">
+        <div className="flex items-center justify-between h-20 xl:h-24">
           {/* Left: Logo / Brand */}
           <Link href="/" className="flex items-center group flex-shrink-0">
             <div className="relative w-16 h-16 lg:w-20 lg:h-20 xl:w-24 xl:h-24 transition-transform duration-300 group-hover:scale-105">
@@ -51,8 +51,38 @@ export default function Header() {
             </div>
           </Link>
 
+          {/* Mobile Menu Button - Right Side */}
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="lg:hidden p-2 rounded-md text-slate-200 hover:bg-slate-800/60 transition ml-auto"
+            aria-label="Toggle navigation menu"
+          >
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              {isMobileMenuOpen ? (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              ) : (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              )}
+            </svg>
+          </button>
+
           {/* Middle: Navigation starts immediately after logo */}
-          <nav className="hidden lg:flex items-center w-full">
+          <nav className="hidden lg:flex items-center flex-1 ml-5">
             <div className="flex items-center gap-5 xl:gap-7 2xl:gap-8">
             {navLinks.map((link) => {
               const isActive = pathname === link.href;
@@ -100,35 +130,6 @@ export default function Header() {
               <span className="relative z-10">Enquire Now</span>
             </Link>
           </div>
-
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="lg:hidden p-2 rounded-md text-slate-200 hover:bg-slate-800/60 transition"
-            aria-label="Toggle navigation menu"
-          >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              {isMobileMenuOpen ? (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              ) : (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              )}
-            </svg>
-          </button>
         </div>
       </div>
 

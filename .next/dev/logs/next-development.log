@@ -1,9 +1,19 @@
-[00:00:04.549] Server  LOG      ✓ Ready in 3s
-[00:00:11.890] Server  LOG      ○ Compiling / ...
-[00:00:20.281] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:28.664] Browser WARN    Image with src "http://localhost:3000/fav%20icon.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
-[00:00:49.596] Server  LOG      ✓ Compiled in 279ms
-[00:02:40.246] Server  LOG      ✓ Compiled in 243ms
-[00:03:54.114] Server  LOG      ✓ Compiled in 201ms
-[00:06:30.920] Server  LOG      ✓ Compiled in 176ms
-[00:08:27.247] Server  LOG      ✓ Compiled in 335ms
+[00:00:03.666] Server  LOG      ✓ Ready in 2.4s
+[00:00:06.724] Server  LOG      ○ Compiling / ...
+[00:00:10.823] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:31.195] Browser WARN    Image with src "http://localhost:3000/fav%20icon.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:03:32.432] Server  LOG      ✓ Compiled in 467ms
+[00:03:53.551] Server  LOG      ✓ Compiled in 305ms
+[00:04:05.297] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:06:02.882] Server  LOG      ✓ Compiled in 314ms
+[00:06:04.882] Browser WARN    Image with src "http://localhost:3000/fav%20icon.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:06:16.031] Server  LOG      ✓ Compiled in 208ms
+[00:09:28.032] Server  LOG      ✓ Compiled in 260ms
+[00:09:42.092] Server  LOG      ✓ Compiled in 263ms
+[00:09:55.486] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[00:10:13.118] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:12:21.074] Server  LOG      ✓ Compiled in 280ms
+[00:12:31.744] Server  LOG      ✓ Compiled in 290ms
+[00:12:54.439] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:14:06.865] Browser WARN    Image with src "http://localhost:3000/fav%20icon.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:19:50.948] Server  LOG      ✓ Compiled in 152ms

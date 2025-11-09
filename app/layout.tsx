@@ -27,7 +27,7 @@ export default function RootLayout({
     <html lang="en" className={playfair.variable}>
       <body className={inter.className}>
   <Header />
-  <main className="pt-24 xl:pt-28 min-h-screen">{children}</main>
+  <main className="min-h-screen">{children}</main>
         <Footer />
         <MobileFAB />
       </body>
