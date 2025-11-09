@@ -214,22 +214,16 @@ function HeroSection() {
               </div>
             </div>
 
-            {/* Tagline above image - 3D white style with black shadow single line */}
+            {/* Tagline above image - Premium gold gradient style */}
             <div className="absolute top-[-10%] left-1/2 -translate-x-1/2 z-20 pointer-events-none whitespace-nowrap">
               <p 
-                className="text-2xl md:text-4xl lg:text-5xl font-black tracking-wide text-center text-white"
+                className="text-2xl md:text-4xl lg:text-5xl font-black tracking-wide text-center"
                 style={{
-                  textShadow: `
-                    2px 2px 0px rgba(0, 0, 0, 0.9),
-                    4px 4px 0px rgba(0, 0, 0, 0.8),
-                    6px 6px 0px rgba(0, 0, 0, 0.7),
-                    8px 8px 0px rgba(0, 0, 0, 0.6),
-                    10px 10px 0px rgba(0, 0, 0, 0.5),
-                    12px 12px 0px rgba(0, 0, 0, 0.4),
-                    0 0 20px rgba(0, 0, 0, 0.8),
-                    0 0 40px rgba(0, 0, 0, 0.6)
-                  `,
-                  filter: `drop-shadow(3px 3px 3px rgba(0,0,0,0.8)) drop-shadow(6px 6px 6px rgba(0,0,0,0.5))`,
+                  background: 'linear-gradient(135deg, #FDE68A 0%, #FCD34D 25%, #F59E0B 50%, #D97706 75%, #B45309 100%)',
+                  WebkitBackgroundClip: 'text',
+                  backgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  filter: `drop-shadow(2px 2px 4px rgba(0,0,0,0.5)) drop-shadow(0 0 10px rgba(251, 191, 36, 0.4))`,
                   transform: 'perspective(800px) rotateX(-3deg)'
                 }}
               >

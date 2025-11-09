@@ -1,6 +1,9 @@
-[00:00:03.418] Server  LOG      ✓ Ready in 2.3s
-[00:00:11.619] Server  LOG      ○ Compiling / ...
-[00:00:19.716] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:38.667] Browser WARN    Image with src "http://localhost:3000/fav%20icon.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
-[00:00:47.812] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:48.932] Browser WARN    Image with src "http://localhost:3000/fav%20icon.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:00:04.549] Server  LOG      ✓ Ready in 3s
+[00:00:11.890] Server  LOG      ○ Compiling / ...
+[00:00:20.281] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:28.664] Browser WARN    Image with src "http://localhost:3000/fav%20icon.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:00:49.596] Server  LOG      ✓ Compiled in 279ms
+[00:02:40.246] Server  LOG      ✓ Compiled in 243ms
+[00:03:54.114] Server  LOG      ✓ Compiled in 201ms
+[00:06:30.920] Server  LOG      ✓ Compiled in 176ms
+[00:08:27.247] Server  LOG      ✓ Compiled in 335ms
