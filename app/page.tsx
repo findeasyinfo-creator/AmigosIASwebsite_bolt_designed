@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -734,7 +734,7 @@ function TestimonialsSection() {
     },
   ];
 
-  const flipToPage = (targetPage: number) => {
+  const flipToPage = useCallback((targetPage: number) => {
     if (targetPage === currentPage || isFlipping) return;
     
     const direction = targetPage > currentPage ? 'next' : 'prev';
@@ -760,7 +760,7 @@ function TestimonialsSection() {
     setTimeout(() => {
       setIsFlipping(false);
     }, 2200);
-  };
+  }, [currentPage, isFlipping]);
 
   const nextPage = () => {
     if (currentPage < testimonials.length - 1) {
@@ -808,19 +808,38 @@ function TestimonialsSection() {
 
     const autoFlip = setInterval(() => {
       if (!isFlipping) {
-        if (currentPage < testimonials.length - 1) {
-          flipToPage(currentPage + 1);
-        } else {
-          flipToPage(0);
-        }
+        setCurrentPage((prevPage) => {
+          const nextPage = prevPage < testimonials.length - 1 ? prevPage + 1 : 0;
+          
+          // Trigger flip animation
+          setFlipDirection(nextPage > prevPage ? 'next' : 'prev');
+          setNextPageContent(nextPage);
+          setIsFlipping(true);
+          
+          // Update flipped pages
+          setTimeout(() => {
+            if (nextPage > prevPage) {
+              setFlippedPages(prev => [...prev, prevPage]);
+            } else {
+              setFlippedPages([]);
+            }
+          }, 1100);
+          
+          // Complete flip
+          setTimeout(() => {
+            setIsFlipping(false);
+          }, 2200);
+          
+          return nextPage;
+        });
       }
     }, 6000);
 
     return () => clearInterval(autoFlip);
-  }, [currentPage, isFlipping, isBookOpen, autoFlipEnabled]);
+  }, [isBookOpen, autoFlipEnabled, testimonials.length]);
 
   return (
-    <section ref={sectionRef} className="py-20 bg-gradient-to-b from-slate-50 to-white relative overflow-hidden">
+    <section ref={sectionRef} className="py-20 bg-gradient-to-b from-slate-50 to-white relative overflow-x-hidden overflow-y-visible">
       {/* Decorative background elements */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-10 left-10 w-32 h-32 border-2 border-amber-400 rounded-full"></div>
@@ -852,11 +871,11 @@ function TestimonialsSection() {
           </div>
         </div>
 
-        {/* Compact 3D Book Design with Flip Animation */}
-        <div className="flex justify-center" style={{ perspective: '1500px' }}>
-          <div className="relative w-full max-w-3xl">
+  {/* Compact 3D Book Design with Flip Animation */}
+  <div className="flex justify-start md:justify-center items-center pl-0 pr-2 sm:px-6 md:px-0 overflow-hidden min-h-[320px] sm:min-h-[350px] md:min-h-[450px] lg:min-h-[500px]" style={{ perspective: '1500px' }}>
+          <div className="relative w-full max-w-3xl scale-[0.62] sm:scale-[0.75] md:scale-90 lg:scale-100 origin-left md:origin-center -ml-2 md:mx-auto">
             {/* Realistic Book Shadow */}
-            <div className="absolute inset-0 bg-gradient-to-b from-slate-900/30 to-slate-900/10 blur-2xl transform translate-y-6 scale-95 rounded-xl"></div>
+            <div className="absolute inset-0 bg-gradient-to-b from-slate-900/30 to-slate-900/10 blur-2xl transform translate-y-6 scale-95 rounded-xl pointer-events-none"></div>
             
             {/* Navigation Buttons - Styled as book page corners */}
             <button
@@ -865,7 +884,7 @@ function TestimonialsSection() {
                 prevPage();
               }}
               disabled={currentPage === 0 || isFlipping}
-              className="absolute -left-14 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-gradient-to-br from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 disabled:from-gray-300 disabled:to-gray-400 disabled:cursor-not-allowed rounded-lg shadow-xl flex items-center justify-center transition-all duration-200 hover:scale-110 disabled:scale-100 disabled:opacity-50 border-2 border-amber-300/50 active:scale-95"
+              className="hidden md:flex absolute -left-14 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-gradient-to-br from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 disabled:from-gray-300 disabled:to-gray-400 disabled:cursor-not-allowed rounded-lg shadow-xl items-center justify-center transition-all duration-200 hover:scale-110 disabled:scale-100 disabled:opacity-50 border-2 border-amber-300/50 active:scale-95"
               aria-label="Previous page"
             >
               <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -879,7 +898,7 @@ function TestimonialsSection() {
                 nextPage();
               }}
               disabled={currentPage === testimonials.length - 1 || isFlipping}
-              className="absolute -right-14 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-gradient-to-br from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 disabled:from-gray-300 disabled:to-gray-400 disabled:cursor-not-allowed rounded-lg shadow-xl flex items-center justify-center transition-all duration-200 hover:scale-110 disabled:scale-100 disabled:opacity-50 border-2 border-amber-300/50 active:scale-95"
+              className="hidden md:flex absolute -right-14 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-gradient-to-br from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 disabled:from-gray-300 disabled:to-gray-400 disabled:cursor-not-allowed rounded-lg shadow-xl items-center justify-center transition-all duration-200 hover:scale-110 disabled:scale-100 disabled:opacity-50 border-2 border-amber-300/50 active:scale-95"
               aria-label="Next page"
             >
               <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -887,25 +906,7 @@ function TestimonialsSection() {
               </svg>
             </button>
 
-            {/* Page Indicator Dots */}
-            <div className="absolute -top-10 left-1/2 -translate-x-1/2 flex items-center gap-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg">
-              {testimonials.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    flipToPage(index);
-                  }}
-                  disabled={isFlipping}
-                  className={`h-2 rounded-full transition-all duration-300 disabled:cursor-wait ${
-                    index === currentPage 
-                      ? 'w-6 bg-amber-500 shadow-md' 
-                      : 'w-2 bg-gray-300 hover:bg-amber-300 hover:w-4'
-                  }`}
-                  aria-label={`Go to page ${index + 1}`}
-                />
-              ))}
-            </div>
+            {/* Page Indicator Dots are now anchored to the book center (moved inside book-wrapper below) */}
             
             {/* Realistic 3D Book Container with Enhanced Perspective */}
             <div 
@@ -918,6 +919,18 @@ function TestimonialsSection() {
                 height: '420px'
               }}
             >
+              {/* Top Dots centered to the book */}
+              <div className="absolute -top-12 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg">
+                {testimonials.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={(e) => { e.preventDefault(); flipToPage(index); }}
+                    disabled={isFlipping}
+                    className={`h-2 rounded-full transition-all duration-300 disabled:cursor-wait ${index === currentPage ? 'w-6 bg-amber-500 shadow-md' : 'w-2 bg-gray-300 hover:bg-amber-300 hover:w-4'}`}
+                    aria-label={`Go to page ${index + 1}`}
+                  />
+                ))}
+              </div>
               
               {/* Left Page (Navy Cover - Opens from Closed State) */}
               <div 
@@ -1057,8 +1070,8 @@ function TestimonialsSection() {
                 <div 
                   className="absolute right-0 bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 shadow-2xl overflow-hidden transition-opacity duration-500"
                   style={{ 
-                    width: '275px',
-                    height: '400px',
+                    width: '290px',
+                    height: '420px',
                     transformOrigin: 'left center',
                     borderTopRightRadius: '8px',
                     borderBottomRightRadius: '8px',
@@ -1416,23 +1429,47 @@ function TestimonialsSection() {
                 {/* Gold edge accent */}
                 <div className="absolute left-0 top-8 bottom-8 w-1 page-edge-accent"></div>
               </div>
-            </div>
-
-            {/* Flip Instructions */}
-            <div className="text-center mt-6 text-slate-500 text-xs flex flex-col items-center gap-2">
-              <div className="flex items-center gap-3">
-                <p className="m-0">Click arrows or dots to turn pages • Page {currentPage + 1} of {testimonials.length}</p>
+            
+              {/* Mobile bottom navigation anchored to the book center */}
+              <div className="absolute -bottom-14 left-1/2 -translate-x-1/2 z-30 md:hidden flex items-center justify-center gap-6 pointer-events-auto">
                 <button
-                  onClick={(e) => { e.preventDefault(); setAutoFlipEnabled(prev => !prev); }}
-                  aria-pressed={autoFlipEnabled}
-                  className={`ml-2 px-3 py-1 rounded-full text-[11px] font-semibold transition-colors duration-200 ${autoFlipEnabled ? 'bg-amber-500 text-white shadow-md' : 'bg-white/80 text-slate-700 border border-slate-200'}`}
+                  onClick={(e) => { e.preventDefault(); prevPage(); }}
+                  disabled={currentPage === 0 || isFlipping}
+                  className="w-10 h-10 bg-gradient-to-br from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 disabled:from-gray-300 disabled:to-gray-400 disabled:cursor-not-allowed rounded-lg shadow-xl flex items-center justify-center transition-all duration-200 hover:scale-110 disabled:scale-100 disabled:opacity-50 border-2 border-amber-300/50 active:scale-95"
+                  aria-label="Previous page (mobile)"
                 >
-                  Auto-flip: {autoFlipEnabled ? 'On' : 'Off'}
+                  <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
+                  </svg>
+                </button>
+                <button
+                  onClick={(e) => { e.preventDefault(); nextPage(); }}
+                  disabled={currentPage === testimonials.length - 1 || isFlipping}
+                  className="w-10 h-10 bg-gradient-to-br from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 disabled:from-gray-300 disabled:to-gray-400 disabled:cursor-not-allowed rounded-lg shadow-xl flex items-center justify-center transition-all duration-200 hover:scale-110 disabled:scale-100 disabled:opacity-50 border-2 border-amber-300/50 active:scale-95"
+                  aria-label="Next page (mobile)"
+                >
+                  <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                  </svg>
                 </button>
               </div>
-              <p className="m-0 opacity-70">(Pages will only auto-turn when Auto-flip is set to On)</p>
             </div>
           </div>
+        </div>
+
+        {/* Flip Instructions - centered below the book */}
+        <div className="text-center mt-6 text-slate-500 text-xs flex flex-col items-center gap-2 w-full px-4 max-w-3xl mx-auto">
+          <div className="flex flex-col md:flex-row items-center gap-2 md:gap-3 justify-center">
+            <p className="m-0 text-center">Click arrows or dots to turn pages • Page {currentPage + 1} of {testimonials.length}</p>
+            <button
+              onClick={(e) => { e.preventDefault(); setAutoFlipEnabled(prev => !prev); }}
+              aria-pressed={autoFlipEnabled}
+              className={`px-3 py-1 rounded-full text-[11px] font-semibold transition-all duration-200 cursor-pointer hover:scale-110 active:scale-95 ${autoFlipEnabled ? 'bg-amber-500 hover:bg-amber-600 text-white shadow-md hover:shadow-lg' : 'bg-white/80 hover:bg-white text-slate-700 hover:text-slate-900 border border-slate-200 hover:border-amber-400'}`}
+            >
+              Auto-flip: {autoFlipEnabled ? 'On' : 'Off'}
+            </button>
+          </div>
+          <p className="m-0 opacity-70 text-center">(Pages will only auto-turn when Auto-flip is set to On)</p>
         </div>
 
         <div className="text-center mt-12">

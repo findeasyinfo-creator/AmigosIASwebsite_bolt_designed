@@ -1,19 +1,130 @@
-[00:00:03.666] Server  LOG      ✓ Ready in 2.4s
-[00:00:06.724] Server  LOG      ○ Compiling / ...
-[00:00:10.823] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:31.195] Browser WARN    Image with src "http://localhost:3000/fav%20icon.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
-[00:03:32.432] Server  LOG      ✓ Compiled in 467ms
-[00:03:53.551] Server  LOG      ✓ Compiled in 305ms
-[00:04:05.297] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:06:02.882] Server  LOG      ✓ Compiled in 314ms
-[00:06:04.882] Browser WARN    Image with src "http://localhost:3000/fav%20icon.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
-[00:06:16.031] Server  LOG      ✓ Compiled in 208ms
-[00:09:28.032] Server  LOG      ✓ Compiled in 260ms
-[00:09:42.092] Server  LOG      ✓ Compiled in 263ms
-[00:09:55.486] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
-[00:10:13.118] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:12:21.074] Server  LOG      ✓ Compiled in 280ms
-[00:12:31.744] Server  LOG      ✓ Compiled in 290ms
-[00:12:54.439] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:14:06.865] Browser WARN    Image with src "http://localhost:3000/fav%20icon.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
-[00:19:50.948] Server  LOG      ✓ Compiled in 152ms
+[00:00:03.601] Server  LOG      ✓ Ready in 2.3s
+[00:00:12.226] Server  LOG      ○ Compiling / ...
+[00:00:16.293] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:18.400] Browser WARN    Image with src "http://localhost:3000/fav%20icon.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:00:47.463] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:47.585] Browser WARN    Image with src "/Main logo Amigos.png" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
+[00:00:47.694] Browser WARN    Image with src "http://localhost:3000/fav%20icon.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:01:37.865] Server  LOG      ✓ Compiled in 195ms
+[00:01:38.017] Browser ERROR   The final argument passed to %s changed size between renders. The order and size of this array must remain constant.
+
+Previous: %s
+Incoming: %s useEffect [0, false, true, false, (targetPage)=>{
+            if (targetPage === currentPage || isFlipping) return;
+            const direction = targetPage > currentPage ? 'next' : 'prev';
+            setFlipDirection(direction);
+            setNextPageContent(targetPage);
+            setIsFlipping(true);
+            // Update current page at midpoint of realistic fold animation with natural resistance (2.2s total, update at 1100ms)
+            setTimeout({
+                "TestimonialsSection.useCallback[flipToPage]": ()=>{
+                    setCurrentPage(targetPage);
+                    // Update flipped pages array
+                    if (direction === 'next') {
+                        // Add current page to flipped pages (it moves to left)
+                        setFlippedPages({
+                            "TestimonialsSection.useCallback[flipToPage]": (prev)=>[
+                                    ...prev,
+                                    currentPage
+                                ]
+                        }["TestimonialsSection.useCallback[flipToPage]"]);
+                    } else {
+                        // Remove the last page from flipped pages (it returns to right)
+                        setFlippedPages({
+                            "TestimonialsSection.useCallback[flipToPage]": (prev)=>prev.slice(0, -1)
+                        }["TestimonialsSection.useCallback[flipToPage]"]);
+                    }
+                }
+            }["TestimonialsSection.useCallback[flipToPage]"], 1100);
+            // Complete the flip after full animation with slight settle time
+            setTimeout({
+                "TestimonialsSection.useCallback[flipToPage]": ()=>{
+                    setIsFlipping(false);
+                }
+            }["TestimonialsSection.useCallback[flipToPage]"], 2200);
+        }, 6] [true, false, false, 6]
+[00:04:23.679] Server  LOG      ✓ Compiled in 340ms
+[00:07:31.538] Server  LOG      ✓ Compiled in 253ms
+[00:07:47.697] Server  LOG      ✓ Compiled in 131ms
+[00:07:48.636] Browser ERROR   The final argument passed to %s changed size between renders. The order and size of this array must remain constant.
+
+Previous: %s
+Incoming: %s useEffect [true, false, false, 6] [true, false, 6]
+[00:08:17.611] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:08:18.630] Browser WARN    Image with src "http://localhost:3000/fav%20icon.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:10:00.428] Server  LOG      ✓ Compiled in 183ms
+[00:10:33.858] Server  LOG      ✓ Compiled in 185ms
+[00:10:53.407] Server  LOG      ✓ Compiled in 129ms
+[00:12:04.948] Server  LOG      ✓ Compiled in 182ms
+[00:12:15.860] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:12:16.682] Browser WARN    Image with src "http://localhost:3000/fav%20icon.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:12:23.221] Server  LOG      ✓ Compiled in 127ms
+[00:12:44.169] Server  LOG      ✓ Compiled in 121ms
+[00:13:23.869] Server  LOG      ✓ Compiled in 345ms
+[00:16:05.034] Server  LOG      ✓ Compiled in 292ms
+[00:16:22.532] Server  LOG      ✓ Compiled in 180ms
+[00:16:38.170] Server  LOG      ✓ Compiled in 198ms
+[00:16:52.405] Server  LOG      ✓ Compiled in 138ms
+[00:17:05.116] Server  LOG      ✓ Compiled in 135ms
+[00:17:18.408] Server  LOG      ✓ Compiled in 155ms
+[00:17:31.456] Server  LOG      ✓ Compiled in 125ms
+[00:17:55.922] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:17:56.269] Browser WARN    Image with src "/Main logo Amigos.png" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
+[00:17:56.827] Browser WARN    Image with src "http://localhost:3000/fav%20icon.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:18:15.279] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:18:16.167] Browser WARN    Image with src "http://localhost:3000/fav%20icon.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:19:46.377] Server  LOG      ✓ Compiled in 247ms
+[00:20:19.424] Server  LOG      ✓ Compiled in 239ms
+[00:20:45.497] Server  LOG      ✓ Compiled in 311ms
+[00:22:35.339] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:22:37.032] Browser WARN    Image with src "http://localhost:3000/fav%20icon.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:24:03.430] Server  LOG      ✓ Compiled in 150ms
+[00:26:04.914] Server  LOG      ✓ Compiled in 230ms
+[00:26:29.879] Server  LOG      ✓ Compiled in 217ms
+[00:27:00.042] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:27:00.628] Browser WARN    Image with src "/Main logo Amigos.png" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
+[00:27:00.903] Browser WARN    Image with src "http://localhost:3000/fav%20icon.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:29:20.664] Server  LOG      ✓ Compiled in 262ms
+[00:29:53.981] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:29:54.912] Browser WARN    Image with src "http://localhost:3000/fav%20icon.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:34:41.849] Server  LOG      ✓ Compiled in 271ms
+[00:35:21.985] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:35:22.553] Browser WARN    Image with src "/Main logo Amigos.png" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
+[00:35:22.820] Browser WARN    Image with src "http://localhost:3000/fav%20icon.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:39:50.546] Server  LOG      ✓ Compiled in 230ms
+[00:45:14.665] Server  LOG      ✓ Compiled in 301ms
+[00:49:39.051] Server  LOG      ✓ Compiled in 234ms
+[00:51:03.574] Server  LOG      ✓ Compiled in 306ms
+[00:54:17.532] Server  LOG      ✓ Compiled in 304ms
+[00:54:47.534] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:54:48.551] Browser WARN    Image with src "http://localhost:3000/fav%20icon.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:56:52.572] Server  LOG      ✓ Compiled in 155ms
+[00:57:58.722] Server  LOG      ✓ Compiled in 163ms
+[01:00:27.771] Server  LOG      ✓ Compiled in 250ms
+[01:01:47.139] Server  LOG      ✓ Compiled in 302ms
+[01:03:13.742] Server  LOG      ✓ Compiled in 209ms
+[01:05:10.677] Server  LOG      ✓ Compiled in 280ms
+[01:05:28.638] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:05:29.512] Browser WARN    Image with src "http://localhost:3000/fav%20icon.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[01:06:27.242] Server  LOG      ✓ Compiled in 252ms
+[01:08:32.512] Server  LOG      ✓ Compiled in 232ms
+[01:10:39.668] Server  LOG      ✓ Compiled in 288ms
+[01:12:52.202] Server  LOG      ✓ Compiled in 313ms
+[01:13:07.136] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:13:07.642] Browser WARN    Image with src "/Main logo Amigos.png" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
+[01:13:07.986] Browser WARN    Image with src "http://localhost:3000/fav%20icon.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[01:14:35.577] Server  LOG      ✓ Compiled in 90ms
+[01:14:52.561] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:14:53.021] Browser WARN    Image with src "http://localhost:3000/fav%20icon.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[01:15:02.690] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:15:07.453] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:15:15.071] Browser WARN    Image with src "http://localhost:3000/fav%20icon.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[01:16:42.380] Server  LOG      ✓ Compiled in 160ms
+[01:18:09.636] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:18:10.196] Browser WARN    Image with src "http://localhost:3000/fav%20icon.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[01:19:18.924] Server  LOG      ✓ Compiled in 81ms
