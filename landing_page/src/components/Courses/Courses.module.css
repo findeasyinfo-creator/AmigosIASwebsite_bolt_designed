@@ -1,0 +1,444 @@
+.coursesSection {
+  padding: 3rem 1.5rem;
+  background: transparent;
+  color: var(--navy-primary);
+  position: relative;
+  z-index: 1;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  background: transparent;
+  backdrop-filter: none;
+  border-radius: 0;
+  padding: 2rem 1.5rem;
+  box-shadow: none;
+  border: none;
+}
+
+.sectionTitle {
+  text-align: center;
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(34px, 5vw, 44px);
+  font-weight: 700;
+  background: linear-gradient(135deg, #D4AF37 0%, #FFE17B 50%, #F2C94C 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
+}
+
+.sectionSubtitle {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.125rem;
+  margin-bottom: 2.5rem;
+  font-weight: 400;
+}
+[data-theme="light"] .sectionTitle {
+  color: #FFFFFF;
+  background: none;
+  -webkit-text-fill-color: #FFFFFF;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+[data-theme="light"] .sectionSubtitle {
+  color: #5D4037;
+}
+
+.coursesContainer {
+  display: flex;
+  gap: 2.5rem;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2.5rem;
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(255, 225, 123, 0.03) 0%, transparent 50%),
+    linear-gradient(145deg, rgba(10, 18, 32, 0.96), rgba(15, 23, 42, 0.96)) padding-box,
+    linear-gradient(135deg, #FFE17B, #F2C94C 50%, #D4AF37) border-box;
+  border: 2px solid transparent;
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(255, 225, 123, 0.18) inset,
+    0 0 80px rgba(212, 175, 55, 0.15);
+  overflow: visible;
+  position: relative;
+  animation: container-glow 4s ease-in-out infinite;
+}
+
+[data-theme="light"] .coursesContainer {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 87, 34, 0.2);
+  box-shadow: 0 12px 48px rgba(255, 87, 34, 0.15);
+  backdrop-filter: blur(10px);
+}
+
+@keyframes container-glow {
+  0%, 100% {
+    box-shadow:
+      0 12px 40px rgba(0, 0, 0, 0.55),
+      0 0 0 1px rgba(255, 225, 123, 0.18) inset,
+      0 0 80px rgba(212, 175, 55, 0.15);
+  }
+  50% {
+    box-shadow:
+      0 12px 40px rgba(0, 0, 0, 0.55),
+      0 0 0 1px rgba(255, 225, 123, 0.3) inset,
+      0 0 100px rgba(212, 175, 55, 0.25);
+  }
+}
+
+.coursesGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  flex: 1;
+  max-width: 560px;
+}
+
+.courseCard {
+  background: linear-gradient(145deg, 
+    rgba(25, 35, 55, 0.98) 0%,
+    rgba(30, 42, 65, 0.98) 100%
+  );
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 20px;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 
+    0 8px 24px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(212, 175, 55, 0.15) inset;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+/* Light theme: switch navy cards to light gold-orange */
+[data-theme="light"] .courseCard {
+  background: linear-gradient(135deg, #FFF4E5 0%, #FFE6C7 55%, #FFD6A3 100%);
+  border: 1px solid rgba(255, 152, 0, 0.28);
+  box-shadow:
+    0 10px 30px rgba(255, 152, 0, 0.18),
+    0 0 0 1px rgba(255, 183, 77, 0.18) inset;
+}
+
+.courseCard::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top right, rgba(255, 225, 123, 0.08), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+[data-theme="light"] .courseCard::before {
+  background: radial-gradient(circle at top right, rgba(255, 183, 77, 0.25), transparent 60%);
+}
+
+.courseCard:hover::before {
+  opacity: 1;
+}
+
+.courseCard:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.7),
+    0 0 60px rgba(212, 175, 55, 0.4),
+    0 0 100px rgba(255, 225, 123, 0.2),
+    0 0 0 1px rgba(255, 225, 123, 0.4) inset;
+  border-color: rgba(212, 175, 55, 0.7);
+}
+
+[data-theme="light"] .courseCard:hover {
+  box-shadow:
+    0 18px 50px rgba(255, 152, 0, 0.35),
+    0 0 60px rgba(255, 183, 77, 0.35),
+    0 0 0 1px rgba(255, 183, 77, 0.45) inset;
+  border-color: rgba(255, 152, 0, 0.6);
+}
+
+.courseIcon {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 0.875rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.4s ease;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(255, 225, 123, 0.08));
+  border-radius: 14px;
+  padding: 0.625rem;
+  box-shadow: 0 4px 16px rgba(212, 175, 55, 0.2);
+}
+
+.courseIcon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: brightness(1.1) drop-shadow(0 2px 8px rgba(212, 175, 55, 0.3));
+}
+
+.courseCard:hover .courseIcon {
+  transform: scale(1.1) translateY(-4px);
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.35);
+}
+[data-theme="light"] .courseIcon {
+  background: linear-gradient(135deg, rgba(255, 87, 34, 0.12), rgba(255, 183, 77, 0.08));
+  box-shadow: 0 4px 16px rgba(255, 87, 34, 0.2);
+}
+
+.courseTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.375rem;
+  letter-spacing: 0.02em;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+[data-theme="light"] .courseTitle {
+  color: #FF6A2A;
+  -webkit-text-fill-color: #FF6A2A; /* override global h3 white */
+  background: none;                /* cancel gradient from globals */
+  -webkit-background-clip: initial;
+  background-clip: initial;
+  text-shadow: none;
+}
+
+.courseSubtitle {
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 1rem;
+  font-weight: 400;
+}
+[data-theme="light"] .courseSubtitle {
+  color: #5D4037;
+}
+
+.courseBtn {
+  background: linear-gradient(135deg, #D4AF37 0%, #FFE17B 100%);
+  color: #0a1628;
+  border: none;
+  padding: 0.5rem 1.25rem;
+  border-radius: 10px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 
+    0 4px 16px rgba(212, 175, 55, 0.35),
+    inset 0 1px 2px rgba(255, 255, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+[data-theme="light"] .courseBtn {
+  background: linear-gradient(135deg, #FF5722, #FF7043);
+  color: #FFFFFF;
+  box-shadow: 0 4px 16px rgba(255, 87, 34, 0.35);
+}
+
+.courseBtn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transition: left 0.6s ease;
+}
+
+.courseBtn:hover::before {
+  left: 100%;
+}
+
+.courseBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 6px 20px rgba(212, 175, 55, 0.5),
+    inset 0 1px 3px rgba(255, 255, 255, 0.4);
+  background: linear-gradient(135deg, #FFE17B 0%, #F2C94C 100%);
+}
+[data-theme="light"] .courseBtn:hover {
+  box-shadow: 0 6px 20px rgba(255, 87, 34, 0.5);
+  background: linear-gradient(135deg, #D84315, #FF5722);
+}
+
+.courseBtn:active {
+  transform: translateY(0);
+}
+
+/* UPSC Emblem */
+.upscEmblem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 300px;
+  padding: 0.75rem;
+  position: relative;
+  height: 100%;
+}
+
+.emblemImage {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 300px;
+  max-height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 16px rgba(212, 175, 55, 0.4)) 
+          brightness(1.1);
+  border-radius: 24px;
+}
+
+/* Light theme: recolor emblem to vibrant orange */
+[data-theme="light"] .emblemImage {
+  /* Reset gold-toned shadow */
+  filter: 
+    drop-shadow(0 6px 20px rgba(255, 87, 34, 0.35))
+    sepia(1)
+    saturate(6)
+    hue-rotate(-10deg)
+    brightness(1.05)
+    contrast(1.1);
+}
+
+/* Optional utility to force black variant by class */
+.emblemBlack {
+  filter: grayscale(1) brightness(0) contrast(1.1) !important;
+}
+
+@keyframes float-emblem {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-15px) scale(1.02);
+  }
+}
+
+@keyframes emblem-glow {
+  0%, 100% {
+    filter: drop-shadow(0 8px 24px rgba(212, 175, 55, 0.7)) 
+            drop-shadow(0 0 80px rgba(255, 225, 123, 0.5))
+            brightness(1.15) contrast(1.2);
+  }
+  50% {
+    filter: drop-shadow(0 12px 36px rgba(212, 175, 55, 0.9)) 
+            drop-shadow(0 0 100px rgba(255, 225, 123, 0.7))
+            brightness(1.2) contrast(1.25);
+  }
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .coursesSection {
+    padding: 3rem 0.75rem;
+  }
+
+  .sectionTitle {
+    font-size: 1.875rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .sectionSubtitle {
+    font-size: 0.9375rem;
+    margin-bottom: 2rem;
+  }
+
+  .coursesContainer {
+    flex-direction: column;
+    padding: 1.75rem;
+    gap: 1.5rem;
+  }
+
+  .coursesGrid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .courseCard {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .courseIcon {
+    width: 50px;
+    height: 50px;
+  }
+
+  .courseTitle {
+    font-size: 0.9375rem;
+  }
+
+  .courseSubtitle {
+    font-size: 0.8125rem;
+  }
+
+  .courseBtn {
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+  }
+
+  .upscEmblem {
+    width: 100%;
+    max-width: 250px;
+    margin: 0 auto;
+    padding: 1rem 0;
+  }
+
+  .emblemImage {
+    max-width: 160px;
+    max-height: 320px;
+  }
+}
+
+@media (max-width: 480px) {
+  .coursesSection {
+    padding: 2.5rem 0.5rem;
+  }
+
+  .sectionTitle {
+    font-size: 1.625rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .sectionSubtitle {
+    font-size: 0.875rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .coursesContainer {
+    padding: 1.25rem;
+  }
+
+  .courseCard {
+    padding: 1.25rem 1rem;
+  }
+
+  .courseIcon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .upscEmblem {
+    width: 100%;
+    max-width: 200px;
+    margin: 0 auto;
+  }
+
+  .emblemImage {
+    max-width: 140px;
+    max-height: 280px;
+  }
+}

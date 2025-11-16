@@ -1,0 +1,244 @@
+.footer {
+  background: rgba(10, 14, 26, 0.95);
+  backdrop-filter: blur(10px);
+  color: white;
+  border-top: 1px solid rgba(212, 175, 55, 0.15);
+  position: relative;
+  z-index: 1;
+}
+
+[data-theme="light"] .footer {
+  /* Match navbar: navy bar even in light theme */
+  background: rgba(10, 14, 26, 0.95);
+  backdrop-filter: blur(10px);
+  color: #FFFFFF;
+  border-top: 1px solid rgba(212, 175, 55, 0.15);
+}
+
+.footerMain {
+  padding: 3rem 1rem;
+}
+
+.footerContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 3rem;
+}
+
+.footerBrand {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.footerLogo {
+  margin-bottom: 0.5rem;
+}
+
+.footerLogoImage {
+  height: auto;
+  width: auto;
+  max-width: 120px;
+}
+
+.footerDescription {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.8);
+  max-width: 300px;
+}
+
+[data-theme="light"] .footerDescription {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.socialIcons {
+  display: flex;
+  gap: 1rem;
+}
+
+.socialIcons a {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  transition: all 0.25s ease;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.socialIcons a:hover {
+  background: rgba(212, 175, 55, 0.2);
+  border-color: #D4AF37;
+  transform: translateY(-2px);
+}
+
+.footerLinks {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.footerColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.footerColumn h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 0.5rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+[data-theme="light"] .footerColumn h4 {
+  color: #FFFFFF;
+}
+
+.footerColumn a {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.footerColumn a:hover {
+  color: var(--soft-amber);
+  padding-left: 5px;
+}
+
+[data-theme="light"] .footerColumn a {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+[data-theme="light"] .footerColumn a:hover {
+  color: #FFE17B;
+}
+
+.contactItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.contactItem svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.footerBottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1.5rem 1rem;
+  text-align: center;
+}
+
+[data-theme="light"] .footerBottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footerBottom p {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+[data-theme="light"] .footerBottom p {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.footerBottom a {
+  color: rgba(255, 255, 255, 0.6);
+  transition: color 0.3s ease;
+  text-decoration: none;
+}
+
+.footerBottom a:hover {
+  color: var(--soft-amber);
+}
+
+[data-theme="light"] .footerBottom a {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+[data-theme="light"] .footerBottom a:hover {
+  color: #FFE17B;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .footerMain {
+    padding: 2rem 1rem;
+  }
+
+  .footerContainer {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .footerBrand {
+    text-align: center;
+    align-items: center;
+  }
+
+  .footerDescription {
+    text-align: center;
+  }
+
+  .socialIcons {
+    justify-content: center;
+  }
+
+  .footerLinks {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    text-align: center;
+  }
+
+  .contactItem {
+    justify-content: center;
+  }
+
+  .footerBottom {
+    padding: 1.25rem 1rem;
+  }
+
+  .footerBottom p {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .footerMain {
+    padding: 1.5rem 0.5rem;
+  }
+
+  .footerColumn h4 {
+    font-size: 1rem;
+  }
+
+  .footerColumn a {
+    font-size: 0.85rem;
+  }
+
+  .socialIcons a {
+    width: 36px;
+    height: 36px;
+  }
+
+  .socialIcons svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .footerBottom p {
+    font-size: 0.8rem;
+    line-height: 1.6;
+  }
+}
+
