@@ -1,0 +1,380 @@
+.facultySection {
+  padding: 4rem 1.5rem;
+  background: transparent;
+  position: relative;
+  z-index: 1;
+}
+
+.container {
+  max-width: 1300px;
+  margin: 0 auto;
+  background: transparent;
+  backdrop-filter: none;
+  border-radius: 0;
+  padding: 3rem 2rem;
+  box-shadow: none;
+  border: none;
+}
+
+.sectionTitle {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(34px, 5vw, 48px);
+  font-weight: 700;
+  text-align: center;
+  color: #FF7A00;
+  margin-bottom: 0.5rem;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 8px rgba(255, 122, 0, 0.3);
+}
+
+.sectionSubtitle {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1rem;
+  margin-bottom: 2.5rem;
+  font-weight: 400;
+}
+
+/* Light theme: darker subtitle for contrast */
+[data-theme="light"] .sectionSubtitle {
+  color: #5D4037;
+}
+
+.facultyGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-top: 2.5rem;
+}
+
+.facultyCard {
+  position: relative;
+  padding: 22px 22px 18px;
+  border-radius: 26px;
+  background:
+    linear-gradient(145deg, rgba(10, 18, 32, 0.96), rgba(15, 23, 42, 0.96)) padding-box,
+    linear-gradient(135deg, #FFE17B, #F2C94C 50%, #D4AF37) border-box;
+  border: 2px solid transparent;
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(255, 225, 123, 0.18) inset;
+  overflow: hidden;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+/* Light theme: switch card to light orange with soft glow */
+[data-theme="light"] .facultyCard {
+  background: linear-gradient(135deg, #FFF4E5 0%, #FFE6C7 55%, #FFD6A3 100%);
+  border: 2px solid rgba(255, 152, 0, 0.28);
+  box-shadow:
+    0 12px 34px rgba(255, 152, 0, 0.18),
+    0 0 0 1px rgba(255, 183, 77, 0.18) inset;
+}
+
+.tiltLeft { transform: rotateZ(-9deg); }
+.tiltCenter { transform: rotateZ(0deg); }
+.tiltRight { transform: rotateZ(9deg); }
+
+/* Clean flat card bottom like reference */
+.facultyCard::after { content: none; }
+
+.facultyCard:hover { box-shadow: 0 18px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,225,123,0.25) inset; }
+
+.videoRing { display: flex; justify-content: center; align-items: center; padding-top: 12px; padding-bottom: 10px; }
+
+.videoWrapper {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 50%;
+  background: radial-gradient(120px 120px at 50% 50%, rgba(20,30,56,1) 0%, rgba(10,18,32,1) 100%);
+  box-shadow:
+    0 16px 40px rgba(0,0,0,0.5),
+    0 0 0 3px rgba(255,255,255,0.85) inset,
+    0 0 0 6px rgba(212,175,55,0.65) inset;
+}
+
+[data-theme="light"] .videoWrapper {
+  background: radial-gradient(120px 120px at 50% 50%, rgba(255, 224, 178, 1) 0%, rgba(255, 213, 163, 1) 100%);
+  box-shadow:
+    0 16px 34px rgba(255, 152, 0, 0.18),
+    0 0 0 3px rgba(255, 255, 255, 0.85) inset,
+    0 0 0 6px rgba(255, 183, 77, 0.6) inset;
+}
+
+.videoIframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  border-radius: 50%;
+}
+
+.facultyCard:hover .videoWrapper { box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 0 3px rgba(255,255,255,0.95) inset, 0 0 0 6px rgba(212,175,55,0.75) inset; }
+
+.videoThumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.facultyCard:hover .videoThumbnail {
+  transform: scale(1.05);
+}
+
+.playButton {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #FFE17B 0%, #F2C94C 50%, #D4AF37 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  text-decoration: none;
+  box-shadow:
+    0 10px 24px rgba(212, 175, 55, 0.55),
+    inset 0 2px 6px rgba(255, 255, 255, 0.5);
+  border: 2px solid rgba(255, 255, 255, 0.95);
+}
+
+.playButton::before { content: none; }
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.1); }
+}
+
+.playButton:hover { transform: translate(-50%, -50%) scale(1.08); }
+
+.playIcon { color: var(--navy-primary); font-size: 1.25rem; margin-left: 4px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.25)); }
+
+/* Sparkle effect */
+.sparkleLayer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: visible;
+  z-index: 5;
+}
+
+.sparkle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffffff 0%, #FFE17B 40%, #D4AF37 70%, rgba(212,175,55,0) 100%);
+  box-shadow: 0 0 12px rgba(255, 225, 123, 0.9), 0 0 24px rgba(212, 175, 55, 0.6);
+  transform: translate(-50%, -50%);
+  animation: sparkle-burst 0.8s ease-out forwards;
+}
+
+@keyframes sparkle-burst {
+  0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  80% { opacity: 0.5; transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0.5); }
+  100% { opacity: 0; transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0.35); }
+}
+
+.facultyInfo { padding: 1rem 0 0.25rem; background: transparent; }
+
+.facultyProfile { display: flex; align-items: center; gap: 0.75rem; }
+
+.facultyPhoto { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(212,175,55,0.6); box-shadow: 0 2px 10px rgba(0,0,0,0.35); }
+
+.facultyDetails {
+  flex: 1;
+}
+
+.facultyName {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0 0 0.25rem 0;
+  letter-spacing: 0.02em;
+  text-shadow: 
+    0 2px 8px rgba(0, 0, 0, 0.5),
+    0 0 20px rgba(212, 175, 55, 0.3);
+  line-height: 1.3;
+}
+
+[data-theme="light"] .facultyName {
+  color: #FF6A2A;
+  -webkit-text-fill-color: #FF6A2A; /* override global light h3 white */
+  background: none;
+  -webkit-background-clip: initial;
+  background-clip: initial;
+  text-shadow: none;
+}
+
+.facultySubject {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.95);
+  font-weight: 500;
+  margin: 0 0 0.2rem 0;
+  text-shadow: 
+    0 1px 4px rgba(0, 0, 0, 0.3);
+  line-height: 1.4;
+}
+
+[data-theme="light"] .facultySubject {
+  color: #333333;
+  text-shadow: none;
+}
+
+.facultyExperience {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.65);
+  margin: 0;
+  font-weight: 400;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="light"] .facultyExperience {
+  color: #4A4A4A;
+  text-shadow: none;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .facultySection {
+    padding: 3rem 0;
+    overflow: hidden;
+  }
+
+  .container {
+    padding: 0;
+  }
+
+  .sectionTitle {
+    font-size: 1.875rem;
+    margin-bottom: 0.5rem;
+    padding: 0 1rem;
+  }
+
+  .sectionSubtitle {
+    font-size: 0.9375rem;
+    margin-bottom: 2rem;
+    padding: 0 1rem;
+  }
+
+  .facultyGrid { 
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 1.25rem;
+    padding: 0.5rem 1rem 1rem 1rem;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 122, 0, 0.3) transparent;
+  }
+
+  .facultyGrid::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  .facultyGrid::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+  }
+
+  .facultyGrid::-webkit-scrollbar-thumb {
+    background: rgba(255, 122, 0, 0.5);
+    border-radius: 10px;
+  }
+
+  .facultyCard { 
+    border-radius: 22px;
+    min-width: 260px;
+    max-width: 260px;
+    scroll-snap-align: start;
+    flex-shrink: 0;
+    scroll-snap-stop: always;
+  }
+  .tiltLeft, .tiltRight { transform: rotateZ(0deg); }
+
+  .facultyCard:hover { transform: none; }
+
+  .facultyInfo { padding: 0.75rem 0 0.25rem; }
+
+  .facultyPhoto { width: 40px; height: 40px; }
+
+  /* no hover transform on mobile */
+
+  .videoWrapper { width: 160px; height: 160px; }
+
+  .playButton { width: 52px; height: 52px; }
+
+  .playButton:hover { transform: translate(-50%, -50%) scale(1.02); }
+
+  /* details inherit defaults on mobile */
+
+  .facultyName {
+    font-size: 1rem;
+  }
+
+  .facultySubject {
+    font-size: 0.875rem;
+  }
+
+  .facultyExperience {
+    font-size: 0.8125rem;
+  }
+
+  .playButton {
+    width: 56px;
+    height: 56px;
+  }
+
+  .playIcon {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .facultySection {
+    padding: 2.5rem 0.5rem;
+  }
+
+  .sectionTitle {
+    font-size: 1.625rem;
+  }
+
+  .sectionSubtitle {
+    font-size: 0.875rem;
+  }
+
+  .facultyGrid {
+    gap: 1.25rem;
+  }
+
+  .facultyInfo {
+    padding: 1rem;
+  }
+
+  .facultyPhoto {
+    width: 52px;
+    height: 52px;
+  }
+
+  .facultyName {
+    font-size: 0.9375rem;
+  }
+
+  .playButton {
+    width: 52px;
+    height: 52px;
+  }
+
+  .playIcon {
+    font-size: 1.125rem;
+  }
+}

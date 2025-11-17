@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 600" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#FF7A2A"/>
+      <stop offset="50%" stop-color="#FFA73A"/>
+      <stop offset="100%" stop-color="#FFE082"/>
+    </linearGradient>
+    <linearGradient id="wave1" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#FF6A2A" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#FF9E2A" stop-opacity="0.35"/>
+    </linearGradient>
+    <linearGradient id="wave2" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#FF6A2A" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#FFD54F" stop-opacity="0.25"/>
+    </linearGradient>
+    <linearGradient id="wave3" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#FFA726" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#FFE082" stop-opacity="0.2"/>
+    </linearGradient>
+  </defs>
+  <!-- subtle bg tint (kept semi-transparent so page background shows) -->
+  <rect x="0" y="0" width="1600" height="600" fill="url(#bgGrad)" opacity="0.35"/>
+  <!-- layered smooth waves -->
+  <g>
+    <path d="M0,360 C240,300 480,420 720,360 C960,300 1200,420 1600,360 L1600,600 L0,600 Z" fill="url(#wave3)"/>
+    <path d="M0,320 C260,260 520,380 780,320 C1040,260 1300,380 1600,320 L1600,600 L0,600 Z" fill="url(#wave2)"/>
+    <path d="M0,300 C300,240 600,360 900,300 C1200,240 1450,360 1600,300 L1600,600 L0,600 Z" fill="url(#wave1)"/>
+  </g>
+</svg>

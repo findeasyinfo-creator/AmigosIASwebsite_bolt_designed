@@ -1,0 +1,309 @@
+.demoSection {
+  padding: 4rem 1.5rem;
+  background: transparent;
+  color: white;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.container {
+  max-width: 1300px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+  background: transparent;
+  backdrop-filter: none;
+  border-radius: 0;
+  padding: 3rem 2rem;
+  box-shadow: none;
+  border: none;
+}
+
+.sectionTitle {
+  text-align: center;
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(34px, 5vw, 48px);
+  font-weight: 700;
+  color: #FF7A00;
+  margin-bottom: 0.75rem;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 8px rgba(255, 122, 0, 0.3);
+}
+
+.sectionSubtitle {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1rem;
+  margin-bottom: 2.5rem;
+  font-weight: 400;
+}
+
+.demoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+  padding: 0 1rem;
+}
+
+.demoCard {
+  background: rgba(10, 18, 32, 0.85);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  backdrop-filter: blur(15px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.demoCard:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 32px rgba(212, 175, 55, 0.3), 0 0 40px rgba(212, 175, 55, 0.15);
+  border-color: rgba(212, 175, 55, 0.6);
+  background: rgba(15, 23, 42, 0.9);
+}
+
+.videoThumbnail {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  background: #000;
+}
+
+.videoThumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.demoCard:hover .videoThumbnail img {
+  transform: scale(1.05);
+}
+
+.playButton {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 72px;
+  height: 72px;
+  background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-secondary) 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+  color: var(--navy-primary);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding-left: 4px;
+  border: 3px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 
+    0 8px 30px rgba(212, 175, 55, 0.6),
+    inset 0 2px 4px rgba(255, 255, 255, 0.3);
+}
+
+.demoCard:hover .playButton {
+  transform: translate(-50%, -50%) scale(1.15);
+  background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold-primary) 100%);
+  box-shadow: 
+    0 12px 40px rgba(212, 175, 55, 0.8),
+    inset 0 2px 4px rgba(255, 255, 255, 0.4);
+}
+
+.youtubeBadge {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 6px 10px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.demoCard:hover .youtubeBadge {
+  transform: scale(1.05);
+}
+
+.demoContent {
+  padding: 1.5rem;
+  background: linear-gradient(180deg, rgba(10, 25, 41, 0.4) 0%, rgba(26, 41, 66, 0.2) 100%);
+}
+
+.demoTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #FFFFFF;
+  margin-bottom: 0.75rem;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: -0.01em;
+  line-height: 1.4;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.demoDescription {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 400;
+}
+
+.demoAction {
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.exploreBtn {
+  background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-secondary) 100%);
+  color: var(--navy-primary);
+  border: none;
+  padding: 0.875rem 2.5rem;
+  border-radius: 8px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+  font-family: 'Inter', sans-serif;
+}
+
+.exploreBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5);
+}
+
+.exploreBtn:active {
+  transform: translateY(0);
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .demoSection {
+    padding: 3.5rem 0;
+    overflow: hidden;
+  }
+
+  .container {
+    padding: 0;
+  }
+
+  .sectionTitle {
+    font-size: clamp(28px, 6vw, 36px);
+    margin-bottom: 2rem;
+    padding: 0 1rem;
+  }
+
+  .demoGrid {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 1.25rem;
+    padding: 0.5rem 1rem 1rem 1rem;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 122, 0, 0.3) transparent;
+  }
+
+  .demoGrid::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  .demoGrid::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+  }
+
+  .demoGrid::-webkit-scrollbar-thumb {
+    background: rgba(255, 122, 0, 0.5);
+    border-radius: 10px;
+  }
+
+  .demoCard {
+    min-width: 280px;
+    max-width: 280px;
+    scroll-snap-align: start;
+    flex-shrink: 0;
+    scroll-snap-stop: always;
+  }
+
+  .demoContent {
+    padding: 1.25rem;
+  }
+
+  .demoTitle {
+    font-size: 1rem;
+  }
+
+  .demoDescription {
+    font-size: 0.875rem;
+  }
+
+  .playButton {
+    width: 56px;
+    height: 56px;
+    font-size: 1.25rem;
+  }
+
+  .exploreBtn {
+    padding: 0.75rem 2rem;
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .demoSection {
+    padding: 2.5rem 0.5rem;
+  }
+
+  .sectionTitle {
+    font-size: 1.875rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .demoGrid {
+    gap: 1rem;
+    padding: 0 0.25rem;
+  }
+
+  .demoCard {
+    padding: 0.75rem;
+    border-radius: 12px;
+  }
+
+  .demoContent {
+    padding: 1rem;
+  }
+
+  .demoThumbnail {
+    border-radius: 10px;
+  }
+
+  .demoTitle {
+    font-size: 0.9375rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .demoDescription {
+    font-size: 0.8125rem;
+  }
+
+  .playButton {
+    width: 52px;
+    height: 52px;
+    font-size: 1.125rem;
+  }
+
+  .playButton:hover {
+    transform: scale(1.05);
+  }
+
+  .exploreBtn {
+    padding: 0.625rem 1.75rem;
+    font-size: 0.8125rem;
+  }
+}
