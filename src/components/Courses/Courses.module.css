@@ -132,11 +132,31 @@
 
 /* Light theme: switch navy cards to light gold-orange */
 [data-theme="light"] .courseCard {
-  background: linear-gradient(135deg, #FFF4E5 0%, #FFE6C7 55%, #FFD6A3 100%);
-  border: 1px solid rgba(255, 152, 0, 0.28);
-  box-shadow:
-    0 10px 30px rgba(255, 152, 0, 0.18),
-    0 0 0 1px rgba(255, 183, 77, 0.18) inset;
+  /* Neutral light card style per provided design screenshot */
+  background: #F5F7FA;
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 12px 24px rgba(16,24,40,0.08), 0 3px 6px rgba(16,24,40,0.04);
+  color: #1A1F24;
+}
+
+[data-theme="light"] .courseCard:hover {
+  box-shadow: 0 18px 36px rgba(16,24,40,0.12), 0 6px 12px rgba(16,24,40,0.06);
+  transform: translateY(-6px);
+}
+
+/* Subtle top sheen for light cards */
+[data-theme="light"] .courseCard::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 10px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.7), rgba(255,255,255,0));
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  pointer-events: none;
+  opacity: 0.7;
 }
 
 .courseCard::before {
@@ -163,7 +183,8 @@
 }
 
 [data-theme="light"] .courseCard::before {
-  background: radial-gradient(circle at top right, rgba(255, 183, 77, 0.25), transparent 60%);
+  /* Soften inner highlight for light theme */
+  background: radial-gradient(circle at top right, rgba(255, 183, 77, 0.10), transparent 65%);
 }
 
 .courseCard:hover::before {
@@ -183,25 +204,22 @@
 }
 
 [data-theme="light"] .courseCard:hover {
-  box-shadow:
-    0 18px 50px rgba(255, 152, 0, 0.35),
-    0 0 60px rgba(255, 183, 77, 0.35),
-    0 0 0 1px rgba(255, 183, 77, 0.45) inset;
-  border-color: rgba(255, 152, 0, 0.6);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  border-color: #D0D7DF;
 }
 
 .courseIcon {
-  width: 56px;
-  height: 56px;
+  width: 60px;
+  height: 60px;
   margin: 0 auto 0.875rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.4s ease;
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(255, 225, 123, 0.08));
-  border-radius: 14px;
-  padding: 0.625rem;
-  box-shadow: 0 4px 16px rgba(212, 175, 55, 0.2);
+  transition: transform 0.3s ease;
+  background: transparent;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
 }
 
 .courseIcon img {
@@ -211,13 +229,32 @@
   filter: brightness(1.1) drop-shadow(0 2px 8px rgba(212, 175, 55, 0.3));
 }
 
+/* Unified icon via CSS mask - gold for dark, orange for light */
+.iconMask {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: #D4AF37;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+
+[data-theme="light"] .iconMask {
+  background-color: #FF8C42;
+}
+
 .courseCard:hover .courseIcon {
   transform: scale(1.1) translateY(-4px);
   box-shadow: 0 6px 20px rgba(212, 175, 55, 0.35);
 }
 [data-theme="light"] .courseIcon {
-  background: linear-gradient(135deg, rgba(255, 87, 34, 0.12), rgba(255, 183, 77, 0.08));
-  box-shadow: 0 4px 16px rgba(255, 87, 34, 0.2);
+  background: transparent;
+  border: 0;
+  box-shadow: none;
 }
 
 .courseTitle {
@@ -229,9 +266,9 @@
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 [data-theme="light"] .courseTitle {
-  color: #FF6A2A;
-  -webkit-text-fill-color: #FF6A2A; /* override global h3 white */
-  background: none;                /* cancel gradient from globals */
+  color: #1A1F24 !important;
+  -webkit-text-fill-color: #1A1F24 !important; /* override global h3 white */
+  background: none !important;                /* cancel gradient from globals */
   -webkit-background-clip: initial;
   background-clip: initial;
   text-shadow: none;
@@ -245,7 +282,7 @@
   font-weight: 400;
 }
 [data-theme="light"] .courseSubtitle {
-  color: #5D4037;
+  color: #5D6670;
 }
 
 .courseBtn {
@@ -265,9 +302,9 @@
   overflow: hidden;
 }
 [data-theme="light"] .courseBtn {
-  background: linear-gradient(135deg, #FF5722, #FF7043);
+  background: linear-gradient(135deg, #FF6A00, #FF7A1A);
   color: #FFFFFF;
-  box-shadow: 0 4px 16px rgba(255, 87, 34, 0.35);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
 .courseBtn::before {
@@ -293,8 +330,17 @@
   background: linear-gradient(135deg, #FFE17B 0%, #F2C94C 100%);
 }
 [data-theme="light"] .courseBtn:hover {
-  box-shadow: 0 6px 20px rgba(255, 87, 34, 0.5);
-  background: linear-gradient(135deg, #D84315, #FF5722);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.10);
+  background: linear-gradient(135deg, #FF7A1A, #FF6A00);
+}
+
+/* Accessible focus ring */
+.courseCard:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.35), 0 8px 20px rgba(0,0,0,0.12);
+}
+[data-theme="light"] .courseCard:focus-visible {
+  box-shadow: 0 0 0 3px rgba(255, 122, 0, 0.25), 0 12px 24px rgba(0,0,0,0.10);
 }
 
 .courseBtn:active {
@@ -468,16 +514,17 @@
     background: rgba(255, 122, 0, 0.8);
   }
 
-  .courseCard {
+  /* Light theme mobile card style */
+  [data-theme="light"] .courseCard {
     padding: 2rem 1.5rem;
     min-width: 90vw;
     max-width: 90vw;
     scroll-snap-align: center;
     flex-shrink: 0;
     border-radius: 24px;
-    background: linear-gradient(135deg, #FFF9F0 0%, #FFE6C7 100%);
-    border: 2px solid rgba(255, 122, 0, 0.2);
-    box-shadow: 0 8px 24px rgba(255, 122, 0, 0.12);
+    background: #F5F7FA;
+    border: 1px solid #E2E8F0;
+    box-shadow: 0 10px 20px rgba(16,24,40,0.10), 0 3px 6px rgba(16,24,40,0.05);
     margin: 0 5vw;
   }
 
@@ -491,7 +538,12 @@
     font-size: 1.125rem;
     font-weight: 700;
     margin-bottom: 0.5rem;
-    color: #FF7A00;
+  }
+
+  /* Ensure light theme card titles are black on mobile */
+  [data-theme="light"] .courseTitle {
+    color: #1A1F24;
+    -webkit-text-fill-color: #1A1F24;
   }
 
   .courseSubtitle {

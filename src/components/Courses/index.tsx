@@ -64,7 +64,12 @@ export default function Courses() {
                   }}
                 >
                   <div className={styles.courseIcon}>
-                    <Image src={course.icon} alt={course.title} width={60} height={60} />
+                    <span
+                      className={styles.iconMask}
+                      role="img"
+                      aria-label={course.title}
+                      style={{ WebkitMaskImage: `url(${course.icon})`, maskImage: `url(${course.icon})` }}
+                    />
                   </div>
                   <h3 className={styles.courseTitle}>{course.title}</h3>
                   <p className={styles.courseSubtitle}>{course.subtitle}</p>

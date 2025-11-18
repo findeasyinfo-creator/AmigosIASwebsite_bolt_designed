@@ -277,9 +277,9 @@
     display: flex;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
-    gap: 1rem;
+    gap: 0;
     margin-bottom: 40px;
-    padding: 0.5rem 7.5vw 1rem 7.5vw;
+    padding: 0.5rem 0 1rem 0;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
     scrollbar-color: rgba(255, 122, 0, 0.3) transparent;
@@ -301,13 +301,13 @@
 
   .trustCard {
     width: 100%;
-    min-width: 85vw;
-    max-width: 85vw;
+    min-width: 90vw;
+    max-width: 90vw;
     padding: 18px 18px 22px;
     scroll-snap-align: center;
     flex-shrink: 0;
     scroll-snap-stop: always;
-    margin: 0;
+    margin: 0 5vw;
   }
   
   .trustCard:first-child {
