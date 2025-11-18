@@ -8,13 +8,25 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const { theme, toggleTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
     setMounted(true)
-  }, [])
+    setScrolled(true) // Show header initially
+
+    const handleScroll = () => {
+      const isScrolled = window.scrollY > 50
+      if (isScrolled !== scrolled) {
+        setScrolled(isScrolled)
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [scrolled])
 
   return (
-    <header className={styles.header}>
+    <header className={`${styles.header} ${scrolled ? styles.visible : styles.hidden}`}>
       <div className={styles.container}>
         <div className={styles.logo}>
           <Image src="/assets/amigos-logo.png" alt="Amigos IAS" width={340} height={68} className={styles.logoImage} />
