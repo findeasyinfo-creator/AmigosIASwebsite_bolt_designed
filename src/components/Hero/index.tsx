@@ -29,7 +29,6 @@ export default function Hero() {
             <div key={index} className={`${styles.heroSlide} ${index === currentSlide ? styles.active : ''} ${styles.imageSlide}`}>
               <div className={styles.heroImageCard}>
                 <Image src={slide.src} alt={slide.alt} width={920} height={518} className={styles.heroImage} />
-                <div className={styles.celebrationBadges}>🎉 ✨ 🏆</div>
               </div>
             </div>
           ))}

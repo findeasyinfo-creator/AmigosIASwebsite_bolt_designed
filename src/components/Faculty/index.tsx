@@ -1,53 +1,71 @@
 'use client';
 import styles from './Faculty.module.css';
 import { useState } from 'react';
+import { useYouTubeAutoPause } from '@/hooks/useYouTubeAutoPause';
+
+function parseYouTubeId(url: string): string | null {
+  try {
+    const u = new URL(url);
+    if (u.hostname === 'youtu.be') return u.pathname.slice(1) || null;
+    if (u.hostname.includes('youtube.com')) {
+      const v = u.searchParams.get('v');
+      if (v) return v;
+      const parts = u.pathname.split('/');
+      const idx = parts.findIndex((p) => p === 'embed');
+      if (idx >= 0 && parts[idx + 1]) return parts[idx + 1];
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+const facultyMembers = [
+  {
+    name: 'Dr. Avinash Kumar',
+    subject: 'Political Science & Polity',
+    experience: '15+ Years Experience',
+    photo: 'https://randomuser.me/api/portraits/men/46.jpg',
+    videoThumbnail: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&h=450&fit=crop',
+    videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+  },
+  {
+    name: 'Prof. Priya Sharma',
+    subject: 'History & Indian Culture',
+    experience: '12+ Years Experience',
+    photo: 'https://randomuser.me/api/portraits/women/68.jpg',
+    videoThumbnail: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&h=450&fit=crop',
+    videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+  },
+  {
+    name: 'Dr. Karthik Reddy',
+    subject: 'Geography & Environment',
+    experience: '10+ Years Experience',
+    photo: 'https://randomuser.me/api/portraits/men/54.jpg',
+    videoThumbnail: 'https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=800&h=450&fit=crop',
+    videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+  }
+];
 
 export default function Faculty() {
   const [sparkles, setSparkles] = useState<Array<{ id: number; card: number; x: number; y: number; dx: number; dy: number }>>([]);
   const [playingCard, setPlayingCard] = useState<number | null>(null);
-  const facultyMembers = [
-    {
-      name: 'Dr. Avinash Kumar',
-      subject: 'Political Science & Polity',
-      experience: '15+ Years Experience',
-      photo: 'https://randomuser.me/api/portraits/men/46.jpg',
-      videoThumbnail: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&h=450&fit=crop',
-      videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
-    },
-    {
-      name: 'Prof. Priya Sharma',
-      subject: 'History & Indian Culture',
-      experience: '12+ Years Experience',
-      photo: 'https://randomuser.me/api/portraits/women/68.jpg',
-      videoThumbnail: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&h=450&fit=crop',
-      videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
-    },
-    {
-      name: 'Dr. Karthik Reddy',
-      subject: 'Geography & Environment',
-      experience: '10+ Years Experience',
-      photo: 'https://randomuser.me/api/portraits/men/54.jpg',
-      videoThumbnail: 'https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=800&h=450&fit=crop',
-      videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
-    }
-  ];
+  
+  // Setup auto-pause for each faculty video
+  const faculty0 = useYouTubeAutoPause(
+    playingCard === 0 ? parseYouTubeId(facultyMembers[0].videoUrl) : null,
+    'faculty-video-0'
+  );
+  const faculty1 = useYouTubeAutoPause(
+    playingCard === 1 ? parseYouTubeId(facultyMembers[1].videoUrl) : null,
+    'faculty-video-1'
+  );
+  const faculty2 = useYouTubeAutoPause(
+    playingCard === 2 ? parseYouTubeId(facultyMembers[2].videoUrl) : null,
+    'faculty-video-2'
+  );
 
-  function parseYouTubeId(url: string): string | null {
-    try {
-      const u = new URL(url);
-      if (u.hostname === 'youtu.be') return u.pathname.slice(1) || null;
-      if (u.hostname.includes('youtube.com')) {
-        const v = u.searchParams.get('v');
-        if (v) return v;
-        const parts = u.pathname.split('/');
-        const idx = parts.findIndex((p) => p === 'embed');
-        if (idx >= 0 && parts[idx + 1]) return parts[idx + 1];
-      }
-      return null;
-    } catch {
-      return null;
-    }
-  }
+  const facultyRefs = [faculty0, faculty1, faculty2];
 
   return (
     <section className={styles.facultySection}>
@@ -89,10 +107,11 @@ export default function Faculty() {
               }}
             >
               <div className={styles.videoRing}>
-                <div className={styles.videoWrapper}>
+                <div className={styles.videoWrapper} ref={facultyRefs[index].containerRef}>
                   {playingCard === index ? (
                     <iframe
-                      src={`https://www.youtube.com/embed/${parseYouTubeId(faculty.videoUrl)}?autoplay=1&modestbranding=1&rel=0`}
+                      id={`faculty-video-${index}`}
+                      src={`https://www.youtube.com/embed/${parseYouTubeId(faculty.videoUrl)}?autoplay=1&enablejsapi=1&modestbranding=1&rel=0`}
                       title={`${faculty.name} video`}
                       allow="autoplay; encrypted-media; picture-in-picture"
                       allowFullScreen

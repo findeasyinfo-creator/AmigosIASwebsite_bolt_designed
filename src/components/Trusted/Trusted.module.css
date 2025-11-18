@@ -21,14 +21,23 @@
 
 .sectionTitle {
   font-family: 'Playfair Display', serif;
-  font-size: clamp(36px, 5.5vw, 56px);
+  font-size: clamp(48px, 6.5vw, 68px);
   font-weight: 900;
   text-align: center;
   margin-bottom: 12px;
-  color: #FF7A00;
+  color: #0a1628;
   letter-spacing: 1px;
   line-height: 1.1;
-  text-shadow: 0 2px 8px rgba(255, 122, 0, 0.3);
+  text-shadow: 0 4px 12px rgba(10, 22, 40, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="light"] .sectionTitle {
+  color: #0a1628 !important;
+  background: none !important;
+  -webkit-text-fill-color: #0a1628 !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  text-shadow: 0 2px 8px rgba(10, 22, 40, 0.2) !important;
 }
 
 .sectionSubtitle {
@@ -39,13 +48,6 @@
   font-weight: 400;
   letter-spacing: 0.3px;
 }
-
-  [data-theme="light"] .sectionTitle {
-    color: #FFFFFF;
-    background: none;
-    -webkit-text-fill-color: #FFFFFF;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  }
 
   [data-theme="light"] .sectionSubtitle {
     color: #5D4037;
@@ -260,7 +262,7 @@
 
   .container {
     padding: 0;
-    overflow: hidden;
+    overflow: visible;
   }
 
   .sectionTitle {
@@ -276,10 +278,11 @@
   .trustedCards {
     display: flex;
     overflow-x: auto;
+    overflow-y: visible;
     scroll-snap-type: x mandatory;
-    gap: 0;
+    gap: 1rem;
     margin-bottom: 40px;
-    padding: 0.5rem 0 1rem 0;
+    padding: 1rem 5vw 2rem 5vw;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
     scrollbar-color: rgba(255, 122, 0, 0.3) transparent;
@@ -300,22 +303,13 @@
   }
 
   .trustCard {
-    width: 100%;
-    min-width: 90vw;
-    max-width: 90vw;
+    width: calc(90vw - 2rem);
+    min-width: calc(90vw - 2rem);
+    max-width: 350px;
     padding: 18px 18px 22px;
     scroll-snap-align: center;
     flex-shrink: 0;
-    scroll-snap-stop: always;
-    margin: 0 5vw;
-  }
-  
-  .trustCard:first-child {
-    margin-left: 0;
-  }
-  
-  .trustCard:last-child {
-    margin-right: 0;
+    margin: 0;
   }
 
   .thumb {

@@ -2,6 +2,7 @@
 import { useRef, useState } from 'react'
 import Image from 'next/image'
 import styles from './Testimonials.module.css'
+import { useYouTubeAutoPause } from '@/hooks/useYouTubeAutoPause'
 
 const testimonials = [
   {
@@ -97,6 +98,12 @@ export default function Testimonials() {
   const trackRef = useRef<HTMLDivElement>(null)
   const [selectedStory, setSelectedStory] = useState(successStories[0])
 
+  // Setup auto-pause for testimonials video
+  const { containerRef } = useYouTubeAutoPause(
+    selectedStory.videoId,
+    'testimonial-video-player'
+  )
+
   const handleTestimonialClick = (testimonial: { name: string }) => {
     const matched = successStories.find((s) => s.name === testimonial.name)
     if (matched) {
@@ -170,9 +177,10 @@ export default function Testimonials() {
           <div className={`${styles.videoSection} ${styles.videoBlock}`} id="student-video">
             <h3 className={styles.videoTitle}>Meet Our UPSC Success Stories</h3>
             <div className={styles.mainDisplay}>
-              <div className={styles.mainVideoContainer}>
+              <div className={styles.mainVideoContainer} ref={containerRef}>
                 <iframe
-                  src={`https://www.youtube.com/embed/${selectedStory.videoId}`}
+                  id="testimonial-video-player"
+                  src={`https://www.youtube.com/embed/${selectedStory.videoId}?enablejsapi=1`}
                   title={`${selectedStory.name} UPSC Journey`}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen

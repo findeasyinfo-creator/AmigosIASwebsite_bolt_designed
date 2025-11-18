@@ -43,7 +43,6 @@ export default function Trusted() {
           ))}
         </div>
 
-        <button className={styles.exploreBtn}>Explore Courses</button>
         <p className={styles.trustedCta}>Start your UPSC career here!</p>
       </div>
     </section>
