@@ -23,9 +23,22 @@
   font-size: clamp(36px, 5.5vw, 56px);
   font-weight: 700;
   color: #FF7A00;
-  margin-bottom: 50px;
+  margin-bottom: 18px;
   letter-spacing: 1px;
   text-shadow: 0 2px 8px rgba(255, 122, 0, 0.3);
+}
+
+.sectionSubtitle {
+  text-align: center;
+  font-size: clamp(16px, 2.6vw, 20px);
+  color: rgba(255, 225, 123, 0.9);
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  margin-bottom: 30px;
+}
+
+[data-theme="light"] .sectionSubtitle {
+  color: #5D6670;
 }
 
 /* Video Section */
@@ -372,6 +385,17 @@
   background: rgba(255, 122, 0, 0.8);
 }
 
+/* Wrapper for mobile order swap */
+
+.swapWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.carouselBlock { order: 2; }
+.videoBlock { order: 1; }
+
 .tCard {
   scroll-snap-align: start;
   min-width: 400px;
@@ -653,7 +677,12 @@
 
   .sectionTitle {
     font-size: clamp(28px, 6vw, 36px);
-    margin-bottom: 40px;
+    margin-bottom: 14px;
+  }
+
+  .sectionSubtitle {
+    font-size: clamp(15px, 3.8vw, 18px);
+    margin-bottom: 24px;
   }
 
   .videoTitle, .carouselTitle {
@@ -760,6 +789,26 @@
   .tStars {
     font-size: 13px;
   }
+
+  /* Make wrapper flex and swap order on mobile */
+  .swapWrap {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .carouselBlock {
+    order: 1;
+  }
+
+  .videoBlock {
+    order: 2;
+  }
+
+  /* Offset for sticky header when scrolling to video */
+  .videoSection {
+    scroll-margin-top: 84px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -773,7 +822,12 @@
 
   .sectionTitle {
     font-size: 26px;
-    margin-bottom: 30px;
+    margin-bottom: 12px;
+  }
+
+  .sectionSubtitle {
+    font-size: 14px;
+    margin-bottom: 20px;
   }
 
   .videoTitle, .carouselTitle {
@@ -849,5 +903,10 @@
 
   .tStars {
     font-size: 12px;
+  }
+
+  /* Slightly larger offset on smaller phones if header is taller */
+  .videoSection {
+    scroll-margin-top: 92px;
   }
 }

@@ -16,10 +16,15 @@ export default function Home() {
       <Header />
       <Marquee />
       <Hero />
+      <div className="section-divider" />
       <Trusted />
+      <div className="section-divider" />
       <Courses />
+      <div className="section-divider" />
       <Faculty />
+      <div className="section-divider" />
       <Testimonials />
+      <div className="section-divider" />
       <Demo />
       <Footer />
     </>

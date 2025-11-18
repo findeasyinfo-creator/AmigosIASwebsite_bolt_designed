@@ -96,12 +96,18 @@ const successStories = [
 export default function Testimonials() {
   const trackRef = useRef<HTMLDivElement>(null)
   const [selectedStory, setSelectedStory] = useState(successStories[0])
-  
+
   const handleTestimonialClick = (testimonial: { name: string }) => {
-    // If a testimonial corresponds to a success story by name, update the main video/details
     const matched = successStories.find((s) => s.name === testimonial.name)
     if (matched) {
       setSelectedStory(matched)
+    }
+    // On mobile, scroll to the video section for clarity
+    if (typeof window !== 'undefined' && window.innerWidth <= 768) {
+      const el = document.getElementById('student-video')
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }
     }
   }
 
@@ -116,82 +122,86 @@ export default function Testimonials() {
     <section className={styles.testimonialsSection}>
       <div className={styles.container}>
         <h2 className={styles.sectionTitle}>Success Stories & Testimonials</h2>
-        
-        {/* Student Journey Section with Video Cards */}
-        <div className={styles.videoSection}>
-          <h3 className={styles.videoTitle}>Meet Our UPSC Success Stories</h3>
-          
-          {/* Main Display Area */}
-          <div className={styles.mainDisplay}>
-            <div className={styles.mainVideoContainer}>
-              <iframe
-                src={`https://www.youtube.com/embed/${selectedStory.videoId}`}
-                title={`${selectedStory.name} UPSC Journey`}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                className={styles.mainVideoFrame}
-              ></iframe>
-            </div>
-            <div className={styles.mainInfo}>
-              <div className={styles.mainRankBadge}>
-                <span className={styles.mainRankText}>{selectedStory.rank}</span>
-                <span className={styles.mainRankYear}>{selectedStory.year}</span>
-              </div>
-              <h4 className={styles.mainName}>{selectedStory.name}</h4>
-              <p className={styles.mainStory}>{selectedStory.story}</p>
-              <div className={styles.mainStats}>
-                <div className={styles.mainStat}>
-                  <span className={styles.mainStatNumber}>{selectedStory.journey}</span>
-                  <span className={styles.mainStatLabel}>Journey</span>
-                </div>
-                <div className={styles.mainStat}>
-                  <span className={styles.mainStatNumber}>{selectedStory.rank}</span>
-                  <span className={styles.mainStatLabel}>Final Rank</span>
-                </div>
-                <div className={styles.mainStat}>
-                  <span className={styles.mainStatNumber}>{selectedStory.attempt}</span>
-                  <span className={styles.mainStatLabel}>Attempt</span>
-                </div>
+        <p className={styles.sectionSubtitle}>See our students success stories</p>
+
+        {/* Wrapper to allow mobile-only order swap */}
+        <div className={styles.swapWrap}>
+          {/* Testimonials Carousel Block */}
+          <div className={styles.carouselBlock}>
+            <h3 className={styles.carouselTitle}>What Our Toppers Say</h3>
+            <p className={styles.clickNote}>💡 Tap a card to watch their success story</p>
+            <div className={styles.tCarousel}>
+              <div className={styles.tTrack} ref={trackRef}>
+                {testimonials.map((testimonial, index) => (
+                  <article
+                    key={index}
+                    className={`${styles.tCard} ${styles[testimonial.tilt]}`}
+                    onClick={() => handleTestimonialClick(testimonial)}
+                    tabIndex={0}
+                    role="button"
+                    aria-label={`View ${testimonial.name}'s story`}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault()
+                        handleTestimonialClick(testimonial)
+                      }
+                    }}
+                  >
+                    <div className={styles.tCardHeader}>
+                      <Image src={testimonial.image} alt={testimonial.name} width={75} height={75} className={styles.tAvatar} />
+                      <div className={styles.tCardInfo}>
+                        <h4 className={styles.tName}>{testimonial.name}</h4>
+                        <p className={styles.tRole}>{testimonial.rank}</p>
+                      </div>
+                    </div>
+                    <div className={styles.tBody}>
+                      <div className={styles.tStars} aria-label={`${testimonial.stars} out of 5`}>
+                        {'★'.repeat(testimonial.stars)}{'☆'.repeat(5 - testimonial.stars)}
+                      </div>
+                      <p className={styles.tText}>{testimonial.text}</p>
+                    </div>
+                  </article>
+                ))}
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Testimonials Carousel */}
-        <h3 className={styles.carouselTitle}>What Our Toppers Say</h3>
-        <p className={styles.clickNote}>💡 Click on any card to watch their success story video</p>
-        <div className={styles.tCarousel}>
-          <div className={styles.tTrack} ref={trackRef}>
-            {testimonials.map((testimonial, index) => (
-              <article
-                key={index}
-                className={`${styles.tCard} ${styles[testimonial.tilt]}`}
-                onClick={() => handleTestimonialClick(testimonial)}
-                tabIndex={0}
-                role="button"
-                aria-label={`View ${testimonial.name}'s story`}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault()
-                    handleTestimonialClick(testimonial)
-                  }
-                }}
-              >
-                <div className={styles.tCardHeader}>
-                  <Image src={testimonial.image} alt={testimonial.name} width={75} height={75} className={styles.tAvatar} />
-                  <div className={styles.tCardInfo}>
-                    <h4 className={styles.tName}>{testimonial.name}</h4>
-                    <p className={styles.tRole}>{testimonial.rank}</p>
+          {/* Student Journey Video Block */}
+          <div className={`${styles.videoSection} ${styles.videoBlock}`} id="student-video">
+            <h3 className={styles.videoTitle}>Meet Our UPSC Success Stories</h3>
+            <div className={styles.mainDisplay}>
+              <div className={styles.mainVideoContainer}>
+                <iframe
+                  src={`https://www.youtube.com/embed/${selectedStory.videoId}`}
+                  title={`${selectedStory.name} UPSC Journey`}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className={styles.mainVideoFrame}
+                ></iframe>
+              </div>
+              <div className={styles.mainInfo}>
+                <div className={styles.mainRankBadge}>
+                  <span className={styles.mainRankText}>{selectedStory.rank}</span>
+                  <span className={styles.mainRankYear}>{selectedStory.year}</span>
+                </div>
+                <h4 className={styles.mainName}>{selectedStory.name}</h4>
+                <p className={styles.mainStory}>{selectedStory.story}</p>
+                <div className={styles.mainStats}>
+                  <div className={styles.mainStat}>
+                    <span className={styles.mainStatNumber}>{selectedStory.journey}</span>
+                    <span className={styles.mainStatLabel}>Journey</span>
+                  </div>
+                  <div className={styles.mainStat}>
+                    <span className={styles.mainStatNumber}>{selectedStory.rank}</span>
+                    <span className={styles.mainStatLabel}>Final Rank</span>
+                  </div>
+                  <div className={styles.mainStat}>
+                    <span className={styles.mainStatNumber}>{selectedStory.attempt}</span>
+                    <span className={styles.mainStatLabel}>Attempt</span>
                   </div>
                 </div>
-                <div className={styles.tBody}>
-                  <div className={styles.tStars} aria-label={`${testimonial.stars} out of 5`}>
-                    {'★'.repeat(testimonial.stars)}{'☆'.repeat(5 - testimonial.stars)}
-                  </div>
-                  <p className={styles.tText}>{testimonial.text}</p>
-                </div>
-              </article>
-            ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>
