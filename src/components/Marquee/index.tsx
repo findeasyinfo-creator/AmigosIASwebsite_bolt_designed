@@ -35,17 +35,15 @@ export default function Marquee() {
       <div className={styles.marqueeWrapper}>
         <div ref={marqueeRef} className={styles.marqueeContent}>
           <span>
-            📢 Latest UPSC Results Out! Now 🎉 | 
             📢 Formulating Offers | Free Demo Classes Invitation This Week 🎉 | 
             📢 Join India's Premier IAS Academy 🎉 | 
-            📢 Expert Faculty | Proven Results 🎉 | 
+            📢 Expert Faculty | Proven Excellence 🎉 | 
             📢 Limited Seats Available - Enroll Today! 🎉
           </span>
           <span>
-            📢 Latest UPSC Results Out! Now 🎉 | 
             📢 Formulating Offers | Free Demo Classes Invitation This Week 🎉 | 
             📢 Join India's Premier IAS Academy 🎉 | 
-            📢 Expert Faculty | Proven Results 🎉 | 
+            📢 Expert Faculty | Proven Excellence 🎉 | 
             📢 Limited Seats Available - Enroll Today! 🎉
           </span>
         </div>

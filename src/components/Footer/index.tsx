@@ -49,14 +49,12 @@ export default function Footer() {
               <a href="#home">Home</a>
               <a href="#about">About Us</a>
               <a href="#courses">Courses</a>
-              <a href="#admissions">Admissions</a>
             </div>
 
             <div className={styles.footerColumn}>
               <h4>Resources</h4>
               <a href="#current-affairs">Current Affairs</a>
               <a href="#study-materials">Study Materials</a>
-              <a href="#results">Results</a>
               <a href="#contact">Contact</a>
             </div>
 

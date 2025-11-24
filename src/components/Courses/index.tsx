@@ -73,15 +73,15 @@ export default function Courses() {
                   </div>
                   <h3 className={styles.courseTitle}>{course.title}</h3>
                   <p className={styles.courseSubtitle}>{course.subtitle}</p>
-                  <button 
-                    className={styles.courseBtn}
+                  <a 
+                    href="/courses"
+                    className={styles.exploreCourseBtn}
                     onClick={(e) => {
                       e.stopPropagation();
-                      handleCourseClick(course.title, course.link);
                     }}
                   >
-                    Explore Course
-                  </button>
+                    Explore Courses
+                  </a>
                 </div>
               ))}
             </div>
@@ -97,6 +97,13 @@ export default function Courses() {
               priority
             />
           </div>
+        </div>
+        
+        <div className={styles.bottomButtonArea}>
+          <a href="/courses" className={styles.exploreAllCoursesBtn}>
+            Explore All Courses
+            <span className={styles.buttonArrow}>→</span>
+          </a>
         </div>
       </div>
     </section>

@@ -37,14 +37,6 @@ const testimonials = [
     text: 'Great current affairs coverage and timely revisions before the exam.',
     tilt: 'tilt2'
   },
-  {
-    name: 'Priya Sharma',
-    rank: 'AIR 102 • 2023',
-    image: 'https://randomuser.me/api/portraits/women/68.jpg',
-    stars: 5,
-    text: 'The test series simulated the real exam perfectly—huge confidence boost.',
-    tilt: 'tilt1'
-  },
 ]
 
 const successStories = [
@@ -109,11 +101,11 @@ export default function Testimonials() {
     if (matched) {
       setSelectedStory(matched)
     }
-    // On mobile, scroll to the video section for clarity
-    if (typeof window !== 'undefined' && window.innerWidth <= 768) {
+    // Scroll to the video section for better visibility
+    if (typeof window !== 'undefined') {
       const el = document.getElementById('student-video')
       if (el) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' })
       }
     }
   }
@@ -179,12 +171,14 @@ export default function Testimonials() {
             <div className={styles.mainDisplay}>
               <div className={styles.mainVideoContainer} ref={containerRef}>
                 <iframe
+                  key={selectedStory.videoId}
                   id="testimonial-video-player"
-                  src={`https://www.youtube.com/embed/${selectedStory.videoId}?enablejsapi=1`}
+                  src={`https://www.youtube.com/embed/${selectedStory.videoId}?enablejsapi=1&rel=0&modestbranding=1`}
                   title={`${selectedStory.name} UPSC Journey`}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowFullScreen
                   className={styles.mainVideoFrame}
+                  loading="lazy"
                 ></iframe>
               </div>
               <div className={styles.mainInfo}>

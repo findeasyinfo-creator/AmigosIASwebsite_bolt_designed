@@ -167,6 +167,13 @@ export default function Faculty() {
             </div>
           ))}
         </div>
+        
+        <div className={styles.viewAllButton}>
+          <a href="/about/faculty" className={styles.viewAllFacultyBtn}>
+            View All Faculty
+            <span className={styles.buttonArrow}>→</span>
+          </a>
+        </div>
       </div>
     </section>
   );

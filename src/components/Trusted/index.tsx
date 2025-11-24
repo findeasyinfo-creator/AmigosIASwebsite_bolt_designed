@@ -1,23 +1,27 @@
+'use client'
 import styles from './Trusted.module.css'
 
 export default function Trusted() {
+  // Representative images per program (replace with local assets later if desired)
   const features = [
     {
-      title: 'Daily Prelims AI Quizes',
-      subtitle: 'Adaptive Practice & Analysis',
-      icon: 'https://image.pollinations.ai/prompt/modern%20ai%20quiz%20learning%20technology%20digital%20brain%20neural%20network%20education%20holographic%20interface%20orange%20yellow%20warm%20theme?width=600&height=600&nologo=true'
+      title: 'Yearlong Classroom Program',
+      subtitle: 'Structured syllabus coverage & guided learning',
+      icon: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&h=600&fit=crop&auto=format&dpr=2'
     },
     {
-      title: 'Mains Answer Writing',
-      subtitle: 'AI-Driven Evaluation & Feedback',
-      icon: 'https://image.pollinations.ai/prompt/ai%20powered%20writing%20evaluation%20digital%20pen%20holographic%20document%20analysis%20machine%20learning%20education%20orange%20yellow%20warm%20theme?width=600&height=600&nologo=true'
+      title: 'Mentorship Program',
+      subtitle: 'Personalised guidance, tracking & motivation',
+      icon: 'https://images.unsplash.com/photo-1498079022511-d15614cb1c02?w=800&h=600&fit=crop&auto=format&dpr=2'
     },
     {
-      title: '24/7 Support',
-      subtitle: '24/7 News & Summaries',
-      icon: 'https://image.pollinations.ai/prompt/24%207%20support%20chatbot%20ai%20assistant%20digital%20customer%20service%20holographic%20interface%20communication%20technology%20orange%20yellow%20warm%20theme?width=600&height=600&nologo=true'
+      title: 'Interview Guidance Program',
+      subtitle: 'Mock interviews & personality refinement',
+      icon: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&h=600&fit=crop&auto=format&dpr=2'
     }
   ]
+
+  const fallbackIcon = '/assets/upsc-emblem-nobg.png'
 
   return (
     <section className={styles.trustedSection}>
@@ -30,9 +34,11 @@ export default function Trusted() {
             <div key={idx} className={styles.trustCard}>
               <div className={styles.thumbWrap}>
                 <div className={styles.thumb}>
-                  <img 
-                    src={feature.icon} 
-                    alt={feature.title}
+                  <img
+                    src={feature.icon}
+                    alt={`${feature.title} illustration`}
+                    onError={(e) => { (e.currentTarget as HTMLImageElement).src = fallbackIcon }}
+                    loading="lazy"
                   />
                 </div>
               </div>

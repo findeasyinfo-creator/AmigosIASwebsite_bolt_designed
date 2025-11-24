@@ -629,4 +629,152 @@
   .upscEmblem {
     display: none;
   }
+
+  .exploreCourseBtn {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+
+  .centerButtonArea {
+    order: 1;
+    padding: 1rem 0;
+  }
+
+  .upscEmblemCard {
+    order: 2;
+  }
+
+  .exploreAllCoursesBtn {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+
+  .coursesWrapper {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+}
+
+/* Small Explore Courses Button under each card */
+.exploreCourseBtn {
+  background: linear-gradient(135deg, #FF7A00 0%, #FF9500 100%);
+  color: white;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-size: 14px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 16px rgba(255, 122, 0, 0.25);
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.exploreCourseBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 122, 0, 0.35);
+  background: linear-gradient(135deg, #FF8A00 0%, #FFA500 100%);
+}
+
+[data-theme="light"] .exploreCourseBtn {
+  background: linear-gradient(135deg, #FF7A00 0%, #FF9500 100%);
+  color: white;
+  box-shadow: 0 4px 16px rgba(255, 122, 0, 0.25);
+}
+
+[data-theme="light"] .exploreCourseBtn:hover {
+  background: linear-gradient(135deg, #FF8A00 0%, #FFA500 100%);
+  box-shadow: 0 6px 20px rgba(255, 122, 0, 0.35);
+}
+
+/* Bottom Button Area - positioned below the entire courses section */
+.bottomButtonArea {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 3rem;
+  padding: 0 2rem;
+}
+.exploreAllCoursesBtn {
+  background: linear-gradient(135deg, #FF7A00 0%, #FF9500 100%);
+  color: white;
+  text-decoration: none;
+  padding: 18px 36px;
+  border-radius: 50px;
+  font-size: 18px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 32px rgba(255, 122, 0, 0.3);
+  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.exploreAllCoursesBtn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.exploreAllCoursesBtn:hover::before {
+  left: 100%;
+}
+
+.exploreAllCoursesBtn:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 12px 40px rgba(255, 122, 0, 0.4);
+  background: linear-gradient(135deg, #FF8A00 0%, #FFA500 100%);
+}
+
+.buttonArrow {
+  font-size: 20px;
+  transition: transform 0.3s ease;
+}
+
+.exploreAllCoursesBtn:hover .buttonArrow {
+  transform: translateX(4px);
+}
+
+[data-theme="light"] .exploreAllCoursesBtn {
+  background: linear-gradient(135deg, #FF7A00 0%, #FF9500 100%);
+  color: white;
+  box-shadow: 0 8px 32px rgba(255, 122, 0, 0.3);
+}
+
+[data-theme="light"] .exploreAllCoursesBtn:hover {
+  background: linear-gradient(135deg, #FF8A00 0%, #FFA500 100%);
+  box-shadow: 0 12px 40px rgba(255, 122, 0, 0.4);
+}
+
+/* Mobile responsive updates for bottom button */
+@media (max-width: 768px) {
+  .bottomButtonArea {
+    margin-top: 2rem;
+    padding: 0 1rem;
+  }
+
+  .exploreAllCoursesBtn {
+    padding: 12px 24px;
+    font-size: 15px;
+  }
+
+  .coursesWrapper {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
 }

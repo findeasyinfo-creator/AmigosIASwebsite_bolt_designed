@@ -50,9 +50,13 @@ html, body {
   
   --font-poppins: 'Poppins', sans-serif;
   --font-playfair: 'Playfair Display', serif;
+
+  /* New brand accent gradient colors */
+  --primary-orange: #E94E35;
+  --accent-yellow: #FFD633;
 }
 
-/* Light Theme - Sunset Radiance */
+/* Light Theme - Improved Sunset Radiance */
 [data-theme="light"] {
   /* Primary gradient colors */
   --orange-vibrant: #FF5722;
@@ -65,21 +69,24 @@ html, body {
   --cream-soft: #FFF3E0;
   --vanilla: #FFF8E1;
   --cream-light: #FFFAF0;
-  --white-warm: #FFFEF9;
+  --white-warm: #FFFFFF;
   
-  /* Text colors */
-  --text-primary: #2C1810;
-  --text-secondary: #5D4037;
-  --text-tertiary: #8D6E63;
+  /* High contrast text colors for better readability */
+  --text-primary: #1A1A1A;
+  --text-secondary: #333333;
+  --text-tertiary: #666666;
+  --text-muted: #888888;
   
   /* Accent colors */
   --accent-deep: #D84315;
   --accent-gold: #F57C00;
   
-  /* Card colors */
-  --card-bg: rgba(255, 255, 255, 0.95);
-  --card-border: rgba(255, 87, 34, 0.2);
-  --card-shadow: rgba(255, 87, 34, 0.15);
+  /* Enhanced card colors for better visibility */
+  --card-bg: rgba(255, 255, 255, 1);
+  --card-bg-secondary: rgba(255, 248, 240, 0.95);
+  --card-border: rgba(255, 87, 34, 0.3);
+  --card-shadow: rgba(0, 0, 0, 0.1);
+  --card-shadow-hover: rgba(0, 0, 0, 0.15);
   
   /* Override dark theme variables for compatibility */
   --navy-primary: var(--cream-soft);
@@ -501,15 +508,134 @@ button:hover, a:hover, [role="button"]:hover {
   }
 }
 
-/* Light theme heading styles */
+/* Enhanced Light Theme Styling */
 [data-theme="light"] h1,
 [data-theme="light"] h2,
 [data-theme="light"] h3,
 [data-theme="light"] h4,
 [data-theme="light"] h5,
 [data-theme="light"] h6 {
-  color: #FF7A00 !important;
+  color: #1A1A1A !important;
   background: none !important;
-  -webkit-text-fill-color: #FF7A00 !important;
-  text-shadow: 0 2px 8px rgba(255, 122, 0, 0.3);
+  -webkit-text-fill-color: #1A1A1A !important;
+  text-shadow: none !important;
+}
+
+/* Override for Hero Section - Force White Text */
+[data-theme="light"] .hero-section h1,
+[data-theme="light"] .hero-section h2,
+[data-theme="light"] .hero-section h3,
+[data-theme="light"] .hero-section span {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Hero Section Gradient Background for Light Theme */
+[data-theme="light"] .hero-section {
+  background: linear-gradient(135deg, #FF5722 0%, #FF7043 25%, #FF8A65 50%, #FFB74D 75%, #FFD54F 100%) !important;
+  position: relative;
+  overflow: hidden;
+}
+
+[data-theme="light"] .hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 87, 34, 0.1) 0%, rgba(255, 193, 7, 0.1) 100%);
+  pointer-events: none;
+}
+
+[data-theme="light"] .hero-section h1,
+[data-theme="light"] .hero-section h2,
+[data-theme="light"] .hero-section p {
+  color: white !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+  position: relative;
+  z-index: 1;
+}
+
+[data-theme="light"] .hero-section .text-gray-700 {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* Enhanced Light Theme Card Styling */
+[data-theme="light"] .bg-white\/80,
+[data-theme="light"] .bg-white\/95 {
+  background: rgba(255, 255, 255, 1) !important;
+  border: 1px solid rgba(255, 87, 34, 0.2) !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+}
+
+[data-theme="light"] .backdrop-blur-sm,
+[data-theme="light"] .backdrop-blur-md {
+  backdrop-filter: none !important;
+}
+
+/* Enhanced text contrast for light theme */
+[data-theme="light"] .text-gray-600 {
+  color: #333333 !important;
+}
+
+[data-theme="light"] .text-gray-700 {
+  color: #1A1A1A !important;
+}
+
+[data-theme="light"] p,
+[data-theme="light"] span,
+[data-theme="light"] div {
+  color: inherit;
+}
+
+/* Enhanced button styling for light theme */
+[data-theme="light"] .bg-orange-500 {
+  background: linear-gradient(135deg, #FF5722 0%, #FF7043 100%) !important;
+  box-shadow: 0 4px 15px rgba(255, 87, 34, 0.3) !important;
+}
+
+[data-theme="light"] .bg-orange-500:hover {
+  background: linear-gradient(135deg, #E64A19 0%, #FF5722 100%) !important;
+  box-shadow: 0 6px 20px rgba(255, 87, 34, 0.4) !important;
+  transform: translateY(-1px);
+}
+
+/* Enhanced tab styling */
+[data-theme="light"] .bg-white {
+  background: white !important;
+  border: 1px solid #E5E7EB !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
+}
+
+[data-theme="light"] .hover\:bg-orange-50:hover {
+  background: #FFF3E0 !important;
+  border-color: #FFB74D !important;
+}
+
+/* Enhanced hover effects for cards */
+[data-theme="light"] .hover\:shadow-xl:hover,
+[data-theme="light"] .hover\:shadow-2xl:hover {
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15) !important;
+}
+
+[data-theme="light"] .hover\:border-orange-300:hover {
+  border-color: #FFB74D !important;
+}
+
+/* Enhanced form inputs for light theme */
+[data-theme="light"] input,
+[data-theme="light"] textarea,
+[data-theme="light"] select {
+  background: white !important;
+  border: 2px solid #E5E7EB !important;
+  color: #1A1A1A !important;
+}
+
+[data-theme="light"] input:focus,
+[data-theme="light"] textarea:focus,
+[data-theme="light"] select:focus {
+  border-color: #FF5722 !important;
+  box-shadow: 0 0 0 3px rgba(255, 87, 34, 0.1) !important;
 }

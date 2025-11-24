@@ -8,6 +8,7 @@ import Testimonials from '@/components/Testimonials'
 import Demo from '@/components/Demo'
 import Footer from '@/components/Footer'
 import ScrollAnimations from '@/components/ScrollAnimations'
+import FloatingButtons from '@/components/FloatingButtons'
 
 export default function Home() {
   return (
@@ -16,7 +17,7 @@ export default function Home() {
       <Header />
       <Marquee />
       <Hero />
-      <div className="section-divider" />
+      {/* Removed divider between Hero and Trusted */}
       <Trusted />
       <div className="section-divider" />
       <Courses />
@@ -27,6 +28,7 @@ export default function Home() {
       <div className="section-divider" />
       <Demo />
       <Footer />
+      <FloatingButtons />
     </>
   )
 }

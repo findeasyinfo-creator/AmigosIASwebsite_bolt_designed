@@ -1,0 +1,133 @@
+.floatingButtons {
+  position: fixed;
+  bottom: 100px;
+  right: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  z-index: 9999;
+}
+
+.whatsappButton,
+.enquireButton {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 20px;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  text-decoration: none;
+  backdrop-filter: blur(10px);
+}
+
+.whatsappButton {
+  background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+  color: white;
+}
+
+.whatsappButton:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 6px 25px rgba(37, 211, 102, 0.4);
+}
+
+.enquireButton {
+  background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
+  color: white;
+}
+
+.enquireButton:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 6px 25px rgba(255, 107, 53, 0.4);
+}
+
+.icon {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.buttonText {
+  white-space: nowrap;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .floatingButtons {
+    bottom: 80px;
+    right: 12px;
+    gap: 8px;
+  }
+
+  .whatsappButton,
+  .enquireButton {
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+
+  .icon {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+/* Small screens - show only icons */
+@media (max-width: 480px) {
+  .floatingButtons {
+    bottom: 70px;
+    right: 10px;
+    gap: 6px;
+  }
+
+  .whatsappButton,
+  .enquireButton {
+    padding: 8px;
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    justify-content: center;
+  }
+
+  .buttonText {
+    display: none;
+  }
+
+  .icon {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* Animation on page load */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.floatingButtons {
+  animation: slideIn 0.5s ease-out;
+}
+
+/* Pulse animation for attention */
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.whatsappButton:active,
+.enquireButton:active {
+  transform: scale(0.95);
+}
