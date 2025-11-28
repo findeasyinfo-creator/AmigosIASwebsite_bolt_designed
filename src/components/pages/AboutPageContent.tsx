@@ -35,15 +35,22 @@ function DirectorMessageSection() {
         
         <div className="bg-white/95 dark:bg-gray-800/90 backdrop-blur-md rounded-2xl p-8 shadow-xl border border-gray-200/50 dark:border-gray-700/50">
           <div className="flex flex-col md:flex-row gap-8">
-            <div className="flex-shrink-0">
-              <div className="w-48 h-48 rounded-full overflow-hidden border-4 border-orange-500 shadow-xl">
-                <Image
-                  src="https://randomuser.me/api/portraits/men/46.jpg"
-                  alt="Dr. Rajesh Kumar - Director"
-                  width={192}
-                  height={192}
-                  className="w-full h-full object-cover"
-                />
+            <div className="flex-shrink-0 mx-auto md:mx-0">
+              <div className="relative w-48 h-48">
+                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-yellow-400 via-orange-500 to-yellow-600 p-1 shadow-2xl">
+                  <div className="w-full h-full rounded-full bg-white dark:bg-gray-800 p-1">
+                    <div className="w-full h-full rounded-full overflow-hidden ring-2 ring-yellow-400/50 shadow-inner">
+                      <Image
+                        src="https://randomuser.me/api/portraits/men/46.jpg"
+                        alt="Dr. Rajesh Kumar - Director"
+                        width={192}
+                        height={192}
+                        className="w-full h-full object-cover"
+                        priority
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
             <div>
@@ -156,15 +163,9 @@ function FacultySection() {
     <section id="faculty" className="py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl font-bold mb-4 text-center">Our Expert Faculty</h2>
-        <p className="text-lg text-gray-700 dark:text-gray-400 text-center mb-4 max-w-3xl mx-auto">
+        <p className="text-lg text-gray-700 dark:text-gray-400 text-center mb-12 max-w-3xl mx-auto">
           Learn from experienced educators who have dedicated their careers to UPSC coaching
         </p>
-        
-        {/* Placeholder lines for admin panel updates */}
-        <div style={{ textAlign: 'center', margin: '1rem 0 2rem' }}>
-          <p style={{ color: 'var(--text-muted, #9ca3af)', letterSpacing: '0.3em', fontSize: '0.875rem' }}>. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .</p>
-          <p style={{ color: 'var(--text-muted, #9ca3af)', letterSpacing: '0.3em', fontSize: '0.875rem' }}>. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .</p>
-        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {faculty.map((member, index) => (

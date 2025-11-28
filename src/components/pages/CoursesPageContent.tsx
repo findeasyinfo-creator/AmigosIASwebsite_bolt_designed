@@ -122,7 +122,7 @@ export default function CoursesPageContent() {
                 <button
                   key={category.id}
                   onClick={() => setActiveTab(category.id)}
-                  className={`px-6 py-2 rounded-full font-medium whitespace-nowrap transition-all duration-200 ${
+                  className={`px-6 py-2 rounded-full font-medium whitespace-nowrap transition-all duration-150 ${
                     activeTab === category.id
                       ? 'bg-orange-500 text-white shadow-lg'
                       : 'bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm text-gray-700 dark:text-gray-300 hover:bg-orange-100 dark:hover:bg-gray-700'
@@ -137,7 +137,7 @@ export default function CoursesPageContent() {
           {/* Course Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredCourses.map((course) => (
-              <div key={course.id} className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl overflow-hidden shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all duration-300 flex flex-col border-2 border-yellow-500 dark:border-yellow-600">
+              <div key={course.id} className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl overflow-hidden shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all duration-200 flex flex-col border-2 border-yellow-500 dark:border-yellow-600">
                 {/* Duration Badge - Top Left */}
                 <div className="relative">
                   <div className="absolute top-4 left-4 z-10 px-3 py-1.5 bg-white/90 text-orange-600 rounded-lg text-sm font-semibold shadow-lg">
@@ -207,13 +207,13 @@ export default function CoursesPageContent() {
                     <div className="flex flex-col space-y-2">
                       <button
                         onClick={() => setSelectedCourse(course.id)}
-                        className="text-center bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200"
+                        className="text-center bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-150"
                       >
                         View More Details
                       </button>
                       <Link
                         href="/contact"
-                        className="text-center bg-white dark:bg-gray-700 text-orange-600 dark:text-orange-400 hover:bg-orange-50 dark:hover:bg-gray-600 font-semibold py-3 px-6 rounded-lg transition-all duration-200"
+                        className="text-center bg-white dark:bg-gray-700 text-orange-600 dark:text-orange-400 hover:bg-orange-50 dark:hover:bg-gray-600 font-semibold py-3 px-6 rounded-lg transition-all duration-150"
                       >
                         Enroll Now
                       </Link>
@@ -309,7 +309,7 @@ export default function CoursesPageContent() {
                 <div className="border-t border-gray-200 dark:border-gray-700 pt-6">
                   <Link
                     href="/contact"
-                    className="block text-center bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200"
+                    className="block text-center bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-150"
                   >
                     Enroll in This Course
                   </Link>

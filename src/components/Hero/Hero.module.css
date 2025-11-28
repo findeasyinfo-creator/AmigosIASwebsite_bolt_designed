@@ -430,21 +430,14 @@
     width: 40px;
     height: 40px;
     font-size: 18px;
-    opacity: 0; /* Hidden by default */
-    visibility: hidden;
+    opacity: 1; /* Always visible on mobile */
+    visibility: visible;
     padding: 10px;
     /* Position below the image */
     top: auto !important;
     bottom: -55px;
     transform: translateY(0) !important;
-    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
-  }
-  
-  .imageWrapper:hover .navButton,
-  .imageWrapper:focus-within .navButton,
-  .heroContent:hover .navButton {
-    opacity: 1;
-    visibility: visible;
+    transition: all 0.3s ease;
   }
   
   .navButton:hover {
@@ -503,17 +496,9 @@
     top: auto !important;
     bottom: -52px;
     transform: translateY(0) !important;
-    opacity: 0; /* Hidden by default */
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
-  }
-  
-  .imageWrapper:hover .navButton,
-  .imageWrapper:focus-within .navButton,
-  .heroContent:hover .navButton,
-  .imageWrapper:active .navButton {
-    opacity: 1;
+    opacity: 1; /* Always visible on mobile */
     visibility: visible;
+    transition: all 0.3s ease;
   }
   
   .navButton:hover {

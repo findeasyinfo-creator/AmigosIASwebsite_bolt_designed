@@ -82,6 +82,18 @@ function StudyMaterialsTab() {
     { title: 'Geography and Environment', subject: 'Geography', year: 2025, pages: '210 pages' },
     { title: 'International Relations Notes', subject: 'IR', year: 2025, pages: '160 pages' },
     { title: 'Science and Technology', subject: 'Science', year: 2025, pages: '140 pages' },
+    { title: 'Ancient India - Indus to Gupta', subject: 'History', year: 2025, pages: '195 pages' },
+    { title: 'Medieval India History', subject: 'History', year: 2025, pages: '165 pages' },
+    { title: 'Art and Culture of India', subject: 'Culture', year: 2025, pages: '220 pages' },
+    { title: 'Ethics, Integrity & Aptitude', subject: 'Ethics', year: 2025, pages: '175 pages' },
+    { title: 'Indian Society & Social Justice', subject: 'Society', year: 2025, pages: '190 pages' },
+    { title: 'Internal Security & Defense', subject: 'Security', year: 2025, pages: '155 pages' },
+    { title: 'Disaster Management', subject: 'Geography', year: 2025, pages: '130 pages' },
+    { title: 'Agriculture & Food Security', subject: 'Economy', year: 2025, pages: '145 pages' },
+    { title: 'Industrial & Infrastructure Development', subject: 'Economy', year: 2025, pages: '170 pages' },
+    { title: 'Biodiversity & Climate Change', subject: 'Environment', year: 2025, pages: '185 pages' },
+    { title: 'Governance & Public Policy', subject: 'Polity', year: 2025, pages: '200 pages' },
+    { title: 'World History - Modern Period', subject: 'History', year: 2025, pages: '160 pages' },
   ];
 
   return (
@@ -115,6 +127,14 @@ function StrategyTab() {
     { title: 'Answer Writing Strategy for Mains', author: 'Prof. Anjali Sharma', date: '2025-10-28', readTime: '10 min' },
     { title: 'Mastering Current Affairs for UPSC', author: 'Dr. Amit Verma', date: '2025-10-25', readTime: '12 min' },
     { title: 'Optional Subject Selection Guide', author: 'Ms. Priya Singh', date: '2025-10-20', readTime: '6 min' },
+    { title: 'Time Management Tips for UPSC Preparation', author: 'Dr. Vikram Patel', date: '2025-10-15', readTime: '9 min' },
+    { title: 'How to Score 300+ in UPSC Mains', author: 'Prof. Anjali Sharma', date: '2025-10-10', readTime: '15 min' },
+    { title: 'Revision Strategy for Last 3 Months', author: 'Dr. Rajesh Kumar', date: '2025-10-05', readTime: '11 min' },
+    { title: 'Interview Preparation Complete Guide', author: 'Ms. Priya Singh', date: '2025-09-28', readTime: '14 min' },
+    { title: 'Daily Routine for UPSC Aspirants', author: 'Dr. Amit Verma', date: '2025-09-20', readTime: '7 min' },
+    { title: 'How to Make Effective Notes', author: 'Dr. Neha Reddy', date: '2025-09-15', readTime: '10 min' },
+    { title: 'Essay Writing Masterclass', author: 'Prof. Suresh Gupta', date: '2025-09-10', readTime: '13 min' },
+    { title: 'Tackling Negative Marking in Prelims', author: 'Dr. Vikram Patel', date: '2025-09-05', readTime: '8 min' },
   ];
 
   return (
@@ -149,70 +169,112 @@ function StrategyTab() {
 }
 
 function PYQTab() {
-  const papers = [
-    { year: 2024, exam: 'Prelims', paper: 'General Studies Paper I', questions: 100 },
-    { year: 2024, exam: 'Prelims', paper: 'General Studies Paper II', questions: 80 },
-    { year: 2024, exam: 'Mains', paper: 'Essay', questions: 2 },
-    { year: 2023, exam: 'Prelims', paper: 'General Studies Paper I', questions: 100 },
-    { year: 2023, exam: 'Mains', paper: 'General Studies Paper I', questions: 20 },
-  ];
-
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      {papers.map((paper, index) => (
-        <div key={index} className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
+    <div className="py-8">
+      <h2 className="text-2xl font-bold mb-8 text-center text-gray-900 dark:text-white">Previous Year Papers</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Paper 1 */}
+        <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border">
           <div className="flex items-center justify-between mb-4">
-            <span className="px-4 py-2 bg-orange-500 text-white rounded-lg font-bold text-lg">
-              {paper.year}
-            </span>
-            <span className="px-3 py-1 bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 rounded-full text-sm font-medium">
-              {paper.exam}
-            </span>
+            <span className="bg-orange-500 text-white px-4 py-2 rounded-lg font-bold">2024</span>
+            <span className="bg-orange-100 text-orange-600 px-3 py-1 rounded-full text-sm">Prelims</span>
           </div>
-          <h3 className="text-lg font-semibold mb-2">{paper.paper}</h3>
-          <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">{paper.questions} Questions</p>
+          <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">General Studies Paper I</h3>
+          <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">100 Questions • 2.5 MB</p>
           <div className="flex gap-2">
-            <button className="flex-1 bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200 text-sm">Download</button>
-            <button className="flex-1 border-2 border-orange-500 text-orange-600 dark:text-orange-400 hover:bg-orange-500 hover:text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200 text-sm">View Online</button>
+            <button className="flex-1 bg-orange-500 text-white py-2 px-4 rounded-lg font-medium">Download</button>
+            <button className="flex-1 border border-orange-500 text-orange-500 py-2 px-4 rounded-lg font-medium">View</button>
           </div>
         </div>
-      ))}
+
+        {/* Paper 2 */}
+        <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border">
+          <div className="flex items-center justify-between mb-4">
+            <span className="bg-orange-500 text-white px-4 py-2 rounded-lg font-bold">2024</span>
+            <span className="bg-orange-100 text-orange-600 px-3 py-1 rounded-full text-sm">Mains</span>
+          </div>
+          <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">Essay Paper</h3>
+          <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">2 Questions • 1.2 MB</p>
+          <div className="flex gap-2">
+            <button className="flex-1 bg-orange-500 text-white py-2 px-4 rounded-lg font-medium">Download</button>
+            <button className="flex-1 border border-orange-500 text-orange-500 py-2 px-4 rounded-lg font-medium">View</button>
+          </div>
+        </div>
+
+        {/* Paper 3 */}
+        <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border">
+          <div className="flex items-center justify-between mb-4">
+            <span className="bg-orange-500 text-white px-4 py-2 rounded-lg font-bold">2023</span>
+            <span className="bg-orange-100 text-orange-600 px-3 py-1 rounded-full text-sm">Prelims</span>
+          </div>
+          <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">General Studies Paper I</h3>
+          <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">100 Questions • 2.4 MB</p>
+          <div className="flex gap-2">
+            <button className="flex-1 bg-orange-500 text-white py-2 px-4 rounded-lg font-medium">Download</button>
+            <button className="flex-1 border border-orange-500 text-orange-500 py-2 px-4 rounded-lg font-medium">View</button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
 
 function VideosTab() {
-  const videos = [
-    { title: 'Introduction to Indian Polity', faculty: 'Dr. Amit Verma', duration: '45:30', views: '12.5K' },
-    { title: 'Economic Survey 2025 Analysis', faculty: 'Ms. Priya Singh', duration: '38:15', views: '8.2K' },
-    { title: 'Modern India History Overview', faculty: 'Dr. Rajesh Kumar', duration: '52:40', views: '15.3K' },
-    { title: 'Geography and Disaster Management', faculty: 'Prof. Anjali Sharma', duration: '41:20', views: '9.7K' },
-  ];
-
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      {videos.map((video, index) => (
-        <div key={index} className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
-          <div className="aspect-video bg-gradient-to-br from-orange-600 to-yellow-500 flex items-center justify-center relative group cursor-pointer">
-            <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors"></div>
-            <div className="relative w-16 h-16 bg-white/90 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+    <div className="py-8">
+      <h2 className="text-2xl font-bold mb-8 text-center text-gray-900 dark:text-white">Video Lectures</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Video 1 */}
+        <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg border">
+          <div className="h-48 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center relative">
+            <div className="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center">
               <svg className="w-8 h-8 text-orange-600 ml-1" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M8 5v14l11-7z" />
               </svg>
             </div>
-            <span className="absolute bottom-2 right-2 bg-black/80 text-white px-2 py-1 rounded text-sm">
-              {video.duration}
-            </span>
+            <span className="absolute bottom-2 right-2 bg-black/80 text-white px-2 py-1 rounded text-sm">45:30</span>
           </div>
           <div className="p-4">
-            <h3 className="text-lg font-semibold mb-2">{video.title}</h3>
-            <div className="flex items-center justify-between text-sm text-gray-600 dark:text-gray-400">
-              <span>{video.faculty}</span>
-              <span>{video.views} views</span>
-            </div>
+            <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">Introduction to Indian Polity</h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">Dr. Amit Verma • 12.5K views</p>
+            <button className="w-full bg-orange-500 text-white py-2 px-4 rounded-lg font-medium">Watch Now</button>
           </div>
         </div>
-      ))}
+
+        {/* Video 2 */}
+        <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg border">
+          <div className="h-48 bg-gradient-to-br from-green-500 to-teal-600 flex items-center justify-center relative">
+            <div className="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center">
+              <svg className="w-8 h-8 text-orange-600 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </div>
+            <span className="absolute bottom-2 right-2 bg-black/80 text-white px-2 py-1 rounded text-sm">38:15</span>
+          </div>
+          <div className="p-4">
+            <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">Economic Survey 2025</h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">Ms. Priya Singh • 8.2K views</p>
+            <button className="w-full bg-orange-500 text-white py-2 px-4 rounded-lg font-medium">Watch Now</button>
+          </div>
+        </div>
+
+        {/* Video 3 */}
+        <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg border">
+          <div className="h-48 bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center relative">
+            <div className="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center">
+              <svg className="w-8 h-8 text-orange-600 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </div>
+            <span className="absolute bottom-2 right-2 bg-black/80 text-white px-2 py-1 rounded text-sm">52:40</span>
+          </div>
+          <div className="p-4">
+            <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">Modern Indian History</h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">Dr. Rajesh Kumar • 15.3K views</p>
+            <button className="w-full bg-orange-500 text-white py-2 px-4 rounded-lg font-medium">Watch Now</button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
@@ -222,6 +284,15 @@ function FacultyColumnsTab() {
     { title: 'Understanding Constitutional Amendments', author: 'Dr. Amit Verma', date: '2025-11-02', category: 'Polity' },
     { title: 'Global Economic Trends and India', author: 'Ms. Priya Singh', date: '2025-10-30', category: 'Economy' },
     { title: 'Freedom Struggle: Lesser Known Facts', author: 'Dr. Rajesh Kumar', date: '2025-10-27', category: 'History' },
+    { title: "Climate Change and India's Response", author: 'Dr. Neha Reddy', date: '2025-10-22', category: 'Environment' },
+    { title: 'India-China Relations: Past and Present', author: 'Dr. Amit Verma', date: '2025-10-18', category: 'International Relations' },
+    { title: 'Digital Economy and Financial Inclusion', author: 'Ms. Priya Singh', date: '2025-10-12', category: 'Economy' },
+    { title: 'Ethics in Public Administration', author: 'Prof. Suresh Gupta', date: '2025-10-08', category: 'Ethics' },
+    { title: 'Ancient India: Vedic Civilization', author: 'Dr. Rajesh Kumar', date: '2025-10-05', category: 'History' },
+    { title: 'Space Technology and ISRO Achievements', author: 'Dr. Vikram Patel', date: '2025-09-30', category: 'Science & Technology' },
+    { title: 'Federalism in Indian Constitution', author: 'Dr. Amit Verma', date: '2025-09-25', category: 'Polity' },
+    { title: 'Water Crisis and Management', author: 'Dr. Neha Reddy', date: '2025-09-20', category: 'Geography' },
+    { title: "India's Foreign Policy Challenges", author: 'Prof. Anjali Sharma', date: '2025-09-15', category: 'International Relations' },
   ];
 
   return (
@@ -261,6 +332,14 @@ function ExamUpdatesTab() {
     { title: 'Prelims Exam Date Announced', date: '2025-10-29', type: 'Important', urgent: true },
     { title: 'Interview Schedule for CSE 2025', date: '2025-10-25', type: 'Schedule', urgent: false },
     { title: 'Changes in Optional Subject Syllabus', date: '2025-10-20', type: 'Update', urgent: false },
+    { title: 'Mains Admit Card Release Date', date: '2025-10-15', type: 'Important', urgent: true },
+    { title: 'Revised Exam Calendar for 2026', date: '2025-10-10', type: 'Schedule', urgent: false },
+    { title: 'Final Result Declaration - CSE 2024', date: '2025-10-05', type: 'Result', urgent: true },
+    { title: 'New Application Portal Guidelines', date: '2025-09-28', type: 'Update', urgent: false },
+    { title: 'Interview Panel and Locations Announced', date: '2025-09-20', type: 'Schedule', urgent: false },
+    { title: 'Document Verification Process Update', date: '2025-09-15', type: 'Update', urgent: false },
+    { title: 'Prelims Result 2025 Declared', date: '2025-09-10', type: 'Result', urgent: true },
+    { title: 'Important FAQs Updated', date: '2025-09-05', type: 'Information', urgent: false },
   ];
 
   return (

@@ -229,6 +229,15 @@ export default function Header() {
                 </div>
               </button>
             </div>
+            <div className={styles.mobileMenuFooter}>
+              <Image 
+                src="/assets/amigos-logo.png" 
+                alt="Amigos IAS" 
+                width={80} 
+                height={80} 
+                className={styles.footerLogo}
+              />
+            </div>
           </div>
         </div>
       )}

@@ -24,21 +24,83 @@ export default function ScrollAnimations() {
       })
     }, observerOptions)
 
-    // Observe sections
+    // Get all sections
     const sections = document.querySelectorAll('section')
-    sections.forEach((section) => observer.observe(section))
+    
+    // Make first section (hero) immediately visible on all pages
+    if (sections.length > 0) {
+      const heroSection = sections[0]
+      heroSection.classList.add('in-view', 'first-section')
+      heroSection.style.opacity = '1'
+      heroSection.style.transform = 'translateY(0)'
+      
+      // Make all content in hero section immediately visible
+      const heroHeadings = heroSection.querySelectorAll('h1, h2, h3, p, div')
+      heroHeadings.forEach((element) => {
+        element.classList.add('in-view', 'first-section')
+        element.style.opacity = '1'
+        element.style.transform = 'translateY(0)'
+      })
+    }
+    
+    // Observe sections starting from the second one
+    sections.forEach((section, index) => {
+      if (index > 0) {
+        observer.observe(section)
+      }
+    })
 
-    // Observe cards
+    // Get all cards/grid items
     const cards = document.querySelectorAll('.card, [class*="card"], [class*="course"]:not([class*="coursesSection"]), [class*="faculty"]')
-    cards.forEach((card) => observer.observe(card))
+    const gridItems = document.querySelectorAll('[class*="grid"] > *, [class*="Grid"] > *')
+    
+    // Combine cards and grid items
+    const allItems = [...Array.from(cards), ...Array.from(gridItems)]
+    
+    allItems.forEach((item, index) => {
+      const parentSection = item.closest('section')
+      const sectionIndex = Array.from(sections).indexOf(parentSection as Element)
+      
+      // If item is in the first section (hero), make it immediately visible
+      if (sectionIndex === 0) {
+        item.classList.add('in-view', 'first-section')
+        ;(item as HTMLElement).style.opacity = '1'
+        ;(item as HTMLElement).style.transform = 'translateY(0)'
+      } else {
+        // For other sections, observe all items
+        observer.observe(item)
+      }
+    })
 
-    // Observe grids for stagger effect
-    const grids = document.querySelectorAll('[class*="grid"], [class*="list"]')
-    grids.forEach((grid) => observer.observe(grid))
+    // Get all grids
+    const grids = document.querySelectorAll('[class*="grid"], [class*="Grid"], [class*="list"]')
+    grids.forEach((grid) => {
+      const parentSection = grid.closest('section')
+      const sectionIndex = Array.from(sections).indexOf(parentSection as Element)
+      
+      if (sectionIndex === 0) {
+        grid.classList.add('in-view', 'first-section')
+        ;(grid as HTMLElement).style.opacity = '1'
+        ;(grid as HTMLElement).style.transform = 'translateY(0)'
+      } else {
+        observer.observe(grid)
+      }
+    })
 
-    // Observe headings
+    // Get all headings
     const headings = document.querySelectorAll('h1, h2, h3')
-    headings.forEach((heading) => observer.observe(heading))
+    headings.forEach((heading) => {
+      const parentSection = heading.closest('section')
+      const sectionIndex = Array.from(sections).indexOf(parentSection as Element)
+      
+      if (sectionIndex === 0) {
+        heading.classList.add('in-view', 'first-section')
+        ;(heading as HTMLElement).style.opacity = '1'
+        ;(heading as HTMLElement).style.transform = 'translateY(0)'
+      } else {
+        observer.observe(heading)
+      }
+    })
 
     // Parallax scroll effect for background waves
     let ticking = false
