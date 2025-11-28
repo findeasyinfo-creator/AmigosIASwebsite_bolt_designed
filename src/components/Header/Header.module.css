@@ -35,9 +35,9 @@
 
 
 .logoImage {
-  height: 85px;
+  height: 95px;
   width: auto;
-  max-width: 450px;
+  max-width: 500px;
   transition: all 0.3s ease;
   filter: drop-shadow(0 4px 12px rgba(212, 175, 55, 0.4));
   cursor: pointer;
