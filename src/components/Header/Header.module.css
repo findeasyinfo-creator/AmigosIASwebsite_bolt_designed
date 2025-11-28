@@ -222,8 +222,8 @@
     display: none;
   }
   .logoImage {
-    height: 54px;
-    max-width: 220px;
+    height: 64px;
+    max-width: 260px;
   }
 }
 
@@ -1119,8 +1119,8 @@
   }
 
   .logoImage {
-    height: 36px;
-    max-width: 200px;
+    height: 46px;
+    max-width: 240px;
   }
 
   .menuToggle {
