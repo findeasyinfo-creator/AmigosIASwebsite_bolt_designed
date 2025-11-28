@@ -271,15 +271,15 @@ export default function CommunityForum() {
   };
 
   const header = (
-    <div className="text-center mb-8">
-      <div className="bg-orange-50 py-8 mb-8">
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-wide text-gray-800 mb-4">COMMUNITY FORUM</h1>
-        <p className="text-lg text-gray-700 mb-6">
+    <div className="text-center mb-4 md:mb-8">
+      <div className="bg-orange-50 py-6 md:py-8 mb-4 md:mb-8 px-4">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-wide text-gray-800 mb-3 md:mb-4">COMMUNITY FORUM</h1>
+        <p className="text-sm sm:text-base md:text-lg text-gray-700 mb-4 md:mb-6 px-2">
           Welcome to the Aspirant Community: Learn & Share
         </p>
         <button
           onClick={() => setIsOpen(true)}
-          className="px-8 py-4 bg-orange-500 text-white rounded-full font-bold hover:bg-orange-600"
+          className="px-6 md:px-8 py-3 md:py-4 bg-orange-500 text-white rounded-full font-bold hover:bg-orange-600 text-sm md:text-base transition-all"
         >
           Create Post
         </button>
@@ -306,30 +306,30 @@ export default function CommunityForum() {
       className="w-full bg-white min-h-screen" 
       data-theme="light"
     >
-      <div className="max-w-5xl mx-auto relative">
+      <div className="max-w-5xl mx-auto relative px-2 sm:px-4 lg:px-0">
         {/* Enhanced container with shadow and border */}
-        <div className="bg-white shadow-lg border border-gray-200 overflow-hidden">
+        <div className="bg-white shadow-lg border border-gray-200 overflow-hidden rounded-none sm:rounded-lg">
           {header}
         
         {/* Enhanced Filters */}
-        <div className="px-6 md:px-8 lg:px-10 py-6 bg-white">
-          <div className="mb-8 flex flex-wrap items-center justify-center gap-3 md:gap-4 relative">
+        <div className="px-3 sm:px-6 md:px-8 lg:px-10 py-4 md:py-6 bg-white">
+          <div className="mb-6 md:mb-8 flex flex-wrap items-center justify-center gap-2 sm:gap-3 md:gap-4 relative">
             <button
               onClick={() => { setFilterMode("all"); setCategoryFilter("All"); setShowCategoryMenu(false); }}
-              className={`px-6 py-3 rounded-full font-semibold transition-all shadow-md hover:shadow-lg transform hover:scale-105 ${filterMode === "all" ? "bg-orange-500 text-white" : "bg-orange-100 text-orange-700 hover:bg-orange-200"}`}
+              className={`px-3 sm:px-4 md:px-6 py-2 md:py-3 rounded-full font-medium md:font-semibold transition-all shadow-md hover:shadow-lg text-xs sm:text-sm md:text-base ${filterMode === "all" ? "bg-orange-500 text-white" : "bg-orange-100 text-orange-700 hover:bg-orange-200"}`}
             >
               Conversations
             </button>
             <button
               onClick={() => { setFilterMode("help"); setShowCategoryMenu(false); }}
-              className={`px-6 py-3 rounded-full font-semibold transition-all shadow-md hover:shadow-lg transform hover:scale-105 ${filterMode === "help" ? "bg-orange-500 text-white" : "bg-orange-100 text-orange-700 hover:bg-orange-200"}`}
+              className={`px-3 sm:px-4 md:px-6 py-2 md:py-3 rounded-full font-medium md:font-semibold transition-all shadow-md hover:shadow-lg text-xs sm:text-sm md:text-base ${filterMode === "help" ? "bg-orange-500 text-white" : "bg-orange-100 text-orange-700 hover:bg-orange-200"}`}
             >
               Help others
             </button>
             <div className="relative">
               <button
                 onClick={() => setShowCategoryMenu((s) => !s)}
-                className={`px-6 py-3 rounded-full font-semibold transition-all shadow-md hover:shadow-lg transform hover:scale-105 ${filterMode === "category" ? "bg-orange-500 text-white" : "bg-orange-100 text-orange-700 hover:bg-orange-200"}`}
+                className={`px-3 sm:px-4 md:px-6 py-2 md:py-3 rounded-full font-medium md:font-semibold transition-all shadow-md hover:shadow-lg text-xs sm:text-sm md:text-base ${filterMode === "category" ? "bg-orange-500 text-white" : "bg-orange-100 text-orange-700 hover:bg-orange-200"}`}
                 aria-haspopup="listbox"
                 aria-expanded={showCategoryMenu}
               >
@@ -347,26 +347,26 @@ export default function CommunityForum() {
             </div>
         </div>
 
-        <div className="mb-6 text-sm font-semibold text-gray-700 dark:text-gray-300">
+        <div className="mb-4 md:mb-6 text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300 px-2">
           📌 Showing {filteredPosts.length} of {posts.length} posts
         </div>
 
-        <div className="space-y-6">
+        <div className="space-y-4 md:space-y-6 px-2 sm:px-0">
           {filteredPosts.map((p, idx) => (
-            <article key={p.id} className="bg-white rounded-2xl border-2 border-orange-100 overflow-hidden hover:shadow-2xl hover:border-orange-300 transition-all duration-300 transform hover:scale-[1.02]">
+            <article key={p.id} className="bg-white rounded-xl md:rounded-2xl border border-orange-100 md:border-2 overflow-hidden hover:shadow-xl md:hover:shadow-2xl hover:border-orange-300 transition-all duration-300">
               {/* Post Header */}
-              <div className="p-5 border-b border-gray-100 dark:border-gray-700">
-                <div className="flex gap-3">
+              <div className="p-3 sm:p-4 md:p-5 border-b border-gray-100 dark:border-gray-700">
+                <div className="flex gap-2 sm:gap-3">
                   {/* Avatar */}
-                  <div className={`w-11 h-11 ${getAvatarColor(idx)} rounded-full flex items-center justify-center flex-shrink-0 text-white font-bold text-lg shadow-md`}>
+                  <div className={`w-8 sm:w-10 md:w-11 h-8 sm:h-10 md:h-11 ${getAvatarColor(idx)} rounded-full flex items-center justify-center flex-shrink-0 text-white font-bold text-sm md:text-lg shadow-md`}>
                     {p.user.charAt(0).toUpperCase()}
                   </div>
 
                   {/* Meta info */}
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <h4 className="font-semibold text-gray-900 dark:text-white">{p.user}</h4>
-                      <span className="inline-block px-2.5 py-0.5 rounded-full bg-slate-800 dark:bg-slate-700 text-white text-xs font-semibold" style={{color: 'white'}}>
+                    <div className="flex items-center gap-1 sm:gap-2 flex-wrap">
+                      <h4 className="font-medium sm:font-semibold text-sm sm:text-base text-gray-900 dark:text-white">{p.user}</h4>
+                      <span className="inline-block px-1.5 sm:px-2.5 py-0.5 rounded-full bg-slate-800 dark:bg-slate-700 text-white text-xs font-medium sm:font-semibold" style={{color: 'white'}}>
                         {p.category.replace("Asked in ", "")}
                       </span>
                       <span className="text-xs text-gray-500 dark:text-gray-400 ml-auto">{timeAgo(p.created_at)}</span>
@@ -375,11 +375,11 @@ export default function CommunityForum() {
                 </div>
                 
                 {/* Title and body */}
-                <div className="mt-3 ml-14">
-                  <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 leading-tight">
+                <div className="mt-2 sm:mt-3 ml-10 sm:ml-12 md:ml-14">
+                  <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-1 sm:mb-2 leading-tight">
                     {p.title}
                   </h3>
-                  <p className="text-sm text-gray-700 dark:text-gray-300 line-clamp-2">
+                  <p className="text-xs sm:text-sm text-gray-700 dark:text-gray-300 line-clamp-2">
                     {p.body}
                   </p>
                 </div>

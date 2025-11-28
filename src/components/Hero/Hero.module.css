@@ -421,20 +421,42 @@
     display: none; /* Hide dots only on mobile/tablet */
   }
   
+  .imageWrapper {
+    position: relative;
+    margin-bottom: 70px; /* Space for navigation buttons */
+  }
+  
   .navButton {
     width: 40px;
     height: 40px;
     font-size: 18px;
-    opacity: 1; /* Keep arrows visible on touch devices */
+    opacity: 0; /* Hidden by default */
+    visibility: hidden;
+    padding: 10px;
+    /* Position below the image */
+    top: auto !important;
+    bottom: -55px;
+    transform: translateY(0) !important;
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+  }
+  
+  .imageWrapper:hover .navButton,
+  .imageWrapper:focus-within .navButton,
+  .heroContent:hover .navButton {
+    opacity: 1;
     visibility: visible;
   }
   
+  .navButton:hover {
+    transform: translateY(0) scale(1.1) !important;
+  }
+  
   .prevButton {
-    left: -45px;
+    left: 60px;
   }
   
   .nextButton {
-    right: -45px;
+    right: 60px;
   }
 }
 
@@ -467,17 +489,42 @@
   }
   .features { display: none; }
   
-  .prevButton {
-    left: -40px;
-  }
-  
-  .nextButton {
-    right: -40px;
+  .imageWrapper {
+    margin-bottom: 60px; /* Space for navigation buttons */
   }
   
   .navButton {
-    width: 35px;
-    height: 35px;
+    width: 38px;
+    height: 38px;
     font-size: 16px;
+    min-width: 38px;
+    min-height: 38px;
+    /* Position below the image */
+    top: auto !important;
+    bottom: -52px;
+    transform: translateY(0) !important;
+    opacity: 0; /* Hidden by default */
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+  }
+  
+  .imageWrapper:hover .navButton,
+  .imageWrapper:focus-within .navButton,
+  .heroContent:hover .navButton,
+  .imageWrapper:active .navButton {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .navButton:hover {
+    transform: translateY(0) scale(1.1) !important;
+  }
+  
+  .prevButton {
+    left: 50px;
+  }
+  
+  .nextButton {
+    right: 50px;
   }
 }

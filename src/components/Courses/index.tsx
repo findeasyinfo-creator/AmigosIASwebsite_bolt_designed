@@ -93,7 +93,7 @@ export default function Courses() {
           <div className={styles.upscEmblemMobile}>
             {/* Light theme emblem */}
             <Image
-              src="/assets/torch light theme.png"
+              src="/assets/Torch Light Theme.png"
               alt="UPSC Emblem Light"
               width={280}
               height={560}
@@ -102,7 +102,7 @@ export default function Courses() {
             />
             {/* Dark theme emblem */}
             <Image
-              src="/assets/torch dark theme.png"
+              src="/assets/Torch Dark Theme.png"
               alt="UPSC Emblem Dark"
               width={280}
               height={560}
@@ -114,7 +114,7 @@ export default function Courses() {
           <div className={styles.upscEmblemCard}>
             {/* Light theme emblem */}
             <Image 
-              src="/assets/torch light theme.png" 
+              src="/assets/Torch Light Theme.png" 
               alt="UPSC Journey Light" 
               width={280} 
               height={560}
@@ -123,7 +123,7 @@ export default function Courses() {
             />
             {/* Dark theme emblem */}
             <Image 
-              src="/assets/torch dark theme.png" 
+              src="/assets/Torch Dark Theme.png" 
               alt="UPSC Journey Dark" 
               width={280} 
               height={560}

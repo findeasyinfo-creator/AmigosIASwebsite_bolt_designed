@@ -10,7 +10,21 @@ export default function Marquee() {
     if (!marquee) return
 
     let scrollAmount = 0
-    const scrollSpeed = 1
+    // Adjust speed based on screen width
+    const getScrollSpeed = () => {
+      const width = window.innerWidth
+      if (width < 480) return 0.5 // Slower on small phones
+      if (width < 768) return 0.7 // Medium on tablets
+      return 1 // Normal on desktop
+    }
+    
+    let scrollSpeed = getScrollSpeed()
+    
+    // Update speed on resize
+    const handleResize = () => {
+      scrollSpeed = getScrollSpeed()
+    }
+    window.addEventListener('resize', handleResize)
     
     const scroll = () => {
       scrollAmount -= scrollSpeed
@@ -27,7 +41,10 @@ export default function Marquee() {
     }
 
     const animationId = requestAnimationFrame(scroll)
-    return () => cancelAnimationFrame(animationId)
+    return () => {
+      cancelAnimationFrame(animationId)
+      window.removeEventListener('resize', handleResize)
+    }
   }, [])
 
   return (
