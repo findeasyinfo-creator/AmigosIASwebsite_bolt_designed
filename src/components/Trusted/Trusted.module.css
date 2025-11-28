@@ -298,6 +298,10 @@
     padding: 0 1rem;
   }
 
+  [data-theme="light"] .sectionTitle {
+    color: #0a1628 !important;
+  }
+
   .sectionSubtitle {
     padding: 0 1rem;
   }
