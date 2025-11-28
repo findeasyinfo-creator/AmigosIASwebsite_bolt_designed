@@ -1,6 +1,7 @@
 import Header from '@/components/Header'
 import Marquee from '@/components/Marquee'
 import Hero from '@/components/Hero'
+import Stats from '@/components/Stats'
 import Trusted from '@/components/Trusted'
 import Courses from '@/components/Courses'
 import Faculty from '@/components/Faculty'
@@ -17,7 +18,9 @@ export default function Home() {
       <Header />
       <Marquee />
       <Hero />
-      {/* Removed divider between Hero and Trusted */}
+      {/* Removed divider between Hero and Stats */}
+      <Stats />
+      <div className="section-divider" />
       <Trusted />
       <div className="section-divider" />
       <Courses />

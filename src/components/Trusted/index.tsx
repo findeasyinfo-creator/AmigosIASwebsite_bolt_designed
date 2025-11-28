@@ -1,23 +1,24 @@
 'use client'
 import styles from './Trusted.module.css'
+import DottedLines from '@/components/DottedLines'
 
 export default function Trusted() {
   // Representative images per program (replace with local assets later if desired)
   const features = [
     {
-      title: 'Yearlong Classroom Program',
-      subtitle: 'Structured syllabus coverage & guided learning',
-      icon: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&h=600&fit=crop&auto=format&dpr=2'
+      title: 'Daily Prelims AI Quizes',
+      subtitle: 'Adaptive Practice & Analysis',
+      icon: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=800&h=600&fit=crop&auto=format'
     },
     {
-      title: 'Mentorship Program',
-      subtitle: 'Personalised guidance, tracking & motivation',
-      icon: 'https://images.unsplash.com/photo-1498079022511-d15614cb1c02?w=800&h=600&fit=crop&auto=format&dpr=2'
+      title: 'Mains Answer Writing',
+      subtitle: 'AI-Driven Evaluation & Feedback',
+      icon: 'https://images.unsplash.com/photo-1455390582262-044cdead277a?w=800&h=600&fit=crop&auto=format'
     },
     {
-      title: 'Interview Guidance Program',
-      subtitle: 'Mock interviews & personality refinement',
-      icon: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&h=600&fit=crop&auto=format&dpr=2'
+      title: '24/7 Support',
+      subtitle: '24/7 News & Summaries',
+      icon: 'https://images.unsplash.com/photo-1535378620166-273708d44e4c?w=800&h=600&fit=crop&auto=format'
     }
   ]
 
@@ -26,8 +27,8 @@ export default function Trusted() {
   return (
     <section className={styles.trustedSection}>
       <div className={styles.container}>
-        <h2 className={styles.sectionTitle}>Hyderabad's Most Trusted</h2>
-        <p className={styles.sectionSubtitle}>Your AI-Powered UPSC Companion</p>
+        <h2 className={styles.sectionTitle}>Why Choose Amigos</h2>
+        <DottedLines />
 
         <div className={styles.trustedCards}>
           {features.map((feature, idx) => (

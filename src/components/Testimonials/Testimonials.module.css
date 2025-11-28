@@ -367,10 +367,10 @@
 
 .tTrack {
   display: flex;
-  gap: 24px;
+  gap: 1.5rem;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  padding: 24px 8px 32px;
+  padding: 1.5rem 0.5rem 2rem;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: thin;
@@ -409,36 +409,20 @@
 
 .tCard {
   scroll-snap-align: start;
-  min-width: 400px;
-  max-width: 400px;
+  min-width: 280px;
+  max-width: 280px;
   background: 
-    repeating-linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 0.03) 0px,
-      transparent 1px,
-      transparent 2px,
-      rgba(255, 255, 255, 0.03) 3px
-    ),
-    repeating-linear-gradient(
-      0deg,
-      rgba(0, 0, 0, 0.02) 0px,
-      transparent 1px,
-      transparent 2px,
-      rgba(0, 0, 0, 0.02) 3px
-    ),
     linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(245, 240, 255, 0.98) 100%);
   backdrop-filter: blur(10px);
-  border: 3px dashed rgba(100, 80, 60, 0.4);
-  border-radius: 20px;
+  border: 2px solid rgba(100, 80, 60, 0.2);
+  border-radius: 16px;
   box-shadow: 
-    0 6px 24px rgba(0, 0, 0, 0.12),
-    0 2px 6px rgba(0, 0, 0, 0.06),
-    inset 0 1px 2px rgba(255, 255, 255, 0.8),
-    inset 0 -1px 2px rgba(0, 0, 0, 0.05);
-  padding: 24px;
+    0 4px 16px rgba(0, 0, 0, 0.1),
+    0 2px 4px rgba(0, 0, 0, 0.06);
+  padding: 1.25rem;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 0.875rem;
   transform: rotate(0deg);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
@@ -450,46 +434,41 @@
 .tCard::before {
   content: '✓';
   position: absolute;
-  top: -8px;
-  right: 24px;
-  width: 32px;
-  height: 32px;
+  top: -6px;
+  right: 16px;
+  width: 24px;
+  height: 24px;
   background: linear-gradient(135deg, rgba(139, 92, 246, 0.9) 0%, rgba(124, 58, 237, 0.9) 100%);
-  border: 2px dashed rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.6);
   border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
-  font-size: 16px;
+  font-size: 12px;
   font-weight: bold;
-  box-shadow: 
-    0 3px 8px rgba(0, 0, 0, 0.2),
-    inset 0 1px 1px rgba(255, 255, 255, 0.3);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .tCard::after {
   content: '💬';
   position: absolute;
-  top: 18px;
-  right: 20px;
-  font-size: 28px;
-  opacity: 0.15;
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+  top: 12px;
+  right: 12px;
+  font-size: 20px;
+  opacity: 0.1;
 }
 
 .tCard:hover::after {
-  opacity: 0.25;
+  opacity: 0.2;
 }
 
 .tCard:hover {
-  transform: translateY(-6px);
+  transform: translateY(-4px);
   box-shadow: 
-    0 10px 32px rgba(0, 0, 0, 0.14),
-    0 4px 8px rgba(0, 0, 0, 0.08),
-    inset 0 1px 2px rgba(255, 255, 255, 0.8),
-    inset 0 -1px 2px rgba(0, 0, 0, 0.05);
-  border-width: 3px;
+    0 8px 24px rgba(0, 0, 0, 0.12),
+    0 4px 8px rgba(0, 0, 0, 0.08);
+  border-width: 2px;
 }
 
 .tilt1 { 
@@ -585,30 +564,26 @@
 .tCardHeader {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 0.75rem;
 }
 
 .tAvatar {
-  width: 75px;
-  height: 75px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   object-fit: cover;
   box-shadow: 
-    0 4px 16px rgba(0, 0, 0, 0.15),
-    0 0 0 4px rgba(255, 255, 255, 1),
-    0 0 0 6px rgba(100, 80, 60, 0.3),
-    inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    0 2px 8px rgba(0, 0, 0, 0.12),
+    0 0 0 2px rgba(255, 255, 255, 1);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   flex-shrink: 0;
-  border: 2px solid rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.8);
 }
 
 .tCard:hover .tAvatar {
   box-shadow: 
-    0 6px 20px rgba(0, 0, 0, 0.18),
-    0 0 0 4px rgba(255, 255, 255, 1),
-    0 0 0 7px rgba(100, 80, 60, 0.4),
-    inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    0 4px 12px rgba(0, 0, 0, 0.15),
+    0 0 0 2px rgba(255, 255, 255, 1);
   transform: scale(1.05);
 }
 
@@ -620,8 +595,8 @@
 .tName {
   color: #1e293b;
   font-weight: 700;
-  font-size: 18px;
-  margin: 0 0 3px;
+  font-size: 0.95rem;
+  margin: 0 0 2px;
   line-height: 1.3;
   text-shadow: none;
   filter: none;
@@ -629,7 +604,7 @@
 
 .tRole {
   color: #64748b;
-  font-size: 13px;
+  font-size: 0.75rem;
   font-weight: 500;
   margin: 0;
   line-height: 1.4;
@@ -639,20 +614,20 @@
 .tBody {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 0.5rem;
 }
 
 .tStars {
   color: #FFB23D;
-  letter-spacing: 2px;
-  font-size: 14px;
+  letter-spacing: 1px;
+  font-size: 0.875rem;
   filter: drop-shadow(0 1px 2px rgba(255, 178, 61, 0.3));
 }
 
 .tText {
   color: #475569;
-  font-size: 14px;
-  line-height: 1.6;
+  font-size: 0.875rem;
+  line-height: 1.5;
   margin: 0;
   font-weight: 400;
 }
@@ -919,5 +894,213 @@
   /* Slightly larger offset on smaller phones if header is taller */
   .videoSection {
     scroll-margin-top: 92px;
+  }
+}
+
+/* Success Stories Section */
+.successStoriesSection {
+  margin-bottom: 4rem;
+}
+
+.successStoriesGrid {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.successStoriesGrid {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 1.5rem 0.5rem 2rem;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 122, 0, 0.4) rgba(0, 0, 0, 0.05);
+}
+
+.successStoriesGrid::-webkit-scrollbar {
+  height: 8px;
+}
+
+.successStoriesGrid::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  margin: 0 20px;
+}
+
+.successStoriesGrid::-webkit-scrollbar-thumb {
+  background: rgba(255, 122, 0, 0.6);
+  border-radius: 10px;
+}
+
+.successStoriesGrid::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 122, 0, 0.8);
+}
+
+.successStoryCard {
+  scroll-snap-align: start;
+  min-width: 320px;
+  max-width: 320px;
+  background: linear-gradient(145deg, rgba(248, 249, 250, 0.95), rgba(241, 243, 245, 0.95));
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid rgba(230, 230, 230, 0.5);
+  flex-shrink: 0;
+}
+
+[data-theme="dark"] .successStoryCard {
+  background: linear-gradient(145deg, rgba(15, 25, 45, 0.95), rgba(20, 32, 55, 0.95));
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+.successStoryCard:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 24px rgba(255, 87, 34, 0.2);
+}
+
+[data-theme="dark"] .successStoryCard:hover {
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.7);
+}
+
+.storyVideoContainer {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  background: #000;
+}
+
+.storyVideoFrame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.storyDetails {
+  padding: 1rem;
+}
+
+.storyHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.storyRankBadge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(135deg, #FF7A00, #FF5722);
+  padding: 0.375rem 0.75rem;
+  border-radius: 10px;
+  min-width: 60px;
+}
+
+[data-theme="dark"] .storyRankBadge {
+  background: linear-gradient(135deg, #D4AF37, #FFE17B);
+}
+
+.storyRankText {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  line-height: 1;
+}
+
+[data-theme="dark"] .storyRankText {
+  color: #0a1628;
+}
+
+.storyYear {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1;
+}
+
+[data-theme="dark"] .storyYear {
+  color: rgba(10, 22, 40, 0.8);
+}
+
+.storyName {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1A1A1A;
+  margin: 0;
+  line-height: 1.3;
+}
+
+[data-theme="dark"] .storyName {
+  color: #FFFFFF;
+}
+
+.storyText {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: #5D6670;
+  margin-bottom: 0.75rem;
+}
+
+[data-theme="dark"] .storyText {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.storyStats {
+  display: flex;
+  gap: 1.25rem;
+}
+
+.storyStat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.storyStatLabel {
+  font-size: 0.7rem;
+  color: #9CA3AF;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.storyStatValue {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #FF7A00;
+}
+
+[data-theme="dark"] .storyStatValue {
+  color: #D4AF37;
+}
+
+/* Student Testimonials Section */
+.studentTestimonialsSection {
+  margin-top: 4rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .successStoriesGrid {
+    padding: 1rem 0.5rem 1.5rem;
+  }
+  
+  .successStoryCard {
+    min-width: 280px;
+    max-width: 280px;
+  }
+  
+  .storyHeader {
+    flex-wrap: wrap;
+  }
+  
+  .storyStats {
+    gap: 1rem;
   }
 }

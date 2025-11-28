@@ -1,6 +1,7 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import CommunityForum from '@/components/CommunityForum';
 
 export default function ResourcesPageContent() {
   const [activeTab, setActiveTab] = useState('study-materials');
@@ -12,7 +13,16 @@ export default function ResourcesPageContent() {
     { id: 'videos', name: 'Video Lectures' },
     { id: 'faculty-columns', name: 'Faculty Columns' },
     { id: 'exam-updates', name: 'Exam Updates' },
+    { id: 'community-forum', name: 'Community Forum' },
   ];
+
+  // Handle hash navigation on mount
+  useEffect(() => {
+    const hash = window.location.hash.slice(1);
+    if (hash && tabs.some(tab => tab.id === hash)) {
+      setActiveTab(hash);
+    }
+  }, []);
 
   return (
     <div>
@@ -56,6 +66,7 @@ export default function ResourcesPageContent() {
             {activeTab === 'videos' && <VideosTab />}
             {activeTab === 'faculty-columns' && <FacultyColumnsTab />}
             {activeTab === 'exam-updates' && <ExamUpdatesTab />}
+            {activeTab === 'community-forum' && <CommunityForumTab />}
           </div>
         </div>
       </section>
@@ -214,7 +225,7 @@ function FacultyColumnsTab() {
   ];
 
   return (
-    <div className="space-y-6">
+    <div id="faculty-columns" className="space-y-6">
       {columns.map((column, index) => (
         <div key={index} className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
           <span className="inline-block px-3 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400 rounded-full text-sm font-medium mb-3">
@@ -286,4 +297,8 @@ function ExamUpdatesTab() {
       ))}
     </div>
   );
+}
+
+function CommunityForumTab() {
+  return <CommunityForum />;
 }

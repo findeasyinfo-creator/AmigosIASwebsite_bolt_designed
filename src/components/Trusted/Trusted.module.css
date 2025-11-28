@@ -80,11 +80,11 @@
 }
 
   [data-theme="light"] .trustCard {
-    background: rgba(255, 255, 255, 0.95);
-    border: 1px solid rgba(255, 87, 34, 0.2);
+    background: linear-gradient(145deg, rgba(255, 248, 240, 0.95), rgba(255, 243, 230, 0.95));
+    border: 2px solid rgba(255, 87, 34, 0.2);
     box-shadow: 
-      0 8px 32px rgba(255, 87, 34, 0.15),
-      0 2px 8px rgba(255, 152, 0, 0.1);
+      0 12px 40px rgba(255, 87, 34, 0.15),
+      0 0 0 1px rgba(255, 122, 0, 0.1) inset;
   }
 
 .trustCard::before {
@@ -114,8 +114,8 @@
   [data-theme="light"] .trustCard:hover {
     border-color: rgba(255, 87, 34, 0.4);
     box-shadow: 
-      0 12px 48px rgba(255, 87, 34, 0.25),
-      0 4px 16px rgba(255, 152, 0, 0.2);
+      0 18px 60px rgba(255, 87, 34, 0.25),
+      0 0 0 1px rgba(255, 122, 0, 0.3) inset;
   }
 
 .thumbWrap {
@@ -145,6 +145,16 @@
   transition: all 0.3s ease;
 }
 
+[data-theme="light"] .thumb {
+  background: 
+    radial-gradient(ellipse at 50% 40%, rgba(255, 122, 0, 0.08) 0%, transparent 60%),
+    linear-gradient(145deg, rgba(255, 250, 245, 0.95) 0%, rgba(255, 245, 235, 0.95) 50%, rgba(255, 250, 245, 0.95) 100%);
+  border: 2px solid rgba(255, 87, 34, 0.2);
+  box-shadow: 
+    0 2px 8px rgba(255, 87, 34, 0.1) inset,
+    0 2px 12px rgba(255, 87, 34, 0.15);
+}
+
 .trustCard:hover .thumb {
   border-color: rgba(212, 175, 55, 0.6);
   box-shadow: 
@@ -169,6 +179,16 @@
     drop-shadow(0 8px 16px rgba(0, 0, 0, 0.4))
     drop-shadow(0 0 20px rgba(212, 175, 55, 0.1));
   transition: all 0.3s ease;
+}
+
+[data-theme="light"] .thumb :global(img) {
+  filter: 
+    sepia(0.3)
+    saturate(1.5)
+    hue-rotate(-10deg)
+    brightness(1.05)
+    contrast(1.1)
+    drop-shadow(0 4px 12px rgba(255, 87, 34, 0.3));
 }
 
 .trustCard:hover .thumb :global(img) {
@@ -204,16 +224,16 @@
   /* Light theme: orange title text on white cards */
   [data-theme="light"] .trustedSection .trustTitle,
   [data-theme="light"] .trustTitle {
-    color: #FF6A2A;
-    -webkit-text-fill-color: #FF6A2A; /* override global h3 white */
-    background: none;                /* cancel gradient from globals */
-    -webkit-background-clip: initial;
-    background-clip: initial;
+    background: linear-gradient(135deg, #FF5722 0%, #FF7043 50%, #FF8A65 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
     text-shadow: none;
   }
 
   [data-theme="light"] .trustSubtitle {
-    color: #5d4037;
+    color: #D84315;
     text-shadow: none;
   }
 

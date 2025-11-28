@@ -1,8 +1,8 @@
 'use client'
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 import Image from 'next/image'
 import styles from './Testimonials.module.css'
-import { useYouTubeAutoPause } from '@/hooks/useYouTubeAutoPause'
+import DottedLines from '@/components/DottedLines'
 
 const testimonials = [
   {
@@ -88,63 +88,75 @@ const successStories = [
 
 export default function Testimonials() {
   const trackRef = useRef<HTMLDivElement>(null)
-  const [selectedStory, setSelectedStory] = useState(successStories[0])
-
-  // Setup auto-pause for testimonials video
-  const { containerRef } = useYouTubeAutoPause(
-    selectedStory.videoId,
-    'testimonial-video-player'
-  )
-
-  const handleTestimonialClick = (testimonial: { name: string }) => {
-    const matched = successStories.find((s) => s.name === testimonial.name)
-    if (matched) {
-      setSelectedStory(matched)
-    }
-    // Scroll to the video section for better visibility
-    if (typeof window !== 'undefined') {
-      const el = document.getElementById('student-video')
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'center' })
-      }
-    }
-  }
-
-  const scroll = (direction: number) => {
-    if (trackRef.current) {
-      const cardWidth = trackRef.current.querySelector(`.${styles.tCard}`)?.clientWidth || 300
-      trackRef.current.scrollBy({ left: direction * (cardWidth + 18), behavior: 'smooth' })
-    }
-  }
 
   return (
     <section className={styles.testimonialsSection}>
       <div className={styles.container}>
-        <h2 className={styles.sectionTitle}>Success Stories & Testimonials</h2>
-        <p className={styles.sectionSubtitle}>See our students success stories</p>
+        {/* Success Stories Section */}
+        <div className={styles.successStoriesSection}>
+          <h2 className={styles.sectionTitle}>Success Stories</h2>
+          
+          <DottedLines />
 
-        {/* Wrapper to allow mobile-only order swap */}
-        <div className={styles.swapWrap}>
-          {/* Testimonials Carousel Block */}
+          {/* Combined Success Story Cards (Video + Text) */}
+          <div className={styles.successStoriesGrid}>
+            {successStories.map((story, index) => (
+              <div key={story.id} className={styles.successStoryCard}>
+                {/* Video Thumbnail/Player */}
+                <div className={styles.storyVideoContainer}>
+                  <iframe
+                    src={`https://www.youtube.com/embed/${story.videoId}?rel=0&modestbranding=1`}
+                    title={`${story.name} UPSC Journey`}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                    className={styles.storyVideoFrame}
+                    loading="lazy"
+                  ></iframe>
+                </div>
+                
+                {/* Story Details */}
+                <div className={styles.storyDetails}>
+                  <div className={styles.storyHeader}>
+                    <div className={styles.storyRankBadge}>
+                      <span className={styles.storyRankText}>{story.rank}</span>
+                      <span className={styles.storyYear}>{story.year}</span>
+                    </div>
+                    <h3 className={styles.storyName}>{story.name}</h3>
+                  </div>
+                  <p className={styles.storyText}>{story.story}</p>
+                  <div className={styles.storyStats}>
+                    <div className={styles.storyStat}>
+                      <span className={styles.storyStatLabel}>Journey</span>
+                      <span className={styles.storyStatValue}>{story.journey}</span>
+                    </div>
+                    <div className={styles.storyStat}>
+                      <span className={styles.storyStatLabel}>Attempt</span>
+                      <span className={styles.storyStatValue}>{story.attempt}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Student Testimonials Section */}
+        <div className={styles.studentTestimonialsSection}>
+          <h2 className={styles.sectionTitle} style={{ marginTop: '4rem' }}>Student Testimonials</h2>
+          
+          <DottedLines />
+
+          {/* Testimonials Carousel */}
           <div className={styles.carouselBlock}>
-            <h3 className={styles.carouselTitle}>What Our Toppers Say</h3>
-            <p className={styles.clickNote}>💡 Tap a card to watch their success story</p>
             <div className={styles.tCarousel}>
               <div className={styles.tTrack} ref={trackRef}>
                 {testimonials.map((testimonial, index) => (
                   <article
                     key={index}
                     className={`${styles.tCard} ${styles[testimonial.tilt]}`}
-                    onClick={() => handleTestimonialClick(testimonial)}
                     tabIndex={0}
-                    role="button"
-                    aria-label={`View ${testimonial.name}'s story`}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault()
-                        handleTestimonialClick(testimonial)
-                      }
-                    }}
+                    role="article"
+                    aria-label={`${testimonial.name}'s testimonial`}
                   >
                     <div className={styles.tCardHeader}>
                       <Image src={testimonial.image} alt={testimonial.name} width={75} height={75} className={styles.tAvatar} />
@@ -161,47 +173,6 @@ export default function Testimonials() {
                     </div>
                   </article>
                 ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Student Journey Video Block */}
-          <div className={`${styles.videoSection} ${styles.videoBlock}`} id="student-video">
-            <h3 className={styles.videoTitle}>Meet Our UPSC Success Stories</h3>
-            <div className={styles.mainDisplay}>
-              <div className={styles.mainVideoContainer} ref={containerRef}>
-                <iframe
-                  key={selectedStory.videoId}
-                  id="testimonial-video-player"
-                  src={`https://www.youtube.com/embed/${selectedStory.videoId}?enablejsapi=1&rel=0&modestbranding=1`}
-                  title={`${selectedStory.name} UPSC Journey`}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                  className={styles.mainVideoFrame}
-                  loading="lazy"
-                ></iframe>
-              </div>
-              <div className={styles.mainInfo}>
-                <div className={styles.mainRankBadge}>
-                  <span className={styles.mainRankText}>{selectedStory.rank}</span>
-                  <span className={styles.mainRankYear}>{selectedStory.year}</span>
-                </div>
-                <h4 className={styles.mainName}>{selectedStory.name}</h4>
-                <p className={styles.mainStory}>{selectedStory.story}</p>
-                <div className={styles.mainStats}>
-                  <div className={styles.mainStat}>
-                    <span className={styles.mainStatNumber}>{selectedStory.journey}</span>
-                    <span className={styles.mainStatLabel}>Journey</span>
-                  </div>
-                  <div className={styles.mainStat}>
-                    <span className={styles.mainStatNumber}>{selectedStory.rank}</span>
-                    <span className={styles.mainStatLabel}>Final Rank</span>
-                  </div>
-                  <div className={styles.mainStat}>
-                    <span className={styles.mainStatNumber}>{selectedStory.attempt}</span>
-                    <span className={styles.mainStatLabel}>Attempt</span>
-                  </div>
-                </div>
               </div>
             </div>
           </div>

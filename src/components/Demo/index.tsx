@@ -2,6 +2,7 @@
 import styles from './Demo.module.css';
 import { useState } from 'react';
 import { useYouTubeAutoPause } from '@/hooks/useYouTubeAutoPause';
+import DottedLines from '@/components/DottedLines';
 
 export default function Demo() {
   const [playingCard, setPlayingCard] = useState<number | null>(null);
@@ -46,7 +47,9 @@ export default function Demo() {
     <section className={styles.demoSection}>
       <div className={styles.container}>
         <h2 className={styles.sectionTitle}>Demo Content Section</h2>
-        <p className={styles.sectionSubtitle}>Watch Our Free Demo Videos & Get Started</p>
+        
+        <DottedLines />
+        
         <div className={styles.demoGrid}>
           {demoVideos.map((video, index) => (
             <div key={index} className={styles.demoCard}>
@@ -102,7 +105,7 @@ export default function Demo() {
           ))}
         </div>
         <div className={styles.demoAction}>
-          <button className={styles.exploreBtn}>Explore All Videos</button>
+          <a href="/resources" className={styles.exploreBtn}>Explore All Videos</a>
         </div>
       </div>
     </section>

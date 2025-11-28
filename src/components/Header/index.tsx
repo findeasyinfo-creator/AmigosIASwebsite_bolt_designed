@@ -6,6 +6,9 @@ import Link from 'next/link'
 import styles from './Header.module.css'
 import { useTheme } from '@/app/ThemeProvider'
 
+// Feature flag: toggle About Us submenu visibility without deleting code
+const SHOW_ABOUT_SUBMENU = false
+
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [aboutDropdownOpen, setAboutDropdownOpen] = useState(false)
@@ -21,6 +24,7 @@ export default function Header() {
 
   // Close dropdown only on outside click or Escape
   useEffect(() => {
+    if (!SHOW_ABOUT_SUBMENU) return
     const handleClickOutside = (e: MouseEvent) => {
       if (!aboutDropdownOpen) return
       if (aboutRef.current && !aboutRef.current.contains(e.target as Node)) {
@@ -50,18 +54,20 @@ export default function Header() {
           <div className={styles.navItem} ref={aboutRef}>
             <div className={styles.navLinkGroup}>
               <Link href="/about" className={`${styles.navLink} ${pathname.startsWith('/about') ? styles.active : ''}`}>About Us</Link>
-              <button
-                type="button"
-                className={styles.arrowButton}
-                aria-haspopup="true"
-                aria-expanded={aboutDropdownOpen}
-                aria-label={aboutDropdownOpen ? 'Hide About submenu' : 'Show About submenu'}
-                onClick={() => setAboutDropdownOpen(!aboutDropdownOpen)}
-              >
-                <span className={`${styles.arrow} ${aboutDropdownOpen ? styles.arrowOpen : ''}`}>▼</span>
-              </button>
+              {SHOW_ABOUT_SUBMENU && (
+                <button
+                  type="button"
+                  className={styles.arrowButton}
+                  aria-haspopup="true"
+                  aria-expanded={aboutDropdownOpen}
+                  aria-label={aboutDropdownOpen ? 'Hide About submenu' : 'Show About submenu'}
+                  onClick={() => setAboutDropdownOpen(!aboutDropdownOpen)}
+                >
+                  <span className={`${styles.arrow} ${aboutDropdownOpen ? styles.arrowOpen : ''}`}>▼</span>
+                </button>
+              )}
             </div>
-            {aboutDropdownOpen && (
+            {SHOW_ABOUT_SUBMENU && aboutDropdownOpen && (
               <div className={styles.dropdown}>
                 <Link
                   href="/about/faculty"
@@ -136,17 +142,19 @@ export default function Header() {
                 >
                   About Us
                 </Link>
-                <button 
-                  type="button"
-                  className={styles.mobileArrowToggle}
-                  aria-label={mobileAboutOpen ? 'Hide About submenu' : 'Show About submenu'}
-                  aria-expanded={mobileAboutOpen}
-                  onClick={() => setMobileAboutOpen(!mobileAboutOpen)}
-                >
-                  <span className={`${styles.mobileArrow} ${mobileAboutOpen ? styles.mobileArrowOpen : ''}`}>▼</span>
-                </button>
+                {SHOW_ABOUT_SUBMENU && (
+                  <button 
+                    type="button"
+                    className={styles.mobileArrowToggle}
+                    aria-label={mobileAboutOpen ? 'Hide About submenu' : 'Show About submenu'}
+                    aria-expanded={mobileAboutOpen}
+                    onClick={() => setMobileAboutOpen(!mobileAboutOpen)}
+                  >
+                    <span className={`${styles.mobileArrow} ${mobileAboutOpen ? styles.mobileArrowOpen : ''}`}>▼</span>
+                  </button>
+                )}
               </div>
-              {mobileAboutOpen && (
+              {SHOW_ABOUT_SUBMENU && mobileAboutOpen && (
                 <div className={styles.mobileSubmenu}>
                   <Link href="/about/faculty" className={`${styles.mobileSubmenuItem} ${pathname === '/about/faculty' ? styles.active : ''}`} onClick={() => setMobileMenuOpen(false)}>Faculty</Link>
                   <Link href="/about/results" className={`${styles.mobileSubmenuItem} ${pathname === '/about/results' ? styles.active : ''}`} onClick={() => setMobileMenuOpen(false)}>Results</Link>

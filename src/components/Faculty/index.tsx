@@ -2,6 +2,7 @@
 import styles from './Faculty.module.css';
 import { useState } from 'react';
 import { useYouTubeAutoPause } from '@/hooks/useYouTubeAutoPause';
+import DottedLines from '@/components/DottedLines';
 
 function parseYouTubeId(url: string): string | null {
   try {
@@ -70,8 +71,9 @@ export default function Faculty() {
   return (
     <section className={styles.facultySection}>
       <div className={styles.container}>
-        <h2 className={styles.sectionTitle}>Our Faculty</h2>
-        <p className={styles.sectionSubtitle}>Learn from India's Top UPSC Experts</p>
+        <h2 className={styles.sectionTitle}>Listen to the eminent personalities</h2>
+        
+        <DottedLines />
         
         <div className={styles.facultyGrid}>
           {facultyMembers.map((faculty, index) => (
@@ -169,8 +171,8 @@ export default function Faculty() {
         </div>
         
         <div className={styles.viewAllButton}>
-          <a href="/about/faculty" className={styles.viewAllFacultyBtn}>
-            View All Faculty
+          <a href="/resources#faculty-columns" className={styles.viewAllFacultyBtn}>
+            View More
             <span className={styles.buttonArrow}>→</span>
           </a>
         </div>

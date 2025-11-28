@@ -34,6 +34,11 @@ export default function RootLayout({
         t = 'light';
       }
       document.documentElement.setAttribute('data-theme', t);
+      if (t === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
     } catch (e) {}
   })();`
   return (

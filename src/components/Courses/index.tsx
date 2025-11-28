@@ -1,6 +1,7 @@
 'use client'
 import Image from 'next/image';
 import styles from './Courses.module.css';
+import DottedLines from '@/components/DottedLines';
 
 export default function Courses() {
   const courses = [
@@ -47,6 +48,8 @@ export default function Courses() {
         <h2 className={styles.sectionTitle}>Our Courses</h2>
         <p className={styles.sectionSubtitle}>Comprehensive UPSC Programs</p>
         
+        <DottedLines />
+        
         <div className={styles.coursesWrapper}>
           <div className={styles.coursesContainer}>
             <div className={styles.coursesGrid}>
@@ -86,14 +89,45 @@ export default function Courses() {
               ))}
             </div>
           </div>
+          {/* Mobile-only UPSC emblem below carousel (theme-specific) */}
+          <div className={styles.upscEmblemMobile}>
+            {/* Light theme emblem */}
+            <Image
+              src="/assets/torch light theme.png"
+              alt="UPSC Emblem Light"
+              width={280}
+              height={560}
+              className={`${styles.emblemLight}`}
+              priority
+            />
+            {/* Dark theme emblem */}
+            <Image
+              src="/assets/torch dark theme.png"
+              alt="UPSC Emblem Dark"
+              width={280}
+              height={560}
+              className={`${styles.emblemDark}`}
+              priority
+            />
+          </div>
           
           <div className={styles.upscEmblemCard}>
+            {/* Light theme emblem */}
             <Image 
-              src="/assets/upsc-emblem.png" 
-              alt="UPSC Journey" 
+              src="/assets/torch light theme.png" 
+              alt="UPSC Journey Light" 
               width={280} 
               height={560}
-              className={styles.emblemImage}
+              className={`${styles.emblemImage} ${styles.emblemLight}`}
+              priority
+            />
+            {/* Dark theme emblem */}
+            <Image 
+              src="/assets/torch dark theme.png" 
+              alt="UPSC Journey Dark" 
+              width={280} 
+              height={560}
+              className={`${styles.emblemImage} ${styles.emblemDark}`}
               priority
             />
           </div>

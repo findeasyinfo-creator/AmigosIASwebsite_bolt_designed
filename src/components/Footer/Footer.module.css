@@ -16,7 +16,7 @@
 }
 
 .footerMain {
-  padding: 3rem 1rem;
+  padding: 2.5rem 1rem;
 }
 
 .footerContainer {
@@ -24,13 +24,13 @@
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 2fr;
-  gap: 3rem;
+  gap: 2rem;
 }
 
 .footerBrand {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
 .footerLogo {
@@ -44,8 +44,8 @@
 }
 
 .footerDescription {
-  font-size: 0.95rem;
-  line-height: 1.6;
+  font-size: 0.9rem;
+  line-height: 1.5;
   color: rgba(255, 255, 255, 0.8);
   max-width: 300px;
 }
@@ -56,7 +56,7 @@
 
 .socialIcons {
   display: flex;
-  gap: 1rem;
+  gap: 0.75rem;
 }
 
 .socialIcons a {
@@ -81,25 +81,32 @@
 .footerLinks {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
+  gap: 1.5rem;
 }
 
 .footerColumn {
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
+  gap: 0.6rem;
 }
 
 .footerColumn h4 {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: white;
-  margin-bottom: 0.5rem;
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: #FFE17B; /* brighter in dark theme */
+  margin-bottom: 0.4rem;
   font-family: 'Poppins', sans-serif;
+  letter-spacing: 0.02em;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.25);
 }
 
 [data-theme="light"] .footerColumn h4 {
-  color: #FFFFFF;
+  color: #FF7A1A !important; /* bright orange for visibility */
+  -webkit-text-fill-color: #FF7A1A !important;
+  background: none !important;
+  -webkit-background-clip: initial !important;
+  background-clip: initial !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.18);
 }
 
 .footerColumn a {
@@ -111,7 +118,7 @@
 
 .footerColumn a:hover {
   color: var(--soft-amber);
-  padding-left: 5px;
+  padding-left: 3px;
 }
 
 [data-theme="light"] .footerColumn a {
@@ -135,7 +142,7 @@
 
 .footerBottom {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 1.5rem 1rem;
+  padding: 1.25rem 1rem;
   text-align: center;
 }
 
@@ -173,12 +180,12 @@
 /* Mobile Responsive */
 @media (max-width: 768px) {
   .footerMain {
-    padding: 2rem 1rem;
+    padding: 1.75rem 1rem;
   }
 
   .footerContainer {
     grid-template-columns: 1fr;
-    gap: 2rem;
+    gap: 1.5rem;
   }
 
   .footerBrand {
@@ -196,7 +203,7 @@
 
   .footerLinks {
     grid-template-columns: 1fr;
-    gap: 2rem;
+    gap: 1.25rem;
     text-align: center;
   }
 
@@ -205,11 +212,11 @@
   }
 
   .footerBottom {
-    padding: 1.25rem 1rem;
+    padding: 1rem 1rem;
   }
 
   .footerBottom p {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
   }
 }
 
