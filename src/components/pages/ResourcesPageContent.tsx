@@ -169,111 +169,61 @@ function StrategyTab() {
 }
 
 function PYQTab() {
+  const papers = [
+    { year: 2024, stage: 'Prelims', title: 'General Studies Paper I', stats: '100 Questions • 2.5 MB' },
+    { year: 2024, stage: 'Mains', title: 'Essay Paper', stats: '2 Questions • 1.2 MB' },
+    { year: 2023, stage: 'Prelims', title: 'General Studies Paper I', stats: '100 Questions • 2.4 MB' },
+  ];
+
   return (
-    <div className="py-8">
-      <h2 className="text-2xl font-bold mb-8 text-center text-gray-900 dark:text-white">Previous Year Papers</h2>
+    <div id="pyq" className="py-8" aria-labelledby="pyq-heading">
+      <h2 id="pyq-heading" className="text-2xl font-bold mb-8 text-center text-gray-900 dark:text-white">Previous Year Papers</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {/* Paper 1 */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border">
-          <div className="flex items-center justify-between mb-4">
-            <span className="bg-orange-500 text-white px-4 py-2 rounded-lg font-bold">2024</span>
-            <span className="bg-orange-100 text-orange-600 px-3 py-1 rounded-full text-sm">Prelims</span>
+        {papers.map((p, i) => (
+          <div key={`${p.year}-${p.stage}-${i}`} className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border focus-within:ring-2 focus-within:ring-orange-500" role="group" aria-label={`${p.year} ${p.stage} ${p.title}`}>
+            <div className="flex items-center justify-between mb-4">
+              <span className="bg-orange-500 text-white px-4 py-2 rounded-lg font-bold" aria-label={`Year ${p.year}`}>{p.year}</span>
+              <span className="bg-orange-100 text-orange-600 px-3 py-1 rounded-full text-sm" aria-label={`Stage ${p.stage}`}>{p.stage}</span>
+            </div>
+            <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">{p.title}</h3>
+            <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">{p.stats}</p>
+            <div className="flex gap-2">
+              <button className="flex-1 bg-orange-500 text-white py-2 px-4 rounded-lg font-medium" aria-label={`Download ${p.title}`}>Download</button>
+              <button className="flex-1 border border-orange-500 text-orange-500 py-2 px-4 rounded-lg font-medium" aria-label={`View ${p.title}`}>View</button>
+            </div>
           </div>
-          <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">General Studies Paper I</h3>
-          <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">100 Questions • 2.5 MB</p>
-          <div className="flex gap-2">
-            <button className="flex-1 bg-orange-500 text-white py-2 px-4 rounded-lg font-medium">Download</button>
-            <button className="flex-1 border border-orange-500 text-orange-500 py-2 px-4 rounded-lg font-medium">View</button>
-          </div>
-        </div>
-
-        {/* Paper 2 */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border">
-          <div className="flex items-center justify-between mb-4">
-            <span className="bg-orange-500 text-white px-4 py-2 rounded-lg font-bold">2024</span>
-            <span className="bg-orange-100 text-orange-600 px-3 py-1 rounded-full text-sm">Mains</span>
-          </div>
-          <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">Essay Paper</h3>
-          <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">2 Questions • 1.2 MB</p>
-          <div className="flex gap-2">
-            <button className="flex-1 bg-orange-500 text-white py-2 px-4 rounded-lg font-medium">Download</button>
-            <button className="flex-1 border border-orange-500 text-orange-500 py-2 px-4 rounded-lg font-medium">View</button>
-          </div>
-        </div>
-
-        {/* Paper 3 */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border">
-          <div className="flex items-center justify-between mb-4">
-            <span className="bg-orange-500 text-white px-4 py-2 rounded-lg font-bold">2023</span>
-            <span className="bg-orange-100 text-orange-600 px-3 py-1 rounded-full text-sm">Prelims</span>
-          </div>
-          <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">General Studies Paper I</h3>
-          <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">100 Questions • 2.4 MB</p>
-          <div className="flex gap-2">
-            <button className="flex-1 bg-orange-500 text-white py-2 px-4 rounded-lg font-medium">Download</button>
-            <button className="flex-1 border border-orange-500 text-orange-500 py-2 px-4 rounded-lg font-medium">View</button>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   );
 }
 
 function VideosTab() {
+  const videos = [
+    { title: 'Introduction to Indian Polity', duration: '45:30', faculty: 'Dr. Amit Verma', views: '12.5K', theme: 'from-blue-500 to-purple-600' },
+    { title: 'Economic Survey 2025', duration: '38:15', faculty: 'Ms. Priya Singh', views: '8.2K', theme: 'from-green-500 to-teal-600' },
+    { title: 'Modern Indian History', duration: '52:40', faculty: 'Dr. Rajesh Kumar', views: '15.3K', theme: 'from-orange-500 to-red-600' },
+  ];
+
   return (
-    <div className="py-8">
-      <h2 className="text-2xl font-bold mb-8 text-center text-gray-900 dark:text-white">Video Lectures</h2>
+    <div id="videos" className="py-8" aria-labelledby="videos-heading">
+      <h2 id="videos-heading" className="text-2xl font-bold mb-8 text-center text-gray-900 dark:text-white">Video Lectures</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {/* Video 1 */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg border">
-          <div className="h-48 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center relative">
-            <div className="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center">
-              <svg className="w-8 h-8 text-orange-600 ml-1" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M8 5v14l11-7z" />
-              </svg>
+        {videos.map((v, i) => (
+          <div key={`${v.title}-${i}`} className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg border focus-within:ring-2 focus-within:ring-orange-500" role="group" aria-label={`${v.title} video`}>
+            <div className={`h-48 bg-gradient-to-br ${v.theme} flex items-center justify-center relative`}>
+              <div className="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center">
+                <svg className="w-8 h-8 text-orange-600 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+              </div>
+              <span className="absolute bottom-2 right-2 bg-black/80 text-white px-2 py-1 rounded text-sm" aria-label={`Duration ${v.duration}`}>{v.duration}</span>
             </div>
-            <span className="absolute bottom-2 right-2 bg-black/80 text-white px-2 py-1 rounded text-sm">45:30</span>
-          </div>
-          <div className="p-4">
-            <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">Introduction to Indian Polity</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">Dr. Amit Verma • 12.5K views</p>
-            <button className="w-full bg-orange-500 text-white py-2 px-4 rounded-lg font-medium">Watch Now</button>
-          </div>
-        </div>
-
-        {/* Video 2 */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg border">
-          <div className="h-48 bg-gradient-to-br from-green-500 to-teal-600 flex items-center justify-center relative">
-            <div className="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center">
-              <svg className="w-8 h-8 text-orange-600 ml-1" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M8 5v14l11-7z" />
-              </svg>
+            <div className="p-4">
+              <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">{v.title}</h3>
+              <p className="text-sm text-gray-600 dark:text-gray-400 mb-3" aria-label={`Faculty ${v.faculty} • ${v.views} views`}>{v.faculty} • {v.views} views</p>
+              <button className="w-full bg-orange-500 text-white py-2 px-4 rounded-lg font-medium" aria-label={`Watch ${v.title} now`}>Watch Now</button>
             </div>
-            <span className="absolute bottom-2 right-2 bg-black/80 text-white px-2 py-1 rounded text-sm">38:15</span>
           </div>
-          <div className="p-4">
-            <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">Economic Survey 2025</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">Ms. Priya Singh • 8.2K views</p>
-            <button className="w-full bg-orange-500 text-white py-2 px-4 rounded-lg font-medium">Watch Now</button>
-          </div>
-        </div>
-
-        {/* Video 3 */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg border">
-          <div className="h-48 bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center relative">
-            <div className="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center">
-              <svg className="w-8 h-8 text-orange-600 ml-1" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M8 5v14l11-7z" />
-              </svg>
-            </div>
-            <span className="absolute bottom-2 right-2 bg-black/80 text-white px-2 py-1 rounded text-sm">52:40</span>
-          </div>
-          <div className="p-4">
-            <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">Modern Indian History</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">Dr. Rajesh Kumar • 15.3K views</p>
-            <button className="w-full bg-orange-500 text-white py-2 px-4 rounded-lg font-medium">Watch Now</button>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   );
