@@ -29,7 +29,7 @@ export default function ScrollAnimations() {
     
     // Make first section (hero) immediately visible on all pages
     if (sections.length > 0) {
-      const heroSection = sections[0]
+      const heroSection = sections[0] as HTMLElement
       heroSection.classList.add('in-view', 'first-section')
       heroSection.style.opacity = '1'
       heroSection.style.transform = 'translateY(0)'
@@ -37,9 +37,10 @@ export default function ScrollAnimations() {
       // Make all content in hero section immediately visible
       const heroHeadings = heroSection.querySelectorAll('h1, h2, h3, p, div')
       heroHeadings.forEach((element) => {
-        element.classList.add('in-view', 'first-section')
-        element.style.opacity = '1'
-        element.style.transform = 'translateY(0)'
+        const htmlElement = element as HTMLElement
+        htmlElement.classList.add('in-view', 'first-section')
+        htmlElement.style.opacity = '1'
+        htmlElement.style.transform = 'translateY(0)'
       })
     }
     
@@ -59,7 +60,7 @@ export default function ScrollAnimations() {
     
     allItems.forEach((item, index) => {
       const parentSection = item.closest('section')
-      const sectionIndex = Array.from(sections).indexOf(parentSection as Element)
+      const sectionIndex = Array.from(sections).indexOf(parentSection as HTMLElement)
       
       // If item is in the first section (hero), make it immediately visible
       if (sectionIndex === 0) {
@@ -76,7 +77,7 @@ export default function ScrollAnimations() {
     const grids = document.querySelectorAll('[class*="grid"], [class*="Grid"], [class*="list"]')
     grids.forEach((grid) => {
       const parentSection = grid.closest('section')
-      const sectionIndex = Array.from(sections).indexOf(parentSection as Element)
+      const sectionIndex = Array.from(sections).indexOf(parentSection as HTMLElement)
       
       if (sectionIndex === 0) {
         grid.classList.add('in-view', 'first-section')
@@ -91,7 +92,7 @@ export default function ScrollAnimations() {
     const headings = document.querySelectorAll('h1, h2, h3')
     headings.forEach((heading) => {
       const parentSection = heading.closest('section')
-      const sectionIndex = Array.from(sections).indexOf(parentSection as Element)
+      const sectionIndex = Array.from(sections).indexOf(parentSection as HTMLElement)
       
       if (sectionIndex === 0) {
         heading.classList.add('in-view', 'first-section')
