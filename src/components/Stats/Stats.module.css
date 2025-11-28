@@ -191,6 +191,15 @@
     opacity: 1 !important;
     visibility: visible !important;
     transform: none !important;
+    text-align: center;
+  }
+
+  .statNumber {
+    text-align: center;
+  }
+
+  .statLabel {
+    text-align: center;
   }
 
   .iconWrapper {
