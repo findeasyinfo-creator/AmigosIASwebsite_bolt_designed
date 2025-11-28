@@ -317,6 +317,13 @@ section {
   will-change: opacity, transform;
 }
 
+/* Stats section should always be visible - no scroll animation */
+section[class*="statsSection"] {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+
 section.in-view {
   opacity: 1;
   transform: translateY(0);
@@ -338,6 +345,13 @@ section:nth-child(odd).in-view {
   transform: translateY(20px);
   transition: opacity 0.5s ease-out, transform 0.5s ease-out;
   will-change: opacity, transform;
+}
+
+/* Stats cards should always be visible */
+[class*="statCard"] {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
 }
 
 .card.in-view,
