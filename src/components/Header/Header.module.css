@@ -707,10 +707,10 @@
 }
 
 .mobileMenuContent {
-  padding: 1.5rem 1.5rem 1rem 1.5rem;
+  padding: 1.25rem 1.25rem 1rem 1.25rem;
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.35rem;
   position: relative;
   min-height: auto;
 }
@@ -737,14 +737,14 @@
 .mobileMenuContent a {
   color: rgba(255, 255, 255, 0.95);
   text-decoration: none;
-  padding: 0.95rem 1.3rem;
-  border-radius: 14px;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
   transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   font-weight: 500;
-  font-size: 15.5px;
+  font-size: 14px;
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.75rem;
   background: linear-gradient(
     135deg,
     rgba(255, 255, 255, 0.04) 0%,
@@ -799,8 +799,8 @@
 }
 
 .menuIcon {
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
   flex-shrink: 0;
   stroke-width: 2;
   filter: drop-shadow(0 2px 4px rgba(255, 140, 0, 0.3));
@@ -848,15 +848,15 @@
     rgba(255, 255, 255, 0.02) 100%
   );
   border: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 0.95rem 1.3rem;
-  border-radius: 14px;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
   transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   font-weight: 500;
-  font-size: 15.5px;
+  font-size: 14px;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.75rem;
   text-align: left;
   width: 100%;
   backdrop-filter: blur(10px);
@@ -991,6 +991,8 @@
 .mobileActions {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: 10px;
   padding: 1rem 0 0.5rem 0;
   border-top: 1px solid rgba(255, 140, 0, 0.2);
@@ -1024,11 +1026,11 @@
 }
 
 .footerLogo {
-  width: 70px;
-  height: 70px;
+  width: 90px;
+  height: 90px;
   object-fit: contain;
-  opacity: 0.85;
-  filter: drop-shadow(0 4px 12px rgba(255, 140, 0, 0.3));
+  opacity: 0.9;
+  filter: drop-shadow(0 4px 12px rgba(255, 140, 0, 0.4));
   transition: all 0.3s ease;
   animation: gentlePulse 3s ease-in-out infinite;
 }
