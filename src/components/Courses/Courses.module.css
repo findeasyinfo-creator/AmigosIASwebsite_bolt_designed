@@ -328,6 +328,11 @@
   position: relative;
   overflow: hidden;
 }
+[data-theme="dark"] .courseBtn {
+  background: linear-gradient(135deg, #D4AF37 0%, #FFE17B 100%);
+  color: #0a1628;
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.45), inset 0 1px 2px rgba(255,255,255,0.35);
+}
 [data-theme="light"] .courseBtn {
   background: linear-gradient(135deg, #FF6A00, #FF7A1A);
   color: #FFFFFF;
@@ -769,6 +774,14 @@
   width: 100%;
   margin-top: 8px;
 }
+[data-theme="dark"] .exploreCourseBtn {
+  background: linear-gradient(135deg, #D4AF37 0%, #FFE17B 100%);
+  color: #0a1628;
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.35);
+}
+[data-theme="dark"] .exploreCourseBtn:hover {
+  background: linear-gradient(135deg, #FFE17B 0%, #F2C94C 100%);
+}
 
 .exploreCourseBtn:hover {
   transform: translateY(-2px);
@@ -812,6 +825,14 @@
   position: relative;
   overflow: hidden;
   white-space: nowrap;
+}
+[data-theme="dark"] .exploreAllCoursesBtn {
+  background: linear-gradient(135deg, #D4AF37 0%, #FFE17B 100%);
+  color: #0a1628;
+  box-shadow: 0 12px 36px rgba(212, 175, 55, 0.35);
+}
+[data-theme="dark"] .exploreAllCoursesBtn:hover {
+  background: linear-gradient(135deg, #FFE17B 0%, #F2C94C 100%);
 }
 
 .exploreAllCoursesBtn::before {

@@ -404,7 +404,7 @@ export default function CurrentAffairsPageContent() {
           {/* Cards Grid - compact design */}
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 items-stretch">
             {filteredItems.map((item) => (
-              <div key={item.id} className="bg-white/95 dark:bg-gray-800/90 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden h-full flex flex-col">
+              <div key={item.id} className="bg-white/95 dark:bg-gray-900/75 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden h-full flex flex-col">
                 {/* Top image - compact 16:9 aspect */}
                 <div className="w-full aspect-video bg-gradient-to-br from-amber-50 to-orange-50 dark:from-orange-900/20 dark:to-orange-800/20 overflow-hidden">
                   <img
@@ -427,16 +427,16 @@ export default function CurrentAffairsPageContent() {
                     <button
                       type="button"
                       onClick={() => setSelectedItemId(item.id)}
-                      className="text-left hover:text-orange-600 focus:outline-none"
+                      className="ca-title-btn text-left focus:outline-none text-gray-900 dark:text-white hover:text-orange-600 dark:hover:text-orange-300"
                     >{item.title}</button>
                   </h3>
 
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-2 line-clamp-2">{item.summary}</p>
+                  <p className="ca-text text-sm text-gray-600 dark:text-gray-200 mb-2 line-clamp-2">{item.summary}</p>
 
                   <div className="flex items-center justify-between gap-2 mb-2">
                     <div className="flex flex-wrap gap-1.5">
                       {item.topics.slice(0, 3).map((topic, index) => (
-                        <span key={index} className="px-2 py-0.5 bg-gradient-to-br from-amber-100 to-orange-100 text-gray-800 rounded text-xs">
+                        <span key={index} className="ca-chip px-2 py-0.5 bg-gradient-to-br from-amber-100 to-orange-100 text-gray-800 dark:bg-orange-900/30 dark:text-orange-200 rounded text-xs">
                           {topic}
                         </span>
                       ))}
@@ -445,7 +445,7 @@ export default function CurrentAffairsPageContent() {
                     <button
                       type="button"
                       onClick={() => setSelectedItemId(item.id)}
-                      className="text-orange-500 hover:text-orange-600 font-medium text-xs flex items-center whitespace-nowrap shrink-0"
+                      className="ca-read-btn text-orange-500 dark:text-orange-300 hover:text-orange-600 dark:hover:text-orange-200 font-semibold text-xs flex items-center whitespace-nowrap shrink-0"
                     >
                       Read
                       <svg className="w-3 h-3 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -455,7 +455,7 @@ export default function CurrentAffairsPageContent() {
                   </div>
 
                   <div className="mt-2 pt-2 border-t border-gray-200 dark:border-gray-600 mt-auto">
-                    <div className="flex items-center justify-between text-xs text-gray-600 dark:text-gray-400">
+                    <div className="flex items-center justify-between text-xs text-gray-600 dark:text-gray-300">
                       <div className="flex items-center truncate">
                         <svg className="w-3.5 h-3.5 mr-1.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
@@ -530,7 +530,7 @@ export default function CurrentAffairsPageContent() {
                       </div>
                     </div>
                   </div>
-                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-6 whitespace-pre-line">{selectedItem.fullContent}</p>
+                  <p className="ca-text text-gray-700 dark:text-gray-300 leading-relaxed mb-6 whitespace-pre-line">{selectedItem.fullContent}</p>
                   <div className="mb-6">
                     <h3 className="text-lg font-semibold mb-3 text-gray-900 dark:text-white">Key Topics</h3>
                     <div className="flex flex-wrap gap-2">

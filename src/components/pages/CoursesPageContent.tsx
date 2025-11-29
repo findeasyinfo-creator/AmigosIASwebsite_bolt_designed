@@ -209,7 +209,7 @@ export default function CoursesPageContent() {
                     <div className="flex flex-col space-y-2">
                       <button
                         onClick={() => setSelectedCourse(course.id)}
-                        className="text-center bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-150"
+                        className="btnPrimaryOrange"
                       >
                         View More Details
                       </button>
