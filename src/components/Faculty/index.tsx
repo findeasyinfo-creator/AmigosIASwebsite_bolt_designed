@@ -1,5 +1,6 @@
 'use client';
 import styles from './Faculty.module.css';
+import DottedLines from '@/components/DottedLines';
 import { useState } from 'react';
 import { useYouTubeAutoPause } from '@/hooks/useYouTubeAutoPause';
 
@@ -71,6 +72,9 @@ export default function Faculty() {
     <section className={styles.facultySection}>
       <div className={styles.container}>
         <h2 className={styles.sectionTitle}>Listen to the eminent personalities</h2>
+        <div className={styles.dividerGroup}>
+          <DottedLines />
+        </div>
         
         <div className={styles.facultyGrid}>
           {facultyMembers.map((faculty, index) => (

@@ -2,7 +2,6 @@
 import styles from './Demo.module.css';
 import { useState } from 'react';
 import { useYouTubeAutoPause } from '@/hooks/useYouTubeAutoPause';
-import DottedLines from '@/components/DottedLines';
 
 export default function Demo() {
   const [playingCard, setPlayingCard] = useState<number | null>(null);
@@ -47,8 +46,10 @@ export default function Demo() {
     <section className={styles.demoSection}>
       <div className={styles.container}>
         <h2 className={styles.sectionTitle}>Test before you trust</h2>
-        
-        <DottedLines />
+        <p className={styles.demoSubtitle}>
+          Experience our high-quality UPSC learning approach with free demo modules designed to showcase teaching clarity,
+          structured content, and exam-focused guidance. Get instant access and evaluate the difference before you join.
+        </p>
         
         <div className={styles.demoGrid}>
           {demoVideos.map((video, index) => (

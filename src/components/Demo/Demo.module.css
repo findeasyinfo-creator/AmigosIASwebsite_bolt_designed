@@ -48,6 +48,21 @@
   font-weight: 400;
 }
 
+.demoSubtitle {
+  text-align: center;
+  max-width: 960px;
+  margin: 0.75rem auto 2.25rem;
+  font-size: 1.05rem;
+  line-height: 1.55;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.82);
+  letter-spacing: 0.3px;
+}
+
+[data-theme="light"] .demoSubtitle {
+  color: #374151;
+}
+
 .demoGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -247,6 +262,12 @@
     padding: 0 1rem;
   }
 
+  .demoSubtitle {
+    font-size: 0.9375rem;
+    padding: 0 1.25rem;
+    margin-bottom: 1.75rem;
+  }
+
   .demoGrid {
     display: flex;
     overflow-x: auto;
@@ -312,6 +333,12 @@
   .sectionTitle {
     font-size: 1.875rem;
     margin-bottom: 1.5rem;
+  }
+
+  .demoSubtitle {
+    font-size: 0.875rem;
+    margin-bottom: 1.5rem;
+    padding: 0 0.75rem;
   }
 
   .demoGrid {
