@@ -39,13 +39,13 @@ export default function Stats() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  useEffect(() => {
-    if (!isMobile) return;
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % stats.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, [isMobile, stats.length]);
+  // useEffect(() => {
+  //   if (!isMobile) return;
+  //   const interval = setInterval(() => {
+  //     setCurrentIndex((prev) => (prev + 1) % stats.length);
+  //   }, 3000);
+  //   return () => clearInterval(interval);
+  // }, [isMobile, stats.length]);
 
   const goToSlide = (index: number) => {
     setCurrentIndex(index);
@@ -60,13 +60,9 @@ export default function Stats() {
         
         <div className={styles.statsGrid} data-mobile={isMobile}>
           {isMobile ? (
-            <div className={styles.carouselWrapper}>
-              <div 
-                className={styles.carouselTrack}
-                style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-              >
-                {stats.map((stat, index) => (
-                  <div key={index} className={`${styles.statCard} ${index === currentIndex ? styles.activeSlide : ''}`}>
+            <>
+              {stats.map((stat, index) => (
+                <div key={index} className={styles.statCard}>
                     <div className={styles.iconWrapper}>
                       {stat.icon === 'trophy' && (
                         <svg className={styles.icon} viewBox="0 0 576 512" fill="currentColor">
@@ -93,18 +89,7 @@ export default function Stats() {
                     <p className={styles.statLabel}>{stat.label}</p>
                   </div>
                 ))}
-              </div>
-              <div className={styles.carouselIndicators}>
-                {stats.map((_, index) => (
-                  <button
-                    key={index}
-                    className={`${styles.indicator} ${index === currentIndex ? styles.active : ''}`}
-                    onClick={() => goToSlide(index)}
-                    aria-label={`Go to slide ${index + 1}`}
-                  />
-                ))}
-              </div>
-            </div>
+            </>
           ) : (
             stats.map((stat, index) => (
             <div key={index} className={styles.statCard}>

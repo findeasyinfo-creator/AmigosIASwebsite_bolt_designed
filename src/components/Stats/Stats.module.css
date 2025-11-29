@@ -192,25 +192,39 @@
   }
 
   .statsGrid {
-    display: block;
-    overflow: hidden;
+    display: flex;
+    overflow-x: auto;
+    overflow-y: visible;
+    scroll-snap-type: x mandatory;
+    gap: 1.5rem;
+    padding: 1rem 1.5rem 2rem 1.5rem;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 122, 0, 0.3) transparent;
+    justify-content: flex-start;
   }
 
-  /* Carousel wrapper for mobile */
+  .statsGrid::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  .statsGrid::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+  }
+
+  .statsGrid::-webkit-scrollbar-thumb {
+    background: rgba(255, 122, 0, 0.5);
+    border-radius: 10px;
+  }
+
+  /* Remove old carousel wrapper styles - now using direct scroll */
   .carouselWrapper {
-    position: relative;
-    width: 100%;
-    overflow: hidden;
+    display: contents;
   }
 
   .carouselTrack {
-    display: flex;
-    transition: transform 0.5s ease-in-out;
-  }
-
-  .carouselTrack .statCard {
-    min-width: 100%;
-    flex-shrink: 0;
+    display: contents;
   }
   /* Active slide gets same lift and emphasis as desktop hover */
   .activeSlide {
@@ -220,47 +234,68 @@
   }
 
   .statCard {
-    padding: 2.5rem 1.5rem;
+    width: 280px;
+    min-width: 280px;
+    max-width: 280px;
+    padding: 1.5rem 1rem;
     margin: 0;
     opacity: 1 !important;
     visibility: visible !important;
-    transform: none !important;
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 220px;
+    min-height: 200px;
     gap: 0.4rem;
+    border-radius: 20px;
+    border: 2px solid rgba(255, 122, 0, 0.18);
+    box-shadow: 0 8px 20px rgba(255, 122, 0, 0.12), 0 3px 10px rgba(0,0,0,0.06);
+    scroll-snap-align: center;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+  }
+
+  /* Decorative corner accent for attractiveness */
+  .statCard::after {
+    content: '';
+    position: absolute;
+    right: -20px;
+    bottom: -20px;
+    width: 80px;
+    height: 80px;
+    background: radial-gradient(closest-side, rgba(255,122,0,0.18), rgba(255,122,0,0) 70%);
+    filter: blur(6px);
+    pointer-events: none;
   }
 
   .statNumber {
     text-align: center;
-    font-size: 2.25rem;
-    margin: 0 0 0.3rem 0;
+    font-size: 1.85rem;
+    margin: 0 0 0.2rem 0;
     line-height: 1;
     display: block;
   }
 
   .statLabel {
     text-align: center;
-    font-size: 0.85rem;
-    line-height: 1.4;
-    padding: 0 0.5rem;
+    font-size: 0.8rem;
+    line-height: 1.35;
+    padding: 0 0.25rem;
     margin: 0;
     display: block;
   }
 
   .iconWrapper {
-    width: 56px;
-    height: 56px;
-    margin: 0 auto 0.9rem auto;
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 0.6rem auto;
     transition: transform 0.25s ease;
   }
 
   .icon {
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
     transition: transform 0.25s ease;
   }
   /* Mobile tap active: nudge content up to mimic desktop hover */
@@ -274,70 +309,20 @@
     margin-bottom: 2rem;
   }
 
-  /* Carousel indicators */
+  /* Carousel indicators - hidden for scroll-based carousel */
   .carouselIndicators {
-    display: flex;
-    justify-content: center;
-    gap: 0.75rem;
-    margin-top: 1.5rem;
-  }
-
-  .indicator {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: rgba(150, 150, 150, 0.4);
-    border: none;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    padding: 0;
-  }
-
-  [data-theme="dark"] .indicator {
-    background: rgba(212, 175, 55, 0.3);
-  }
-
-  .indicator.active {
-    background: #FF7A00;
-    transform: scale(1.3);
-  }
-
-  [data-theme="dark"] .indicator.active {
-    background: #D4AF37;
-  }
-
-  .indicator:hover {
-    background: rgba(255, 122, 0, 0.6);
-    transform: scale(1.1);
-  }
-
-  [data-theme="dark"] .indicator:hover {
-    background: rgba(212, 175, 55, 0.6);
+    display: none;
   }
 }
 
-/* Mobile overrides to enable active transitions and lift */
+/* Mobile scroll-based carousel interactions */
 @media (max-width: 768px) {
-  .statsGrid .statCard,
-  .carouselTrack .statCard {
-    transform: translateY(0) !important;
-    gap: 0.6rem;
-    min-height: 220px;
-    transition: transform 0.35s cubic-bezier(.4,0,.2,1), box-shadow 0.35s ease, border-color 0.35s ease;
-    will-change: transform;
+  .statCard:active {
+    transform: scale(0.98);
+    box-shadow: 0 6px 16px rgba(255, 122, 0, 0.15), 0 2px 8px rgba(0, 0, 0, 0.08);
   }
-  .activeSlide {
-    transform: translateY(-6px) scale(1.03) !important;
-    box-shadow: 0 12px 32px rgba(255, 87, 34, 0.2), 0 6px 16px rgba(255, 87, 34, 0.15);
-    border-color: rgba(255, 87, 34, 0.45);
-  }
-  .activeSlide .iconWrapper { transform: translateY(-2px) scale(1.1); }
-  .activeSlide .statNumber,
-  .activeSlide .statLabel { transform: translateY(-2px); }
-  .statsGrid .statCard:active,
-  .carouselTrack .statCard:active {
-    transform: translateY(-6px) scale(1.03) !important;
-    box-shadow: 0 12px 32px rgba(255, 87, 34, 0.2), 0 6px 16px rgba(255, 87, 34, 0.15);
-    border-color: rgba(255, 87, 34, 0.45);
+  
+  .statCard:active .iconWrapper {
+    transform: scale(0.95);
   }
 }
