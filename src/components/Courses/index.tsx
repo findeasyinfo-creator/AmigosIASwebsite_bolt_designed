@@ -52,6 +52,25 @@ export default function Courses() {
         
         <div className={styles.coursesWrapper}>
           <div className={styles.coursesContainer}>
+            {/* Mobile unified emblem inside container */}
+            <div className={styles.upscEmblemMobile}>
+              <Image
+                src="/assets/Torch Light Theme.png"
+                alt="UPSC Emblem Light"
+                width={260}
+                height={520}
+                className={`${styles.emblemLight}`}
+                priority
+              />
+              <Image
+                src="/assets/Torch Dark Theme.png"
+                alt="UPSC Emblem Dark"
+                width={260}
+                height={520}
+                className={`${styles.emblemDark}`}
+                priority
+              />
+            </div>
             <div className={styles.coursesGrid}>
               {courses.map((course, index) => (
                 <div 
@@ -88,27 +107,6 @@ export default function Courses() {
                 </div>
               ))}
             </div>
-          </div>
-          {/* Mobile-only UPSC emblem below carousel (theme-specific) */}
-          <div className={styles.upscEmblemMobile}>
-            {/* Light theme emblem */}
-            <Image
-              src="/assets/Torch Light Theme.png"
-              alt="UPSC Emblem Light"
-              width={280}
-              height={560}
-              className={`${styles.emblemLight}`}
-              priority
-            />
-            {/* Dark theme emblem */}
-            <Image
-              src="/assets/Torch Dark Theme.png"
-              alt="UPSC Emblem Dark"
-              width={280}
-              height={560}
-              className={`${styles.emblemDark}`}
-              priority
-            />
           </div>
           
           <div className={styles.upscEmblemCard}>
