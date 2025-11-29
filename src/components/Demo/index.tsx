@@ -46,7 +46,7 @@ export default function Demo() {
   return (
     <section className={styles.demoSection}>
       <div className={styles.container}>
-        <h2 className={styles.sectionTitle}>Demo Content Section</h2>
+        <h2 className={styles.sectionTitle}>Test before you trust</h2>
         
         <DottedLines />
         

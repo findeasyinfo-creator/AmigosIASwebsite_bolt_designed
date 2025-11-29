@@ -324,6 +324,22 @@ section[class*="statsSection"] {
   transition: none !important;
 }
 
+/* Resources tabs section force visible */
+section#resources-tabs, section.resources-tabs, section[data-section="resources-tabs"] {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+/* Ensure grid children inside resources are visible immediately */
+section#resources-tabs [class*="grid"] > *,
+section.resources-tabs [class*="grid"] > *,
+section[data-section="resources-tabs"] [class*="grid"] > * {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+
 section.in-view {
   opacity: 1;
   transform: translateY(0);

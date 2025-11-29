@@ -66,7 +66,7 @@ export default function Stats() {
                 style={{ transform: `translateX(-${currentIndex * 100}%)` }}
               >
                 {stats.map((stat, index) => (
-                  <div key={index} className={styles.statCard}>
+                  <div key={index} className={`${styles.statCard} ${index === currentIndex ? styles.activeSlide : ''}`}>
                     <div className={styles.iconWrapper}>
                       {stat.icon === 'trophy' && (
                         <svg className={styles.icon} viewBox="0 0 576 512" fill="currentColor">

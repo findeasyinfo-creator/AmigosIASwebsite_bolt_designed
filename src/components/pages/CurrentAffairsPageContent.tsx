@@ -266,12 +266,13 @@ export default function CurrentAffairsPageContent() {
       </section>
 
       {/* Tabs, Filters and Content */}
-      <section className="py-8">
+      <section className="py-8 current-affairs-section" data-section="current-affairs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Main tabs */}
-          <div className="mb-6">
-            <div className="flex gap-3 overflow-x-auto pb-2">
-              {([
+          <div className="sticky top-[72px] md:top-[119px] z-30 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-4 mb-6 -mt-2 shadow-md">
+            <div className="max-w-7xl mx-auto">
+              <div className="flex gap-3 overflow-x-auto pb-2">
+                {([
                 { id: 'daily', name: 'Daily CA' },
                 { id: 'weekly', name: 'Weekly CA' },
                 { id: 'monthly', name: 'Monthly Magazines' },
@@ -294,6 +295,7 @@ export default function CurrentAffairsPageContent() {
                   {tab.name}
                 </button>
               ))}
+              </div>
             </div>
           </div>
 

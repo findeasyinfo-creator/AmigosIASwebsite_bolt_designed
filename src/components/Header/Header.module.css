@@ -221,9 +221,12 @@
   .nav {
     display: none;
   }
+  .container {
+    padding: 0 12px;
+  }
   .logoImage {
-    height: 64px;
-    max-width: 260px;
+    height: 88px;
+    max-width: 360px;
   }
 }
 
@@ -1160,7 +1163,7 @@
   }
 
   .footerLogo {
-    width: 60px;
-    height: 60px;
+    width: 80px;
+    height: 80px;
   }
 }

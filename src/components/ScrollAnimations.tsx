@@ -4,9 +4,10 @@ import { useEffect } from 'react'
 
 export default function ScrollAnimations() {
   useEffect(() => {
+    // Account for sticky headers: ~120px on desktop, ~72px mobile
     const observerOptions = {
       threshold: 0.1,
-      rootMargin: '0px 0px -10% 0px'
+      rootMargin: '-120px 0px -10% 0px'
     }
 
     const observer = new IntersectionObserver((entries) => {
@@ -51,6 +52,22 @@ export default function ScrollAnimations() {
       }
     })
 
+    // Helper: mark element visible immediately
+    const markVisible = (el: Element) => {
+      const htmlEl = el as HTMLElement
+      htmlEl.classList.add('in-view')
+      htmlEl.style.opacity = '1'
+      htmlEl.style.transform = 'translateY(0)'
+    }
+
+    // On load: mark currently visible elements as in-view
+    const viewportH = window.innerHeight || document.documentElement.clientHeight
+    const isVisible = (el: Element) => {
+      const rect = (el as HTMLElement).getBoundingClientRect()
+      // Visible if intersects viewport (with small tolerance)
+      return rect.top < viewportH - 20 && rect.bottom > 20
+    }
+
     // Get all cards/grid items
     const cards = document.querySelectorAll('.card, [class*="card"], [class*="course"]:not([class*="coursesSection"]), [class*="faculty"]')
     const gridItems = document.querySelectorAll('[class*="grid"] > *, [class*="Grid"] > *')
@@ -70,6 +87,10 @@ export default function ScrollAnimations() {
       } else {
         // For other sections, observe all items
         observer.observe(item)
+        // If already visible at load, mark as visible
+        if (isVisible(item)) {
+          markVisible(item)
+        }
       }
     })
 
@@ -85,6 +106,9 @@ export default function ScrollAnimations() {
         ;(grid as HTMLElement).style.transform = 'translateY(0)'
       } else {
         observer.observe(grid)
+        if (isVisible(grid)) {
+          markVisible(grid)
+        }
       }
     })
 
@@ -100,6 +124,9 @@ export default function ScrollAnimations() {
         ;(heading as HTMLElement).style.transform = 'translateY(0)'
       } else {
         observer.observe(heading)
+        if (isVisible(heading)) {
+          markVisible(heading)
+        }
       }
     })
 

@@ -37,12 +37,13 @@ export default function ResourcesPageContent() {
       </section>
 
       {/* Tab Navigation and Content */}
-      <section className="py-8">
+      <section id="resources-tabs" className="py-8 resources-tabs in-view" data-section="resources-tabs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Tab Navigation */}
-          <div className="mb-8 overflow-x-auto">
-            <div className="flex space-x-2 pb-2">
-              {tabs.map((tab) => (
+          <div className="sticky top-[72px] md:top-[119px] z-30 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-4 mb-8 -mt-2 shadow-md">
+            <div className="max-w-7xl mx-auto overflow-x-auto">
+              <div className="flex space-x-2 pb-2">
+                {tabs.map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
@@ -55,6 +56,7 @@ export default function ResourcesPageContent() {
                   {tab.name}
                 </button>
               ))}
+              </div>
             </div>
           </div>
 
@@ -70,6 +72,23 @@ export default function ResourcesPageContent() {
           </div>
         </div>
       </section>
+
+      {/* Floating Community Forum Button - Resources page only */}
+      <button
+        type="button"
+        aria-label="Open Community Forum"
+        title="Community Forum"
+        onClick={() => setActiveTab('community-forum')}
+        className="fixed bottom-[190px] right-[30px] z-40 w-14 h-14 rounded-full shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-blue-300/50 transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] hover:-translate-y-[3px] hover:scale-105 active:scale-95 overflow-hidden bg-transparent md:bottom-[190px] md:right-[30px] md:w-14 md:h-14 sm:bottom-[214px] sm:right-[12px] sm:w-[50px] sm:h-[50px] max-sm:bottom-[178px] max-sm:right-[10px] max-sm:w-[44px] max-sm:h-[44px]"
+        style={{ boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)' }}
+      >
+        <span className="sr-only">Open Community Forum</span>
+        <img 
+          src="/faq-icon.png" 
+          alt="FAQ Community Forum"
+          className="w-full h-full object-cover scale-[2]"
+        />
+      </button>
     </div>
   );
 }
@@ -170,26 +189,60 @@ function StrategyTab() {
 
 function PYQTab() {
   const papers = [
-    { year: 2024, stage: 'Prelims', title: 'General Studies Paper I', stats: '100 Questions • 2.5 MB' },
-    { year: 2024, stage: 'Mains', title: 'Essay Paper', stats: '2 Questions • 1.2 MB' },
-    { year: 2023, stage: 'Prelims', title: 'General Studies Paper I', stats: '100 Questions • 2.4 MB' },
+    { year: 2024, stage: 'Prelims', title: 'General Studies Paper I', stats: '100 Questions • 2.5 MB', icon: '🧭' },
+    { year: 2024, stage: 'Mains', title: 'Essay Paper', stats: '2 Questions • 1.2 MB', icon: '📄' },
+    { year: 2023, stage: 'Prelims', title: 'General Studies Paper I', stats: '100 Questions • 2.4 MB', icon: '📚' },
   ];
 
   return (
     <div id="pyq" className="py-8" aria-labelledby="pyq-heading">
-      <h2 id="pyq-heading" className="text-2xl font-bold mb-8 text-center text-gray-900 dark:text-white">Previous Year Papers</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {papers.map((p, i) => (
-          <div key={`${p.year}-${p.stage}-${i}`} className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border focus-within:ring-2 focus-within:ring-orange-500" role="group" aria-label={`${p.year} ${p.stage} ${p.title}`}>
-            <div className="flex items-center justify-between mb-4">
-              <span className="bg-orange-500 text-white px-4 py-2 rounded-lg font-bold" aria-label={`Year ${p.year}`}>{p.year}</span>
-              <span className="bg-orange-100 text-orange-600 px-3 py-1 rounded-full text-sm" aria-label={`Stage ${p.stage}`}>{p.stage}</span>
+          <div 
+            key={`${p.year}-${p.stage}-${i}`} 
+            className="relative bg-gradient-to-br from-[#FFF8F0] to-[#FFF0E0] dark:from-[#FFF8F0] dark:to-[#FFF0E0] rounded-3xl p-8 shadow-xl overflow-hidden"
+            role="group" 
+            aria-label={`${p.year} ${p.stage} ${p.title}`}
+          >
+            {/* Decorative background elements */}
+            <div className="absolute top-4 right-4 text-6xl opacity-10">🏛️</div>
+            <div className="absolute bottom-4 left-4 text-6xl opacity-10">📖</div>
+            
+            {/* Year Badge with ribbon effect */}
+            <div className="relative inline-block mb-6">
+              <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-8 py-3 rounded-lg shadow-lg font-bold text-xl relative z-10">
+                {p.year} {p.stage}
+              </div>
+              <div className="absolute top-0 right-0 w-8 h-8 bg-orange-700 transform translate-x-2 -translate-y-2 rounded-tr-lg"></div>
+              <div className="absolute right-2 top-2 text-3xl">{p.icon}</div>
             </div>
-            <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">{p.title}</h3>
-            <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">{p.stats}</p>
-            <div className="flex gap-2">
-              <button className="flex-1 bg-orange-500 text-white py-2 px-4 rounded-lg font-medium" aria-label={`Download ${p.title}`}>Download</button>
-              <button className="flex-1 border border-orange-500 text-orange-500 py-2 px-4 rounded-lg font-medium" aria-label={`View ${p.title}`}>View</button>
+
+            {/* Content */}
+            <div className="relative z-10 mb-6">
+              <div className="flex items-start gap-3 mb-4">
+                <div className="text-2xl opacity-60">
+                  {p.stage === 'Prelims' ? '❓' : '📝'}
+                </div>
+                <p className="text-amber-900 dark:text-amber-950 font-medium text-base">
+                  {p.stats}
+                </p>
+              </div>
+            </div>
+
+            {/* Buttons */}
+            <div className="flex gap-3 relative z-10">
+              <button 
+                className="flex-1 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold py-3 px-6 rounded-xl shadow-lg transition-all duration-200 hover:shadow-xl hover:scale-[1.02]" 
+                aria-label={`Download ${p.title}`}
+              >
+                Download
+              </button>
+              <button 
+                className="flex-1 bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white font-semibold py-3 px-6 rounded-xl shadow-lg transition-all duration-200 hover:shadow-xl hover:scale-[1.02]" 
+                aria-label={`View ${p.title}`}
+              >
+                View
+              </button>
             </div>
           </div>
         ))}
@@ -200,27 +253,97 @@ function PYQTab() {
 
 function VideosTab() {
   const videos = [
-    { title: 'Introduction to Indian Polity', duration: '45:30', faculty: 'Dr. Amit Verma', views: '12.5K', theme: 'from-blue-500 to-purple-600' },
-    { title: 'Economic Survey 2025', duration: '38:15', faculty: 'Ms. Priya Singh', views: '8.2K', theme: 'from-green-500 to-teal-600' },
-    { title: 'Modern Indian History', duration: '52:40', faculty: 'Dr. Rajesh Kumar', views: '15.3K', theme: 'from-orange-500 to-red-600' },
+    { 
+      title: 'Indus Valley Civilization', 
+      subtitle: 'Dr. Amit Verma',
+      duration: '45:30', 
+      views: '12.5K', 
+      image: 'https://images.unsplash.com/photo-1596414086775-3e321ab08f36?w=800&q=80',
+      facultyName: 'DR. AMIT VERMA',
+      category: 'ANCIENT HISTORY'
+    },
+    { 
+      title: 'Indian Constitution Overview', 
+      subtitle: 'Ms. Priya Singh',
+      duration: '38:15', 
+      views: '8.2K', 
+      image: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&q=80',
+      facultyName: 'MS. PRIYA SINGH',
+      category: 'INDIAN CONSTITUTION OVERVIEW'
+    },
+    { 
+      title: 'Physical Geography of India', 
+      subtitle: 'Dr. Rajesh Kumar',
+      duration: '52:40', 
+      views: '15.3K', 
+      image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80',
+      facultyName: 'DR. RAJESH KUMAR',
+      category: 'PHYSICAL GEOGRAPHY OF INDIA'
+    },
   ];
 
   return (
     <div id="videos" className="py-8" aria-labelledby="videos-heading">
-      <h2 id="videos-heading" className="text-2xl font-bold mb-8 text-center text-gray-900 dark:text-white">Video Lectures</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {videos.map((v, i) => (
-          <div key={`${v.title}-${i}`} className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg border focus-within:ring-2 focus-within:ring-orange-500" role="group" aria-label={`${v.title} video`}>
-            <div className={`h-48 bg-gradient-to-br ${v.theme} flex items-center justify-center relative`}>
-              <div className="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center">
-                <svg className="w-8 h-8 text-orange-600 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+          <div 
+            key={`${v.title}-${i}`} 
+            className="bg-gradient-to-br from-[#FFF8F0] to-[#FFF0E0] dark:from-[#FFF8F0] dark:to-[#FFF0E0] rounded-3xl overflow-hidden shadow-xl" 
+            role="group" 
+            aria-label={`${v.title} video`}
+          >
+            {/* Video Thumbnail */}
+            <div className="relative h-56 overflow-hidden">
+              <img 
+                src={v.image} 
+                alt={v.category}
+                className="w-full h-full object-cover"
+              />
+              {/* Overlay gradient */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/50"></div>
+              
+              {/* Thumbnail content */}
+              <div className="absolute inset-0 flex flex-col items-start justify-between p-6">
+                <div>
+                  <h3 className="text-yellow-300 font-bold text-2xl mb-2 uppercase tracking-wide drop-shadow-lg">
+                    {v.category}
+                  </h3>
+                  <div className="bg-gradient-to-r from-red-600 to-red-700 text-white px-4 py-1.5 rounded inline-block font-bold text-sm">
+                    {v.facultyName}
+                  </div>
+                </div>
+                <div className="absolute bottom-4 right-4 bg-black/70 text-white px-3 py-1 rounded text-sm font-semibold">
+                  {v.duration}
+                </div>
               </div>
-              <span className="absolute bottom-2 right-2 bg-black/80 text-white px-2 py-1 rounded text-sm" aria-label={`Duration ${v.duration}`}>{v.duration}</span>
+              
+              {/* Play button overlay */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-20 h-20 bg-white/95 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform cursor-pointer">
+                  <svg className="w-10 h-10 text-orange-600 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </div>
+              </div>
             </div>
-            <div className="p-4">
-              <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">{v.title}</h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mb-3" aria-label={`Faculty ${v.faculty} • ${v.views} views`}>{v.faculty} • {v.views} views</p>
-              <button className="w-full bg-orange-500 text-white py-2 px-4 rounded-lg font-medium" aria-label={`Watch ${v.title} now`}>Watch Now</button>
+
+            {/* Card Content */}
+            <div className="p-6">
+              <h3 className="text-lg font-bold mb-2 text-amber-900">
+                {v.title} - {v.subtitle}
+              </h3>
+              <p className="text-sm text-amber-800 mb-4">
+                {v.subtitle} • {v.views} views
+              </p>
+              <button 
+                className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold py-3 px-6 rounded-xl shadow-lg transition-all duration-200 hover:shadow-xl hover:scale-[1.02] flex items-center justify-center gap-2" 
+                aria-label={`Watch ${v.title} now`}
+              >
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+                Watch Now
+              </button>
             </div>
           </div>
         ))}

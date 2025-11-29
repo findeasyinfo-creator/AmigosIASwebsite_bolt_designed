@@ -9,7 +9,6 @@ export default function AboutPageContent() {
       <HeroSection />
       <DirectorMessageSection />
       <FacultySection />
-      <TimelineSection />
     </div>
   );
 }
@@ -260,37 +259,4 @@ function FacultySection() {
   );
 }
 
-function TimelineSection() {
-  const milestones = [
-    { year: '2010', event: 'Amigos IAS Academy founded', description: 'Started with a vision to provide quality UPSC coaching' },
-    { year: '2012', event: 'First 100 selections', description: 'Achieved significant milestone in student success' },
-    { year: '2015', event: 'Expanded to multiple centers', description: 'Opened new branches to reach more aspirants' },
-    { year: '2018', event: 'Launched online platform', description: 'Made quality education accessible nationwide' },
-    { year: '2020', event: '500+ total selections', description: 'Continued excellence in results' },
-    { year: '2024', event: '15 years of excellence', description: 'Celebrating a legacy of success and innovation' },
-  ];
-
-  return (
-    <section className="py-16">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-bold mb-12 text-center">Our Journey</h2>
-        <div className="relative">
-          <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-orange-500 dark:bg-yellow-400"></div>
-          <div className="space-y-8">
-            {milestones.map((milestone, index) => (
-              <div key={index} className="relative pl-20">
-                <div className="absolute left-0 w-16 h-16 bg-gradient-to-br from-orange-500 to-yellow-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
-                  {milestone.year}
-                </div>
-                <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
-                  <h3 className="text-xl font-semibold mb-2">{milestone.event}</h3>
-                  <p className="text-gray-700 dark:text-gray-400">{milestone.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
+/* Our Journey section removed as requested */
