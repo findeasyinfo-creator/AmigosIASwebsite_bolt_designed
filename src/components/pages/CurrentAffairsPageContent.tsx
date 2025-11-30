@@ -244,6 +244,16 @@ export default function CurrentAffairsPageContent() {
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null)
   const selectedItem = selectedItemId != null ? items.find(i => i.id === selectedItemId) : null
 
+  // Scroll to top when modal opens
+  useEffect(() => {
+    if (selectedItemId != null) {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'unset'
+    }
+  }, [selectedItemId])
+
   // Close on ESC
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -492,11 +502,11 @@ export default function CurrentAffairsPageContent() {
           {/* Modal Popup */}
           {selectedItem && (
             <div
-              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-start md:items-center justify-center p-4"
+              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto"
               onClick={() => setSelectedItemId(null)}
             >
               <div
-                className="bg-white dark:bg-gray-800 w-full max-w-3xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
+                className="bg-white dark:bg-gray-800 w-full max-w-3xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] my-auto"
                 onClick={(e) => e.stopPropagation()}
                 role="dialog"
                 aria-modal="true"

@@ -265,15 +265,20 @@
   }
 
   .sectionTitle {
-    font-size: clamp(28px, 6vw, 36px);
-    margin-bottom: 2rem;
-    padding: 0 1rem;
+    font-size: clamp(28px, 6vw, 34px);
+    margin-bottom: 1.25rem;
+    padding: 0 1.25rem;
+    line-height: 1.2;
+    letter-spacing: 0.5px;
+    text-align: center;
   }
 
   .demoSubtitle {
-    font-size: 0.9375rem;
+    font-size: 0.95rem;
     padding: 0 1.25rem;
-    margin-bottom: 1.75rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.65;
+    text-align: center;
   }
 
   .demoGrid {
@@ -339,14 +344,19 @@
   }
 
   .sectionTitle {
-    font-size: 1.875rem;
-    margin-bottom: 1.5rem;
+    font-size: 1.75rem;
+    margin-bottom: 1.1rem;
+    line-height: 1.2;
+    letter-spacing: 0.4px;
+    text-align: center;
   }
 
   .demoSubtitle {
-    font-size: 0.875rem;
-    margin-bottom: 1.5rem;
-    padding: 0 0.75rem;
+    font-size: 0.9rem;
+    margin-bottom: 1.25rem;
+    padding: 0 1rem;
+    line-height: 1.65;
+    text-align: center;
   }
 
   .demoGrid {

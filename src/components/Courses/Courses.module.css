@@ -754,6 +754,18 @@
   }
 }
 
+/* Mobile light theme: gently zoom emblem for better fit */
+@media (max-width: 768px) {
+  [data-theme="light"] .upscEmblemMobile img {
+    transform: scale(1.06);
+    transform-origin: center top;
+  }
+  [data-theme="dark"] .upscEmblemMobile img {
+    transform: scale(1.06);
+    transform-origin: center top;
+  }
+}
+
 /* Small Explore Courses Button under each card */
 .exploreCourseBtn {
   background: linear-gradient(135deg, #FF7A00 0%, #FF9500 100%);
