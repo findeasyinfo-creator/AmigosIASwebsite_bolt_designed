@@ -458,6 +458,26 @@ h1.in-view, h2.in-view, h3.in-view {
   transform: translateY(0);
 }
 
+/* Study Materials specific title animation override */
+.study-card .study-title {
+  opacity: 0;
+  transform: translateY(14px) scale(.98);
+  animation: studyFadeUp .55s cubic-bezier(.22,.65,.3,1) forwards;
+  animation-delay: var(--study-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+@keyframes studyFadeUp {
+  0% { opacity: 0; transform: translateY(16px) scale(.96); }
+  60% { opacity: 1; transform: translateY(2px) scale(1); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Ensure titles are visible immediately if user has reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .study-card .study-title { opacity: 1 !important; transform: none !important; animation: none !important; }
+}
+
 /* Optimized hover effect for interactive elements */
 button, a, [role="button"] {
   transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
