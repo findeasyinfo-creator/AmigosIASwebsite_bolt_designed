@@ -204,7 +204,7 @@
   border: none;
   position: relative;
   /* CSS Variables for folding effect */
-  --fold-size: 20px;
+  --fold-size: 35px; /* desktop fold size increased */
   --paper-color: #f8f8f8;
   --curl-shadow: -2px -2px 4px rgba(0, 0, 0, 0.15);
   --edge-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
@@ -236,7 +236,7 @@
 }
 
 .heroImageContainer:hover::after {
-  --fold-size: 25px;
+  --fold-size: 40px; /* slightly larger on hover */
 }
 
 .heroImageContainer:hover {
@@ -249,7 +249,7 @@
   object-fit: cover;
   display: block;
   clip-path: polygon(
-    0 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%
+    0 0, 100% 0, 100% calc(100% - var(--fold-size)), calc(100% - var(--fold-size)) 100%, 0 100%
   );
 }
 

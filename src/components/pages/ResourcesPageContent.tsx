@@ -116,26 +116,109 @@ function StudyMaterialsTab() {
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {materials.map((material, index) => (
-        <div key={index} className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 border border-gray-200 dark:border-gray-700 hover:border-orange-300 dark:hover:border-orange-600">
-          <div className="flex items-start justify-between mb-4">
-            <div className="w-16 h-20 bg-gradient-to-br from-orange-500 to-red-500 rounded flex items-center justify-center">
-              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-              </svg>
+    <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
+      {materials.map((material, index) => {
+        const titleSlug = material.title
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/^-+|-+$/g, '');
+        
+        // Use custom image for first card (Polity), AI for others
+        const imageUrl = index === 0 
+          ? 'https://image.pollinations.ai/prompt/wooden%20judge%20gavel%20with%20constitution%20book%2C%203D%20render%2C%20realistic%2C%20soft%20lighting%2C%20isolated%20object%2C%20natural%20shadow%2C%20transparent%20background?seed=polity-gavel&width=512&height=512&nologo=true'
+          : `https://image.pollinations.ai/prompt/${encodeURIComponent(
+              `${material.title} 3D illustration, realistic high-quality render, soft studio lighting, isolated subject with subtle shadow, clean white background, professional photography, detailed textures`
+            )}?seed=${encodeURIComponent(titleSlug)}&width=512&height=512&nologo=true&enhance=true`;
+        
+        const icon = (() => {
+          switch (material.subject.toLowerCase()) {
+            case 'polity':
+              return (
+                <svg viewBox="0 0 64 64" className="w-16 h-16">
+                  <path d="M14 38h36" stroke="#7a3b00" strokeWidth="4" strokeLinecap="round"/>
+                  <rect x="10" y="40" width="44" height="10" rx="5" fill="#b36b2c"/>
+                  <path d="M26 16l12 12" stroke="#7a3b00" strokeWidth="4" strokeLinecap="round"/>
+                  <rect x="24" y="10" width="10" height="12" rx="2" fill="#d49a6a"/>
+                </svg>
+              );
+            case 'economy':
+              return (
+                <svg viewBox="0 0 64 64" className="w-16 h-16">
+                  <path d="M10 50h44" stroke="#0e4a7b" strokeWidth="3"/>
+                  <rect x="14" y="34" width="8" height="16" fill="#4cc3ff" rx="2"/>
+                  <rect x="28" y="28" width="8" height="22" fill="#2fa8ff" rx="2"/>
+                  <rect x="42" y="20" width="8" height="30" fill="#1283d8" rx="2"/>
+                  <path d="M14 36c8-10 16-14 36-20" stroke="#ff8c5a" strokeWidth="3" fill="none"/>
+                </svg>
+              );
+            case 'geography':
+              return (
+                <svg viewBox="0 0 64 64" className="w-16 h-16">
+                  <rect x="12" y="18" width="40" height="28" rx="4" fill="#cde6ff" stroke="#559ad6"/>
+                  <path d="M16 40l12-10 8 6 12-12" stroke="#5bbf72" strokeWidth="3" fill="none"/>
+                </svg>
+              );
+            case 'ir':
+            case 'international relations':
+              return (
+                <svg viewBox="0 0 64 64" className="w-16 h-16">
+                  <circle cx="24" cy="28" r="10" fill="#54a9ff"/>
+                  <circle cx="42" cy="36" r="10" fill="#6bd17e"/>
+                  <path d="M24 28c6 0 10 4 18 8" stroke="#2c7be5" strokeWidth="3" fill="none"/>
+                </svg>
+              );
+            case 'science':
+              return (
+                <svg viewBox="0 0 64 64" className="w-16 h-16">
+                  <path d="M22 18l10 18-10 10" stroke="#7a3bd1" strokeWidth="3" fill="none"/>
+                  <circle cx="40" cy="22" r="6" fill="#ff6ea8"/>
+                  <circle cx="30" cy="40" r="6" fill="#5cd1ff"/>
+                </svg>
+              );
+            default:
+              return (
+                <svg viewBox="0 0 24 24" className="w-14 h-14" fill="none" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                </svg>
+              );
+          }
+        })();
+
+        return (
+          <div
+            key={index}
+            className="rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 shadow-[0_8px_24px_rgba(0,0,0,0.06)] hover:shadow-[0_12px_32px_rgba(0,0,0,0.1)] hover:scale-[1.02] transition-all duration-300 border border-[#f2dccb] dark:border-gray-700"
+            style={{
+              background:
+                'radial-gradient(140% 120% at 0% 0%, rgba(255,214,176,0.55) 0%, rgba(255,249,244,0.95) 45%, rgba(246,248,255,0.95) 100%), linear-gradient(135deg, #ffffff 0%, #ffffff 100%)',
+            }}
+            data-theme-card="study"
+          >
+            <div className="flex items-start justify-between mb-3 sm:mb-4 md:mb-6">
+              <div className="w-20 h-20 sm:w-28 sm:h-28 md:w-32 md:h-32">
+                {/* AI-generated 3D image based on title - blends with card background */}
+                <img
+                  src={imageUrl}
+                  alt={`${material.title} illustration`}
+                  className="w-full h-full object-contain opacity-95 mix-blend-multiply dark:mix-blend-normal rounded-xl"
+                />
+              </div>
+              <span className="px-2.5 py-1 sm:px-3 sm:py-1 md:px-4 md:py-1.5 bg-[#d4c4b0] text-[#4a4035] dark:bg-[#d4c4b0] dark:text-[#4a4035] rounded-full text-[10px] sm:text-xs font-medium shadow-[0_2px_8px_rgba(0,0,0,0.12)]">
+                {material.subject}
+              </span>
             </div>
-            <span className="px-3 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400 rounded-full text-xs font-medium">
-              {material.subject}
-            </span>
+            <h3 className="text-sm sm:text-base md:text-lg lg:text-xl font-bold mb-1 sm:mb-1.5 md:mb-2 text-[#1a1a1a] dark:text-white leading-snug">{material.title}</h3>
+            <p className="text-xs sm:text-sm md:text-base text-[#5c5c5c] dark:text-gray-400 mb-3 sm:mb-4 md:mb-6">{material.pages} • {material.year}</p>
+            <button className="w-full bg-gradient-to-r from-[#ff6a2b] to-[#ff8347] hover:from-[#ff7a3f] hover:to-[#ff8f57] text-white font-bold py-2 sm:py-2.5 md:py-3.5 px-4 sm:px-5 md:px-6 rounded-full transition-all duration-200 text-xs sm:text-sm md:text-base shadow-[inset_0_3px_8px_rgba(255,255,255,0.5),0_10px_22px_rgba(255,106,43,0.38)] flex items-center justify-center gap-1.5 sm:gap-2">
+              <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" />
+              </svg>
+              <span className="hidden xs:inline sm:inline">Download PDF</span>
+              <span className="xs:hidden sm:hidden">Download</span>
+            </button>
           </div>
-          <h3 className="text-lg font-semibold mb-2">{material.title}</h3>
-          <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">{material.pages} • {material.year}</p>
-          <button className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200 text-sm">
-            Download PDF
-          </button>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }

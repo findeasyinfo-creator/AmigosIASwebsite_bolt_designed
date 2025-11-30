@@ -82,9 +82,10 @@
 }
 
 [data-theme="light"] .demoCard {
-  background: rgba(255, 255, 255, 0.95);
-  border: 1px solid rgba(212, 175, 55, 0.3);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(180deg,#ffffff 0%,#f9fafb 55%,#f3f5f8 100%);
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04);
+  position: relative;
 }
 
 .demoCard:hover {
@@ -95,8 +96,10 @@
 }
 
 [data-theme="light"] .demoCard:hover {
-  background: rgba(255, 255, 255, 1);
-  box-shadow: 0 8px 32px rgba(212, 175, 55, 0.2), 0 0 40px rgba(212, 175, 55, 0.1);
+  background: linear-gradient(180deg,#ffffff 0%,#fefefe 50%,#f6f8fa 100%);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.10), 0 4px 10px rgba(0,0,0,0.06);
+  border-color: #d1d9e0;
+  transform: translateY(-6px);
 }
 
 .videoThumbnail {
@@ -188,6 +191,65 @@
 [data-theme="light"] .demoTitle {
   color: #0a1628;
   text-shadow: none;
+}
+
+/* Light theme unique accents per card */
+[data-theme="light"] .demoCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  background: linear-gradient(90deg,#FF7A00,#FFB347);
+}
+[data-theme="light"] .demoGrid .demoCard:nth-child(2)::before { background: linear-gradient(90deg,#FF6B35,#FF9F45); }
+[data-theme="light"] .demoGrid .demoCard:nth-child(3)::before { background: linear-gradient(90deg,#F7941D,#FFCA3A); }
+
+/* Subtle inner glow on hover */
+[data-theme="light"] .demoCard:hover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  background: radial-gradient(circle at 30% 20%, rgba(255,200,120,0.25), transparent 60%);
+  pointer-events: none;
+}
+
+/* Light theme: distinct pastel gradients per card for uniqueness */
+[data-theme="light"] .demoGrid .demoCard:nth-child(1) {
+  background: linear-gradient(135deg,#fff7ec 0%, #ffe8c9 100%);
+  border-color: #fbd7a4;
+}
+[data-theme="light"] .demoGrid .demoCard:nth-child(2) {
+  background: linear-gradient(135deg,#eef8ff 0%, #d9edff 100%);
+  border-color: #b5d9f7;
+}
+[data-theme="light"] .demoGrid .demoCard:nth-child(3) {
+  background: linear-gradient(135deg,#f7efff 0%, #ead8ff 100%);
+  border-color: #d3bbf5;
+}
+
+/* Maintain readable text on new pastel backgrounds */
+[data-theme="light"] .demoGrid .demoCard:nth-child(1) .demoTitle,
+[data-theme="light"] .demoGrid .demoCard:nth-child(2) .demoTitle,
+[data-theme="light"] .demoGrid .demoCard:nth-child(3) .demoTitle {
+  color: #16243a;
+}
+[data-theme="light"] .demoGrid .demoCard:nth-child(1) .demoDescription,
+[data-theme="light"] .demoGrid .demoCard:nth-child(2) .demoDescription,
+[data-theme="light"] .demoGrid .demoCard:nth-child(3) .demoDescription {
+  color: #374151;
+}
+
+/* Hover elevation tweak per card */
+[data-theme="light"] .demoGrid .demoCard:nth-child(1):hover,
+[data-theme="light"] .demoGrid .demoCard:nth-child(2):hover,
+[data-theme="light"] .demoGrid .demoCard:nth-child(3):hover {
+  box-shadow: 0 12px 32px rgba(0,0,0,0.12), 0 6px 14px rgba(0,0,0,0.08);
+  border-color: #c9d2dc;
 }
 
 .demoDescription {
