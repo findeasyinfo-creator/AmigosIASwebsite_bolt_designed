@@ -117,11 +117,11 @@ export default function Testimonials() {
                 {/* Story Details */}
                 <div className={styles.storyDetails}>
                   <div className={styles.storyHeader}>
+                    <h3 className={styles.storyName}>{story.name}</h3>
                     <div className={styles.storyRankBadge}>
                       <span className={styles.storyRankText}>{story.rank}</span>
                       <span className={styles.storyYear}>{story.year}</span>
                     </div>
-                    <h3 className={styles.storyName}>{story.name}</h3>
                   </div>
                   <p className={styles.storyText}>{story.story}</p>
                   <div className={styles.storyStats}>
@@ -158,18 +158,16 @@ export default function Testimonials() {
                     role="article"
                     aria-label={`${testimonial.name}'s testimonial`}
                   >
-                    <div className={styles.tCardHeader}>
-                      <Image src={testimonial.image} alt={testimonial.name} width={75} height={75} className={styles.tAvatar} />
+                    {/* Letter format: Description first */}
+                    <div className={styles.tBody}>
+                      <p className={styles.tText}>{testimonial.text}</p>
+                    </div>
+                    {/* Name at the bottom */}
+                    <div className={styles.tCardFooter}>
                       <div className={styles.tCardInfo}>
                         <h4 className={styles.tName}>{testimonial.name}</h4>
                         <p className={styles.tRole}>{testimonial.rank}</p>
                       </div>
-                    </div>
-                    <div className={styles.tBody}>
-                      <div className={styles.tStars} aria-label={`${testimonial.stars} out of 5`}>
-                        {'★'.repeat(testimonial.stars)}{'☆'.repeat(5 - testimonial.stars)}
-                      </div>
-                      <p className={styles.tText}>{testimonial.text}</p>
                     </div>
                   </article>
                 ))}

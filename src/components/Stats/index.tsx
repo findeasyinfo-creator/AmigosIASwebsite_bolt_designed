@@ -121,6 +121,8 @@ export default function Stats() {
           ))
           )}
         </div>
+
+        <p className={styles.statsCta}>Start your UPSC career here!</p>
       </div>
     </section>
   )

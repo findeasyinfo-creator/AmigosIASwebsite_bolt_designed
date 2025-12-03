@@ -1,5 +1,5 @@
 .statsSection {
-  padding: 3rem 1.5rem;
+  padding: 2rem 1.5rem;
   background: transparent;
   position: relative;
   overflow: visible;
@@ -23,6 +23,20 @@
   letter-spacing: 0.5px;
   line-height: 1.2;
   text-shadow: 0 2px 8px rgba(10, 22, 40, 0.2);
+  opacity: 0;
+  transform: translateY(-20px);
+  animation: titleSlideDown 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s forwards;
+}
+
+@keyframes titleSlideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 [data-theme="light"] .sectionTitle {
@@ -38,29 +52,99 @@
   gap: 1.5rem;
   max-width: 1100px;
   margin: 0 auto;
+  perspective: 1000px;
 }
 
 .statCard {
   background: linear-gradient(135deg, #ffffff 0%, #fef8f4 100%);
-  border-radius: 20px;
+  border-radius: 24px;
   padding: 2rem 1.5rem;
   text-align: center;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 16px rgba(255, 87, 34, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 4px 16px rgba(255, 87, 34, 0.08), 
+              0 2px 8px rgba(0, 0, 0, 0.04),
+              0 0 0 1px rgba(255, 122, 0, 0.05) inset;
   border: 2px solid rgba(255, 87, 34, 0.15);
   position: relative;
-  opacity: 1;
-  transform: translateY(0);
+  opacity: 0;
+  transform: translateY(50px) rotateX(15deg);
   overflow: hidden;
+  will-change: transform, opacity;
+  transform-style: preserve-3d;
+  animation: cardSlideIn 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+             cardWave 8s ease-in-out infinite;
+}
+
+@keyframes cardSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(50px) rotateX(15deg) scale(0.9);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-5px) rotateX(0deg) scale(1.03);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotateX(0deg) scale(1);
+  }
 }
 
 @keyframes cardFloat {
   0%, 100% {
-    transform: translateY(0) scale(1);
+    transform: translateY(0) scale(1) rotateZ(0deg);
+  }
+  33% {
+    transform: translateY(-12px) scale(1.02) rotateZ(-0.5deg);
+  }
+  66% {
+    transform: translateY(-6px) scale(1.01) rotateZ(0.5deg);
+  }
+}
+
+/* Wave-like motion for cards: gentle X/Y sway with rotation */
+@keyframes cardWave {
+  0% {
+    transform: translateX(0) translateY(0) rotateZ(0deg) scale(1);
+  }
+  12.5% {
+    transform: translateX(6px) translateY(-6px) rotateZ(-0.6deg) scale(1.01);
+  }
+  25% {
+    transform: translateX(12px) translateY(0px) rotateZ(-1deg) scale(1.02);
+  }
+  37.5% {
+    transform: translateX(6px) translateY(6px) rotateZ(-0.6deg) scale(1.01);
   }
   50% {
-    transform: translateY(-8px) scale(1.02);
+    transform: translateX(0) translateY(0) rotateZ(0deg) scale(1);
   }
+  62.5% {
+    transform: translateX(-6px) translateY(-6px) rotateZ(0.6deg) scale(1.01);
+  }
+  75% {
+    transform: translateX(-12px) translateY(0px) rotateZ(1deg) scale(1.02);
+  }
+  87.5% {
+    transform: translateX(-6px) translateY(6px) rotateZ(0.6deg) scale(1.01);
+  }
+  100% {
+    transform: translateX(0) translateY(0) rotateZ(0deg) scale(1);
+  }
+}
+
+/* Stagger animations for cascading effect */
+.statCard:nth-child(1) { 
+  animation-delay: 0s, 0s;
+}
+.statCard:nth-child(2) { 
+  animation-delay: 0.2s, 2s;
+}
+.statCard:nth-child(3) { 
+  animation-delay: 0.4s, 4s;
+}
+.statCard:nth-child(4) { 
+  animation-delay: 0.6s, 6s;
 }
 
 [data-theme="dark"] .statCard {
@@ -77,20 +161,65 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, transparent, #FF7A00, transparent);
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    transparent 0%,
+    rgba(255, 152, 0, 0.1) 25%,
+    rgba(255, 87, 34, 0.2) 50%,
+    rgba(255, 152, 0, 0.1) 75%,
+    transparent 100%
+  );
+  background-size: 400% 400%;
   opacity: 0;
-  transition: opacity 0.4s ease;
+  transition: opacity 0.6s ease;
+  animation: gradientShift 8s ease infinite;
+  border-radius: 24px;
+  z-index: 0;
+}
+
+.statCard::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: radial-gradient(circle, rgba(255, 152, 0, 0.3), transparent 70%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  opacity: 0;
+  z-index: 0;
+}
+
+@keyframes gradientShift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
 }
 
 .statCard:hover::before {
   opacity: 1;
 }
 
+.statCard:hover::after {
+  width: 500px;
+  height: 500px;
+  opacity: 0.6;
+}
+
 .statCard:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 32px rgba(255, 87, 34, 0.2), 0 6px 16px rgba(255, 87, 34, 0.15);
-  border-color: rgba(255, 87, 34, 0.4);
+  animation-play-state: paused;
+  transform: translateY(-16px) rotateX(3deg) rotateY(-3deg) scale(1.05);
+  box-shadow: 0 24px 48px rgba(255, 87, 34, 0.3), 
+              0 12px 24px rgba(255, 87, 34, 0.25),
+              0 0 0 2px rgba(255, 122, 0, 0.2) inset,
+              0 0 60px rgba(255, 152, 0, 0.25);
+  border-color: rgba(255, 87, 34, 0.6);
 }
 
 [data-theme="dark"] .statCard:hover {
@@ -110,27 +239,79 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.25s ease;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: iconBob 4s ease-in-out infinite, iconPulse 3s ease-in-out infinite;
+  position: relative;
+  box-shadow: 0 0 0 rgba(255, 152, 0, 0);
 }
 
 [data-theme="dark"] .iconWrapper {
   background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(212, 175, 55, 0.15));
 }
 
+.iconWrapper::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  background: linear-gradient(135deg, #FF7A00, #FF5722);
+  border-radius: 16px;
+  opacity: 0;
+  z-index: -1;
+  transition: opacity 0.4s ease;
+  filter: blur(8px);
+}
+
+.statCard:hover .iconWrapper::before {
+  opacity: 0.5;
+}
+
 .statCard:hover .iconWrapper {
-  transform: scale(1.1) rotate(5deg);
-  background: linear-gradient(135deg, rgba(255, 122, 0, 0.15), rgba(255, 87, 34, 0.2));
+  transform: scale(1.2) rotate(-8deg);
+  background: linear-gradient(135deg, rgba(255, 122, 0, 0.25), rgba(255, 87, 34, 0.35));
+  box-shadow: 0 12px 24px rgba(255, 122, 0, 0.4),
+              0 0 50px rgba(255, 152, 0, 0.7);
+  animation: iconBob 1.5s ease-in-out infinite, iconPulse 1s ease-in-out infinite;
 }
 
 [data-theme="dark"] .statCard:hover .iconWrapper {
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.18), rgba(212, 175, 55, 0.25));
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.25), rgba(212, 175, 55, 0.35));
 }
 
 .icon {
   width: 40px;
   height: 40px;
   color: #FF7A00;
-  transition: transform 0.25s ease;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  filter: drop-shadow(0 2px 4px rgba(255, 122, 0, 0.3));
+}
+
+@keyframes iconBob {
+  0%, 100% { 
+    transform: translateZ(0) translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateZ(10px) translateY(-3px) rotate(-2deg);
+  }
+  50% { 
+    transform: translateZ(20px) translateY(-5px) rotate(0deg);
+  }
+  75% {
+    transform: translateZ(10px) translateY(-3px) rotate(2deg);
+  }
+}
+
+@keyframes iconPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 rgba(255, 152, 0, 0);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(255, 152, 0, 0.5);
+  }
+}
+
+.statCard:hover .icon {
+  transform: scale(1.15) rotate(5deg);
+  filter: drop-shadow(0 6px 12px rgba(255, 122, 0, 0.6));
 }
 
 [data-theme="dark"] .icon {
@@ -147,7 +328,11 @@
   opacity: 1 !important;
   visibility: visible !important;
   letter-spacing: -0.5px;
-  transition: transform 0.25s ease;
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  background: linear-gradient(135deg, #1A1A1A 0%, #333 100%);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
 }
 
 [data-theme="light"] .statNumber {
@@ -156,6 +341,29 @@
 
 [data-theme="dark"] .statNumber {
   color: #ffffff !important;
+  background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.statCard:hover .statNumber {
+  transform: scale(1.15) translateY(-3px) rotateY(5deg);
+  background: linear-gradient(135deg, #FF7A00 0%, #FF5722 100%);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 4px 8px rgba(255, 122, 0, 0.4));
+  animation: numberShine 1.5s ease-in-out infinite;
+}
+
+@keyframes numberShine {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
 }
 
 .statLabel {
@@ -167,7 +375,7 @@
   opacity: 1 !important;
   visibility: visible !important;
   letter-spacing: 0.2px;
-  transition: transform 0.25s ease;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 [data-theme="light"] .statLabel {
@@ -176,6 +384,41 @@
 
 [data-theme="dark"] .statLabel {
   color: rgba(255, 255, 255, 0.85) !important;
+}
+
+.statCard:hover .statLabel {
+  transform: translateY(-2px) scale(1.05);
+  color: #FF7A00 !important;
+  font-weight: 600;
+  text-shadow: 0 2px 8px rgba(255, 87, 34, 0.3);
+  letter-spacing: 0.5px;
+}
+
+.statsCta {
+  text-align: center;
+  font-size: 17px;
+  color: #0a1628;
+  margin-top: 2rem;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: ctaFadeIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 1s forwards;
+}
+
+@keyframes ctaFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+[data-theme="dark"] .statsCta {
+  color: rgba(255, 255, 255, 0.9) !important;
 }
 
 /* Responsive */
@@ -188,7 +431,7 @@
 
 @media (max-width: 768px) {
   .statsSection {
-    padding: 3rem 1rem;
+    padding: 2rem 1rem;
   }
 
   .statsGrid {
@@ -218,7 +461,6 @@
     border-radius: 10px;
   }
 
-  /* Remove old carousel wrapper styles - now using direct scroll */
   .carouselWrapper {
     display: contents;
   }
@@ -226,7 +468,7 @@
   .carouselTrack {
     display: contents;
   }
-  /* Active slide gets same lift and emphasis as desktop hover */
+
   .activeSlide {
     transform: translateY(-6px);
     box-shadow: 0 10px 28px rgba(255, 87, 34, 0.18), 0 6px 14px rgba(255, 87, 34, 0.12);
@@ -254,9 +496,9 @@
     scroll-snap-align: center;
     flex-shrink: 0;
     transition: all 0.3s ease;
+    animation: none;
   }
 
-  /* Decorative corner accent for attractiveness */
   .statCard::after {
     content: '';
     position: absolute;
@@ -291,6 +533,7 @@
     height: 48px;
     margin: 0 auto 0.6rem auto;
     transition: transform 0.25s ease;
+    animation: none;
   }
 
   .icon {
@@ -298,7 +541,7 @@
     height: 28px;
     transition: transform 0.25s ease;
   }
-  /* Mobile tap active: nudge content up to mimic desktop hover */
+
   .carouselTrack .statCard:active .statNumber,
   .carouselTrack .statCard:active .statLabel,
   .carouselTrack .statCard:active .iconWrapper {
@@ -309,13 +552,11 @@
     margin-bottom: 2rem;
   }
 
-  /* Carousel indicators - hidden for scroll-based carousel */
   .carouselIndicators {
     display: none;
   }
 }
 
-/* Mobile scroll-based carousel interactions */
 @media (max-width: 768px) {
   .statCard:active {
     transform: scale(0.98);
@@ -325,4 +566,8 @@
   .statCard:active .iconWrapper {
     transform: scale(0.95);
   }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .statCard, .iconWrapper { animation: none !important; transition: none !important; }
 }

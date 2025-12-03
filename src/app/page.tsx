@@ -7,6 +7,7 @@ import Courses from '@/components/Courses'
 import Faculty from '@/components/Faculty'
 import Testimonials from '@/components/Testimonials'
 import Demo from '@/components/Demo'
+import LatestCurrentAffairs from '@/components/LatestCurrentAffairs'
 import Footer from '@/components/Footer'
 import ScrollAnimations from '@/components/ScrollAnimations'
 import FloatingButtons from '@/components/FloatingButtons'
@@ -30,6 +31,8 @@ export default function Home() {
       <Testimonials />
       <div className="section-divider" />
       <Demo />
+      <div className="section-divider" />
+      <LatestCurrentAffairs />
       <Footer />
       <FloatingButtons />
     </>

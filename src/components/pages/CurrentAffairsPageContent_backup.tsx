@@ -1,7 +1,5 @@
 "use client"
 import React, { useMemo, useState, useEffect } from 'react'
-import FilterCalendar from '@/components/CurrentAffairs/FilterCalendar'
-import PremiumSelect from '@/components/CurrentAffairs/PremiumSelect'
 
 type CAType = 'daily' | 'weekly' | 'monthly'
 
@@ -19,21 +17,169 @@ type CAItem = {
   issue?: string
 }
 
+function getMonthMatrix(year: number, month: number) {
+  const first = new Date(year, month, 1)
+  const startDay = (first.getDay() + 6) % 7 // Monday=0
+  const daysInMonth = new Date(year, month + 1, 0).getDate()
+  const daysPrevMonth = new Date(year, month, 0).getDate()
+  const cells: { date: Date; inMonth: boolean }[] = []
+  // leading days
+  for (let i = 0; i < startDay; i++) {
+    const d = new Date(year, month - 1, daysPrevMonth - startDay + 1 + i)
+    cells.push({ date: d, inMonth: false })
+  }
+  // current month
+  for (let d = 1; d <= daysInMonth; d++) {
+    cells.push({ date: new Date(year, month, d), inMonth: true })
+  }
+  // trailing to fill 6x7 grid
+  while (cells.length % 7 !== 0) {
+    const last = cells[cells.length - 1].date
+    const next = new Date(last)
+    next.setDate(last.getDate() + 1)
+    cells.push({ date: next, inMonth: false })
+  }
+  // ensure 6 rows
+  while (cells.length < 42) {
+    const last = cells[cells.length - 1].date
+    const next = new Date(last)
+    next.setDate(last.getDate() + 1)
+    cells.push({ date: next, inMonth: false })
+  }
+  return { cells }
+}
+
+function DesktopCalendar({ selectedDate, onSelectDate, onClear }: { selectedDate: string; onSelectDate: (s: string) => void; onClear: () => void }) {
+  const today = new Date()
+  const [viewYear, setViewYear] = React.useState(today.getFullYear())
+  const [viewMonth, setViewMonth] = React.useState(today.getMonth())
+  const { cells } = React.useMemo(() => getMonthMatrix(viewYear, viewMonth), [viewYear, viewMonth])
+  const weekdays = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su']
+
+  const fmt = (d: Date) => d.toISOString().slice(0, 10)
+  const isSelected = (d: Date) => selectedDate !== 'all' && selectedDate === fmt(d)
+  const isToday = (d: Date) => fmt(d) === fmt(today)
+
+  return (
+    <div className="rounded-2xl border-2 border-orange-200 dark:border-orange-800 bg-white/90 dark:bg-gray-800/80 shadow-md overflow-hidden">
+      {/* Header */}
+      <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-amber-50 to-orange-50 dark:from-orange-900/20 dark:to-orange-800/20">
+        <div className="font-semibold text-gray-800 dark:text-orange-100">
+          {new Date(viewYear, viewMonth).toLocaleString('default', { month: 'long', year: 'numeric' })}
+        </div>
+        <div className="flex items-center gap-2">
+          <button
+            className="p-2 rounded-lg bg-white dark:bg-gray-700 border border-orange-200 dark:border-orange-700 hover:bg-orange-50 dark:hover:bg-gray-600"
+            onClick={() => {
+              setViewMonth((m) => {
+                if (m === 0) {
+                  setViewYear((y) => y - 1)
+                  return 11
+                }
+                return m - 1
+              })
+            }}
+            aria-label="Previous month"
+          >
+            ◀
+          </button>
+          <button
+            className="p-2 rounded-lg bg-white dark:bg-gray-700 border border-orange-200 dark:border-orange-700 hover:bg-orange-50 dark:hover:bg-gray-600"
+            onClick={() => {
+              setViewMonth((m) => {
+                if (m === 11) {
+                  setViewYear((y) => y + 1)
+                  return 0
+                }
+                return m + 1
+              })
+            }}
+            aria-label="Next month"
+          >
+            ▶
+          </button>
+          <button
+            className="px-3 py-2 rounded-lg bg-orange-100 dark:bg-orange-900/40 text-orange-700 dark:text-orange-300 hover:bg-orange-200 text-xs font-medium"
+            onClick={() => { setViewYear(today.getFullYear()); setViewMonth(today.getMonth()); onClear(); }}
+          >Clear
+          </button>
+        </div>
+      </div>
+
+      {/* Weekdays */}
+      <div className="grid grid-cols-7 text-center text-xs font-semibold text-gray-500 dark:text-gray-300 px-3 py-2">
+        {weekdays.map((w) => (
+          <div key={w}>{w}</div>
+        ))}
+      </div>
+
+      {/* Days grid */}
+      <div className="grid grid-cols-7 gap-1 px-3 pb-3">
+        {cells.map(({ date, inMonth }, idx) => {
+          const s = fmt(date)
+          const sel = isSelected(date)
+          const todayCell = isToday(date)
+          return (
+            <button
+              key={idx}
+              onClick={() => inMonth ? onSelectDate(s) : undefined}
+              className={[
+                "relative h-9 rounded-xl transition-all duration-300 flex items-center justify-center",
+                inMonth ? "bg-white dark:bg-gray-700 border-2 border-orange-100 dark:border-orange-700" : "bg-transparent",
+                sel ? "ring-2 ring-orange-400 dark:ring-orange-300 scale-[1.03]" : "",
+                todayCell ? "shadow-[inset_0_0_0_2px_rgba(255,122,0,0.35)]" : "",
+                inMonth ? "hover:translate-y-[-2px] hover:shadow-lg" : "opacity-40 cursor-default"
+              ].join(' ')}
+            >
+              <span className={[
+                "text-sm",
+                sel ? "text-orange-700 dark:text-orange-200 font-bold" : "text-gray-800 dark:text-gray-100",
+              ].join(' ')}>{date.getDate()}</span>
+              {/* subtle wave accent */}
+              <span className="pointer-events-none absolute inset-x-2 bottom-1 h-[2px] rounded-full bg-gradient-to-r from-transparent via-orange-300/40 to-transparent"></span>
+            </button>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
 export default function CurrentAffairsPageContent() {
+  // All hooks must be at the top
   const todayStr = useMemo(() => new Date().toISOString().slice(0, 10), [])
   const [activeTab, setActiveTab] = useState<CAType>('daily')
-  // For Daily: start with 'all' to show all daily items by default
   const [selectedDate, setSelectedDate] = useState<string>('all')
   const [selectedSubject, setSelectedSubject] = useState<string>('all')
   const [selectedPaper, setSelectedPaper] = useState<string>('all')
   const [weeklyRange, setWeeklyRange] = useState<'all' | 'this-week' | 'last-week'>('this-week')
   const [monthlyRange, setMonthlyRange] = useState<'all' | 'this-month' | 'last-month'>('this-month')
-  // New pickers for week and month (ISO week string: YYYY-Www, month: YYYY-MM)
-  const [selectedWeek, setSelectedWeek] = useState<string>('')
-  const [selectedMonth, setSelectedMonth] = useState<string>('')
-  const [openDate, setOpenDate] = useState(false)
-  const [openWeek, setOpenWeek] = useState(false)
-  const [openMonth, setOpenMonth] = useState(false)
+  const [selectedItemId, setSelectedItemId] = useState<number | null>(null)
+
+  const today = useMemo(() => {
+    const d = new Date()
+    d.setHours(0, 0, 0, 0)
+    return d
+  }, [])
+
+  // Scroll to top when modal opens
+  useEffect(() => {
+    if (selectedItemId != null) {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'unset'
+    }
+  }, [selectedItemId])
+
+  // Close on ESC
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setSelectedItemId(null)
+    }
+    window.addEventListener('keydown', handler)
+    return () => window.removeEventListener('keydown', handler)
+  }, [])
 
   // Admin-managed content (imageUrl provided by admin). Placeholder URLs here.
   const items: CAItem[] = [
@@ -198,12 +344,6 @@ export default function CurrentAffairsPageContent() {
   const papers = ['all', 'GS-I', 'GS-II', 'GS-III', 'GS-IV', 'GS-I/II/III']
 
   // Date helpers for weekly/monthly filtering
-  const today = useMemo(() => {
-    const d = new Date()
-    d.setHours(0, 0, 0, 0)
-    return d
-  }, [])
-
   const weekStart = (d: Date) => {
     const date = new Date(d)
     const day = date.getDay() // 0 Sun .. 6 Sat
@@ -249,27 +389,7 @@ export default function CurrentAffairsPageContent() {
     return true
   })
 
-  const [selectedItemId, setSelectedItemId] = useState<number | null>(null)
   const selectedItem = selectedItemId != null ? items.find(i => i.id === selectedItemId) : null
-
-  // Scroll to top when modal opens
-  useEffect(() => {
-    if (selectedItemId != null) {
-      window.scrollTo({ top: 0, behavior: 'smooth' })
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = 'unset'
-    }
-  }, [selectedItemId])
-
-  // Close on ESC
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setSelectedItemId(null)
-    }
-    window.addEventListener('keydown', handler)
-    return () => window.removeEventListener('keydown', handler)
-  }, [])
 
   return (
     <div>
@@ -286,8 +406,8 @@ export default function CurrentAffairsPageContent() {
       {/* Tabs, Filters and Content */}
       <section className="py-8 current-affairs-section" data-section="current-affairs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Main tabs - modern segmented pills */}
-          <div className="sticky top-[72px] md:top-[119px] z-30 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-5 mb-6 -mt-2 shadow-md">
+          {/* Main tabs */}
+          <div className="sticky top-[72px] md:top-[119px] z-30 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-4 mb-6 -mt-2 shadow-md">
             <div className="max-w-7xl mx-auto">
               <div className="flex gap-3 overflow-x-auto pb-2">
                 {([
@@ -303,174 +423,257 @@ export default function CurrentAffairsPageContent() {
                     if (tab.id !== 'daily') setSelectedDate('all')
                     if (tab.id === 'weekly') setWeeklyRange('this-week')
                     if (tab.id === 'monthly') setMonthlyRange('this-month')
-                    setSelectedWeek('')
-                    setSelectedMonth('')
                   }}
-                  className={`group px-6 py-2.5 rounded-full font-semibold whitespace-nowrap transition-all duration-300 border ${
+                  className={`px-6 py-2 rounded-full font-semibold whitespace-nowrap transition-all duration-200 ${
                     activeTab === tab.id
-                      ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white border-transparent shadow-lg shadow-orange-500/30'
-                      : 'bg-orange-50/70 dark:bg-orange-900/20 text-orange-700 dark:text-orange-300 hover:bg-orange-100 dark:hover:bg-orange-900/30 border-orange-200 dark:border-orange-700'
+                      ? 'bg-orange-500 text-white shadow-lg'
+                      : 'bg-orange-50 dark:bg-orange-900/20 text-orange-700 dark:text-orange-300 hover:bg-orange-100 dark:hover:bg-orange-900/30 border border-orange-200 dark:border-orange-700'
                   }`}
                 >
-                  <span className="inline-flex items-center gap-2">
-                    {tab.id === 'daily' && (
-                      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2" strokeWidth="2"/>
-                        <line x1="16" y1="2" x2="16" y2="6" strokeWidth="2" strokeLinecap="round"/>
-                        <line x1="8" y1="2" x2="8" y2="6" strokeWidth="2" strokeLinecap="round"/>
-                        <line x1="3" y1="10" x2="21" y2="10" strokeWidth="2"/>
-                      </svg>
-                    )}
-                    {tab.id === 'weekly' && (
-                      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                        <path strokeWidth="2" d="M9 15h2m2 0h2"/>
-                      </svg>
-                    )}
-                    {tab.id === 'monthly' && (
-                      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-                      </svg>
-                    )}
-                    {tab.name}
-                  </span>
+                  {tab.name}
                 </button>
               ))}
               </div>
             </div>
           </div>
 
-          {/* Dependent filters - refreshed UI */}
-          <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-lg p-6 mb-8 relative z-40" style={{overflow: 'visible'}}>
+          {/* Dependent filters */}
+          <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-lg p-6 mb-8">
             <h2 className="text-lg font-semibold mb-4">Filters</h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 relative">
+            {/* Modern segmented controls layout on desktop */}
+            <div className="hidden md:grid md:grid-cols-12 gap-4 items-start">
+              {/* Subject */}
+              <div className="md:col-span-4">
+                <label className="block text-xs font-semibold text-gray-600 dark:text-gray-300 mb-1">Subject</label>
+                <div className="flex flex-wrap gap-2">
+                  {subjects.map((subject) => (
+                    <button
+                      key={subject}
+                      onClick={() => setSelectedSubject(subject)}
+                      className={`px-3 py-1.5 rounded-full text-sm border transition-all ${selectedSubject === subject ? 'bg-orange-500 text-white border-orange-600 shadow-md' : 'bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 border-orange-200 dark:border-orange-800 hover:bg-orange-50 dark:hover:bg-gray-600'}`}
+                    >
+                      {subject === 'all' ? 'All' : subject}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              {/* Paper */}
+              <div className="md:col-span-4">
+                <label className="block text-xs font-semibold text-gray-600 dark:text-gray-300 mb-1">UPSC Paper</label>
+                <div className="flex flex-wrap gap-2">
+                  {papers.map((paper) => (
+                    <button
+                      key={paper}
+                      onClick={() => setSelectedPaper(paper)}
+                      className={`px-3 py-1.5 rounded-full text-sm border transition-all ${selectedPaper === paper ? 'bg-orange-500 text-white border-orange-600 shadow-md' : 'bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 border-orange-200 dark:border-orange-800 hover:bg-orange-50 dark:hover:bg-gray-600'}`}
+                    >
+                      {paper === 'all' ? 'All' : paper}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              {/* Calendar or Range selector */}
+              <div className="md:col-span-4">
+                {activeTab === 'daily' && (
+                  <DesktopCalendar
+                    selectedDate={selectedDate}
+                    onSelectDate={(d) => setSelectedDate(d)}
+                    onClear={() => setSelectedDate('all')}
+                  />
+                )}
+                {activeTab === 'weekly' && (
+                  <div>
+                    <label className="block text-xs font-semibold text-gray-600 dark:text-gray-300 mb-1">Week Range</label>
+                    <div className="flex flex-wrap gap-2">
+                      {[
+                        { value: 'this-week', label: 'This Week' },
+                        { value: 'last-week', label: 'Last Week' },
+                        { value: 'all', label: 'All Weeks' }
+                      ].map((option) => (
+                        <button
+                          key={option.value}
+                          onClick={() => setWeeklyRange(option.value as any)}
+                          className={`px-3 py-1.5 rounded-full text-sm border transition-all ${weeklyRange === option.value ? 'bg-orange-500 text-white border-orange-600 shadow-md' : 'bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 border-orange-200 dark:border-orange-800 hover:bg-orange-50 dark:hover:bg-gray-600'}`}
+                        >
+                          {option.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                {activeTab === 'monthly' && (
+                  <div>
+                    <label className="block text-xs font-semibold text-gray-600 dark:text-gray-300 mb-1">Month Range</label>
+                    <div className="flex flex-wrap gap-2">
+                      {[
+                        { value: 'this-month', label: 'This Month' },
+                        { value: 'last-month', label: 'Last Month' },
+                        { value: 'all', label: 'All Months' }
+                      ].map((option) => (
+                        <button
+                          key={option.value}
+                          onClick={() => setMonthlyRange(option.value as any)}
+                          className={`px-3 py-1.5 rounded-full text-sm border transition-all ${monthlyRange === option.value ? 'bg-orange-500 text-white border-orange-600 shadow-md' : 'bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 border-orange-200 dark:border-orange-800 hover:bg-orange-50 dark:hover:bg-gray-600'}`}
+                        >
+                          {option.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Mobile/simple fallback form */}
+            <div className="grid grid-cols-1 md:hidden gap-4">
               <div>
-                <PremiumSelect
-                  label="Subject"
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Subject</label>
+                <select
                   value={selectedSubject}
-                  onChange={setSelectedSubject}
-                  options={subjects.map(s=>({label: s==='all'?'All Subjects': s, value: s}))}
-                />
+                  onChange={(e) => setSelectedSubject(e.target.value)}
+                  className="w-full px-4 py-2 border-2 border-orange-200 dark:border-orange-800 rounded-lg focus:border-orange-500 focus:outline-none bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                >
+                  {subjects.map((subject) => (
+                    <option key={subject} value={subject}>
+                      {subject === 'all' ? 'All Subjects' : subject}
+                    </option>
+                  ))}
+                </select>
               </div>
 
               <div>
-                <PremiumSelect
-                  label="UPSC Paper"
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">UPSC Paper</label>
+                <select
                   value={selectedPaper}
-                  onChange={setSelectedPaper}
-                  options={papers.map(p=>({label: p==='all'?'All Papers': p, value: p}))}
-                />
+                  onChange={(e) => setSelectedPaper(e.target.value)}
+                  className="w-full px-4 py-2 border-2 border-orange-200 dark:border-orange-800 rounded-lg focus:border-orange-500 focus:outline-none bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                >
+                  {papers.map((paper) => (
+                    <option key={paper} value={paper}>
+                      {paper === 'all' ? 'All Papers' : paper}
+                    </option>
+                  ))}
+                </select>
               </div>
 
               {activeTab === 'daily' && (
-                <div className="relative overflow-visible">
+                <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Date</label>
+                  <input
+                    type="date"
+                    value={selectedDate === 'all' ? '' : selectedDate}
+                    onChange={(e) => setSelectedDate(e.target.value === '' ? 'all' : e.target.value)}
+                    className="w-full px-4 py-2 border-2 border-orange-200 dark:border-orange-800 rounded-lg focus:border-orange-500 focus:outline-none bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                  />
                   <button
                     type="button"
-                    className="rounded-xl px-4 py-2.5 border border-orange-300 dark:border-orange-700 bg-gradient-to-r from-white/80 to-orange-50/40 dark:from-gray-700/80 dark:to-orange-900/20 shadow-sm hover:shadow-md text-orange-600 dark:text-orange-300 font-semibold transition-all backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 w-full text-left flex items-center justify-between"
-                    onClick={() => setOpenDate(v => !v)}
-                  >
-                    <span>{selectedDate === 'all' ? 'Select Date' : selectedDate}</span>
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                  </button>
-                  <div className="absolute z-50 mt-2 left-0">
-                    <FilterCalendar
-                      mode="date"
-                      value={selectedDate === 'all' ? '' : selectedDate}
-                      onChange={(v) => setSelectedDate(v || 'all')}
-                      open={openDate}
-                      onClose={() => setOpenDate(false)}
-                      title="Select Date"
-                    />
-                  </div>
-                  <div className="mt-2">
-                    <button
-                      type="button"
-                      onClick={() => setSelectedDate('all')}
-                      className="px-3 py-2 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white hover:from-orange-600 hover:to-amber-600 text-xs font-semibold transition-all shadow-sm hover:shadow-md whitespace-nowrap"
-                    >All Dates</button>
-                  </div>
+                    onClick={() => setSelectedDate('all')}
+                    className="mt-2 px-3 py-1 rounded-md bg-orange-50 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 hover:bg-orange-100 dark:hover:bg-orange-900/50 text-xs font-medium transition-colors"
+                  >Show All Dates</button>
                 </div>
               )}
               {activeTab === 'weekly' && (
-                <div className="relative overflow-visible">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Week</label>
-                  <button
-                    type="button"
-                    className="rounded-xl px-4 py-2.5 border border-orange-300 dark:border-orange-700 bg-gradient-to-r from-white/80 to-orange-50/40 dark:from-gray-700/80 dark:to-orange-900/20 shadow-sm hover:shadow-md text-orange-600 dark:text-orange-300 font-semibold transition-all backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 w-full text-left flex items-center justify-between"
-                    onClick={() => setOpenWeek(v => !v)}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Week Range</label>
+                  <select
+                    value={weeklyRange}
+                    onChange={(e) => setWeeklyRange(e.target.value as any)}
+                    className="w-full px-4 py-2 border-2 border-orange-200 dark:border-orange-800 rounded-lg focus:border-orange-500 focus:outline-none bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   >
-                    <span>{selectedWeek || 'Select Week'}</span>
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                  </button>
-                  <div className="absolute z-50 mt-2 left-0">
-                    <FilterCalendar
-                      mode="week"
-                      value={selectedWeek}
-                      onChange={(v) => { setSelectedWeek(v || ''); setWeeklyRange('all') }}
-                      open={openWeek}
-                      onClose={() => setOpenWeek(false)}
-                      title="Select Week"
-                    />
-                  </div>
-                  <div className="flex gap-2 mt-2">
-                    <button
-                      type="button"
-                      onClick={() => { setSelectedWeek(''); setWeeklyRange('this-week'); }}
-                      className="px-3 py-2 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white hover:from-orange-600 hover:to-amber-600 text-xs font-semibold transition-all shadow-sm hover:shadow-md whitespace-nowrap"
-                    >This Week</button>
-                    <button
-                      type="button"
-                      onClick={() => { setSelectedWeek(''); setWeeklyRange('last-week'); }}
-                      className="px-3 py-2 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white hover:from-orange-600 hover:to-amber-600 text-xs font-semibold transition-all shadow-sm hover:shadow-md whitespace-nowrap"
-                    >Last Week</button>
-                    <button
-                      type="button"
-                      onClick={() => { setSelectedWeek(''); setWeeklyRange('all'); }}
-                      className="px-3 py-2 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white hover:from-orange-600 hover:to-amber-600 text-xs font-semibold transition-all shadow-sm hover:shadow-md whitespace-nowrap"
-                    >All Weeks</button>
-                  </div>
+                    <option value="this-week">This Week</option>
+                    <option value="last-week">Last Week</option>
+                    <option value="all">All Weeks</option>
+                  </select>
                 </div>
               )}
               {activeTab === 'monthly' && (
-                <div className="relative overflow-visible">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Month</label>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Month Range</label>
+                  <select
+                    value={monthlyRange}
+                    onChange={(e) => setMonthlyRange(e.target.value as any)}
+                    className="w-full px-4 py-2 border-2 border-orange-200 dark:border-orange-800 rounded-lg focus:border-orange-500 focus:outline-none bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                  >
+                    <option value="this-month">This Month</option>
+                    <option value="last-month">Last Month</option>
+                    <option value="all">All Months</option>
+                  </select>
+                </div>
+              )}
+            </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Subject</label>
+                <select
+                  value={selectedSubject}
+                  onChange={(e) => setSelectedSubject(e.target.value)}
+                  className="w-full px-4 py-2 border-2 border-orange-200 dark:border-orange-800 rounded-lg focus:border-orange-500 focus:outline-none bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                >
+                  {subjects.map((subject) => (
+                    <option key={subject} value={subject}>
+                      {subject === 'all' ? 'All Subjects' : subject}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">UPSC Paper</label>
+                <select
+                  value={selectedPaper}
+                  onChange={(e) => setSelectedPaper(e.target.value)}
+                  className="w-full px-4 py-2 border-2 border-orange-200 dark:border-orange-800 rounded-lg focus:border-orange-500 focus:outline-none bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                >
+                  {papers.map((paper) => (
+                    <option key={paper} value={paper}>
+                      {paper === 'all' ? 'All Papers' : paper}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {activeTab === 'daily' && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Date</label>
+                  <input
+                    type="date"
+                    value={selectedDate === 'all' ? '' : selectedDate}
+                    onChange={(e) => setSelectedDate(e.target.value === '' ? 'all' : e.target.value)}
+                    className="w-full px-4 py-2 border-2 border-orange-200 dark:border-orange-800 rounded-lg focus:border-orange-500 focus:outline-none bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                  />
                   <button
                     type="button"
-                    className="rounded-xl px-4 py-2.5 border border-orange-300 dark:border-orange-700 bg-gradient-to-r from-white/80 to-orange-50/40 dark:from-gray-700/80 dark:to-orange-900/20 shadow-sm hover:shadow-md text-orange-600 dark:text-orange-300 font-semibold transition-all backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 w-full text-left flex items-center justify-between"
-                    onClick={() => setOpenMonth(v => !v)}
+                    onClick={() => setSelectedDate('all')}
+                    className="mt-2 px-3 py-1 rounded-md bg-orange-50 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 hover:bg-orange-100 dark:hover:bg-orange-900/50 text-xs font-medium transition-colors"
+                  >Show All Dates</button>
+                </div>
+              )}
+              {activeTab === 'weekly' && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Week Range</label>
+                  <select
+                    value={weeklyRange}
+                    onChange={(e) => setWeeklyRange(e.target.value as any)}
+                    className="w-full px-4 py-2 border-2 border-orange-200 dark:border-orange-800 rounded-lg focus:border-orange-500 focus:outline-none bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   >
-                    <span>{selectedMonth || 'Select Month'}</span>
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                  </button>
-                  <div className="absolute z-50 mt-2 left-0">
-                    <FilterCalendar
-                      mode="month"
-                      value={selectedMonth}
-                      onChange={(v) => { setSelectedMonth(v || ''); setMonthlyRange('all') }}
-                      open={openMonth}
-                      onClose={() => setOpenMonth(false)}
-                      title="Select Month"
-                    />
-                  </div>
-                  <div className="flex gap-2 mt-2">
-                    <button
-                      type="button"
-                      onClick={() => { setSelectedMonth(''); setMonthlyRange('this-month'); }}
-                      className="px-3 py-2 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white hover:from-orange-600 hover:to-amber-600 text-xs font-semibold transition-all shadow-sm hover:shadow-md whitespace-nowrap"
-                    >This Month</button>
-                    <button
-                      type="button"
-                      onClick={() => { setSelectedMonth(''); setMonthlyRange('last-month'); }}
-                      className="px-3 py-2 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white hover:from-orange-600 hover:to-amber-600 text-xs font-semibold transition-all shadow-sm hover:shadow-md whitespace-nowrap"
-                    >Last Month</button>
-                    <button
-                      type="button"
-                      onClick={() => { setSelectedMonth(''); setMonthlyRange('all'); }}
-                      className="px-3 py-2 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white hover:from-orange-600 hover:to-amber-600 text-xs font-semibold transition-all shadow-sm hover:shadow-md whitespace-nowrap"
-                    >All Months</button>
-                  </div>
+                    <option value="this-week">This Week</option>
+                    <option value="last-week">Last Week</option>
+                    <option value="all">All Weeks</option>
+                  </select>
+                </div>
+              )}
+              {activeTab === 'monthly' && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Month Range</label>
+                  <select
+                    value={monthlyRange}
+                    onChange={(e) => setMonthlyRange(e.target.value as any)}
+                    className="w-full px-4 py-2 border-2 border-orange-200 dark:border-orange-800 rounded-lg focus:border-orange-500 focus:outline-none bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                  >
+                    <option value="this-month">This Month</option>
+                    <option value="last-month">Last Month</option>
+                    <option value="all">All Months</option>
+                  </select>
                 </div>
               )}
             </div>
@@ -480,11 +683,9 @@ export default function CurrentAffairsPageContent() {
                 onClick={() => {
                   setSelectedSubject('all')
                   setSelectedPaper('all')
-                  setSelectedDate('all')
-                  setSelectedWeek('')
-                  setSelectedMonth('')
-                  if (activeTab === 'weekly') setWeeklyRange('all')
-                  if (activeTab === 'monthly') setMonthlyRange('all')
+                  setSelectedDate(activeTab === 'daily' ? todayStr : 'all')
+                  if (activeTab === 'weekly') setWeeklyRange('this-week')
+                  if (activeTab === 'monthly') setMonthlyRange('this-month')
                 }}
                 className="mt-4 px-4 py-2 rounded-lg bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 hover:bg-orange-200 dark:hover:bg-orange-900/50 text-sm font-medium transition-colors"
               >
@@ -499,7 +700,7 @@ export default function CurrentAffairsPageContent() {
           </div>
 
           {/* Cards Grid - compact design */}
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 items-stretch relative z-0">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 items-stretch">
             {filteredItems.map((item) => (
               <div key={item.id} className="bg-white/95 dark:bg-gray-900/75 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden h-full flex flex-col">
                 {/* Top image - compact 16:9 aspect */}
@@ -651,3 +852,5 @@ export default function CurrentAffairsPageContent() {
     </div>
   );
 }
+
+

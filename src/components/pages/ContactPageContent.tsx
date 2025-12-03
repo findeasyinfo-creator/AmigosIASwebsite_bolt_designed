@@ -1,266 +1,277 @@
-'use client'
-import React, { useState } from 'react';
+"use client"
+import React, { useState } from "react"
 
 export default function ContactPageContent() {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    district: '',
-    state: '',
-    message: '',
-  });
+    name: "",
+    email: "",
+    phone: "",
+    district: "",
+    topic: "",
+    message: "",
+  })
+  const [errors, setErrors] = useState<Record<string, string>>({})
 
-  const [errors, setErrors] = useState<Record<string, string>>({});
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-    if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: '' }));
-    }
-  };
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target
+    setFormData(prev => ({ ...prev, [name]: value }))
+    if (errors[name]) setErrors(prev => ({ ...prev, [name]: "" }))
+  }
 
   const validate = (): boolean => {
-    const newErrors: Record<string, string> = {};
-
-    if (!formData.name.trim()) newErrors.name = 'Name is required';
+    const newErrors: Record<string, string> = {}
+    if (!formData.name.trim()) newErrors.name = "Name is required"
     if (!formData.email.trim() || !/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Valid email is required';
+      newErrors.email = "Valid email is required"
     }
     if (!formData.phone.trim() || !/^\d{10}$/.test(formData.phone)) {
-      newErrors.phone = 'Valid 10-digit phone number is required';
+      newErrors.phone = "Valid 10-digit phone number is required"
     }
-    // Message is optional per request
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
     if (validate()) {
-      console.log('Form submitted:', formData);
-      alert('Your request has been successfully submitted! We will contact you shortly.');
-      setFormData({ name: '', email: '', phone: '', district: '', state: '', message: '' });
+      console.log("Form submitted:", formData)
+      alert("Your request has been successfully submitted! We will contact you shortly.")
+      setFormData({ name: "", email: "", phone: "", district: "", topic: "", message: "" })
     }
-  };
+  }
 
   return (
-    <div>
+    <div className="relative overflow-hidden">
+      {/* Decorative background elements */}
+      <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-orange-500/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-orange-600/5 rounded-full blur-3xl" />
+      </div>
+
       {/* Hero Section */}
-      <section className="py-16 hero-section">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl sm:text-5xl font-bold mb-4 text-gray-900 dark:text-white">Contact Us</h1>
-          <p className="text-xl text-gray-700 dark:text-gray-300">
-            Get in touch with us for any queries or information
+      <section className="py-12 sm:py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="inline-block mb-4 px-4 py-2 bg-orange-50 dark:bg-orange-900/20 rounded-full">
+            <p className="text-sm font-semibold tracking-wider text-orange-600 uppercase">Get In Touch</p>
+          </div>
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight text-[#0a1628] dark:text-white mb-4">
+            Let's Start Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-orange-600">IAS Journey</span>
+          </h1>
+          <p className="text-gray-600 dark:text-gray-300 text-lg max-w-2xl mx-auto">
+            Connect with Amigos IAS — your trusted partner for UPSC preparation. We're here to guide you every step of the way.
           </p>
         </div>
       </section>
 
-      {/* Contact Content */}
-      <section className="py-8">
+      {/* Cards: left text, right form */}
+      <section className="py-8 sm:py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Contact Form */}
-            <div>
-              <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg">
-                <h2 className="text-2xl font-bold mb-6">Send Us a Message</h2>
-                <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+            {/* Left info card */}
+            <div className="space-y-6">
+              <div className="bg-gradient-to-br from-white to-orange-50/30 dark:from-gray-800 dark:to-orange-900/10 rounded-3xl p-8 shadow-[0_20px_70px_rgba(0,0,0,0.1)] border border-orange-100/50 dark:border-orange-900/30 hover:shadow-[0_25px_80px_rgba(251,146,60,0.15)] transition-all duration-300">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center shadow-lg">
+                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                  </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      Full Name <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-colors bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white ${
-                        errors.name ? 'border-red-500' : formData.name ? 'border-green-500' : ''
-                      }`}
-                      placeholder="Enter your name"
-                    />
-                    {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
+                    <p className="text-sm font-semibold tracking-wider text-orange-600 uppercase">Quick Response</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">Within 24 hours</p>
                   </div>
+                </div>
+                <h2 className="text-3xl sm:text-4xl font-extrabold leading-tight text-[#0a1628] dark:text-white mb-4">
+                  We're here to help you <span className="text-orange-600">succeed</span>
+                </h2>
+                <p className="text-gray-600 dark:text-gray-300 text-base leading-relaxed mb-8">
+                  Amigos IAS guides aspirants with structured courses, expert mentorship, and comprehensive resources for UPSC. Join thousands of successful candidates.
+                </p>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email <span className="text-red-500">*</span></label>
-                      <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-colors bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white ${
-                          errors.email ? 'border-red-500' : formData.email ? 'border-green-500' : ''
-                        }`}
-                        placeholder="your.email@example.com"
-                      />
-                      {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+                {/* Branch Cards */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+                  <div className="bg-white dark:bg-gray-700/40 backdrop-blur-sm rounded-2xl p-5 border border-orange-100 dark:border-gray-600 hover:border-orange-300 dark:hover:border-orange-500/50 transition-all duration-300 hover:shadow-lg group">
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse" />
+                      <p className="text-sm font-bold text-[#0a1628] dark:text-white">Head Office</p>
                     </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Phone <span className="text-red-500">*</span></label>
-                      <input
-                        type="tel"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleChange}
-                        className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-colors bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white ${
-                          errors.phone ? 'border-red-500' : formData.phone ? 'border-green-500' : ''
-                        }`}
-                        placeholder="10-digit number"
-                        maxLength={10}
-                      />
-                      {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
-                    </div>
+                    <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">Bada Bazar Rd, Karol Bagh, New Delhi</p>
                   </div>
-
-                  {/* District and State */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">District</label>
-                      <input
-                        type="text"
-                        name="district"
-                        value={formData.district}
-                        onChange={handleChange}
-                        className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-colors bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
-                        placeholder="Your district"
-                      />
+                  <div className="bg-white dark:bg-gray-700/40 backdrop-blur-sm rounded-2xl p-5 border border-orange-100 dark:border-gray-600 hover:border-orange-300 dark:hover:border-orange-500/50 transition-all duration-300 hover:shadow-lg group">
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse" />
+                      <p className="text-sm font-bold text-[#0a1628] dark:text-white">Hyderabad Center</p>
                     </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">State</label>
-                      <input
-                        type="text"
-                        name="state"
-                        value={formData.state}
-                        onChange={handleChange}
-                        className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-colors bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
-                        placeholder="Your state"
-                      />
-                    </div>
+                    <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">Near SR Nagar, Hyderabad</p>
                   </div>
+                </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Message</label>
-                    <textarea
-                      name="message"
-                      value={formData.message}
-                      onChange={handleChange}
-                      rows={5}
-                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-colors bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white resize-none ${
-                        formData.message ? 'border-green-500' : ''
-                      }`}
-                      placeholder="Write your message here..."
-                    />
-                    {/* Message optional: no error shown */}
-                  </div>
-
-                  <button 
-                    type="submit" 
-                    className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200"
-                  >
-                    Submit
-                  </button>
-                </form>
-              </div>
-            </div>
-
-            {/* Contact Information */}
-            <div>
-              <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg">
-                <h2 className="text-2xl font-bold mb-6">Contact Information</h2>
-                <div className="space-y-6">
-                  <div className="flex items-start">
-                    <div className="w-12 h-12 bg-orange-100 dark:bg-orange-900/30 rounded-lg flex items-center justify-center flex-shrink-0 mr-4">
-                      <svg className="w-6 h-6 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {/* Contact Methods */}
+                <div className="space-y-4">
+                  <div className="flex items-start gap-4 group cursor-pointer">
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900/30 dark:to-orange-800/20 flex items-center justify-center text-orange-600 group-hover:scale-110 transition-transform duration-300">
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                       </svg>
                     </div>
-                    <div>
-                      <h3 className="font-semibold mb-1">Address</h3>
-                      <p className="text-gray-600 dark:text-gray-400">
-                        123 Main Street, Education District<br />
-                        City, State 110001<br />
-                        India
-                      </p>
+                    <div className="flex-1">
+                      <p className="text-sm font-semibold text-gray-900 dark:text-white mb-1">Visit Us</p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">Shop No.6, 3rd floor, Near Grover Mithaivala, Bada Bazar Rd, Delhi, 110060</p>
                     </div>
                   </div>
-
-                  <div className="flex items-start">
-                    <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center flex-shrink-0 mr-4">
-                      <svg className="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                      </svg>
-                    </div>
-                    <div>
-                      <h3 className="font-semibold mb-1">Phone</h3>
-                      <p className="text-gray-600 dark:text-gray-400">
-                        <a href="tel:+911234567890" className="hover:text-orange-500 transition-colors">+91 123 456 7890</a><br />
-                        <a href="tel:+911234567891" className="hover:text-orange-500 transition-colors">+91 123 456 7891</a>
-                      </p>
-                      <div className="mt-3">
-                        <a
-                          href="https://wa.me/911234567890"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center px-4 py-2 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600 transition-colors"
-                        >
-                          <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884" />
-                          </svg>
-                          WhatsApp
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start">
-                    <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center flex-shrink-0 mr-4">
-                      <svg className="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="flex items-start gap-4 group cursor-pointer">
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900/30 dark:to-orange-800/20 flex items-center justify-center text-orange-600 group-hover:scale-110 transition-transform duration-300">
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                       </svg>
                     </div>
-                    <div>
-                      <h3 className="font-semibold mb-1">Email</h3>
-                      <p className="text-gray-600 dark:text-gray-400">
-                        <a href="mailto:info@amigosias.com" className="hover:text-orange-500 transition-colors">info@amigosias.com</a><br />
-                        <a href="mailto:admissions@amigosias.com" className="hover:text-orange-500 transition-colors">admissions@amigosias.com</a>
-                      </p>
+                    <div className="flex-1">
+                      <p className="text-sm font-semibold text-gray-900 dark:text-white mb-1">Email Us</p>
+                      <a href="mailto:contact@amigosias.com" className="text-sm text-orange-600 hover:text-orange-700 dark:hover:text-orange-400 transition-colors font-medium">contact@amigosias.com</a>
                     </div>
                   </div>
-
-                  <div className="flex items-start">
-                    <div className="w-12 h-12 bg-orange-100 dark:bg-orange-900/30 rounded-lg flex items-center justify-center flex-shrink-0 mr-4">
-                      <svg className="w-6 h-6 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  <div className="flex items-start gap-4 group cursor-pointer">
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900/30 dark:to-orange-800/20 flex items-center justify-center text-orange-600 group-hover:scale-110 transition-transform duration-300">
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                       </svg>
                     </div>
-                    <div>
-                      <h3 className="font-semibold mb-1">Office Hours</h3>
-                      <p className="text-gray-600 dark:text-gray-400">
-                        Monday - Saturday: 8:00 AM - 8:00 PM<br />
-                        Sunday: 9:00 AM - 5:00 PM
-                      </p>
+                    <div className="flex-1">
+                      <p className="text-sm font-semibold text-gray-900 dark:text-white mb-1">Call Us</p>
+                      <a href="tel:+919876543210" className="text-sm text-orange-600 hover:text-orange-700 dark:hover:text-orange-400 transition-colors font-medium">+91 98765 43210</a>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
+            
+            {/* Right form card */}
+            <div className="lg:sticky lg:top-8">
+              <div className="bg-white dark:bg-gray-800 rounded-3xl p-8 shadow-[0_20px_70px_rgba(0,0,0,0.1)] border border-gray-100 dark:border-gray-700 hover:shadow-[0_25px_80px_rgba(251,146,60,0.15)] transition-all duration-300">
+                <div className="mb-6">
+                  <h3 className="text-2xl font-bold text-[#0a1628] dark:text-white mb-2">Send us a message</h3>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Fill out the form below and we'll get back to you shortly.</p>
+                </div>
+                <form onSubmit={handleSubmit} className="space-y-5">
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Full Name <span className="text-red-500">*</span></label>
+                    <input 
+                      type="text" 
+                      name="name" 
+                      value={formData.name} 
+                      onChange={handleChange} 
+                      className={`w-full px-4 py-3.5 rounded-xl bg-gray-50 dark:bg-gray-700/50 border-2 ${errors.name ? 'border-red-500' : 'border-gray-200 dark:border-gray-600'} text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all duration-200`} 
+                      placeholder="John Doe" 
+                    />
+                    {errors.name && <p className="text-red-500 text-sm mt-1.5 flex items-center gap-1"><span>⚠</span> {errors.name}</p>}
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Email <span className="text-red-500">*</span></label>
+                      <input 
+                        type="email" 
+                        name="email" 
+                        value={formData.email} 
+                        onChange={handleChange} 
+                        className={`w-full px-4 py-3.5 rounded-xl bg-gray-50 dark:bg-gray-700/50 border-2 ${errors.email ? 'border-red-500' : 'border-gray-200 dark:border-gray-600'} text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all duration-200`} 
+                        placeholder="john@example.com" 
+                      />
+                      {errors.email && <p className="text-red-500 text-sm mt-1.5 flex items-center gap-1"><span>⚠</span> {errors.email}</p>}
+                    </div>
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Phone <span className="text-red-500">*</span></label>
+                      <input 
+                        type="tel" 
+                        name="phone" 
+                        value={formData.phone} 
+                        onChange={handleChange} 
+                        maxLength={10} 
+                        placeholder="98765 43210" 
+                        className={`w-full px-4 py-3.5 rounded-xl bg-gray-50 dark:bg-gray-700/50 border-2 ${errors.phone ? 'border-red-500' : 'border-gray-200 dark:border-gray-600'} text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all duration-200`} 
+                      />
+                      {errors.phone && <p className="text-red-500 text-sm mt-1.5 flex items-center gap-1"><span>⚠</span> {errors.phone}</p>}
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">District</label>
+                    <input 
+                      type="text" 
+                      name="district" 
+                      value={formData.district} 
+                      onChange={handleChange} 
+                      className="w-full px-4 py-3.5 rounded-xl bg-gray-50 dark:bg-gray-700/50 border-2 border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all duration-200" 
+                      placeholder="Enter your district" 
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Topic</label>
+                    <select 
+                      name="topic" 
+                      value={formData.topic} 
+                      onChange={handleChange} 
+                      className="w-full px-4 py-3.5 rounded-xl bg-gray-50 dark:bg-gray-700/50 border-2 border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all duration-200 cursor-pointer"
+                    >
+                      <option value="">Select a topic</option>
+                      <option value="admissions">Admissions Inquiry</option>
+                      <option value="courses">Course Information</option>
+                      <option value="support">Student Support</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Message</label>
+                    <textarea 
+                      name="message" 
+                      value={formData.message} 
+                      onChange={handleChange} 
+                      rows={5} 
+                      placeholder="Tell us more about your inquiry..." 
+                      className="w-full px-4 py-3.5 rounded-xl bg-gray-50 dark:bg-gray-700/50 border-2 border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none resize-none transition-all duration-200" 
+                    />
+                  </div>
+                  <button 
+                    type="submit" 
+                    className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center justify-center gap-2"
+                  >
+                    <span>Send Message</span>
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                  </button>
+                </form>
+              </div>
+            </div>
           </div>
+        </div>
+      </section>
 
-          {/* Map Placeholder - centered full-width */}
-          <div className="mt-8">
-            <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl overflow-hidden shadow-lg mx-auto max-w-4xl">
-              <div className="w-full h-96 bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
-                <div className="text-center text-gray-500 dark:text-gray-400">
-                  <svg className="w-16 h-16 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+      {/* Large Map at bottom */}
+      <section className="py-12 sm:py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0a1628] dark:text-white mb-3">Visit Our Campus</h2>
+            <p className="text-gray-600 dark:text-gray-300">Find us on the map and plan your visit</p>
+          </div>
+          <div className="bg-gradient-to-br from-white to-orange-50/20 dark:from-gray-800 dark:to-orange-900/10 backdrop-blur-sm rounded-3xl overflow-hidden shadow-[0_20px_70px_rgba(0,0,0,0.1)] border border-orange-100/50 dark:border-orange-900/30">
+            <div className="w-full h-[28rem] sm:h-[35rem] bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 flex items-center justify-center relative group">
+              <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-transparent" />
+              <div className="text-center text-gray-500 dark:text-gray-400 relative z-10">
+                <div className="mb-4 transform group-hover:scale-110 transition-transform duration-300">
+                  <svg className="w-20 h-20 mx-auto text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
-                  <p className="text-sm">Google Maps</p>
-                  <p className="text-xs">Amigos IAS Academy Location</p>
+                </div>
+                <p className="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-2">Interactive Map</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">Amigos IAS Academy Location</p>
+                <div className="flex flex-wrap gap-3 justify-center">
+                  <div className="px-4 py-2 bg-white dark:bg-gray-700 rounded-full shadow-md">
+                    <p className="text-xs font-medium text-gray-600 dark:text-gray-300">📍 Delhi</p>
+                  </div>
+                  <div className="px-4 py-2 bg-white dark:bg-gray-700 rounded-full shadow-md">
+                    <p className="text-xs font-medium text-gray-600 dark:text-gray-300">📍 Hyderabad</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -268,5 +279,5 @@ export default function ContactPageContent() {
         </div>
       </section>
     </div>
-  );
+  )
 }
