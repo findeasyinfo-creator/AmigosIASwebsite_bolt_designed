@@ -17,13 +17,18 @@ export default function ResourcesPageContent() {
     { id: 'community-forum', name: 'Community Forum' },
   ];
 
-  // Handle hash navigation on mount
+  // Handle hash navigation on mount and maintain state across refreshes
   useEffect(() => {
     const hash = window.location.hash.slice(1);
     if (hash && tabs.some(tab => tab.id === hash)) {
       setActiveTab(hash);
     }
   }, []);
+
+  // Update hash when tab changes
+  useEffect(() => {
+    window.history.replaceState(null, '', `#${activeTab}`);
+  }, [activeTab]);
 
   return (
     <div>

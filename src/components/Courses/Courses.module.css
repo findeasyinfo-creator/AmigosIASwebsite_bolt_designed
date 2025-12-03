@@ -7,6 +7,9 @@
   min-height: 600px;
   display: flex;
   align-items: center;
+  width: 100%;
+  max-width: 100vw;
+  overflow: hidden;
 }
 
 .container {
@@ -18,6 +21,8 @@
   padding: 2rem 1.5rem;
   box-shadow: none;
   border: none;
+  width: 100%;
+  overflow: hidden;
 }
 
 .sectionTitle {
@@ -67,35 +72,41 @@
     radial-gradient(circle at 80% 70%, rgba(255, 225, 123, 0.05) 0%, transparent 50%),
     linear-gradient(145deg, rgba(12, 20, 35, 0.98), rgba(16, 25, 42, 0.98)) padding-box,
     linear-gradient(135deg, #FFE17B, #F2C94C 50%, #D4AF37) border-box;
-  border: 2px solid transparent;
+  border: 3px solid transparent;
   box-shadow:
-    0 15px 50px rgba(0, 0, 0, 0.7),
-    0 0 0 1px rgba(255, 225, 123, 0.25) inset,
-    0 0 100px rgba(212, 175, 55, 0.2);
+    0 20px 60px rgba(0, 0, 0, 0.8),
+    0 0 0 2px rgba(255, 225, 123, 0.35) inset,
+    0 0 120px rgba(212, 175, 55, 0.3),
+    0 8px 32px rgba(212, 175, 55, 0.4);
   overflow: visible;
   position: relative;
   animation: container-glow 4s ease-in-out infinite;
 }
 
 [data-theme="light"] .coursesContainer {
-  background: rgba(255, 255, 255, 0.8);
-  border: 1px solid rgba(255, 87, 34, 0.2);
-  box-shadow: 0 12px 48px rgba(255, 87, 34, 0.15);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(255, 250, 245, 0.95));
+  border: 3px solid rgba(255, 152, 0, 0.35);
+  box-shadow: 
+    0 20px 60px rgba(255, 87, 34, 0.25),
+    0 0 0 2px rgba(255, 183, 77, 0.2) inset,
+    0 8px 32px rgba(255, 122, 0, 0.3);
   backdrop-filter: blur(10px);
 }
 
 @keyframes container-glow {
   0%, 100% {
     box-shadow:
-      0 12px 40px rgba(0, 0, 0, 0.55),
-      0 0 0 1px rgba(255, 225, 123, 0.18) inset,
-      0 0 80px rgba(212, 175, 55, 0.15);
+      0 20px 60px rgba(0, 0, 0, 0.7),
+      0 0 0 2px rgba(255, 225, 123, 0.3) inset,
+      0 0 100px rgba(212, 175, 55, 0.25),
+      0 8px 32px rgba(212, 175, 55, 0.35);
   }
   50% {
     box-shadow:
-      0 12px 40px rgba(0, 0, 0, 0.55),
-      0 0 0 1px rgba(255, 225, 123, 0.3) inset,
-      0 0 100px rgba(212, 175, 55, 0.25);
+      0 25px 70px rgba(0, 0, 0, 0.8),
+      0 0 0 2px rgba(255, 225, 123, 0.45) inset,
+      0 0 140px rgba(212, 175, 55, 0.35),
+      0 12px 40px rgba(212, 175, 55, 0.5);
   }
 }
 
@@ -113,16 +124,17 @@
     rgba(18, 28, 48, 0.98) 0%,
     rgba(22, 35, 58, 0.98) 100%
   );
-  border: 2px solid transparent;
+  border: 2.5px solid rgba(212, 175, 55, 0.4);
   background-clip: padding-box;
   border-radius: 20px;
   padding: 2rem 1.5rem;
   text-align: center;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 
-    0 12px 32px rgba(0, 0, 0, 0.6),
-    0 0 0 1px rgba(212, 175, 55, 0.25) inset,
-    0 0 40px rgba(212, 175, 55, 0.1);
+    0 15px 40px rgba(0, 0, 0, 0.7),
+    0 0 0 1.5px rgba(212, 175, 55, 0.35) inset,
+    0 0 50px rgba(212, 175, 55, 0.15),
+    0 5px 20px rgba(212, 175, 55, 0.25);
   position: relative;
   overflow: hidden;
   cursor: pointer;
@@ -158,16 +170,22 @@
 
 /* Light theme: switch navy cards to light gold-orange */
 [data-theme="light"] .courseCard {
-  /* Neutral light card style per provided design screenshot */
-  background: #F5F7FA;
-  border: 1px solid #E2E8F0;
-  box-shadow: 0 12px 24px rgba(16,24,40,0.08), 0 3px 6px rgba(16,24,40,0.04);
+  background: linear-gradient(145deg, #FFFFFF 0%, #FFF8F0 100%);
+  border: 2.5px solid rgba(255, 152, 0, 0.35);
+  box-shadow: 
+    0 15px 40px rgba(255, 87, 34, 0.15),
+    0 0 0 1.5px rgba(255, 183, 77, 0.2) inset,
+    0 5px 20px rgba(255, 122, 0, 0.2);
   color: #1A1F24;
 }
 
 [data-theme="light"] .courseCard:hover {
-  box-shadow: 0 18px 36px rgba(16,24,40,0.12), 0 6px 12px rgba(16,24,40,0.06);
-  transform: translateY(-6px);
+  box-shadow: 
+    0 25px 60px rgba(255, 87, 34, 0.25),
+    0 0 0 2px rgba(255, 183, 77, 0.3) inset,
+    0 10px 35px rgba(255, 122, 0, 0.3);
+  border-color: rgba(255, 152, 0, 0.5);
+  transform: translateY(-8px);
 }
 
 /* Subtle top sheen for light cards */
@@ -224,9 +242,11 @@
 .courseCard:hover {
   transform: perspective(1000px) translateY(-8px) scale(1.02) rotateY(0deg) rotateX(0deg);
   box-shadow: 
-    0 25px 70px rgba(0, 0, 0, 0.8),
-    0 0 50px rgba(212, 175, 55, 0.3),
-    0 0 0 1px rgba(212, 175, 55, 0.4) inset;
+    0 30px 80px rgba(0, 0, 0, 0.85),
+    0 0 60px rgba(212, 175, 55, 0.4),
+    0 0 0 2px rgba(212, 175, 55, 0.5) inset,
+    0 10px 35px rgba(212, 175, 55, 0.35);
+  border-color: rgba(212, 175, 55, 0.6);
   animation-play-state: paused;
 }
 
@@ -404,19 +424,23 @@
   background:
     linear-gradient(145deg, rgba(12, 20, 35, 0.98), rgba(16, 25, 42, 0.98)) padding-box,
     linear-gradient(135deg, #FFE17B, #F2C94C 50%, #D4AF37) border-box;
-  border: 2px solid transparent;
+  border: 3px solid transparent;
   box-shadow:
-    0 15px 50px rgba(0, 0, 0, 0.7),
-    0 0 0 1px rgba(255, 225, 123, 0.25) inset,
-    0 0 100px rgba(212, 175, 55, 0.2);
+    0 20px 60px rgba(0, 0, 0, 0.8),
+    0 0 0 2px rgba(255, 225, 123, 0.35) inset,
+    0 0 120px rgba(212, 175, 55, 0.3),
+    0 8px 32px rgba(212, 175, 55, 0.4);
   position: relative;
   animation: container-glow 4s ease-in-out infinite;
 }
 
 [data-theme="light"] .upscEmblemCard {
-  background: rgba(255, 255, 255, 0.8);
-  border: 1px solid rgba(255, 87, 34, 0.2);
-  box-shadow: 0 12px 48px rgba(255, 87, 34, 0.15);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(255, 250, 245, 0.95));
+  border: 3px solid rgba(255, 152, 0, 0.35);
+  box-shadow: 
+    0 20px 60px rgba(255, 87, 34, 0.25),
+    0 0 0 2px rgba(255, 183, 77, 0.2) inset,
+    0 8px 32px rgba(255, 122, 0, 0.3);
   backdrop-filter: blur(10px);
 }
 

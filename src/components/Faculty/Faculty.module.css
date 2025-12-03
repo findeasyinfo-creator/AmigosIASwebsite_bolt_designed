@@ -1,8 +1,11 @@
 .facultySection {
-  padding: 2.75rem 1.5rem 4rem; /* reduced top padding to push title up */
+  padding: 2.75rem 1.5rem 4rem;
   background: transparent;
   position: relative;
   z-index: 1;
+  width: 100%;
+  max-width: 100vw;
+  overflow: hidden;
 }
 
 .container {
@@ -11,9 +14,11 @@
   background: transparent;
   backdrop-filter: none;
   border-radius: 0;
-  padding: 1.75rem 2rem 3rem; /* reduced top padding */
+  padding: 1.75rem 2rem 3rem;
   box-shadow: none;
   border: none;
+  width: 100%;
+  overflow: hidden;
 }
 
 .sectionTitle {

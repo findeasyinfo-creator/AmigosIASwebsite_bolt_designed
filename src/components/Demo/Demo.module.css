@@ -5,6 +5,8 @@
   position: relative;
   overflow: hidden;
   z-index: 1;
+  width: 100%;
+  max-width: 100vw;
 }
 
 .container {
@@ -18,6 +20,8 @@
   padding: 3rem 2rem;
   box-shadow: none;
   border: none;
+  width: 100%;
+  overflow: hidden;
 }
 
 .sectionTitle {

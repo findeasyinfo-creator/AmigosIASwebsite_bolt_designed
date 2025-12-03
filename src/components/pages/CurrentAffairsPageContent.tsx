@@ -34,6 +34,9 @@ export default function CurrentAffairsPageContent() {
   const [openDate, setOpenDate] = useState(false)
   const [openWeek, setOpenWeek] = useState(false)
   const [openMonth, setOpenMonth] = useState(false)
+  const dateButtonRef = React.useRef<HTMLButtonElement>(null)
+  const weekButtonRef = React.useRef<HTMLButtonElement>(null)
+  const monthButtonRef = React.useRef<HTMLButtonElement>(null)
 
   // Admin-managed content (imageUrl provided by admin). Placeholder URLs here.
   const items: CAItem[] = [
@@ -287,7 +290,7 @@ export default function CurrentAffairsPageContent() {
       <section className="py-8 current-affairs-section" data-section="current-affairs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Main tabs - modern segmented pills */}
-          <div className="sticky top-[72px] md:top-[119px] z-30 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-5 mb-6 -mt-2 shadow-md">
+          <div className="sticky top-[60px] md:top-[72px] z-30 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-3 md:py-5 mb-4 md:mb-6 -mt-2 shadow-md">
             <div className="max-w-7xl mx-auto">
               <div className="flex gap-3 overflow-x-auto pb-2">
                 {([
@@ -341,11 +344,11 @@ export default function CurrentAffairsPageContent() {
           </div>
 
           {/* Dependent filters - refreshed UI */}
-          <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-lg p-6 mb-8 relative z-40" style={{overflow: 'visible'}}>
+          <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-lg p-4 md:p-6 mb-6 md:mb-8 relative">
             <h2 className="text-lg font-semibold mb-4">Filters</h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 relative">
-              <div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
+              <div className="relative" style={{zIndex: 1}}>
                 <PremiumSelect
                   label="Subject"
                   value={selectedSubject}
@@ -354,7 +357,7 @@ export default function CurrentAffairsPageContent() {
                 />
               </div>
 
-              <div>
+              <div className="relative" style={{zIndex: 1}}>
                 <PremiumSelect
                   label="UPSC Paper"
                   value={selectedPaper}
@@ -364,9 +367,10 @@ export default function CurrentAffairsPageContent() {
               </div>
 
               {activeTab === 'daily' && (
-                <div className="relative overflow-visible">
+                <div className="relative">
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Date</label>
                   <button
+                    ref={dateButtonRef}
                     type="button"
                     className="rounded-xl px-4 py-2.5 border border-orange-300 dark:border-orange-700 bg-gradient-to-r from-white/80 to-orange-50/40 dark:from-gray-700/80 dark:to-orange-900/20 shadow-sm hover:shadow-md text-orange-600 dark:text-orange-300 font-semibold transition-all backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 w-full text-left flex items-center justify-between"
                     onClick={() => setOpenDate(v => !v)}
@@ -374,16 +378,19 @@ export default function CurrentAffairsPageContent() {
                     <span>{selectedDate === 'all' ? 'Select Date' : selectedDate}</span>
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                   </button>
-                  <div className="absolute z-50 mt-2 left-0">
-                    <FilterCalendar
-                      mode="date"
-                      value={selectedDate === 'all' ? '' : selectedDate}
-                      onChange={(v) => setSelectedDate(v || 'all')}
-                      open={openDate}
-                      onClose={() => setOpenDate(false)}
-                      title="Select Date"
-                    />
-                  </div>
+                  {openDate && (
+                    <div className="mt-2">
+                      <FilterCalendar
+                        mode="date"
+                        value={selectedDate === 'all' ? '' : selectedDate}
+                        onChange={(v) => setSelectedDate(v || 'all')}
+                        open={openDate}
+                        onClose={() => setOpenDate(false)}
+                        title="Select Date"
+                        triggerElement={null}
+                      />
+                    </div>
+                  )}
                   <div className="mt-2">
                     <button
                       type="button"
@@ -394,9 +401,10 @@ export default function CurrentAffairsPageContent() {
                 </div>
               )}
               {activeTab === 'weekly' && (
-                <div className="relative overflow-visible">
+                <div className="relative">
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Week</label>
                   <button
+                    ref={weekButtonRef}
                     type="button"
                     className="rounded-xl px-4 py-2.5 border border-orange-300 dark:border-orange-700 bg-gradient-to-r from-white/80 to-orange-50/40 dark:from-gray-700/80 dark:to-orange-900/20 shadow-sm hover:shadow-md text-orange-600 dark:text-orange-300 font-semibold transition-all backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 w-full text-left flex items-center justify-between"
                     onClick={() => setOpenWeek(v => !v)}
@@ -404,16 +412,19 @@ export default function CurrentAffairsPageContent() {
                     <span>{selectedWeek || 'Select Week'}</span>
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                   </button>
-                  <div className="absolute z-50 mt-2 left-0">
-                    <FilterCalendar
-                      mode="week"
-                      value={selectedWeek}
-                      onChange={(v) => { setSelectedWeek(v || ''); setWeeklyRange('all') }}
-                      open={openWeek}
-                      onClose={() => setOpenWeek(false)}
-                      title="Select Week"
-                    />
-                  </div>
+                  {openWeek && (
+                    <div className="mt-2">
+                      <FilterCalendar
+                        mode="week"
+                        value={selectedWeek}
+                        onChange={(v) => { setSelectedWeek(v || ''); setWeeklyRange('all') }}
+                        open={openWeek}
+                        onClose={() => setOpenWeek(false)}
+                        title="Select Week"
+                        triggerElement={null}
+                      />
+                    </div>
+                  )}
                   <div className="flex gap-2 mt-2">
                     <button
                       type="button"
@@ -434,9 +445,10 @@ export default function CurrentAffairsPageContent() {
                 </div>
               )}
               {activeTab === 'monthly' && (
-                <div className="relative overflow-visible">
+                <div className="relative">
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Month</label>
                   <button
+                    ref={monthButtonRef}
                     type="button"
                     className="rounded-xl px-4 py-2.5 border border-orange-300 dark:border-orange-700 bg-gradient-to-r from-white/80 to-orange-50/40 dark:from-gray-700/80 dark:to-orange-900/20 shadow-sm hover:shadow-md text-orange-600 dark:text-orange-300 font-semibold transition-all backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 w-full text-left flex items-center justify-between"
                     onClick={() => setOpenMonth(v => !v)}
@@ -444,16 +456,19 @@ export default function CurrentAffairsPageContent() {
                     <span>{selectedMonth || 'Select Month'}</span>
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                   </button>
-                  <div className="absolute z-50 mt-2 left-0">
-                    <FilterCalendar
-                      mode="month"
-                      value={selectedMonth}
-                      onChange={(v) => { setSelectedMonth(v || ''); setMonthlyRange('all') }}
-                      open={openMonth}
-                      onClose={() => setOpenMonth(false)}
-                      title="Select Month"
-                    />
-                  </div>
+                  {openMonth && (
+                    <div className="mt-2">
+                      <FilterCalendar
+                        mode="month"
+                        value={selectedMonth}
+                        onChange={(v) => { setSelectedMonth(v || ''); setMonthlyRange('all') }}
+                        open={openMonth}
+                        onClose={() => setOpenMonth(false)}
+                        title="Select Month"
+                        triggerElement={null}
+                      />
+                    </div>
+                  )}
                   <div className="flex gap-2 mt-2">
                     <button
                       type="button"

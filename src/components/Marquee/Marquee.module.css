@@ -26,6 +26,8 @@
   ) 1;
   animation: borderShine 3s linear infinite;
   z-index: 1;
+  width: 100%;
+  max-width: 100vw;
 }
 
   [data-theme="light"] .marqueeSection {
@@ -106,6 +108,8 @@
   overflow: hidden;
   white-space: nowrap;
   position: relative;
+  width: 100%;
+  max-width: 100%;
 }
 
 

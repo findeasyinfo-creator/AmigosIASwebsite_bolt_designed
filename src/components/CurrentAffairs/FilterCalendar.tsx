@@ -1,5 +1,6 @@
 "use client"
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import styles from './FilterCalendar.module.css'
 
 type Mode = 'date' | 'week' | 'month'
@@ -11,6 +12,7 @@ type Props = {
   title?: string
   open?: boolean
   onClose?: () => void
+  triggerElement?: HTMLElement | null
 }
 
 function formatMonthLabel(d: Date){
@@ -41,8 +43,14 @@ function getISOWeekRange(isoWeek: string){
   return {start,end}
 }
 
-export default function FilterCalendar({mode, value, onChange, title, open = true, onClose}: Props){
+export default function FilterCalendar({mode, value, onChange, title, open = true, onClose, triggerElement}: Props){
   const ref = useRef<HTMLDivElement | null>(null)
+  const [mounted, setMounted] = useState(false)
+  const [position, setPosition] = useState({ top: 0, left: 0, width: 0 })
+  const [customDate, setCustomDate] = useState('')
+  const [customWeek, setCustomWeek] = useState('')
+  const [customMonth, setCustomMonth] = useState('')
+  const [customYear, setCustomYear] = useState('')
   const now = new Date()
   const [cursor, setCursor] = React.useState<Date>(()=>{
     if(mode==='month' && value){
@@ -65,6 +73,67 @@ export default function FilterCalendar({mode, value, onChange, title, open = tru
   const {first, days} = getMonthDays(year, month)
   const startWeekday = (first.getDay()+6)%7 // Mon=0
 
+  console.log('FilterCalendar render:', { 
+    open, 
+    mode, 
+    year, 
+    month, 
+    daysLength: days.length, 
+    startWeekday,
+    firstDay: days[0]?.toISOString(),
+    mounted,
+    triggerElement: !!triggerElement
+  })
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  useEffect(() => {
+    if (open && triggerElement) {
+      const rect = triggerElement.getBoundingClientRect()
+      const viewportWidth = window.innerWidth
+      const viewportHeight = window.innerHeight
+      
+      // Get navbar height (assuming it's sticky at top)
+      const navbarHeight = 80 // approximate navbar height, adjust if needed
+      
+      // Calculate position
+      let top = rect.bottom + window.scrollY + 8
+      let left = rect.left + window.scrollX
+      
+      // Ensure calendar appears below navbar
+      const minTop = window.scrollY + navbarHeight + 8
+      if (top < minTop) {
+        top = minTop
+      }
+      
+      // For mobile, center the calendar and adjust positioning
+      if (viewportWidth <= 640) {
+        left = Math.max(16, Math.min(left, viewportWidth - 316)) // 300px width + 16px margin
+        
+        // Check if calendar would overflow bottom
+        const calendarHeight = 400 // approximate height
+        if (rect.bottom + calendarHeight > viewportHeight) {
+          // Position above if not enough space below
+          top = Math.max(minTop, rect.top + window.scrollY - calendarHeight - 8)
+        }
+      } else {
+        // Desktop: ensure calendar doesn't overflow viewport
+        const calendarWidth = 280
+        if (left + calendarWidth > viewportWidth - 16) {
+          left = viewportWidth - calendarWidth - 16
+        }
+      }
+      
+      setPosition({
+        top,
+        left,
+        width: viewportWidth <= 640 ? 300 : Math.max(rect.width, 280)
+      })
+    }
+  }, [open, triggerElement])
+
   // click outside to close
   useEffect(() => {
     if (!open) return
@@ -83,10 +152,47 @@ export default function FilterCalendar({mode, value, onChange, title, open = tru
     setTimeout(() => onClose?.(), 0)
   }
 
+  const handleCustomDate = () => {
+    if (customDate && /^\d{4}-\d{2}-\d{2}$/.test(customDate)) {
+      selectAndClose(customDate)
+      setCustomDate('')
+    }
+  }
+
+  const handleCustomWeek = () => {
+    if (customWeek && /^\d{4}-W\d{2}$/.test(customWeek)) {
+      selectAndClose(customWeek)
+      setCustomWeek('')
+    }
+  }
+
+  const handleCustomMonth = () => {
+    if (customMonth && customYear && /^\d{1,2}$/.test(customMonth) && /^\d{4}$/.test(customYear)) {
+      const monthNum = parseInt(customMonth, 10)
+      if (monthNum >= 1 && monthNum <= 12) {
+        const val = `${customYear}-${String(monthNum).padStart(2, '0')}`
+        selectAndClose(val)
+        setCustomMonth('')
+        setCustomYear('')
+      }
+    }
+  }
+
   if (!open) return null
 
-  return (
-    <div ref={ref} className={`${styles.calendarCard} dark`}>
+  const calendar = (
+    <div 
+      ref={ref} 
+      className={styles.calendarCard}
+      style={triggerElement ? {
+        position: 'absolute',
+        top: `${position.top}px`,
+        left: `${position.left}px`,
+        width: `${position.width}px`,
+        maxWidth: 'calc(100vw - 32px)',
+        zIndex: 99999
+      } : undefined}
+    >
       <div className={styles.header}>
         <div className={styles.title}>{title || (mode==='date'?'Select Date': mode==='week'?'Select Week':'Select Month')}</div>
         <div className={styles.controls}>
@@ -97,30 +203,69 @@ export default function FilterCalendar({mode, value, onChange, title, open = tru
       </div>
 
       {mode==='date' && (
-        <div className={styles.grid}>
-          {[...'MonTueWedThuFriSatSun'.match(/.{1,3}/g)!].map((d,i)=> (
-            <div key={i} className={styles.weekBadge} style={{textAlign:'center'}}>{d}</div>
-          ))}
-          {Array.from({length:startWeekday}).map((_,i)=> <div key={`empty-${i}`} />)}
-          {days.map((d)=>{
-            const selected = value && new Date(value).toDateString()===d.toDateString()
-            return (
-              <button
-                key={d.toISOString()}
-                className={`${styles.cell} ${selected?styles.cellActive:''}`}
-                onClick={()=> selectAndClose(d.toISOString().slice(0,10))}
-              >{d.getDate()}</button>
-            )
-          })}
-        </div>
+        <>
+          <div className={styles.customDateInput}>
+            <input 
+              type="date" 
+              value={customDate}
+              onChange={(e) => setCustomDate(e.target.value)}
+              className={styles.dateInput}
+              placeholder="YYYY-MM-DD"
+            />
+            <button 
+              className={styles.addBtn} 
+              onClick={handleCustomDate}
+              disabled={!customDate || !/^\d{4}-\d{2}-\d{2}$/.test(customDate)}
+            >
+              Add
+            </button>
+          </div>
+          <div className={styles.weekdayHeader}>
+            {[...'MonTueWedThuFriSatSun'.match(/.{1,3}/g)!].map((d,i)=> (
+              <div key={i} className={styles.weekdayLabel}>{d}</div>
+            ))}
+          </div>
+          <div className={styles.grid}>
+            {Array.from({length:startWeekday}).map((_,i)=> <div key={`empty-${i}`} className={styles.emptyCell} />)}
+            {days.map((d)=>{
+              const selected = value && new Date(value).toDateString()===d.toDateString()
+              return (
+                <button
+                  key={d.toISOString()}
+                  className={`${styles.cell} ${selected?styles.cellActive:''}`}
+                  onClick={()=> selectAndClose(d.toISOString().slice(0,10))}
+                  type="button"
+                >{d.getDate()}</button>
+              )
+            })}
+          </div>
+        </>
       )}
 
       {mode==='week' && (
-        <div>
-          <div className={styles.grid}>
+        <>
+          <div className={styles.customDateInput}>
+            <input 
+              type="week" 
+              value={customWeek}
+              onChange={(e) => setCustomWeek(e.target.value)}
+              className={styles.dateInput}
+              placeholder="YYYY-Www"
+            />
+            <button 
+              className={styles.addBtn} 
+              onClick={handleCustomWeek}
+              disabled={!customWeek || !/^\d{4}-W\d{2}$/.test(customWeek)}
+            >
+              Add
+            </button>
+          </div>
+          <div className={styles.weekdayHeader}>
             {[...'MonTueWedThuFriSatSun'.match(/.{1,3}/g)!].map((d,i)=> (
-              <div key={i} className={styles.weekBadge} style={{textAlign:'center'}}>{d}</div>
+              <div key={i} className={styles.weekdayLabel}>{d}</div>
             ))}
+          </div>
+          <div className={styles.grid}>
             {Array.from({length:startWeekday}).map((_,i)=> <div key={`empty-${i}`} />)}
             {days.map((d)=>{
               const ms = new Date(d)
@@ -139,11 +284,41 @@ export default function FilterCalendar({mode, value, onChange, title, open = tru
               )
             })}
           </div>
-        </div>
+        </>
       )}
 
       {mode==='month' && (
-        <div className={styles.monthGrid}>
+        <>
+          <div className={styles.customDateInput}>
+            <input 
+              type="number" 
+              value={customMonth}
+              onChange={(e) => setCustomMonth(e.target.value)}
+              className={styles.dateInput}
+              placeholder="Month (1-12)"
+              min="1"
+              max="12"
+              style={{flex: '0 0 45%'}}
+            />
+            <input 
+              type="number" 
+              value={customYear}
+              onChange={(e) => setCustomYear(e.target.value)}
+              className={styles.dateInput}
+              placeholder="Year"
+              min="2000"
+              max="2100"
+              style={{flex: '0 0 45%'}}
+            />
+            <button 
+              className={styles.addBtn} 
+              onClick={handleCustomMonth}
+              disabled={!customMonth || !customYear || !/^\d{1,2}$/.test(customMonth) || !/^\d{4}$/.test(customYear)}
+            >
+              Add
+            </button>
+          </div>
+          <div className={styles.monthGrid}>
           {Array.from({length:12}).map((_,i)=>{
             const label = new Date(year,i,1).toLocaleString(undefined,{month:'long'})
             const val = `${year}-${String(i+1).padStart(2,'0')}`
@@ -155,8 +330,13 @@ export default function FilterCalendar({mode, value, onChange, title, open = tru
             )
           })}
         </div>
+        </>
       )}
 
     </div>
   )
+
+  if (!mounted || typeof window === 'undefined') return null
+  
+  return triggerElement ? createPortal(calendar, document.body) : calendar
 }
