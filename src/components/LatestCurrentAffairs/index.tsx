@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import styles from './LatestCurrentAffairs.module.css'
 import DottedLines from '@/components/DottedLines'
@@ -18,6 +18,9 @@ type CAItem = {
 
 export default function LatestCurrentAffairs() {
   const [selectedItem, setSelectedItem] = useState<CAItem | null>(null)
+  const sectionRef = useRef<HTMLElement | null>(null)
+  const closeBtnRef = useRef<HTMLButtonElement | null>(null)
+  const panelRefs = useRef<{ [key: number]: HTMLDivElement | null }>({})
 
   // Get 5 latest daily current affairs items
   const latestItems: CAItem[] = [
@@ -78,7 +81,23 @@ export default function LatestCurrentAffairs() {
     },
   ]
 
-  // Close modal on ESC key
+  // Open item: set hash, scroll to popup panel, focus close
+  const openItem = (item: CAItem) => {
+    setSelectedItem(item)
+    try {
+      window.location.hash = `ca-${item.id}`
+    } catch {}
+    setTimeout(() => {
+      // Scroll to the expanded panel instead of the section
+      const panel = panelRefs.current[item.id]
+      if (panel) {
+        panel.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      }
+      closeBtnRef.current?.focus()
+    }, 100)
+  }
+
+  // Close on ESC key
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setSelectedItem(null)
@@ -87,17 +106,10 @@ export default function LatestCurrentAffairs() {
     return () => window.removeEventListener('keydown', handleEsc)
   }, [])
 
-  // Prevent body scroll when modal is open
-  useEffect(() => {
-    if (selectedItem) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = 'unset'
-    }
-  }, [selectedItem])
+  // Inline panel: no body scroll lock needed
 
   return (
-    <section className={styles.caSection}>
+    <section className={styles.caSection} ref={sectionRef}>
       <div className={styles.container}>
         <h2 className={styles.sectionTitle}>Latest Daily Current Affairs</h2>
         
@@ -119,13 +131,63 @@ export default function LatestCurrentAffairs() {
                 <div className={styles.caFooter}>
                   <span className={styles.caSubject}>{item.subject}</span>
                   <button 
-                    onClick={() => setSelectedItem(item)} 
+                    onClick={() => openItem(item)} 
                     className={styles.caReadMore}
                   >
                     Read More →
                   </button>
                 </div>
               </div>
+              {selectedItem?.id === item.id && (
+                <div 
+                  className={styles.inlinePanel}
+                  ref={(el) => { panelRefs.current[item.id] = el }}
+                >
+                  <div className={styles.inlineHeader}>
+                    <div className={styles.inlineThumb}>
+                      <img src={item.imageUrl} alt={item.title} />
+                    </div>
+                    <button
+                      onClick={() => setSelectedItem(null)}
+                      className={styles.inlineClose}
+                      aria-label="Close"
+                      ref={closeBtnRef}
+                    >
+                      ×
+                    </button>
+                  </div>
+                  <div className={styles.inlineBody}>
+                    <div className={styles.modalMeta}>
+                      <span className={styles.modalPaper}>{item.paper}</span>
+                      <span className={styles.modalDate}>{item.date}</span>
+                      <span className={styles.modalSubject}>{item.subject}</span>
+                    </div>
+                    <h2 className={styles.modalTitle}>{item.title}</h2>
+                    <p className={styles.modalFullContent}>{item.fullContent}</p>
+                    <div className={styles.modalTopics}>
+                      <h3 className={styles.modalTopicsTitle}>Key Topics</h3>
+                      <div className={styles.modalTopicsContainer}>
+                        {item.topics.map((topic, index) => (
+                          <span key={index} className={styles.modalTopic}>
+                            {topic}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    <div className={styles.modalActions}>
+                      <button
+                        onClick={() => setSelectedItem(null)}
+                        className={styles.modalCloseBtn}
+                      >
+                        Close
+                      </button>
+                      <Link href="/current-affairs" className={styles.modalViewAllBtn}>
+                        View All Current Affairs
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           ))}
         </div>
@@ -137,70 +199,6 @@ export default function LatestCurrentAffairs() {
         </div>
       </div>
 
-      {/* Modal Popup */}
-      {selectedItem && (
-        <div
-          className={styles.modalOverlay}
-          onClick={() => setSelectedItem(null)}
-        >
-          <div
-            className={styles.modalContent}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className={styles.modalHeader}>
-              <img 
-                src={selectedItem.imageUrl} 
-                alt={selectedItem.title}
-                className={styles.modalImage}
-              />
-              <button
-                onClick={() => setSelectedItem(null)}
-                className={styles.modalClose}
-                aria-label="Close"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-            
-            <div className={styles.modalBody}>
-              <div className={styles.modalMeta}>
-                <span className={styles.modalPaper}>{selectedItem.paper}</span>
-                <span className={styles.modalDate}>{selectedItem.date}</span>
-                <span className={styles.modalSubject}>{selectedItem.subject}</span>
-              </div>
-              
-              <h2 className={styles.modalTitle}>{selectedItem.title}</h2>
-              
-              <p className={styles.modalFullContent}>{selectedItem.fullContent}</p>
-              
-              <div className={styles.modalTopics}>
-                <h3 className={styles.modalTopicsTitle}>Key Topics</h3>
-                <div className={styles.modalTopicsContainer}>
-                  {selectedItem.topics.map((topic, index) => (
-                    <span key={index} className={styles.modalTopic}>
-                      {topic}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              
-              <div className={styles.modalActions}>
-                <button
-                  onClick={() => setSelectedItem(null)}
-                  className={styles.modalCloseBtn}
-                >
-                  Close
-                </button>
-                <Link href="/current-affairs" className={styles.modalViewAllBtn}>
-                  View All Current Affairs
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </section>
   )
 }

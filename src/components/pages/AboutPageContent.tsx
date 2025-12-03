@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -96,6 +96,8 @@ function DirectorMessageSection() {
 
 function FacultySection() {
   const [selectedFaculty, setSelectedFaculty] = useState<number | null>(null);
+  const sectionRef = useRef<HTMLDivElement | null>(null);
+  const closeBtnRef = useRef<HTMLButtonElement | null>(null);
   
   const faculty = [
     {
@@ -154,12 +156,35 @@ function FacultySection() {
     },
   ];
 
-  const closeFacultyPopup = () => {
-    setSelectedFaculty(null);
+  const openFaculty = (index: number) => {
+    setSelectedFaculty(index);
+    try {
+      window.location.hash = 'faculty-modal';
+    } catch {}
+    setTimeout(() => {
+      sectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      closeBtnRef.current?.focus();
+    }, 0);
   };
 
+  const closeFacultyPopup = () => {
+    setSelectedFaculty(null);
+    try {
+      const { pathname, search } = window.location;
+      window.history.replaceState(null, '', `${pathname}${search}`);
+    } catch {}
+  };
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeFacultyPopup();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
+
   return (
-    <section id="faculty" className="py-16">
+    <section id="faculty" className="py-16 relative" ref={sectionRef}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl font-bold mb-4 text-center">Our Expert Faculty</h2>
         <p className="text-lg text-gray-700 dark:text-gray-400 text-center mb-12 max-w-3xl mx-auto">
@@ -196,7 +221,7 @@ function FacultySection() {
                   </div>
                 </div>
                 <button
-                  onClick={() => setSelectedFaculty(index)}
+                  onClick={() => openFaculty(index)}
                   className="w-full bg-orange-500 hover:bg-orange-600 dark:bg-yellow-500 dark:hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200"
                 >
                   Read More
@@ -207,54 +232,71 @@ function FacultySection() {
         </div>
       </div>
 
-      {/* Faculty Detail Popup */}
       {selectedFaculty !== null && (
-        <div 
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-          onClick={closeFacultyPopup}
+        <div
+          className="absolute inset-0 z-40 flex items-center justify-center px-4"
+          aria-modal="true"
+          role="dialog"
+          id="faculty-modal"
         >
-          <div 
-            className="bg-white dark:bg-gray-800 rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="sticky top-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-6 flex justify-between items-center">
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Faculty Profile</h3>
+          {/* Section-scoped backdrop */}
+          <div
+            className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+            onClick={closeFacultyPopup}
+          />
+          {/* Centered popup card */}
+          <div className="relative z-50 w-full max-w-2xl rounded-2xl bg-white dark:bg-gray-800 shadow-2xl border border-orange-200 dark:border-yellow-600 overflow-hidden">
+            <div className="flex items-center justify-between px-5 py-4 border-b border-gray-200 dark:border-gray-700">
+              <h4 className="text-xl font-semibold text-gray-900 dark:text-white">Faculty Profile</h4>
               <button
                 onClick={closeFacultyPopup}
-                className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 text-3xl leading-none"
+                aria-label="Close"
+                className="text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-100 text-2xl leading-none"
+                ref={closeBtnRef}
               >
                 ×
               </button>
             </div>
-            <div className="p-6">
-              <div className="flex flex-col md:flex-row gap-6 mb-6">
-                <div className="flex-shrink-0">
-                  <img 
-                    src={faculty[selectedFaculty].image} 
-                    alt={faculty[selectedFaculty].name}
-                    className="w-48 h-48 rounded-lg object-cover"
-                  />
-                </div>
-                <div className="flex-1">
-                  <h4 className="text-2xl font-bold mb-2 text-gray-900 dark:text-white">{faculty[selectedFaculty].name}</h4>
-                  <p className="text-orange-600 dark:text-yellow-400 font-semibold text-lg mb-4">{faculty[selectedFaculty].subject}</p>
-                  <div className="space-y-2 text-gray-700 dark:text-gray-300">
-                    <p><strong>Experience:</strong> {faculty[selectedFaculty].experience}</p>
-                    <p><strong>Qualifications:</strong> {faculty[selectedFaculty].qualifications}</p>
-                    <p><strong>Achievements:</strong> {faculty[selectedFaculty].achievements}</p>
+            <div className="p-5">
+              {selectedFaculty !== null && (
+                <div className="flex flex-col md:flex-row gap-5 mb-4">
+                  <div className="flex-shrink-0">
+                    <img
+                      src={faculty[selectedFaculty].image}
+                      alt={faculty[selectedFaculty].name}
+                      className="w-40 h-40 rounded-lg object-cover"
+                    />
+                  </div>
+                  <div className="flex-1">
+                    <h5 className="text-xl font-bold mb-1 text-gray-900 dark:text-white">{faculty[selectedFaculty].name}</h5>
+                    <p className="text-orange-600 dark:text-yellow-400 font-semibold mb-2">{faculty[selectedFaculty].subject}</p>
+                    <div className="space-y-1 text-gray-700 dark:text-gray-300">
+                      <p><strong>Experience:</strong> {faculty[selectedFaculty].experience}</p>
+                      <p><strong>Qualifications:</strong> {faculty[selectedFaculty].qualifications}</p>
+                      <p><strong>Achievements:</strong> {faculty[selectedFaculty].achievements}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="border-t border-gray-200 dark:border-gray-700 pt-6">
-                <h5 className="text-xl font-semibold mb-3 text-gray-900 dark:text-white">About</h5>
+              )}
+              <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
+                <h6 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">About</h6>
                 <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                  {faculty[selectedFaculty].fullBio}
+                  {selectedFaculty !== null ? faculty[selectedFaculty].fullBio : ''}
                 </p>
+              </div>
+              <div className="mt-4 flex justify-end gap-2">
+                <button
+                  onClick={closeFacultyPopup}
+                  className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+                >
+                  Close
+                </button>
               </div>
             </div>
           </div>
         </div>
       )}
+
     </section>
   );
 }

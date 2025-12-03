@@ -12,15 +12,27 @@ export default function ScrollAnimations() {
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
+        const { isIntersecting, rootBounds, boundingClientRect, intersectionRatio } = entry
+
+        // Element fully above viewport (scrolled past)
+        const fullyAbove = rootBounds
+          ? boundingClientRect.bottom <= rootBounds.top
+          : boundingClientRect.bottom <= 0
+
+        // Element fully below viewport (before entering view)
+        const fullyBelow = rootBounds
+          ? boundingClientRect.top >= rootBounds.bottom
+          : boundingClientRect.top >= (window.innerHeight || document.documentElement.clientHeight)
+
+        if (isIntersecting) {
           entry.target.classList.add('in-view')
         } else {
-          // Remove class when element is out of view (with delay to avoid jarring)
-          setTimeout(() => {
-            if (!entry.isIntersecting) {
-              entry.target.classList.remove('in-view')
-            }
-          }, 200)
+          // Only remove when the element is COMPLETELY out of view
+          // 1) Above the viewport, or 2) below the viewport, and not intersecting
+          // intersectionRatio === 0 ensures no partial visibility
+          if (intersectionRatio === 0 && (fullyAbove || fullyBelow)) {
+            entry.target.classList.remove('in-view')
+          }
         }
       })
     }, observerOptions)

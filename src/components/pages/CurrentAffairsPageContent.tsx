@@ -254,11 +254,30 @@ export default function CurrentAffairsPageContent() {
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null)
   const selectedItem = selectedItemId != null ? items.find(i => i.id === selectedItemId) : null
+  const modalRef = React.useRef<HTMLDivElement>(null)
+  const closeButtonRef = React.useRef<HTMLButtonElement>(null)
 
-  // Scroll to top when modal opens
+  // Open item with scroll to modal and focus
+  const openItem = (itemId: number) => {
+    setSelectedItemId(itemId)
+    window.location.hash = `ca-modal-${itemId}`
+    setTimeout(() => {
+      modalRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      closeButtonRef.current?.focus()
+    }, 100)
+  }
+
+  // Close modal
+  const closeModal = () => {
+    setSelectedItemId(null)
+    if (window.location.hash.startsWith('#ca-modal-')) {
+      window.history.replaceState(null, '', window.location.pathname)
+    }
+  }
+
+  // Lock body scroll when modal opens
   useEffect(() => {
     if (selectedItemId != null) {
-      window.scrollTo({ top: 0, behavior: 'smooth' })
       document.body.style.overflow = 'hidden'
     } else {
       document.body.style.overflow = 'unset'
@@ -268,7 +287,7 @@ export default function CurrentAffairsPageContent() {
   // Close on ESC
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setSelectedItemId(null)
+      if (e.key === 'Escape') closeModal()
     }
     window.addEventListener('keydown', handler)
     return () => window.removeEventListener('keydown', handler)
@@ -538,7 +557,7 @@ export default function CurrentAffairsPageContent() {
                   <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white line-clamp-2">
                     <button
                       type="button"
-                      onClick={() => setSelectedItemId(item.id)}
+                      onClick={() => openItem(item.id)}
                       className="ca-title-btn text-left focus:outline-none text-gray-900 dark:text-white hover:text-orange-600 dark:hover:text-orange-300"
                     >{item.title}</button>
                   </h3>
@@ -556,7 +575,7 @@ export default function CurrentAffairsPageContent() {
 
                     <button
                       type="button"
-                      onClick={() => setSelectedItemId(item.id)}
+                      onClick={() => openItem(item.id)}
                       className="ca-read-btn text-orange-500 dark:text-orange-300 hover:text-orange-600 dark:hover:text-orange-200 font-semibold text-xs flex items-center whitespace-nowrap shrink-0"
                     >
                       Read
@@ -604,8 +623,9 @@ export default function CurrentAffairsPageContent() {
           {/* Modal Popup */}
           {selectedItem && (
             <div
+              ref={modalRef}
               className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto"
-              onClick={() => setSelectedItemId(null)}
+              onClick={closeModal}
             >
               <div
                 className="bg-white dark:bg-gray-800 w-full max-w-3xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] my-auto"
@@ -621,7 +641,8 @@ export default function CurrentAffairsPageContent() {
                     className="w-full h-full object-cover"
                   />
                   <button
-                    onClick={() => setSelectedItemId(null)}
+                    ref={closeButtonRef}
+                    onClick={closeModal}
                     className="absolute top-3 right-3 bg-orange-500 hover:bg-orange-600 text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg"
                     aria-label="Close"
                   >
@@ -653,7 +674,7 @@ export default function CurrentAffairsPageContent() {
                   </div>
                   <div className="flex justify-end">
                     <button
-                      onClick={() => setSelectedItemId(null)}
+                      onClick={closeModal}
                       className="px-5 py-2 rounded-lg bg-orange-500 hover:bg-orange-600 text-white font-semibold shadow"
                     >Close</button>
                   </div>
