@@ -309,7 +309,7 @@ export default function CurrentAffairsPageContent() {
       <section className="py-8 current-affairs-section" data-section="current-affairs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Main tabs - modern segmented pills */}
-          <div className="sticky top-[60px] md:top-[72px] z-30 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-3 md:py-5 mb-4 md:mb-6 -mt-2 shadow-md">
+          <div className="sticky top-[72px] md:top-[119px] z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-3 md:py-5 mb-6 md:mb-8 shadow-md">
             <div className="max-w-7xl mx-auto">
               <div className="flex gap-3 overflow-x-auto pb-2">
                 {([
@@ -363,11 +363,11 @@ export default function CurrentAffairsPageContent() {
           </div>
 
           {/* Dependent filters - refreshed UI */}
-          <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-lg p-4 md:p-6 mb-6 md:mb-8 relative">
+          <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-lg p-4 md:p-6 mb-6 md:mb-8 relative z-20">
             <h2 className="text-lg font-semibold mb-4">Filters</h2>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
-              <div className="relative" style={{zIndex: 1}}>
+              <div className="relative" style={{zIndex: 30}}>
                 <PremiumSelect
                   label="Subject"
                   value={selectedSubject}
@@ -376,7 +376,7 @@ export default function CurrentAffairsPageContent() {
                 />
               </div>
 
-              <div className="relative" style={{zIndex: 1}}>
+              <div className="relative" style={{zIndex: 30}}>
                 <PremiumSelect
                   label="UPSC Paper"
                   value={selectedPaper}

@@ -26,7 +26,7 @@ export default function Hero() {
   useEffect(() => {
     const timer = setInterval(() => {
       nextSlide()
-    }, 5000)
+    }, 6000)
     return () => clearInterval(timer)
   }, [isTransitioning])
 

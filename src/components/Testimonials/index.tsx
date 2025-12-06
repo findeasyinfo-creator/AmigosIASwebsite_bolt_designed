@@ -17,7 +17,7 @@ const testimonials = [
     name: 'Priya Sharma',
     rank: 'AIR 45 • 2023',
     image: 'https://randomuser.me/api/portraits/women/44.jpg',
-    stars: 5,
+    stars: 4,
     text: 'Clear strategy for Prelims + Mains. Mentors were available whenever needed.',
     tilt: 'tilt2'
   },
@@ -25,7 +25,7 @@ const testimonials = [
     name: 'Ananya Reddy',
     rank: 'AIR 8 • 2023',
     image: 'https://randomuser.me/api/portraits/women/65.jpg',
-    stars: 5,
+    stars: 3,
     text: 'Focused mentorship and smart scheduling helped me stay consistent.',
     tilt: 'tilt3'
   },
@@ -33,7 +33,7 @@ const testimonials = [
     name: 'Karthik Reddy',
     rank: 'AIR 78 • 2023',
     image: 'https://randomuser.me/api/portraits/men/54.jpg',
-    stars: 4,
+    stars: 2,
     text: 'Great current affairs coverage and timely revisions before the exam.',
     tilt: 'tilt2'
   },
@@ -154,6 +154,7 @@ export default function Testimonials() {
                   <article
                     key={index}
                     className={`${styles.tCard} ${styles[testimonial.tilt]}`}
+                    data-stars={testimonial.stars}
                     tabIndex={0}
                     role="article"
                     aria-label={`${testimonial.name}'s testimonial`}

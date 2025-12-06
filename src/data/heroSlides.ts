@@ -25,8 +25,8 @@ export const heroSlides: HeroSlide[] = [
   {
     title: 'Start Smart. Stay Consistent. Clear UPSC.',
     features: [
-      'Foundation to Mains with Interview Guidance',
-      'Integrated Timetable and Study Plans',
+      '✓ Foundation to Mains with Interview Guidance',
+      '✓ Integrated Timetable and Study Plans',
     ],
     image: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=1200&h=600&fit=crop',
   },

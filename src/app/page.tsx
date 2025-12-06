@@ -14,7 +14,7 @@ import FloatingButtons from '@/components/FloatingButtons'
 
 export default function Home() {
   return (
-    <div style={{ width: '100%', maxWidth: '100vw', overflowX: 'hidden' }}>
+    <>
       <ScrollAnimations />
       <Header />
       <Marquee />
@@ -35,6 +35,6 @@ export default function Home() {
       <LatestCurrentAffairs />
       <Footer />
       <FloatingButtons />
-    </div>
+    </>
   )
 }

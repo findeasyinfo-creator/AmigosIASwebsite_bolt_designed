@@ -257,8 +257,20 @@ export default function CoursesPageContent() {
                       </svg>
                       Starts: {course.startDate}
                     </div>
-                    <div className="text-3xl font-bold text-orange-600 dark:text-orange-400 mb-4">
-                      {course.fees}
+                    <div className="flex gap-2 mb-4">
+                      <span className="px-4 py-2 bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400 rounded-lg text-sm font-semibold border-2 border-orange-500 dark:border-orange-600 flex items-center">
+                        <svg className="w-4 h-4 mr-1.5" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
+                          <path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd"/>
+                        </svg>
+                        Online
+                      </span>
+                      <span className="px-4 py-2 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 rounded-lg text-sm font-semibold border-2 border-yellow-500 dark:border-yellow-600 flex items-center">
+                        <svg className="w-4 h-4 mr-1.5" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd"/>
+                        </svg>
+                        Offline
+                      </span>
                     </div>
                     <button
                       onClick={() => setSelectedCourse(course.id)}
@@ -313,8 +325,8 @@ export default function CoursesPageContent() {
                       <span className="px-3 py-1 bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 rounded-full text-sm font-medium">
                         {courses.find(c => c.id === selectedCourse)!.duration}
                       </span>
-                      <span className="text-2xl font-bold text-orange-600 dark:text-orange-400">
-                        {courses.find(c => c.id === selectedCourse)!.fees}
+                      <span className="px-3 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 rounded-full text-sm font-semibold border border-yellow-500 dark:border-yellow-600">
+                        Online/Offline
                       </span>
                     </div>
                     <p className="text-gray-600 dark:text-gray-400 mb-2">
@@ -355,7 +367,12 @@ export default function CoursesPageContent() {
                 </div>
 
                 <div className="border-t border-gray-200 dark:border-gray-700 pt-6 mb-6">
-                  <h5 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Payment Information</h5>
+                  <div className="flex items-center justify-between mb-4">
+                    <h5 className="text-xl font-semibold text-gray-900 dark:text-white">Payment Information</h5>
+                    <span className="text-3xl font-bold text-orange-600 dark:text-orange-400">
+                      {courses.find(c => c.id === selectedCourse)!.fees}
+                    </span>
+                  </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {/* Bank Details */}

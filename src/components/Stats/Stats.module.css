@@ -162,68 +162,38 @@
 .statCard::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(
-    135deg,
-    transparent 0%,
-    rgba(255, 152, 0, 0.1) 25%,
-    rgba(255, 87, 34, 0.2) 50%,
-    rgba(255, 152, 0, 0.1) 75%,
-    transparent 100%
-  );
-  background-size: 400% 400%;
-  opacity: 0;
-  transition: opacity 0.6s ease;
-  animation: gradientShift 8s ease infinite;
+  inset: 0;
   border-radius: 24px;
+  opacity: 0;
+  pointer-events: none;
   z-index: 0;
 }
 
 .statCard::after {
   content: '';
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  background: radial-gradient(circle, rgba(255, 152, 0, 0.3), transparent 70%);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  inset: 0;
+  border-radius: 24px;
   opacity: 0;
+  pointer-events: none;
   z-index: 0;
 }
 
-@keyframes gradientShift {
-  0%, 100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-}
-
 .statCard:hover::before {
-  opacity: 1;
+  opacity: 0;
 }
 
 .statCard:hover::after {
-  width: 500px;
-  height: 500px;
-  opacity: 0.6;
+  opacity: 0;
 }
 
 .statCard:hover {
   animation-play-state: paused;
-  transform: translateY(-16px) rotateX(3deg) rotateY(-3deg) scale(1.05);
-  box-shadow: 0 24px 48px rgba(255, 87, 34, 0.3), 
-              0 12px 24px rgba(255, 87, 34, 0.25),
-              0 0 0 2px rgba(255, 122, 0, 0.2) inset,
-              0 0 60px rgba(255, 152, 0, 0.25);
-  border-color: rgba(255, 87, 34, 0.6);
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 18px 36px rgba(212, 175, 55, 0.22), 
+              0 8px 18px rgba(0, 0, 0, 0.06),
+              0 0 0 2px rgba(212, 175, 55, 0.35) inset;
+  border-color: rgba(212, 175, 55, 0.6);
 }
 
 [data-theme="dark"] .statCard:hover {
@@ -235,34 +205,34 @@
 }
 
 .iconWrapper {
-  width: 64px;
-  height: 64px;
+  width: auto;
+  height: auto;
   margin: 0 auto 1.25rem;
-  background: linear-gradient(135deg, rgba(255, 122, 0, 0.08), rgba(255, 87, 34, 0.12));
-  border-radius: 14px;
+  background: transparent;
+  border-radius: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-  animation: iconBob 4s ease-in-out infinite, iconPulse 3s ease-in-out infinite;
+  animation: iconBob 4s ease-in-out infinite;
   position: relative;
-  box-shadow: 0 0 0 rgba(255, 152, 0, 0);
+  box-shadow: none;
 }
 
 [data-theme="dark"] .iconWrapper {
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(212, 175, 55, 0.15));
+  background: transparent;
 }
 
 .iconWrapper::before {
   content: '';
   position: absolute;
   inset: -3px;
-  background: linear-gradient(135deg, #FF7A00, #FF5722);
-  border-radius: 16px;
+  background: transparent;
+  border-radius: 0;
   opacity: 0;
   z-index: -1;
-  transition: opacity 0.4s ease;
-  filter: blur(8px);
+  transition: none;
+  filter: none;
 }
 
 .statCard:hover .iconWrapper::before {
@@ -270,15 +240,14 @@
 }
 
 .statCard:hover .iconWrapper {
-  transform: scale(1.2) rotate(-8deg);
-  background: linear-gradient(135deg, rgba(255, 122, 0, 0.25), rgba(255, 87, 34, 0.35));
-  box-shadow: 0 12px 24px rgba(255, 122, 0, 0.4),
-              0 0 50px rgba(255, 152, 0, 0.7);
-  animation: iconBob 1.5s ease-in-out infinite, iconPulse 1s ease-in-out infinite;
+  transform: scale(1.1) rotate(-4deg);
+  background: transparent;
+  box-shadow: none;
+  animation: iconBob 1.5s ease-in-out infinite;
 }
 
 [data-theme="dark"] .statCard:hover .iconWrapper {
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.25), rgba(212, 175, 55, 0.35));
+  background: transparent;
 }
 
 .icon {
@@ -286,7 +255,7 @@
   height: 40px;
   color: #FF7A00;
   transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-  filter: drop-shadow(0 2px 4px rgba(255, 122, 0, 0.3));
+  filter: drop-shadow(0 2px 4px rgba(255, 122, 0, 0.25));
 }
 
 @keyframes iconBob {
@@ -315,7 +284,7 @@
 
 .statCard:hover .icon {
   transform: scale(1.15) rotate(5deg);
-  filter: drop-shadow(0 6px 12px rgba(255, 122, 0, 0.6));
+  filter: drop-shadow(0 6px 12px rgba(212, 175, 55, 0.55));
 }
 
 [data-theme="dark"] .icon {
@@ -352,13 +321,12 @@
 
 .statCard:hover .statNumber {
   transform: scale(1.15) translateY(-3px) rotateY(5deg);
-  background: linear-gradient(135deg, #FF7A00 0%, #FF5722 100%);
+  background: linear-gradient(135deg, #1a1a1a 0%, #4a3b16 100%);
   background-size: 200% 200%;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 4px 8px rgba(255, 122, 0, 0.4));
-  animation: numberShine 1.5s ease-in-out infinite;
+  filter: drop-shadow(0 4px 8px rgba(212, 175, 55, 0.35));
 }
 
 @keyframes numberShine {
@@ -392,9 +360,9 @@
 
 .statCard:hover .statLabel {
   transform: translateY(-2px) scale(1.05);
-  color: #FF7A00 !important;
+  color: #a67c00 !important;
   font-weight: 600;
-  text-shadow: 0 2px 8px rgba(255, 87, 34, 0.3);
+  text-shadow: 0 2px 8px rgba(212, 175, 55, 0.25);
   letter-spacing: 0.5px;
 }
 

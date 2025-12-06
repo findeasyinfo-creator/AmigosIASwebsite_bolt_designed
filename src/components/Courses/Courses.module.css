@@ -296,7 +296,7 @@
 
 .courseCard:hover .courseIcon {
   transform: scale(1.1) translateY(-4px);
-  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.35);
+  box-shadow: none;
 }
 [data-theme="light"] .courseIcon {
   background: transparent;

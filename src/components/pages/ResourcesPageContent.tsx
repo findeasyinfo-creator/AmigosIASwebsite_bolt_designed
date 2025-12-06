@@ -1,11 +1,9 @@
 'use client'
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import Link from 'next/link';
 import CommunityForum from '@/components/CommunityForum';
 
 export default function ResourcesPageContent() {
-  const [activeTab, setActiveTab] = useState('study-materials');
-
   const tabs = [
     { id: 'study-materials', name: 'Study Materials' },
     { id: 'ncerts', name: 'NCERTs' },
@@ -13,22 +11,39 @@ export default function ResourcesPageContent() {
     { id: 'pyq', name: 'Previous Year Papers' },
     { id: 'videos', name: 'Video Lectures' },
     { id: 'faculty-columns', name: 'Faculty Columns' },
-    { id: 'exam-updates', name: 'Exam Updates' },
+    { id: 'faq', name: 'FAQ' },
     { id: 'community-forum', name: 'Community Forum' },
   ];
 
-  // Handle hash navigation on mount and maintain state across refreshes
-  useEffect(() => {
+  const validTabIds = ['study-materials', 'ncerts', 'strategy', 'pyq', 'videos', 'faculty-columns', 'faq', 'community-forum'];
+
+  const [activeTab, setActiveTab] = useState('study-materials');
+
+  // Use useLayoutEffect to sync hash before paint (client-side only)
+  useLayoutEffect(() => {
     const hash = window.location.hash.slice(1);
-    if (hash && tabs.some(tab => tab.id === hash)) {
+    if (hash && validTabIds.includes(hash)) {
       setActiveTab(hash);
     }
   }, []);
 
-  // Update hash when tab changes
+  // Sync hash with activeTab whenever it changes
   useEffect(() => {
     window.history.replaceState(null, '', `#${activeTab}`);
   }, [activeTab]);
+
+  // Handle hash navigation when hash changes
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.slice(1);
+      if (hash && validTabIds.includes(hash)) {
+        setActiveTab(hash);
+      }
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, [validTabIds]);
 
   return (
     <div>
@@ -74,7 +89,7 @@ export default function ResourcesPageContent() {
             {activeTab === 'pyq' && <PYQTab />}
             {activeTab === 'videos' && <VideosTab />}
             {activeTab === 'faculty-columns' && <FacultyColumnsTab />}
-            {activeTab === 'exam-updates' && <ExamUpdatesTab />}
+            {activeTab === 'faq' && <FAQTab />}
             {activeTab === 'community-forum' && <CommunityForumTab />}
           </div>
         </div>
@@ -826,228 +841,128 @@ function FacultyColumnsTab() {
   );
 }
 
-function ExamUpdatesTab() {
-  const [selectedUpdate, setSelectedUpdate] = useState<number | null>(null);
+function FAQTab() {
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(0);
 
-  const updates = [
-    { 
-      title: 'UPSC CSE 2026 Notification Released', 
-      date: '2025-11-03', 
-      type: 'Notification', 
-      urgent: true,
-      content: 'The Union Public Service Commission (UPSC) has officially released the notification for the Civil Services Examination (CSE) 2026. Key highlights: Application process begins from November 10, 2025. Last date for submission: December 10, 2025. Prelims exam scheduled for May 31, 2026. Age limit: 21-32 years (with relaxations for reserved categories). Total vacancies: Approximately 1,000 posts. Candidates are advised to carefully read the detailed notification and ensure eligibility before applying. The application fee is ₹100 for General/OBC candidates and NIL for SC/ST/PwD/Women candidates.',
-      tags: ['CSE 2026', 'Application', 'Notification', 'Important Dates']
+  const faqs = [
+    {
+      question: 'How can I start preparing for UPSC CSE?',
+      answer: 'Begin with understanding the exam pattern and syllabus. Start with NCERT books for basic foundation, focus on current affairs, and maintain consistency. Allocate at least 4-5 hours daily for structured preparation. Join coaching classes or online courses if needed for guidance. Remember, quality of study matters more than quantity.',
+      category: 'Preparation'
     },
-    { 
-      title: 'Prelims Exam Date Announced', 
-      date: '2025-10-29', 
-      type: 'Important', 
-      urgent: true,
-      content: 'UPSC has announced the Preliminary Examination date for CSE 2026. The exam will be conducted on May 31, 2026 (Sunday) in two sessions. Paper I (General Studies): 9:30 AM to 11:30 AM. Paper II (CSAT): 2:30 PM to 4:30 PM. Exam centers will be available in all state capitals and major cities. Admit cards will be released three weeks before the exam. Candidates must carry a valid photo ID proof along with the admit card. COVID-19 safety protocols will be followed as per government guidelines at that time.',
-      tags: ['Prelims', 'Exam Date', 'CSE 2026', 'Schedule']
+    {
+      question: 'What is the age limit for UPSC CSE?',
+      answer: 'The general age limit is 21-32 years. Reserved category candidates get age relaxation: SC/ST - 5 years relaxation (up to 37 years), OBC - 3 years relaxation (up to 35 years), PwD - 15 years relaxation. PWD candidates also get additional relaxation of 10 years.',
+      category: 'Eligibility'
     },
-    { 
-      title: 'Interview Schedule for CSE 2025', 
-      date: '2025-10-25', 
-      type: 'Schedule', 
-      urgent: false,
-      content: 'The Personality Test (Interview) schedule for CSE 2025 has been released. Interviews will be conducted from January 15, 2026 to March 30, 2026. Candidates will receive individual interview dates via email and on the official website. Each interview session typically lasts 20-30 minutes. The board consists of a Chairman and 4-5 members from diverse backgrounds. Candidates should bring all original documents for verification. Dress code: Formal attire recommended. The interview carries 275 marks and focuses on personality, communication skills, and awareness of current affairs.',
-      tags: ['Interview', 'Personality Test', 'CSE 2025', 'Schedule']
+    {
+      question: 'How many times can I attempt UPSC CSE?',
+      answer: 'For General candidates: 6 attempts or until age 32, whichever comes first. For OBC candidates: 9 attempts or until age 35, whichever comes first. For SC/ST candidates: Unlimited attempts until age 37. The number of attempts is crucial, so plan your preparation strategically.',
+      category: 'Eligibility'
     },
-    { 
-      title: 'Changes in Optional Subject Syllabus', 
-      date: '2025-10-20', 
-      type: 'Update', 
-      urgent: false,
-      content: 'UPSC has introduced minor revisions in the syllabus for certain optional subjects effective from CSE 2026. Subjects affected: Geography - Added climate change adaptation strategies. Public Administration - Updated governance models section. Sociology - Expanded digital society topics. Psychology - Included neuropsychology updates. These changes reflect contemporary developments and align with modern administrative requirements. Candidates choosing these optional subjects should refer to the updated syllabus available on the UPSC website. Previous years questions remain relevant for preparation.',
-      tags: ['Optional Subjects', 'Syllabus', 'Updates', 'CSE 2026']
+    {
+      question: 'What is the best optional subject for UPSC CSE?',
+      answer: 'The best optional is one that interests you personally and matches your educational background. Popular choices: History, Geography, Political Science, Law, Physics, Chemistry, etc. Choose based on: Your comfort level, Availability of quality study material, Coaching guidance in that subject, and Your undergraduate specialization.',
+      category: 'Strategy'
     },
-    { 
-      title: 'Mains Admit Card Release Date', 
-      date: '2025-10-15', 
-      type: 'Important', 
-      urgent: true,
-      content: 'The admit cards for CSE 2025 Main Examination will be released on November 1, 2025. The Mains exam is scheduled from December 15-22, 2025. Candidates who qualified in Prelims can download their admit cards from the official UPSC website using their registration number and date of birth. Important instructions: Carry two passport-size photographs. Bring a valid photo ID proof. Use only black ball-point pen for writing. No electronic devices allowed in the examination hall. Report to the center 30 minutes before the exam.',
-      tags: ['Mains', 'Admit Card', 'CSE 2025', 'Important']
+    {
+      question: 'How important is current affairs for UPSC?',
+      answer: 'Current affairs is extremely important and carries significant weightage across all stages of UPSC. For Prelims: ~20-30% questions. For Mains: Integrated throughout GS papers. For Interview: 30-40% questions. Stay updated with daily news, maintain notes, and connect current events with static subjects.',
+      category: 'Preparation'
     },
-    { 
-      title: 'Revised Exam Calendar for 2026', 
-      date: '2025-10-10', 
-      type: 'Schedule', 
-      urgent: false,
-      content: 'UPSC has released the comprehensive examination calendar for 2026. Key dates: CSE Prelims: May 31, 2026. CSE Mains: September 2026 (tentative). CSE Interview: January-March 2027. Engineering Services Exam: June 2026. Indian Forest Service: June 2026. NDA/NA: April & September 2026. CDS: February, April & September 2026. Candidates planning for multiple exams should note these dates to avoid clashes and plan their preparation accordingly.',
-      tags: ['Calendar', 'Exam Schedule', '2026', 'All Exams']
+    {
+      question: 'Is coaching necessary for UPSC preparation?',
+      answer: 'Coaching is not mandatory but can be beneficial for: Structured guidance and proper direction, Expert insights and exam-oriented approach, Regular mock tests and performance tracking, Discipline and accountability. Many successful candidates have prepared without coaching using quality study materials and self-discipline.',
+      category: 'Preparation'
     },
-    { 
-      title: 'Final Result Declaration - CSE 2024', 
-      date: '2025-10-05', 
-      type: 'Result', 
-      urgent: true,
-      content: 'UPSC has declared the final results for CSE 2024. Total selected candidates: 1,016. Top scorer: Shri Arjun Mehra (Roll No. 123456) with 1,050 marks. Gender distribution: Male - 640, Female - 376. Reserved category selections: SC - 152, ST - 85, OBC - 332, EWS - 103, PwD - 15. The detailed result with roll numbers and rank list is available on the UPSC official website. Selected candidates will receive joining instructions from the Department of Personnel and Training (DoPT) within 2-3 weeks.',
-      tags: ['Final Result', 'CSE 2024', 'Selection', 'Toppers']
+    {
+      question: 'What should be my study schedule?',
+      answer: 'Typical daily schedule: Morning (3 hours) - Core subject study, Afternoon (2 hours) - Current affairs and newspaper reading, Evening (1.5 hours) - Revision and note-making, Night (1 hour) - Mock tests or practice. Adjust based on your rhythm. Break this into: 60% static subjects, 30% current affairs, 10% mock tests.',
+      category: 'Strategy'
     },
-    { 
-      title: 'New Application Portal Guidelines', 
-      date: '2025-09-28', 
-      type: 'Update', 
-      urgent: false,
-      content: 'UPSC has updated the online application portal with new features and guidelines. New features: Real-time application status tracking. Document upload size increased to 5MB. Mobile number and email verification mandatory. Payment gateway improvements with multiple options. OTP-based login for enhanced security. Guidelines: Complete all sections before final submission. Keep scanned documents ready (photo, signature, ID proof). Use latest version of Chrome/Firefox browser. Take a printout of the submitted application. Helpdesk available on working days 10 AM - 5 PM.',
-      tags: ['Application', 'Portal', 'Guidelines', 'Technology']
+    {
+      question: 'How should I approach UPSC Mains answer writing?',
+      answer: 'Key points: Structure answers clearly with introduction and conclusion, Use headings and subheadings for clarity, Support answers with examples and data, Keep to time limit (6 minutes per answer), Focus on keyword-based answering, Add diagrams/maps where relevant. Practice regularly to develop command and speed.',
+      category: 'Preparation'
     },
-    { 
-      title: 'Interview Panel and Locations Announced', 
-      date: '2025-09-20', 
-      type: 'Schedule', 
-      urgent: false,
-      content: 'UPSC has announced the composition of Interview Boards and designated centers for CSE 2025 interviews. Board Members include: Retired civil servants, Armed forces officers, Academicians and subject experts, Retired judges, Domain specialists. Interview Centers: New Delhi (Dholpur House), Mumbai, Chennai, Kolkata, Bengaluru (for candidates requiring special accessibility). Candidates cannot request a specific board or location change except on medical grounds with proper documentation. Each board will interview 10-15 candidates per day.',
-      tags: ['Interview', 'Panel', 'Centers', 'Board']
+    {
+      question: 'What are the best sources for current affairs?',
+      answer: 'Recommended sources: Daily newspapers (Indian Express, Hindu, DTE), News channels (DD News, Lok Sabha TV), Weekly magazines (Yojana, Kurukshetra), Online platforms (PIB, Press Information Bureau), Mobile apps (News24, PIB news). Maintain topic-wise current affairs notes for quick revision.',
+      category: 'Resources'
     },
-    { 
-      title: 'Document Verification Process Update', 
-      date: '2025-09-15', 
-      type: 'Update', 
-      urgent: false,
-      content: 'UPSC has revised the document verification process for selected candidates. Required documents: 10th & 12th mark sheets and certificates. Graduation degree and mark sheets. Caste certificate (if claiming reservation). EWS certificate (valid for current year). PwD certificate (if applicable). Character certificate from a Gazetted Officer. Recent passport-size photographs. The verification will be conducted at the time of interview. Discrepancies may lead to disqualification. Keep both original and self-attested photocopies. Digital copies also accepted in prescribed format.',
-      tags: ['Document Verification', 'Certificates', 'Process', 'Requirements']
+    {
+      question: 'How do I manage stress during UPSC preparation?',
+      answer: 'Stress management tips: Maintain regular exercise and yoga, Take short breaks during study sessions, Avoid comparison with other candidates, Focus on your own progress, Engage in hobbies and recreational activities, Practice meditation or mindfulness, Ensure adequate sleep (7-8 hours), Maintain a support system of friends and mentors.',
+      category: 'Mental Health'
     },
-    { 
-      title: 'Prelims Result 2025 Declared', 
-      date: '2025-09-10', 
-      type: 'Result', 
-      urgent: true,
-      content: 'UPSC has declared the Prelims result for CSE 2025. Total candidates qualified for Mains: 11,500 (approximately). Cut-off marks (out of 200): General - 98.66, OBC - 92.34, SC - 84.00, ST - 76.66. Qualified candidates can check their result on the UPSC website using registration ID. Scorecards with detailed marks will be available after the entire examination process is complete. Qualified candidates should immediately start Mains preparation. The Mains exam will be held in December 2025.',
-      tags: ['Prelims Result', 'CSE 2025', 'Cut-off', 'Mains']
+    {
+      question: 'What documents are required for UPSC interview?',
+      answer: 'Required documents: 10th & 12th certificates and mark sheets, Bachelor\'s degree certificate and mark sheets, Caste/OBC/EWS certificate (if applicable), PwD certificate (if applicable), Character certificate from a gazetted officer, Birth certificate, Recent passport-size photographs. Carry both originals and self-attested photocopies.',
+      category: 'Interview'
     },
-    { 
-      title: 'Important FAQs Updated', 
-      date: '2025-09-05', 
-      type: 'Information', 
-      urgent: false,
-      content: 'UPSC has updated its Frequently Asked Questions (FAQ) section covering various aspects. New additions include: Clarity on age relaxation for various categories. Guidelines for choosing optional subjects. Explanation of tie-breaking rules in ranking. Process for name/category correction in application. Refund policy for application fees. Grievance redressal mechanism. Answer key objection process and timelines. The updated FAQs are available in both English and Hindi on the official website. Candidates are advised to refer to these before contacting the helpdesk.',
-      tags: ['FAQs', 'Information', 'Help', 'Guidelines']
+    {
+      question: 'How should I prepare for the personality test (interview)?',
+      answer: 'Interview preparation: Stay updated with current affairs, Develop general knowledge and analytical skills, Practice mock interviews with mentors, Work on communication and confidence, Prepare answers on your background and motivation, Develop opinions on contemporary issues, Be authentic and avoid memorized answers, Mock interviews are crucial for building confidence.',
+      category: 'Interview'
     },
   ];
 
-  // Close modal on ESC key
-  useEffect(() => {
-    const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setSelectedUpdate(null);
-    };
-    window.addEventListener('keydown', handleEsc);
-    return () => window.removeEventListener('keydown', handleEsc);
-  }, []);
-
-  // Prevent body scroll when modal is open
-  useEffect(() => {
-    if (selectedUpdate !== null) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-  }, [selectedUpdate]);
-
   return (
-    <div className="space-y-4">
-      {updates.map((update, index) => (
-        <div key={index} className={`bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg ${update.urgent ? 'border-l-4 border-red-500' : ''}`}>
-          <div className="flex items-start justify-between">
-            <div className="flex-1">
-              <div className="flex items-center gap-3 mb-2">
-                <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                  update.urgent
-                    ? 'bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400'
-                    : 'bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400'
-                }`}>
-                  {update.type}
-                </span>
-                <span className="text-sm text-gray-500 dark:text-gray-400">{update.date}</span>
-              </div>
-              <h3 className="text-lg font-semibold mb-3">{update.title}</h3>
-              <button
-                onClick={() => setSelectedUpdate(index)}
-                className="text-orange-500 hover:text-orange-600 font-medium text-sm flex items-center transition-colors"
-              >
-                Read Details
-                <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </button>
+    <div id="faq" className="space-y-3">
+      {faqs.map((faq, index) => (
+        <div
+          key={index}
+          className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300"
+        >
+          <button
+            onClick={() => setExpandedIndex(expandedIndex === index ? null : index)}
+            className="w-full px-6 py-5 flex items-start justify-between text-left hover:bg-orange-50/50 dark:hover:bg-orange-900/10 transition-colors"
+          >
+            <div className="flex-1 pr-4">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white leading-relaxed">
+                {faq.question}
+              </h3>
+              <span className="inline-block mt-2 px-3 py-1 bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 rounded-full text-xs font-medium">
+                {faq.category}
+              </span>
             </div>
-            {update.urgent && (
-              <svg className="w-6 h-6 text-red-500 flex-shrink-0 ml-4" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+            <div className="flex-shrink-0 ml-4">
+              <svg
+                className={`w-5 h-5 text-orange-500 transition-transform duration-300 ${
+                  expandedIndex === index ? 'rotate-180' : ''
+                }`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
               </svg>
-            )}
-          </div>
+            </div>
+          </button>
+
+          {/* Expanded Content */}
+          {expandedIndex === index && (
+            <div className="border-t border-gray-200 dark:border-gray-700 px-6 py-5 bg-gradient-to-b from-transparent to-orange-50/30 dark:to-orange-900/5">
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+                {faq.answer}
+              </p>
+            </div>
+          )}
         </div>
       ))}
 
-      {/* Modal */}
-      {selectedUpdate !== null && (
-        <div 
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-          onClick={() => setSelectedUpdate(null)}
-        >
-          <div 
-            className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="sticky top-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-6 flex justify-between items-start z-10">
-              <div className="flex-1 pr-4">
-                <div className="flex items-center gap-3 mb-3">
-                  <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                    updates[selectedUpdate].urgent
-                      ? 'bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400'
-                      : 'bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400'
-                  }`}>
-                    {updates[selectedUpdate].type}
-                  </span>
-                  <span className="text-sm text-gray-500 dark:text-gray-400">{updates[selectedUpdate].date}</span>
-                  {updates[selectedUpdate].urgent && (
-                    <span className="px-2 py-1 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded text-xs font-medium">
-                      URGENT
-                    </span>
-                  )}
-                </div>
-                <h2 className="text-2xl font-bold">{updates[selectedUpdate].title}</h2>
-              </div>
-              <button
-                onClick={() => setSelectedUpdate(null)}
-                className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors"
-                aria-label="Close modal"
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-            
-            <div className="p-6">
-              <div className="prose dark:prose-invert max-w-none">
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-6 whitespace-pre-line">
-                  {updates[selectedUpdate].content}
-                </p>
-                
-                {updates[selectedUpdate].tags && updates[selectedUpdate].tags.length > 0 && (
-                  <div className="mt-6">
-                    <h3 className="text-lg font-semibold mb-3">Related Tags:</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {updates[selectedUpdate].tags.map((tag, i) => (
-                        <span
-                          key={i}
-                          className="px-3 py-1 bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 rounded-full text-sm"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Additional Help Section */}
+      <div className="mt-8 p-6 bg-gradient-to-r from-orange-500/10 to-yellow-500/10 dark:from-orange-900/20 dark:to-yellow-900/20 rounded-2xl border border-orange-200/50 dark:border-orange-800/50">
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
+          <svg className="w-5 h-5 mr-2 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
+            <path fillRule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zm-11-1a1 1 0 11-2 0 1 1 0 012 0zM8 8a1 1 0 000 2h6a1 1 0 100-2H8zm0 4a1 1 0 100 2h3a1 1 0 100-2H8z" clipRule="evenodd" />
+          </svg>
+          Can't Find Your Answer?
+        </h3>
+        <p className="text-gray-700 dark:text-gray-300 mb-4">
+          Have more questions? Connect with our community forum to ask questions, share experiences, and get support from fellow UPSC aspirants and experienced mentors.
+        </p>
+      </div>
     </div>
   );
 }
