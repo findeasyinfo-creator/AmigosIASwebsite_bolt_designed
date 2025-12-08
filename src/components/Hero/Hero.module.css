@@ -1,51 +1,20 @@
 ﻿/* Hero Section - Premium Sunrise Gradient */
+
+
 .heroSection {
-  background: linear-gradient(135deg, #FF6B35 0%, #FF8C42 15%, #FFA94D 30%, #FFB84D 50%, #FFD24D 70%, #FFE066 100%);
+  background: linear-gradient(110deg, #f87448 0%, #fca74a 52%, #ffd45f 100%);
   position: relative;
-  overflow: hidden;
-  padding: 0px 0px 40px 0px;
+  overflow: hidden !important; /* Force hide overflow */
+  padding: 60px 0px 100px 0px;
   z-index: 1;
   width: 100%;
   max-width: 100vw;
   min-height: 700px;
 }
 
-/* Premium vignette effect */
-.heroSection::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: 
-    radial-gradient(ellipse at top left, rgba(255, 107, 53, 0.15) 0%, transparent 40%),
-    radial-gradient(ellipse at bottom right, rgba(255, 224, 102, 0.12) 0%, transparent 40%),
-    radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.08) 100%);
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* Floating particle lights */
+.heroSection::before,
 .heroSection::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: 
-    radial-gradient(2px 2px at 20px 30px, rgba(255,255,255,0.6), rgba(255,255,255,0) 2px),
-    radial-gradient(2px 2px at 60px 70px, rgba(255,255,255,0.4), rgba(255,255,255,0) 2px),
-    radial-gradient(1px 1px at 50px 50px, rgba(255,255,255,0.8), rgba(255,255,255,0) 1px),
-    radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.5), rgba(255,255,255,0) 1px),
-    radial-gradient(2px 2px at 200px 10px, rgba(255,255,255,0.7), rgba(255,255,255,0) 2px);
-  background-repeat: repeat;
-  background-size: 200px 200px;
-  animation: particleFloat 20s linear infinite;
-  pointer-events: none;
-  z-index: 1;
-  opacity: 0.5;
+  content: none;
 }
 
 @keyframes particleFloat {
@@ -55,31 +24,31 @@
 
 /* Dark theme: let global body background show through */
 [data-theme="dark"] .heroSection {
-  background: linear-gradient(135deg, rgba(255, 107, 53, 0.9) 0%, rgba(255, 140, 66, 0.85) 15%, rgba(255, 160, 77, 0.8) 30%, rgba(255, 176, 77, 0.75) 50%, rgba(255, 210, 77, 0.7) 70%, rgba(255, 224, 102, 0.65) 100%);
+  background: linear-gradient(110deg, rgba(180, 55, 30, 0.95) 0%, rgba(200, 75, 35, 0.9) 30%, rgba(220, 100, 45, 0.85) 60%, rgba(230, 120, 50, 0.8) 100%);
 }
 
 [data-theme="light"] .heroSection {
-  background: linear-gradient(135deg, #FF6B35 0%, #FF8C42 15%, #FFA94D 30%, #FFB84D 50%, #FFD24D 70%, #FFE066 100%);
+  background: linear-gradient(110deg, #b83a1a 0%, #cc4619 30%, #d95a26 62%, #e26f2e 100%);
 }
 
 .heroContainer {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 60px 2rem 40px 2rem;
+  padding: 0 2.5rem;
   position: relative;
   height: 100%;
   display: flex;
   align-items: center;
   min-height: 700px;
   width: 100%;
-  overflow: hidden;
+  overflow: hidden; /* Ensures adjacent slides are fully clipped */
   z-index: 2;
 }
 
 /* Slides viewport and track for sliding entire hero (text+image) */
 .slidesViewport {
   position: relative;
-  overflow: hidden;
+  overflow: hidden; /* hide neighboring slide content/letters */
   width: 100%;
   max-width: 100%;
   z-index: 3;
@@ -100,10 +69,10 @@
   display: grid;
   grid-template-columns: 40% 60%;
   align-items: center;
-  gap: 3rem;
+  gap: 2.75rem;
   width: 100%;
   position: relative;
-  min-height: 550px;
+  min-height: 560px;
 }
 
 .textContent {
@@ -178,50 +147,122 @@
   letter-spacing: 0.3px;
 }
 
+
 .imageContent {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   position: relative;
+  z-index: 2;
+  overflow: visible;
+}
+
+/* Secondary soft orange glow layer */
+.imageContent::before {
+  content: '';
+  position: absolute;
+  left: -110px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 440px;
+  height: 520px;
+  background: radial-gradient(
+    ellipse 88% 100% at 68% 50%,
+    rgba(255, 154, 92, 0.38) 0%,
+    rgba(255, 154, 92, 0.26) 22%,
+    rgba(255, 175, 110, 0.16) 44%,
+    rgba(255, 205, 140, 0.08) 64%,
+    transparent 82%
+  );
+  filter: blur(58px);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 1;
 }
 
 .imageWrapper {
   position: relative;
   width: 100%;
-  max-width: 100%;
+  max-width: 760px;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: visible;
+  padding: 12px 6px;
+}
+
+/* Soft orange glow/gradient behind the card on the left */
+.imageWrapper::before {
+  content: '';
+  position: absolute;
+  left: -160px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 520px;
+  height: 600px;
+  background: radial-gradient(
+    ellipse 92% 105% at 70% 52%,
+    rgba(255, 150, 86, 0.46) 0%,
+    rgba(255, 170, 110, 0.32) 20%,
+    rgba(255, 200, 142, 0.16) 45%,
+    rgba(255, 220, 170, 0.08) 65%,
+    transparent 82%
+  );
+  filter: blur(68px);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 1;
 }
 
 .heroImageContainer {
   width: 100%;
-  max-width: 100%;
-  height: 450px;
-  overflow: hidden;
-  border: none;
+  max-width: 760px;
+  height: 410px;
   position: relative;
-  border-radius: 24px;
-  background: rgba(255, 255, 255, 0.95);
-  box-shadow: 
-    0 30px 60px rgba(0, 0, 0, 0.25),
-    0 15px 35px rgba(0, 0, 0, 0.15),
-    0 0 0 1px rgba(255, 255, 255, 0.5) inset;
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  background-image: 
-    linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, transparent 50%);
-  background-position: top right;
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
+  overflow: hidden;
+  border-radius: 22px;
+  padding: 12px;
+  background: linear-gradient(115deg, #f87448 0%, #fca74a 55%, #ffd45f 100%);
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.28),
+    0 10px 22px rgba(0, 0, 0, 0.18);
+  transition: transform 0.32s ease, box-shadow 0.32s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(0);
+  z-index: 5;
+}
+
+.heroImageContainer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  background: transparent;
+  box-shadow: none;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.heroImageContainer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  box-shadow: 0 22px 30px rgba(0, 0, 0, 0.24);
+  z-index: 1;
+  pointer-events: none;
 }
 
 .heroImageContainer:hover {
-  box-shadow: 
-    0 40px 80px rgba(0, 0, 0, 0.3),
-    0 20px 40px rgba(0, 0, 0, 0.2),
-    0 0 0 1px rgba(255, 255, 255, 0.6) inset;
-  transform: translateY(-4px);
+  box-shadow:
+    0 26px 52px rgba(0, 0, 0, 0.32),
+    0 12px 26px rgba(0, 0, 0, 0.2);
+  transform: translateY(-6px);
 }
 
 .heroImage {
@@ -229,7 +270,10 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  border-radius: 24px;
+  border-radius: 16px;
+  position: relative;
+  z-index: 2;
+  filter: saturate(1.08) brightness(1.06);
 }
 
 /* Navigation buttons positioned on sides of image */
@@ -337,7 +381,7 @@
 
 @media (max-width: 768px) {
   .heroSection {
-    padding: 0;
+    padding: 32px 0 72px 0;
     overflow-x: hidden;
     max-width: 100vw;
     width: 100%;
@@ -393,6 +437,22 @@
     max-width: 100%;
   }
   
+  .imageWrapper::before {
+    width: 400px;
+    height: 420px;
+    left: -150px;
+    filter: blur(55px);
+    opacity: 0.85;
+  }
+  
+  .imageContent::before {
+    width: 320px;
+    height: 350px;
+    left: -120px;
+    filter: blur(45px);
+    opacity: 0.75;
+  }
+  
   .heroTitle {
     font-size: clamp(1.8rem, 5vw, 2.5rem);
     text-align: center;
@@ -411,8 +471,30 @@
   .heroImageContainer {
     max-width: 100%;
     width: 100%;
-    height: 280px;
+    height: 290px;
     border-radius: 20px;
+    padding: 10px;
+    background: linear-gradient(115deg, #f87448 0%, #fca74a 55%, #ffd45f 100%);
+    box-shadow:
+      0 16px 30px rgba(0, 0, 0, 0.24),
+      0 8px 16px rgba(0, 0, 0, 0.15);
+    clip-path: polygon(0 3%, 100% 0, 100% 97%, 0 100%);
+  }
+  
+  .heroImageContainer::before {
+    inset: 0;
+    border-radius: 18px;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.22);
+  }
+  
+  .heroImageContainer::after {
+    inset: 0;
+    border-radius: 18px;
+    box-shadow: 0 16px 22px rgba(0, 0, 0, 0.18);
+  }
+  
+  .heroImage {
+    border-radius: 16px;
   }
 
   .imageIndicators {
@@ -432,7 +514,7 @@
 
 @media (max-width: 480px) {
   .heroSection {
-    padding: 10px 0px 40px 0px;
+    padding: 32px 0px 64px 0px;
     max-width: 100vw;
     overflow-x: hidden;
   }
@@ -457,19 +539,48 @@
     line-height: 1.2;
   }
   
+  .imageWrapper::before {
+    width: 280px;
+    height: 290px;
+    left: -100px;
+    filter: blur(50px);
+    opacity: 0.7;
+  }
+  
+  .imageContent::before {
+    width: 220px;
+    height: 240px;
+    left: -80px;
+    filter: blur(40px);
+    opacity: 0.6;
+  }
+  
   .heroImageContainer {
     max-width: 100%;
     width: 100%;
-    height: 180px; /* Smaller landscape for phones */
-    margin: 0 auto;
-    border: none;
-    --fold-size: 25px;
+    height: 230px;
+    margin: 0 auto 18px;
+    border-radius: 22px;
+    padding: 0;
+    transform: translateY(0);
+    box-shadow:
+      0 14px 30px rgba(0, 0, 0, 0.12),
+      0 9px 20px rgba(255, 178, 128, 0.18);
   }
+  
+  .heroImageContainer::before {
+    inset: 0;
+    border-radius: 22px;
+  }
+  
+  .heroImageContainer::after {
+    inset: 0;
+    border-radius: 22px;
+  }
+  
   .heroImageContainer .heroImage {
     object-fit: cover;
-    clip-path: polygon(
-      0 0, 100% 0, 100% calc(100% - 25px), calc(100% - 25px) 100%, 0 100%
-    );
+    border-radius: 20px;
   }
   .features { display: none; }
   

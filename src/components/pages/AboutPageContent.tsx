@@ -163,6 +163,18 @@ function DirectorMessageSection() {
                 Meet Our<br />Chairman
               </h2>
 
+              <div className="relative w-full max-w-sm mx-auto my-6 lg:hidden">
+                <Image
+                  src="/assets/director.png"
+                  alt="Musku Ramana Reddy - Chairman"
+                  width={420}
+                  height={520}
+                  className="w-full h-auto object-contain"
+                  priority
+                />
+                <div className="absolute bottom-0 left-1/2 w-3/4 h-12 bg-gradient-to-r from-transparent via-black/20 to-transparent blur-xl -translate-x-1/2 transform" />
+              </div>
+
               <h3 className="text-3xl sm:text-4xl font-bold text-orange-500 dark:text-orange-400 mb-3">
                 Musku Ramana Reddy
               </h3>
@@ -213,7 +225,7 @@ function DirectorMessageSection() {
           </div>
 
           {/* Right side - Image */}
-          <div className="director-image flex items-center justify-start lg:justify-center order-2 lg:order-2 -mt-20 lg:-mt-32">
+          <div className="director-image hidden lg:flex items-center justify-start lg:justify-center lg:order-2 lg:-mt-32">
             <div className="relative">
               <Image
                 src="/assets/director.png"
@@ -259,7 +271,7 @@ function ChiefAdviserSection() {
   }, []);
 
   return (
-    <section className="py-20 border-t border-gray-200 dark:border-gray-800 relative" ref={sectionRef}>
+    <section className="pt-10 pb-16 sm:py-20 border-t border-gray-200 dark:border-gray-800 relative" ref={sectionRef}>
       <style>{`
         @keyframes slideInRight {
           from {
@@ -367,12 +379,12 @@ function ChiefAdviserSection() {
         }
       `}</style>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center relative">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-16 items-center relative">
           {/* Animated Orange Bar Divider */}
           <div className="hidden lg:block absolute right-1/2 top-0 transform translate-x-1/2 w-8 bg-orange-500 orange-bar-divider" style={{ height: isVisible ? '380px' : '0px', opacity: isVisible ? 1 : 0 }}></div>
 
           {/* Left side - Image */}
-          <div className="adviser-image flex items-center justify-center">
+          <div className="adviser-image hidden lg:flex items-center justify-center">
             <div className="relative">
               <Image
                 src="/assets/advisor.png"
@@ -392,6 +404,17 @@ function ChiefAdviserSection() {
               <h2 className="text-5xl sm:text-6xl lg:text-7xl font-black text-gray-900 dark:text-white mb-6 leading-tight">
                 Meet Our Chief<br />Advisor
               </h2>
+
+              <div className="relative w-full max-w-sm h-72 sm:h-80 mx-auto mt-2 mb-5 overflow-hidden rounded-xl lg:hidden">
+                <Image
+                  src="/assets/advisor.png"
+                  alt="GHP Raju IPS - Chief Advisor"
+                  width={420}
+                  height={520}
+                  className="w-full h-full object-cover object-top"
+                />
+                <div className="absolute bottom-0 left-1/2 w-3/4 h-12 bg-gradient-to-r from-transparent via-black/20 to-transparent blur-xl -translate-x-1/2 transform hidden lg:block" />
+              </div>
 
               <h3 className="text-3xl sm:text-4xl font-bold text-orange-500 dark:text-orange-400 mb-6">
                 GHP Raju IPS (Retd)

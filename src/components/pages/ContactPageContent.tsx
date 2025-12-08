@@ -7,7 +7,7 @@ export default function ContactPageContent() {
     email: "",
     phone: "",
     district: "",
-    topic: "",
+    state: "",
     message: "",
   })
   const [errors, setErrors] = useState<Record<string, string>>({})
@@ -38,7 +38,7 @@ export default function ContactPageContent() {
     if (validate()) {
       console.log("Form submitted:", formData)
       alert("Your request has been successfully submitted! We will contact you shortly.")
-      setFormData({ name: "", email: "", phone: "", district: "", topic: "", message: "" })
+      setFormData({ name: "", email: "", phone: "", district: "", state: "", message: "" })
     }
   }
 
@@ -206,19 +206,15 @@ export default function ContactPageContent() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Topic</label>
-                    <select 
-                      name="topic" 
-                      value={formData.topic} 
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">State (Optional)</label>
+                    <input 
+                      type="text" 
+                      name="state" 
+                      value={formData.state} 
                       onChange={handleChange} 
-                      className="w-full px-4 py-3.5 rounded-xl bg-gray-50 dark:bg-gray-700/50 border-2 border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all duration-200 cursor-pointer"
-                    >
-                      <option value="">Select a topic</option>
-                      <option value="admissions">Admissions Inquiry</option>
-                      <option value="courses">Course Information</option>
-                      <option value="support">Student Support</option>
-                      <option value="other">Other</option>
-                    </select>
+                      className="w-full px-4 py-3.5 rounded-xl bg-gray-50 dark:bg-gray-700/50 border-2 border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all duration-200" 
+                      placeholder="Enter your State" 
+                    />
                   </div>
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Message</label>
