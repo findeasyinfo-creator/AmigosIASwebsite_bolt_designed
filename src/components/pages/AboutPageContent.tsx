@@ -36,11 +36,9 @@ function DirectorMessageSection() {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
+        setIsVisible(entry.isIntersecting);
       },
-      { threshold: 0.1 }
+      { threshold: 0.2 }
     );
 
     if (sectionRef.current) {
@@ -143,11 +141,11 @@ function DirectorMessageSection() {
           animation: expandHeight 1s ease-out forwards;
         }
 
-        .circle-progress-1 circle:nth-of-type(2) {
+        .circle-progress-1.animate circle:nth-of-type(2) {
           animation: fillCircle1 2s ease-in-out forwards 0.6s;
         }
 
-        .circle-progress-2 circle:nth-of-type(2) {
+        .circle-progress-2.animate circle:nth-of-type(2) {
           animation: fillCircle2 2s ease-in-out forwards 0.8s;
         }
       `}</style>
@@ -252,11 +250,9 @@ function ChiefAdviserSection() {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
+        setIsVisible(entry.isIntersecting);
       },
-      { threshold: 0.1 }
+      { threshold: 0.2 }
     );
 
     if (sectionRef.current) {
@@ -370,11 +366,11 @@ function ChiefAdviserSection() {
           animation-delay: 0.4s;
         }
 
-        .circle-progress-3 circle:nth-of-type(2) {
+        .circle-progress-3.animate circle:nth-of-type(2) {
           animation: fillCircle3 2s ease-in-out forwards 0.6s;
         }
 
-        .circle-progress-4 circle:nth-of-type(2) {
+        .circle-progress-4.animate circle:nth-of-type(2) {
           animation: fillCircle4 2s ease-in-out forwards 0.8s;
         }
       `}</style>
