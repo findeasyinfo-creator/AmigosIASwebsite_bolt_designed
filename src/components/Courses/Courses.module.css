@@ -458,7 +458,7 @@
   margin-top: 1rem;
   padding: 0;
   border-radius: 20px;
-  overflow: hidden;
+  overflow: visible; /* Let full emblem show without clipping on small screens */
   width: 100%;
   max-width: 280px;
   margin-left: auto;
@@ -480,7 +480,7 @@
   width: 100%;
   height: auto;
   border-radius: 0;
-  object-fit: cover;
+  object-fit: contain; /* Keep full torch image visible */
   filter: none !important;
 }
 
@@ -781,11 +781,11 @@
 /* Mobile light theme: gently zoom emblem for better fit */
 @media (max-width: 768px) {
   [data-theme="light"] .upscEmblemMobile img {
-    transform: scale(1.06);
+    transform: none; /* Avoid cropping bottom text on mobile */
     transform-origin: center top;
   }
   [data-theme="dark"] .upscEmblemMobile img {
-    transform: scale(1.06);
+    transform: none; /* Avoid cropping bottom text on mobile */
     transform-origin: center top;
   }
 }
