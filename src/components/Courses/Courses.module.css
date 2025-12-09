@@ -479,7 +479,7 @@
   display: block;
   width: 100%;
   height: auto;
-  border-radius: 0;
+  border-radius: 20px;
   object-fit: contain; /* Keep full torch image visible */
   filter: none !important;
 }
@@ -635,15 +635,28 @@
   /* Light theme mobile card style */
   [data-theme="light"] .courseCard,
   .courseCard {
-    padding: 1.75rem 1.25rem;
+    padding: 2rem 1.5rem;
     min-width: 78vw;
     max-width: 78vw;
     scroll-snap-align: center;
     flex-shrink: 0;
-    border-radius: 22px;
+    border-radius: 20px;
     margin: 0 0 0 1rem;
+    border: 2.5px solid rgba(212, 175, 55, 0.4);
+    box-shadow: 
+      0 15px 40px rgba(0, 0, 0, 0.7),
+      0 0 0 1.5px rgba(212, 175, 55, 0.35) inset,
+      0 0 50px rgba(212, 175, 55, 0.15),
+      0 5px 20px rgba(212, 175, 55, 0.25);
   }
-  [data-theme="light"] .courseCard { background: #F5F7FA; border:1px solid #E2E8F0; box-shadow:0 8px 18px rgba(16,24,40,0.10),0 3px 6px rgba(16,24,40,0.05); }
+  [data-theme="light"] .courseCard { 
+    background: linear-gradient(145deg, #FFFFFF 0%, #FFF8F0 100%);
+    border: 2.5px solid rgba(212, 175, 55, 0.35);
+    box-shadow: 
+      0 15px 40px rgba(212, 175, 55, 0.15),
+      0 0 0 1.5px rgba(212, 175, 55, 0.2) inset,
+      0 5px 20px rgba(212, 175, 55, 0.2);
+  }
 
   .courseIcon {
     width: 64px;
