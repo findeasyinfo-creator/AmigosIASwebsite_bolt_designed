@@ -111,7 +111,7 @@ export default function LatestCurrentAffairs() {
   return (
     <section className={styles.caSection} ref={sectionRef}>
       <div className={styles.container}>
-        <h2 className={styles.sectionTitle}>Latest Daily Current Affairs</h2>
+        <h2 className={styles.sectionTitle}>Latest Daily Current Affairs and Blog</h2>
         
         <DottedLines />
 

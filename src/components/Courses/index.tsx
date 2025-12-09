@@ -55,16 +55,16 @@ export default function Courses() {
             {/* Mobile unified emblem inside container */}
             <div className={styles.upscEmblemMobile}>
               <Image
-                src="/assets/Torch Light Theme.png"
-                alt="UPSC Emblem Light"
+                src="/assets/Torch-LBSNAA-Programs.png"
+                alt="LBSNAA Programs"
                 width={260}
                 height={520}
                 className={`${styles.emblemLight}`}
                 priority
               />
               <Image
-                src="/assets/Torch Dark Theme.png"
-                alt="UPSC Emblem Dark"
+                src="/assets/Torch-LBSNAA-Programs-Dark.png"
+                alt="LBSNAA Programs Dark"
                 width={260}
                 height={520}
                 className={`${styles.emblemDark}`}
@@ -112,8 +112,8 @@ export default function Courses() {
           <div className={styles.upscEmblemCard}>
             {/* Light theme emblem */}
             <Image 
-              src="/assets/Torch Light Theme.png" 
-              alt="UPSC Journey Light" 
+              src="/assets/Torch-LBSNAA-Programs.png" 
+              alt="LBSNAA Programs" 
               width={280} 
               height={560}
               className={`${styles.emblemImage} ${styles.emblemLight}`}
@@ -121,8 +121,8 @@ export default function Courses() {
             />
             {/* Dark theme emblem */}
             <Image 
-              src="/assets/Torch Dark Theme.png" 
-              alt="UPSC Journey Dark" 
+              src="/assets/Torch-LBSNAA-Programs-Dark.png" 
+              alt="LBSNAA Programs Dark" 
               width={280} 
               height={560}
               className={`${styles.emblemImage} ${styles.emblemDark}`}
