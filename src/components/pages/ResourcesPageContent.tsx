@@ -464,10 +464,10 @@ function PYQTab() {
             
             {/* Year Badge with ribbon effect */}
             <div className="relative inline-block mb-6">
-              <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-8 py-3 rounded-lg shadow-lg font-bold text-xl relative z-10">
+              <div className="bg-gradient-to-r from-orange-400 via-yellow-400 to-yellow-500 text-white px-8 py-3 rounded-lg shadow-lg font-bold text-xl relative z-10">
                 {p.year} {p.stage}
               </div>
-              <div className="absolute top-0 right-0 w-8 h-8 bg-orange-700 transform translate-x-2 -translate-y-2 rounded-tr-lg"></div>
+              <div className="absolute top-0 right-0 w-8 h-8 bg-gradient-to-br from-yellow-500 to-yellow-600 transform translate-x-2 -translate-y-2 rounded-tr-lg"></div>
               <div className="absolute right-2 top-2 text-3xl">{p.icon}</div>
             </div>
 
