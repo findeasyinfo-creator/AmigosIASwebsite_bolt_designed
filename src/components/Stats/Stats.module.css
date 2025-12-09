@@ -413,6 +413,14 @@
     scrollbar-color: rgba(255, 122, 0, 0.3) transparent;
     justify-content: flex-start;
     max-width: 100vw;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    will-change: scroll-position;
+    transform: translateZ(0);
+    scroll-behavior: smooth;
+    scroll-snap-stop: normal;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x;
   }
 
   .statsGrid::-webkit-scrollbar {
@@ -465,6 +473,11 @@
     flex-shrink: 0;
     transition: all 0.3s ease;
     animation: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+    will-change: scroll-position;
   }
 
   .statCard::after {
@@ -485,6 +498,10 @@
     margin: 0 0 0.2rem 0;
     line-height: 1;
     display: block;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    backface-visibility: hidden;
+    transform: translateZ(0);
   }
 
   .statLabel {
@@ -494,6 +511,10 @@
     padding: 0 0.25rem;
     margin: 0;
     display: block;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    backface-visibility: hidden;
+    transform: translateZ(0);
   }
 
   .iconWrapper {
