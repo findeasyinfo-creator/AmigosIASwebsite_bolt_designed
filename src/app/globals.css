@@ -125,12 +125,13 @@ body {
   overflow-x: clip;
   margin: 0;
   padding: 0;
-  background: 
+  background:
     radial-gradient(ellipse at 20% 30%, rgba(30, 50, 80, 0.3) 0%, transparent 45%),
     radial-gradient(ellipse at 80% 70%, rgba(20, 35, 60, 0.4) 0%, transparent 50%),
     linear-gradient(180deg, #0a1628 0%, #0d1b2e 50%, #0f1f35 100%);
   min-height: 100vh;
   position: relative;
+  color: #e5e7eb; /* Default text color for dark theme */
 }
 
 /* Starfield particles for dark theme */
@@ -173,8 +174,13 @@ body::after {
 
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Montserrat:wght@600;700;800&display=swap');
 
-/* Global Heading Styles - Dark Theme Gold Gradient */
-h1, h2, h3, h4, h5, h6 {
+/* Global Heading Styles - Dark Theme Gold Gradient - ONLY for public site */
+body:not(.admin-panel) h1,
+body:not(.admin-panel) h2,
+body:not(.admin-panel) h3,
+body:not(.admin-panel) h4,
+body:not(.admin-panel) h5,
+body:not(.admin-panel) h6 {
   font-family: 'Cormorant Garamond', serif;
   font-weight: 700;
   background: linear-gradient(135deg, #D4AF37 0%, #FFE17B 50%, #D4AF37 100%);
@@ -184,6 +190,8 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: 1.5px;
   text-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
   font-style: normal;
+  opacity: 1 !important;
+  transform: none !important;
 }
 
 @keyframes starfield {
@@ -244,6 +252,7 @@ h1, h2, h3, h4, h5, h6 {
 
 [data-theme="light"] body {
   background: linear-gradient(to bottom, rgba(255, 186, 64, 0.15) 0%, rgba(255, 186, 64, 0.08) 400px, rgba(255, 255, 255, 1) 600px, #FFFFFF 100%);
+  color: #1A1A1A; /* Dark text color for light theme */
 }
 
 [data-theme="light"] body::before {
@@ -347,6 +356,42 @@ section[class*="statsSection"] {
   opacity: 1 !important;
   transform: none !important;
   transition: none !important;
+}
+
+/* Force all main sections to be visible - fix for IntersectionObserver timing issues */
+section[class*="coursesSection"],
+section[class*="trustedSection"],
+section[class*="demoSection"],
+section[class*="testimonialsSection"],
+section[class*="facultySection"],
+section[class*="caSection"] {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+/* Force all headings inside these sections to be visible */
+section[class*="coursesSection"] h1,
+section[class*="coursesSection"] h2,
+section[class*="coursesSection"] h3,
+section[class*="trustedSection"] h1,
+section[class*="trustedSection"] h2,
+section[class*="trustedSection"] h3,
+section[class*="demoSection"] h1,
+section[class*="demoSection"] h2,
+section[class*="demoSection"] h3,
+section[class*="testimonialsSection"] h1,
+section[class*="testimonialsSection"] h2,
+section[class*="testimonialsSection"] h3,
+section[class*="facultySection"] h1,
+section[class*="facultySection"] h2,
+section[class*="facultySection"] h3,
+section[class*="caSection"] h1,
+section[class*="caSection"] h2,
+section[class*="caSection"] h3 {
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important;
 }
 
 /* Resources tabs section force visible */
@@ -470,8 +515,10 @@ section:nth-child(odd).in-view {
   transition-delay: 0.6s;
 }
 
-/* Optimized heading animations */
-h1, h2, h3 {
+/* Optimized heading animations - ONLY for public site */
+body:not(.admin-panel) h1,
+body:not(.admin-panel) h2,
+body:not(.admin-panel) h3 {
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.5s ease-out, transform 0.5s ease-out;
@@ -901,3 +948,4 @@ select option:checked::after {
 [data-theme="dark"] .btnPrimaryOrange:hover {
   background: linear-gradient(135deg, #FFE17B 0%, #F2C94C 100%);
 }
+

@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import { Inter, Playfair_Display } from 'next/font/google'
 import './globals.css'
 import { ThemeProvider } from './ThemeProvider'
+import { AuthProvider } from '@/contexts/AuthContext'
+import { Toaster } from 'sonner'
 import React from 'react'
 
 const inter = Inter({ 
@@ -48,8 +50,11 @@ export default function RootLayout({
       </head>
       <body className={`${inter.variable} ${playfair.variable}`}>
         <ThemeProvider>
-          {children}
+          <AuthProvider>
+            {children}
+          </AuthProvider>
         </ThemeProvider>
+        <Toaster position="top-right" richColors />
       </body>
     </html>
   )

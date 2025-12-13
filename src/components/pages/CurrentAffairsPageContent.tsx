@@ -2,11 +2,12 @@
 import React, { useMemo, useState, useEffect } from 'react'
 import FilterCalendar from '@/components/CurrentAffairs/FilterCalendar'
 import PremiumSelect from '@/components/CurrentAffairs/PremiumSelect'
+import { useCurrentAffairs } from '@/hooks/useCurrentAffairs'
 
 type CAType = 'daily' | 'weekly' | 'monthly'
 
 type CAItem = {
-  id: number
+  id: number | string
   type: CAType
   title: string
   date: string
@@ -38,151 +39,6 @@ export default function CurrentAffairsPageContent() {
   const weekButtonRef = React.useRef<HTMLButtonElement>(null)
   const monthButtonRef = React.useRef<HTMLButtonElement>(null)
 
-  // Admin-managed content (imageUrl provided by admin). Placeholder URLs here.
-  const items: CAItem[] = [
-    {
-      id: 1,
-      type: 'daily',
-      title: 'India-US Relations: Strategic Partnership in 2025',
-      date: '2025-11-01',
-      subject: 'International Relations',
-      paper: 'GS-II',
-      summary:
-        'Comprehensive analysis of bilateral trade agreements and defense cooperation between India and the United States.',
-      fullContent: 'Detailed coverage of evolving India-US strategic alignment: defence technology sharing (COMCASA / BECA outcomes), Indo-Pacific maritime cooperation, critical technologies, bilateral trade negotiations (agri, digital services), and impact on regional power balance. Includes timeline, key agreements, exam-oriented analytical points and potential mains answer frameworks.',
-      topics: ['Diplomacy', 'Trade', 'Defense'],
-      imageUrl: '/assets/current-affairs/us-india.jpg',
-    },
-    {
-      id: 2,
-      type: 'daily',
-      title: 'Climate Change and Agricultural Impact',
-      date: '2025-10-28',
-      subject: 'Environment',
-      paper: 'GS-III',
-      summary:
-        'Understanding the effects of changing weather patterns on Indian agriculture and food security.',
-      fullContent: 'Assessment of changing monsoon variability, heat stress on staple crops (rice/wheat), soil moisture decline, adaptation strategies (micro-irrigation, climate resilient seeds), government schemes (PMKSY, NICRA), policy gaps and integrated mitigation approach relevant for UPSC GS-III answers.',
-      topics: ['Climate', 'Agriculture', 'Food Security'],
-      imageUrl: '/assets/current-affairs/agri-climate.jpg',
-    },
-    {
-      id: 3,
-      type: 'daily',
-      title: 'Digital India Initiative: Progress and Challenges',
-      date: '2025-10-25',
-      subject: 'Governance',
-      paper: 'GS-II',
-      summary:
-        'Evaluation of digital infrastructure development and its impact on public service delivery.',
-      fullContent: 'Review of Digital India pillars: broadband highways, universal mobile access, e-Governance reforms, data empowerment & privacy concerns, interoperability challenges, digital divide (rural connectivity), emerging tech stack (India Stack, ONDC) with governance implications and probable ethics case studies.',
-      topics: ['Technology', 'E-Governance', 'Digital India'],
-      imageUrl: '/assets/current-affairs/digital-india.jpg',
-    },
-    {
-      id: 4,
-      type: 'weekly',
-      title: 'Economic Reforms and Growth Trajectory',
-      date: '2025-11-03',
-      subject: 'Economy',
-      paper: 'GS-III',
-      summary:
-        'Analysis of recent economic policy changes and their implications for sustainable growth.',
-      fullContent: 'Summary of macro indicators (IIP, PMI, inflation trend), fiscal consolidation path, tax buoyancy, infrastructure capex push, labour & manufacturing reforms, credit deepening, and structural bottlenecks for inclusive growth. Includes mains-ready value addition (charts, keywords, model intro/conclusion).',
-      topics: ['GDP', 'Policy', 'Development'],
-      imageUrl: '/assets/current-affairs/economy-growth.jpg',
-    },
-    {
-      id: 5,
-      type: 'weekly',
-      title: 'Constitutional Amendment: Latest Developments',
-      date: '2025-11-02',
-      subject: 'Polity',
-      paper: 'GS-II',
-      summary:
-        'Detailed examination of proposed constitutional amendments and their significance.',
-      fullContent: 'Context of proposed amendment: federal balance adjustments, institutional accountability, impact on fundamental rights, Supreme Court jurisprudence references, committee recommendations and comparative constitutional perspective (e.g., South Africa / Canada). Answer structuring pointers added.',
-      topics: ['Constitution', 'Legislature', 'Amendment'],
-      imageUrl: '/assets/current-affairs/constitution.jpg',
-    },
-    {
-      id: 6,
-      type: 'monthly',
-      title: 'Monthly CA Magazine – November 2025',
-      date: '2025-11-01',
-      subject: 'Compilation',
-      paper: 'GS-I/II/III',
-      summary:
-        'Curated monthly magazine covering key topics across GS papers with editorial analysis.',
-      fullContent: 'Magazine highlights: thematic consolidation (Economy slowdown vs recovery signals, IR strategic updates, environmental treaty progress, science-tech innovation milestones). Includes concise revision tables, Prelims MCQ hints, and Mains practice questions with directive alignment.',
-      topics: ['Economy', 'IR', 'Environment', 'Sci-Tech'],
-      imageUrl: '/assets/current-affairs/monthly-mag.jpg',
-      issue: 'November 2025',
-    },
-    {
-      id: 7,
-      type: 'daily',
-      title: 'Supreme Court Ruling on Environmental Protection',
-      date: '2025-11-04',
-      subject: 'Environment',
-      paper: 'GS-III',
-      summary: 'Historic judgment strengthening safeguards and imposing stricter penalties for violations.',
-      fullContent: 'Case background, legal principles invoked (Article 21, polluter pays), statutory frameworks (EPA 1986, Forest Conservation), implications for sustainable development doctrine, enforcement challenges and ethical dimensions (intergenerational equity).',
-      topics: ['Judiciary', 'Environment', 'Policy'],
-      imageUrl: '/assets/current-affairs/judiciary-gavel.jpg',
-    },
-    {
-      id: 8,
-      type: 'daily',
-      title: 'IMF Revises India’s Growth Projections Upward',
-      date: '2025-11-05',
-      subject: 'Economy',
-      paper: 'GS-III',
-      summary: 'Updated forecast citing strong domestic demand and infrastructure investments.',
-      fullContent: 'Drivers of upward revision (consumption resilience, infra multiplier, export mix), risks (external shocks, crude volatility), policy stance (RBI balancing inflation & growth), and integration into mains macro answer frameworks.',
-      topics: ['IMF', 'GDP', 'Infrastructure'],
-      imageUrl: '/assets/current-affairs/imf-growth.jpg',
-    },
-    {
-      id: 9,
-      type: 'weekly',
-      title: 'Judiciary Weekly Brief – November Week 1',
-      date: '2025-11-01',
-      subject: 'Judiciary',
-      paper: 'GS-II',
-      summary: 'Key developments from courts across India with UPSC relevance.',
-      fullContent: 'Roundup of notable rulings: fundamental rights expansion, procedural reforms, PIL trends, tribunal efficiency debates, exam relevance tags (GS-II / Ethics case studies).',
-      topics: ['Judiciary', 'Rights', 'Case Law'],
-      imageUrl: '/assets/current-affairs/judiciary-weekly.jpg',
-    },
-    {
-      id: 10,
-      type: 'monthly',
-      title: 'Monthly CA Magazine – October 2025',
-      date: '2025-10-01',
-      subject: 'Compilation',
-      paper: 'GS-I/II/III',
-      summary: 'Comprehensive coverage of October’s most important topics and analysis.',
-      fullContent: 'October digest topics mapped to GS syllabus with quick recall mnemonics, PYQ correlation, and structured enrichment sections for Essay & Ethics linkage.',
-      topics: ['Economy', 'IR', 'Polity'],
-      imageUrl: '/assets/current-affairs/monthly-oct.jpg',
-      issue: 'October 2025',
-    },
-    {
-      id: 11,
-      type: 'weekly',
-      title: 'Weekly Economy Roundup – Current Week',
-      date: todayStr, // place in current week for demo
-      subject: 'Economy',
-      paper: 'GS-III',
-      summary: 'Major economic indicators and policy updates from the current week.',
-      fullContent: 'Current week macro snapshot: inflation trajectory, banking credit surge, infra project sanctions, external sector signals and revision pointers for Prelims dynamic sections.',
-      topics: ['Inflation', 'Fiscal', 'Markets'],
-      imageUrl: '/assets/current-affairs/weekly-economy.jpg',
-    },
-  ];
-
-  // Subject → sample image mapping (AI-style placeholders / to be replaced by admin)
   // Subject-based image mapping function for consistent rendering
   const getSubjectImage = (subject: string): string => {
     const imageMap: Record<string, string> = {
@@ -197,6 +53,17 @@ export default function CurrentAffairsPageContent() {
     }
     return imageMap[subject] || 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=800&h=450&fit=crop&q=80'
   }
+
+  // Fetch current affairs from API based on active tab
+  const { currentAffairs, loading } = useCurrentAffairs({
+    type: activeTab,
+  })
+
+  // Convert API data to component format
+  const items: CAItem[] = currentAffairs.map(item => ({
+    ...item,
+    imageUrl: item.imageUrl || getSubjectImage(item.subject)
+  }))
   const subjects = ['all', 'Polity', 'Economy', 'International Relations', 'Environment', 'Governance', 'Science & Technology', 'Compilation']
   const papers = ['all', 'GS-I', 'GS-II', 'GS-III', 'GS-IV', 'GS-I/II/III']
 
@@ -252,13 +119,13 @@ export default function CurrentAffairsPageContent() {
     return true
   })
 
-  const [selectedItemId, setSelectedItemId] = useState<number | null>(null)
+  const [selectedItemId, setSelectedItemId] = useState<number | string | null>(null)
   const selectedItem = selectedItemId != null ? items.find(i => i.id === selectedItemId) : null
   const modalRef = React.useRef<HTMLDivElement>(null)
   const closeButtonRef = React.useRef<HTMLButtonElement>(null)
 
   // Open item with scroll to modal and focus
-  const openItem = (itemId: number) => {
+  const openItem = (itemId: number | string) => {
     setSelectedItemId(itemId)
     window.location.hash = `ca-modal-${itemId}`
     setTimeout(() => {
@@ -528,13 +395,40 @@ export default function CurrentAffairsPageContent() {
           </div>
 
           {/* Results Count */}
-          <div className="mb-4 text-gray-600 dark:text-gray-400">
-            Showing {filteredItems.length} of {items.filter(i => i.type === activeTab).length} {activeTab === 'monthly' ? 'magazines' : 'articles'}
-          </div>
+          {!loading && (
+            <div className="mb-4 text-gray-600 dark:text-gray-400">
+              Showing {filteredItems.length} of {items.filter(i => i.type === activeTab).length} {activeTab === 'monthly' ? 'magazines' : 'articles'}
+            </div>
+          )}
+
+          {/* Loading Skeleton */}
+          {loading && (
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 items-stretch relative z-0">
+              {Array.from({ length: 6 }).map((_, index) => (
+                <div key={`skeleton-${index}`} className="bg-white/95 dark:bg-gray-900/75 rounded-2xl shadow-md overflow-hidden h-full flex flex-col animate-pulse">
+                  <div className="w-full aspect-video bg-gray-300 dark:bg-gray-700" />
+                  <div className="p-4 flex-1 flex flex-col gap-3">
+                    <div className="flex gap-2">
+                      <div className="h-6 w-16 bg-gray-300 dark:bg-gray-700 rounded-full" />
+                      <div className="h-6 w-24 bg-gray-300 dark:bg-gray-700 rounded-full" />
+                    </div>
+                    <div className="h-6 bg-gray-300 dark:bg-gray-700 rounded w-3/4" />
+                    <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-full" />
+                    <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-5/6" />
+                    <div className="flex gap-2 mt-2">
+                      <div className="h-5 w-16 bg-gray-300 dark:bg-gray-700 rounded" />
+                      <div className="h-5 w-20 bg-gray-300 dark:bg-gray-700 rounded" />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
 
           {/* Cards Grid - compact design */}
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 items-stretch relative z-0">
-            {filteredItems.map((item) => (
+          {!loading && (
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 items-stretch relative z-0">
+              {filteredItems.map((item) => (
               <div key={item.id} className="bg-white/95 dark:bg-gray-900/75 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden h-full flex flex-col">
                 {/* Top image - compact 16:9 aspect */}
                 <div className="w-full aspect-video bg-gradient-to-br from-amber-50 to-orange-50 dark:from-orange-900/20 dark:to-orange-800/20 overflow-hidden">
@@ -600,11 +494,12 @@ export default function CurrentAffairsPageContent() {
                   </div>
                 </div>
               </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
 
           {/* No Results Message */}
-          {filteredItems.length === 0 && (
+          {!loading && filteredItems.length === 0 && (
             <div className="text-center py-12">
               <p className="text-gray-600 dark:text-gray-400 text-lg">No articles found matching your filters.</p>
               <button

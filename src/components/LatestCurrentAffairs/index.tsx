@@ -3,9 +3,10 @@ import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import styles from './LatestCurrentAffairs.module.css'
 import DottedLines from '@/components/DottedLines'
+import { useCurrentAffairs } from '@/hooks/useCurrentAffairs'
 
 type CAItem = {
-  id: number
+  id: number | string
   title: string
   date: string
   subject: string
@@ -13,73 +14,38 @@ type CAItem = {
   summary: string
   fullContent: string
   topics: string[]
-  imageUrl: string
+  imageUrl?: string
 }
 
 export default function LatestCurrentAffairs() {
   const [selectedItem, setSelectedItem] = useState<CAItem | null>(null)
   const sectionRef = useRef<HTMLElement | null>(null)
   const closeBtnRef = useRef<HTMLButtonElement | null>(null)
-  const panelRefs = useRef<{ [key: number]: HTMLDivElement | null }>({})
+  const panelRefs = useRef<{ [key: string | number]: HTMLDivElement | null }>({})
 
-  // Get 5 latest daily current affairs items
-  const latestItems: CAItem[] = [
-    {
-      id: 1,
-      title: 'India-US Relations: Strategic Partnership in 2025',
-      date: '2025-11-01',
-      subject: 'International Relations',
-      paper: 'GS-II',
-      summary: 'Comprehensive analysis of bilateral trade agreements and defense cooperation between India and the United States.',
-      fullContent: 'Detailed coverage of evolving India-US strategic alignment: defence technology sharing (COMCASA / BECA outcomes), Indo-Pacific maritime cooperation, critical technologies, bilateral trade negotiations (agri, digital services), and impact on regional power balance. Includes timeline, key agreements, exam-oriented analytical points and potential mains answer frameworks.',
-      topics: ['Diplomacy', 'Trade', 'Defense'],
-      imageUrl: 'https://images.unsplash.com/photo-1526666923127-b2970f64b422?w=800&h=450&fit=crop&q=80',
-    },
-    {
-      id: 7,
-      title: 'Supreme Court Ruling on Environmental Protection',
-      date: '2025-11-04',
-      subject: 'Environment',
-      paper: 'GS-III',
-      summary: 'Historic judgment strengthening safeguards and imposing stricter penalties for violations.',
-      fullContent: 'Case background, legal principles invoked (Article 21, polluter pays), statutory frameworks (EPA 1986, Forest Conservation), implications for sustainable development doctrine, enforcement challenges and ethical dimensions (intergenerational equity).',
-      topics: ['Judiciary', 'Environment', 'Policy'],
-      imageUrl: 'https://images.unsplash.com/photo-1589994965851-a8f479c573a9?w=800&h=450&fit=crop&q=80',
-    },
-    {
-      id: 8,
-      title: "IMF Revises India's Growth Projections Upward",
-      date: '2025-11-05',
-      subject: 'Economy',
-      paper: 'GS-III',
-      summary: 'Updated forecast citing strong domestic demand and infrastructure investments.',
-      fullContent: 'Drivers of upward revision (consumption resilience, infra multiplier, export mix), risks (external shocks, crude volatility), policy stance (RBI balancing inflation & growth), and integration into mains macro answer frameworks.',
-      topics: ['IMF', 'GDP', 'Infrastructure'],
-      imageUrl: 'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=800&h=450&fit=crop&q=80',
-    },
-    {
-      id: 2,
-      title: 'Climate Change and Agricultural Impact',
-      date: '2025-10-28',
-      subject: 'Environment',
-      paper: 'GS-III',
-      summary: 'Understanding the effects of changing weather patterns on Indian agriculture and food security.',
-      fullContent: 'Assessment of changing monsoon variability, heat stress on staple crops (rice/wheat), soil moisture decline, adaptation strategies (micro-irrigation, climate resilient seeds), government schemes (PMKSY, NICRA), policy gaps and integrated mitigation approach relevant for UPSC GS-III answers.',
-      topics: ['Climate', 'Agriculture', 'Food Security'],
-      imageUrl: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800&h=450&fit=crop&q=80',
-    },
-    {
-      id: 3,
-      title: 'Digital India Initiative: Progress and Challenges',
-      date: '2025-10-25',
-      subject: 'Governance',
-      paper: 'GS-II',
-      summary: 'Evaluation of digital infrastructure development and its impact on public service delivery.',
-      fullContent: 'Review of Digital India pillars: broadband highways, universal mobile access, e-Governance reforms, data empowerment & privacy concerns, interoperability challenges, digital divide (rural connectivity), emerging tech stack (India Stack, ONDC) with governance implications and probable ethics case studies.',
-      topics: ['Technology', 'E-Governance', 'Digital India'],
-      imageUrl: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&h=450&fit=crop&q=80',
-    },
-  ]
+  // Fetch 5 latest daily current affairs from API
+  const { currentAffairs, loading } = useCurrentAffairs({
+    type: 'daily',
+    limit: 5,
+  })
+
+  const latestItems = currentAffairs.map(item => ({
+    ...item,
+    imageUrl: item.imageUrl || getSubjectImage(item.subject)
+  }))
+
+  // Fallback images by subject
+  const getSubjectImage = (subject: string): string => {
+    const imageMap: Record<string, string> = {
+      'International Relations': 'https://images.unsplash.com/photo-1526666923127-b2970f64b422?w=800&h=450&fit=crop&q=80',
+      'Environment': 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800&h=450&fit=crop&q=80',
+      'Governance': 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&h=450&fit=crop&q=80',
+      'Economy': 'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=800&h=450&fit=crop&q=80',
+      'Polity': 'https://images.unsplash.com/photo-1541872703-74c5e44368f9?w=800&h=450&fit=crop&q=80',
+      'Judiciary': 'https://images.unsplash.com/photo-1589994965851-a8f479c573a9?w=800&h=450&fit=crop&q=80',
+    }
+    return imageMap[subject] || 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=800&h=450&fit=crop&q=80'
+  }
 
   // Open item: set hash, scroll to popup panel, focus close
   const openItem = (item: CAItem) => {
@@ -116,7 +82,25 @@ export default function LatestCurrentAffairs() {
         <DottedLines />
 
         <div className={styles.caCarousel}>
-          {latestItems.map((item) => (
+          {loading ? (
+            // Loading skeleton
+            Array.from({ length: 5 }).map((_, index) => (
+              <div key={`skeleton-${index}`} className={styles.caCard}>
+                <div className={styles.caImage} style={{ background: '#e0e0e0' }}>
+                  <div style={{ width: '100%', height: '100%', background: 'linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%)', backgroundSize: '200% 100%', animation: 'shimmer 1.5s infinite' }} />
+                </div>
+                <div className={styles.caContent}>
+                  <div className={styles.caMeta}>
+                    <span style={{ background: '#e0e0e0', borderRadius: '4px', width: '60px', height: '20px', display: 'inline-block' }}></span>
+                    <span style={{ background: '#e0e0e0', borderRadius: '4px', width: '80px', height: '20px', display: 'inline-block' }}></span>
+                  </div>
+                  <div style={{ background: '#e0e0e0', borderRadius: '4px', width: '100%', height: '24px', marginBottom: '8px' }}></div>
+                  <div style={{ background: '#e0e0e0', borderRadius: '4px', width: '100%', height: '40px' }}></div>
+                </div>
+              </div>
+            ))
+          ) : (
+            latestItems.map((item) => (
             <div key={item.id} className={styles.caCard}>
               <div className={styles.caImage}>
                 <img src={item.imageUrl} alt={item.title} loading="lazy" />
@@ -189,7 +173,8 @@ export default function LatestCurrentAffairs() {
                 </div>
               )}
             </div>
-          ))}
+            ))
+          )}
         </div>
 
         <div className={styles.caActions}>

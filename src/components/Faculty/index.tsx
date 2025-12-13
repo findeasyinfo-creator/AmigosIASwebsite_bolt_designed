@@ -3,6 +3,7 @@ import styles from './Faculty.module.css';
 import DottedLines from '@/components/DottedLines';
 import { useState } from 'react';
 import { useYouTubeAutoPause } from '@/hooks/useYouTubeAutoPause';
+import { useFaculty } from '@/hooks/useFaculty';
 
 function parseYouTubeId(url: string): string | null {
   try {
@@ -21,53 +22,28 @@ function parseYouTubeId(url: string): string | null {
   }
 }
 
-const facultyMembers = [
-  {
-    name: 'Dr. Avinash Kumar',
-    subject: 'Political Science & Polity',
-    experience: '15+ Years Experience',
-    photo: 'https://randomuser.me/api/portraits/men/46.jpg',
-    videoThumbnail: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&h=450&fit=crop',
-    videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
-  },
-  {
-    name: 'Prof. Priya Sharma',
-    subject: 'History & Indian Culture',
-    experience: '12+ Years Experience',
-    photo: 'https://randomuser.me/api/portraits/women/68.jpg',
-    videoThumbnail: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&h=450&fit=crop',
-    videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
-  },
-  {
-    name: 'Dr. Karthik Reddy',
-    subject: 'Geography & Environment',
-    experience: '10+ Years Experience',
-    photo: 'https://randomuser.me/api/portraits/men/54.jpg',
-    videoThumbnail: 'https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=800&h=450&fit=crop',
-    videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
-  }
-];
-
 export default function Faculty() {
+  const { faculty: facultyMembers, loading } = useFaculty(3); // Fetch 3 faculty members for homepage
   const [sparkles, setSparkles] = useState<Array<{ id: number; card: number; x: number; y: number; dx: number; dy: number }>>([]);
   const [playingCard, setPlayingCard] = useState<number | null>(null);
-  
+
   // Setup auto-pause for each faculty video
   const faculty0 = useYouTubeAutoPause(
-    playingCard === 0 ? parseYouTubeId(facultyMembers[0].videoUrl) : null,
+    playingCard === 0 ? parseYouTubeId(facultyMembers[0]?.videoUrl || '') : null,
     'faculty-video-0'
   );
   const faculty1 = useYouTubeAutoPause(
-    playingCard === 1 ? parseYouTubeId(facultyMembers[1].videoUrl) : null,
+    playingCard === 1 ? parseYouTubeId(facultyMembers[1]?.videoUrl || '') : null,
     'faculty-video-1'
   );
   const faculty2 = useYouTubeAutoPause(
-    playingCard === 2 ? parseYouTubeId(facultyMembers[2].videoUrl) : null,
+    playingCard === 2 ? parseYouTubeId(facultyMembers[2]?.videoUrl || '') : null,
     'faculty-video-2'
   );
 
   const facultyRefs = [faculty0, faculty1, faculty2];
 
+  // Show content even while loading (hook has fallback data)
   return (
     <section className={styles.facultySection}>
       <div className={styles.container}>

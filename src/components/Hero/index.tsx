@@ -3,15 +3,43 @@ import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import styles from './Hero.module.css'
-import { heroSlides } from '@/data/heroSlides'
+import { api } from '@/services/api'
+import { HeroSlide } from '@/types/api.types'
 
 export default function Hero() {
+  const [slides, setSlides] = useState<HeroSlide[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   const [currentIndex, setCurrentIndex] = useState(1) // Start at 1 (first real slide)
   const [isTransitioning, setIsTransitioning] = useState(true)
   const trackRef = useRef<HTMLDivElement>(null)
 
+  // Fetch slides from API
+  useEffect(() => {
+    fetchSlides()
+  }, [])
+
+  const fetchSlides = async () => {
+    try {
+      setLoading(true)
+      const response = await api.heroSlides.getAll()
+      const activeSlides = response.data
+        .filter((slide: HeroSlide) => slide.isActive)
+        .sort((a: HeroSlide, b: HeroSlide) => a.order - b.order)
+      setSlides(activeSlides)
+      setError(null)
+    } catch (err: any) {
+      setError(err.message || 'Failed to load slides')
+      console.error('Error fetching hero slides:', err)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   // Create infinite loop: [last, ...all slides, first]
-  const extendedSlides = [heroSlides[heroSlides.length - 1], ...heroSlides, heroSlides[0]]
+  const extendedSlides = slides.length > 0
+    ? [slides[slides.length - 1], ...slides, slides[0]]
+    : []
 
   const nextSlide = () => {
     if (!isTransitioning) return
@@ -24,18 +52,21 @@ export default function Hero() {
   }
 
   useEffect(() => {
+    if (slides.length === 0) return
     const timer = setInterval(() => {
       nextSlide()
     }, 6000)
     return () => clearInterval(timer)
-  }, [isTransitioning])
+  }, [isTransitioning, slides.length])
 
   // Handle infinite loop wrap-around
   useEffect(() => {
+    if (slides.length === 0) return
+
     const handleTransitionEnd = () => {
       if (currentIndex === 0) {
         setIsTransitioning(false)
-        setCurrentIndex(heroSlides.length)
+        setCurrentIndex(slides.length)
       } else if (currentIndex === extendedSlides.length - 1) {
         setIsTransitioning(false)
         setCurrentIndex(1)
@@ -47,7 +78,7 @@ export default function Hero() {
       track.addEventListener('transitionend', handleTransitionEnd)
       return () => track.removeEventListener('transitionend', handleTransitionEnd)
     }
-  }, [currentIndex, extendedSlides.length])
+  }, [currentIndex, extendedSlides.length, slides.length])
 
   // Re-enable transition after snap
   useEffect(() => {
@@ -56,6 +87,49 @@ export default function Hero() {
       return () => clearTimeout(timer)
     }
   }, [isTransitioning])
+
+  // Loading state
+  if (loading) {
+    return (
+      <section className={`${styles.heroSection} hero-section`}>
+        <div className={styles.heroContainer}>
+          <div className={styles.loading}>
+            <div className={styles.spinner}></div>
+            <p>Loading slides...</p>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <section className={`${styles.heroSection} hero-section`}>
+        <div className={styles.heroContainer}>
+          <div className={styles.error}>
+            <p>{error}</p>
+            <button onClick={fetchSlides} className={styles.retryButton}>
+              Retry
+            </button>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  // Empty state
+  if (slides.length === 0) {
+    return (
+      <section className={`${styles.heroSection} hero-section`}>
+        <div className={styles.heroContainer}>
+          <div className={styles.empty}>
+            <p>No slides available at the moment.</p>
+          </div>
+        </div>
+      </section>
+    )
+  }
 
   return (
     <section className={`${styles.heroSection} hero-section`}>
@@ -93,15 +167,20 @@ export default function Hero() {
                     <h1 className={styles.heroTitle}>
                       {slide.title}
                     </h1>
-                    {!!slide.features?.length && (
-                      <div className={styles.features}>
-                        {slide.features.map((f, i) => (
-                          <div className={styles.feature} key={i}>
-                            <span className={styles.featureIcon}>✓</span>
-                            <span className={styles.featureText}>{f}</span>
-                          </div>
+                    {slide.subtitle && (
+                      <p className={styles.heroSubtitle}>{slide.subtitle}</p>
+                    )}
+                    {slide.description && (
+                      <div className={styles.heroDescription}>
+                        {slide.description.split('\n').map((line, i) => (
+                          <p key={i}>{line}</p>
                         ))}
                       </div>
+                    )}
+                    {slide.ctaLabel && slide.ctaHref && (
+                      <Link href={slide.ctaHref} className={styles.ctaButton}>
+                        {slide.ctaLabel}
+                      </Link>
                     )}
                   </div>
 
@@ -109,8 +188,8 @@ export default function Hero() {
                   <div className={styles.imageContent}>
                     <div className={styles.imageWrapper}>
                       <div className={styles.heroImageContainer}>
-                        <Image 
-                          src={slide.image}
+                        <Image
+                          src={slide.imageUrl || '/assets/hero-banner.jpg'}
                           alt={slide.title}
                           width={800}
                           height={500}
@@ -128,10 +207,10 @@ export default function Hero() {
 
         {/* Indicators */}
         <div className={styles.imageIndicators}>
-          {heroSlides.map((_, index) => (
+          {slides.map((_, index) => (
             <button
               key={index}
-              className={`${styles.indicator} ${index === (currentIndex - 1 + heroSlides.length) % heroSlides.length ? styles.active : ''}`}
+              className={`${styles.indicator} ${index === (currentIndex - 1 + slides.length) % slides.length ? styles.active : ''}`}
               onClick={() => setCurrentIndex(index + 1)}
               aria-label={`Go to slide ${index + 1}`}
             />

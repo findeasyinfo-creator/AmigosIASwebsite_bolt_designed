@@ -1,6 +1,7 @@
 'use client'
 import React, { useState } from 'react';
 import { useYouTubeAutoPause } from '@/hooks/useYouTubeAutoPause';
+import { useDetailedFaculty } from '@/hooks/useDetailedFaculty';
 
 function parseYouTubeId(url: string): string | null {
   try {
@@ -19,85 +20,18 @@ function parseYouTubeId(url: string): string | null {
   }
 }
 
-const facultyMembers = [
-  {
-    name: 'Dr. Avinash Kumar',
-    subject: 'Political Science & Polity',
-    experience: '15+ Years Experience',
-    photo: 'https://randomuser.me/api/portraits/men/46.jpg',
-    videoThumbnail: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&h=450&fit=crop',
-    videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-    qualification: 'Ph.D. in Political Science, JNU',
-    achievements: ['Author of 3 bestselling books', 'Guest lecturer at IAS Training Academy', '500+ successful students'],
-    specialization: ['Constitutional Law', 'Indian Governance', 'Public Administration'],
-    quote: "Understanding the Constitution is key to understanding India's democratic fabric.",
-  },
-  {
-    name: 'Prof. Priya Sharma',
-    subject: 'History & Indian Culture',
-    experience: '12+ Years Experience',
-    photo: 'https://randomuser.me/api/portraits/women/68.jpg',
-    videoThumbnail: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&h=450&fit=crop',
-    videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-    qualification: 'M.A. History, Delhi University',
-    achievements: ['Research scholar in Medieval Indian History', 'Published 15+ research papers', 'Expert in Art & Culture'],
-    specialization: ['Ancient Indian History', 'Medieval Period', 'Art & Architecture'],
-    quote: "History is not just dates and events, it's the story of human civilization.",
-  },
-  {
-    name: 'Dr. Karthik Reddy',
-    subject: 'Geography & Environment',
-    experience: '10+ Years Experience',
-    photo: 'https://randomuser.me/api/portraits/men/54.jpg',
-    videoThumbnail: 'https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=800&h=450&fit=crop',
-    videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-    qualification: 'Ph.D. in Environmental Geography',
-    achievements: ['Climate change research expert', 'UN Environment consultant', 'Award-winning educator'],
-    specialization: ['Physical Geography', 'Environmental Studies', 'Disaster Management'],
-    quote: "Geography shapes civilizations, and understanding it shapes perspectives.",
-  },
-  {
-    name: 'Dr. Rajesh Verma',
-    subject: 'Economics & Current Affairs',
-    experience: '14+ Years Experience',
-    photo: 'https://randomuser.me/api/portraits/men/32.jpg',
-    videoThumbnail: 'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=800&h=450&fit=crop',
-    videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-    qualification: 'Ph.D. in Economics, LSE London',
-    achievements: ['Former RBI economist', 'Economic policy advisor', 'Published economist'],
-    specialization: ['Macroeconomics', 'Indian Economy', 'Financial Markets'],
-    quote: "Economics is not just numbers, it's about understanding human behavior.",
-  },
-  {
-    name: 'Ms. Anjali Singh',
-    subject: 'Ethics & Essay Writing',
-    experience: '11+ Years Experience',
-    photo: 'https://randomuser.me/api/portraits/women/42.jpg',
-    videoThumbnail: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=450&fit=crop',
-    videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-    qualification: 'M.A. Philosophy, BHU',
-    achievements: ['Ethics & Philosophy expert', 'Essay writing specialist', 'Mentor to 300+ toppers'],
-    specialization: ['Applied Ethics', 'Essay Writing', 'Answer Writing'],
-    quote: "Ethics is not about rules, it's about making the right choices.",
-  },
-  {
-    name: 'Dr. Amit Sharma',
-    subject: 'Science & Technology',
-    experience: '13+ Years Experience',
-    photo: 'https://randomuser.me/api/portraits/men/28.jpg',
-    videoThumbnail: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=800&h=450&fit=crop',
-    videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-    qualification: 'Ph.D. in Biotechnology, IIT Delhi',
-    achievements: ['Former ISRO scientist', 'Technology policy researcher', 'Innovation expert'],
-    specialization: ['Space Technology', 'Biotechnology', 'Digital India'],
-    quote: "Science and technology are the engines of progress in modern India.",
-  }
-];
-
 export default function FacultyPageContent() {
+  const { faculty: facultyMembers, loading, source } = useDetailedFaculty();
   const [selectedFaculty, setSelectedFaculty] = useState<number | null>(null);
   const [playingCard, setPlayingCard] = useState<number | null>(null);
   const [sparkles, setSparkles] = useState<Array<{ id: number; card: number; x: number; y: number; dx: number; dy: number }>>([]);
+
+  // Show data source indicator in console
+  React.useEffect(() => {
+    if (!loading) {
+      console.log(`👨‍🏫 Faculty loaded from: ${source === 'api' ? 'API ✅' : 'Static Data ⚠️'}`);
+    }
+  }, [loading, source]);
 
   // Setup auto-pause for videos
   const faculty0 = useYouTubeAutoPause(

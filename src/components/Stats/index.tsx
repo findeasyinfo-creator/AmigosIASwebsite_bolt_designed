@@ -2,33 +2,12 @@
 import { useState, useEffect } from 'react'
 import styles from './Stats.module.css'
 import DottedLines from '@/components/DottedLines'
+import { useStats } from '@/hooks/useStats'
 
 export default function Stats() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
-
-  const stats = [
-    {
-      icon: 'trophy',
-      number: '200+',
-      label: 'Selections'
-    },
-    {
-      icon: 'users',
-      number: '4,000+',
-      label: 'Students'
-    },
-    {
-      icon: 'graduation',
-      number: '10+',
-      label: 'years of coaching experience'
-    },
-    {
-      icon: 'star',
-      number: 'No 1',
-      label: 'for CSE preparation'
-    }
-  ];
+  const { stats, loading } = useStats();
 
   useEffect(() => {
     const checkMobile = () => {
@@ -51,13 +30,36 @@ export default function Stats() {
     setCurrentIndex(index);
   };
 
+  // Show loading skeleton or empty state
+  if (loading) {
+    return (
+      <section className={styles.statsSection}>
+        <div className={styles.container}>
+          <h2 className={styles.sectionTitle}>Hyderabad Most Trusted</h2>
+          <DottedLines />
+          <div className={styles.statsGrid}>
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className={styles.statCard}>
+                <div className={styles.iconWrapper}>
+                  <div className={styles.icon} style={{ opacity: 0.3 }}>⏳</div>
+                </div>
+                <h3 className={styles.statNumber}>...</h3>
+                <p className={styles.statLabel}>Loading...</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className={styles.statsSection}>
       <div className={styles.container}>
         <h2 className={styles.sectionTitle}>Hyderabad Most Trusted</h2>
-        
+
         <DottedLines />
-        
+
         <div className={styles.statsGrid} data-mobile={isMobile}>
           {isMobile ? (
             <>

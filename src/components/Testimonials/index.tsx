@@ -3,91 +3,13 @@ import { useRef } from 'react'
 import Image from 'next/image'
 import styles from './Testimonials.module.css'
 import DottedLines from '@/components/DottedLines'
-
-const testimonials = [
-  {
-    name: 'Rajesh Kumar',
-    rank: 'AIR 12 • 2023',
-    image: 'https://randomuser.me/api/portraits/men/32.jpg',
-    stars: 5,
-    text: 'My answer writing improved drastically. The mocks and feedback were on point.',
-    tilt: 'tilt1'
-  },
-  {
-    name: 'Priya Sharma',
-    rank: 'AIR 45 • 2023',
-    image: 'https://randomuser.me/api/portraits/women/44.jpg',
-    stars: 4,
-    text: 'Clear strategy for Prelims + Mains. Mentors were available whenever needed.',
-    tilt: 'tilt2'
-  },
-  {
-    name: 'Ananya Reddy',
-    rank: 'AIR 8 • 2023',
-    image: 'https://randomuser.me/api/portraits/women/65.jpg',
-    stars: 3,
-    text: 'Focused mentorship and smart scheduling helped me stay consistent.',
-    tilt: 'tilt3'
-  },
-  {
-    name: 'Karthik Reddy',
-    rank: 'AIR 78 • 2023',
-    image: 'https://randomuser.me/api/portraits/men/54.jpg',
-    stars: 2,
-    text: 'Great current affairs coverage and timely revisions before the exam.',
-    tilt: 'tilt2'
-  },
-]
-
-const successStories = [
-  {
-    id: 1,
-    name: 'Priya Sharma',
-    rank: 'AIR 45',
-    year: '2023',
-    image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80',
-    videoId: 'jfKfPfyJRdk',
-    journey: '18 Months',
-    attempt: '1st',
-    story: 'From day one preparation to final success - a journey of dedication and smart work.'
-  },
-  {
-    id: 2,
-    name: 'Rajesh Kumar',
-    rank: 'AIR 12',
-    year: '2023',
-    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80',
-    videoId: 'LXb3EKWsInQ',
-    journey: '24 Months',
-    attempt: '2nd',
-    story: 'Persistence and focused preparation led to top rank achievement.'
-  },
-  {
-    id: 3,
-    name: 'Ananya Reddy',
-    rank: 'AIR 8',
-    year: '2023',
-    image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&q=80',
-    videoId: '9bZkp7q19f0',
-    journey: '20 Months',
-    attempt: '1st',
-    story: 'Strategic planning and consistent effort made the difference.'
-  },
-  {
-    id: 4,
-    name: 'Karthik Reddy',
-    rank: 'AIR 78',
-    year: '2023',
-    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80',
-    videoId: 'dQw4w9WgXcQ',
-    journey: '16 Months',
-    attempt: '1st',
-    story: 'Great current affairs coverage and timely revisions made the difference.'
-  },
-]
+import { useTestimonials } from '@/hooks/useTestimonials'
+import { useSuccessStories } from '@/hooks/useSuccessStories'
 
 export default function Testimonials() {
   const trackRef = useRef<HTMLDivElement>(null)
+  const { testimonials, loading: testimonialsLoading } = useTestimonials()
+  const { successStories, loading: storiesLoading } = useSuccessStories()
 
   return (
     <section className={styles.testimonialsSection}>

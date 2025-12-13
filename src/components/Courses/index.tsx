@@ -2,34 +2,10 @@
 import Image from 'next/image';
 import styles from './Courses.module.css';
 import DottedLines from '@/components/DottedLines';
+import { useCourses } from '@/hooks/useCourses';
 
 export default function Courses() {
-  const courses = [
-    {
-      title: 'Prelims Foundation',
-      subtitle: 'Build Your Base',
-      icon: 'https://cdn-icons-png.flaticon.com/512/3050/3050318.png',
-      link: '/courses/prelims'
-    },
-    {
-      title: 'Mains Integrated',
-      subtitle: 'Master Answer Writing',
-      icon: 'https://cdn-icons-png.flaticon.com/512/3976/3976625.png',
-      link: '/courses/mains'
-    },
-    {
-      title: 'Interview Guidance',
-      subtitle: 'Personality Development',
-      icon: 'https://cdn-icons-png.flaticon.com/512/2706/2706962.png',
-      link: '/courses/interview'
-    },
-    {
-      title: 'Current Affairs',
-      subtitle: 'Daily News & Analysis',
-      icon: 'https://cdn-icons-png.flaticon.com/512/3043/3043994.png',
-      link: '/courses/current-affairs'
-    }
-  ];
+  const { courses, loading } = useCourses();
 
   const handleCourseClick = (courseTitle: string, link: string) => {
     console.log(`Selected course: ${courseTitle}`);

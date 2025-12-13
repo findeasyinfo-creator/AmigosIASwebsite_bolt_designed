@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useDetailedFaculty } from '@/hooks/useDetailedFaculty';
 
 export default function AboutPageContent() {
   return (
@@ -463,66 +464,28 @@ function ChiefAdviserSection() {
 }
 
 function FacultySection() {
+  const { faculty: apiFaculty, loading, source } = useDetailedFaculty();
   const [selectedFaculty, setSelectedFaculty] = useState<number | null>(null);
   const sectionRef = useRef<HTMLDivElement | null>(null);
   const closeBtnRef = useRef<HTMLButtonElement | null>(null);
-  
-  const faculty = [
-    {
-      name: 'Dr. Rajesh Kumar',
-      subject: 'History & Culture',
-      experience: '15+ Years',
-      qualifications: 'PhD in History, MA History',
-      achievements: 'Mentored 200+ Toppers',
-      image: 'https://randomuser.me/api/portraits/men/46.jpg',
-      fullBio: 'Dr. Rajesh Kumar is a distinguished historian with over 15 years of experience in UPSC coaching. His innovative teaching methods and deep understanding of historical patterns have helped hundreds of students crack the UPSC exam. He has authored multiple books on Indian History and Culture, and his lectures are known for their clarity and comprehensive coverage of the syllabus.',
-    },
-    {
-      name: 'Prof. Anjali Sharma',
-      subject: 'Geography & Environment',
-      experience: '12+ Years',
-      qualifications: 'MA Geography, M.Phil',
-      achievements: 'Published Author',
-      image: 'https://randomuser.me/api/portraits/women/68.jpg',
-      fullBio: 'Prof. Anjali Sharma brings 12 years of expertise in teaching Geography and Environmental Studies. Her approach combines theoretical knowledge with current environmental challenges, making complex concepts easy to understand. She has published several research papers on climate change and sustainable development, which adds immense value to her teaching methodology.',
-    },
-    {
-      name: 'Dr. Amit Verma',
-      subject: 'Polity & Governance',
-      experience: '18+ Years',
-      qualifications: 'PhD in Political Science',
-      achievements: 'Former Civil Servant',
-      image: 'https://randomuser.me/api/portraits/men/54.jpg',
-      fullBio: 'Dr. Amit Verma, a former IAS officer, brings real-world governance experience to the classroom. With 18 years of teaching experience, he provides unique insights into the functioning of Indian polity and administration. His practical approach helps students understand constitutional provisions in the context of contemporary governance challenges.',
-    },
-    {
-      name: 'Ms. Priya Singh',
-      subject: 'Economy & Development',
-      experience: '10+ Years',
-      qualifications: 'MA Economics, NET',
-      achievements: 'Expert in Economic Analysis',
-      image: 'https://randomuser.me/api/portraits/women/44.jpg',
-      fullBio: 'Ms. Priya Singh specializes in Indian Economy and Development issues. Her teaching style simplifies complex economic concepts and relates them to current affairs. With 10 years of experience, she has developed a unique framework for understanding economic policies and their implications, which has been highly appreciated by students.',
-    },
-    {
-      name: 'Dr. Suresh Patel',
-      subject: 'Science & Technology',
-      experience: '14+ Years',
-      qualifications: 'PhD in Physics',
-      achievements: 'Research Publications',
-      image: 'https://randomuser.me/api/portraits/men/32.jpg',
-      fullBio: 'Dr. Suresh Patel is a renowned physicist who has made Science and Technology accessible to UPSC aspirants. His 14 years of teaching experience includes making complex scientific concepts relevant to current affairs and policy-making. His research work in renewable energy and space technology adds contemporary relevance to his teaching.',
-    },
-    {
-      name: 'Prof. Meera Reddy',
-      subject: 'Ethics & Integrity',
-      experience: '11+ Years',
-      qualifications: 'MA Philosophy, M.Phil',
-      achievements: 'Ethics Training Expert',
-      image: 'https://randomuser.me/api/portraits/women/65.jpg',
-      fullBio: 'Prof. Meera Reddy is a specialist in Ethics, Integrity, and Aptitude. With 11 years of experience, she has developed a comprehensive approach to ethics education that goes beyond textbook knowledge. Her case study-based teaching method helps students develop a strong ethical foundation and critical thinking skills essential for civil services.',
-    },
-  ];
+
+  // Show data source indicator in console
+  React.useEffect(() => {
+    if (!loading) {
+      console.log(`👨‍🏫 About Page Faculty loaded from: ${source === 'api' ? 'API ✅' : 'Static Data ⚠️'}`);
+    }
+  }, [loading, source]);
+
+  // Map API faculty data to match the component's format
+  const faculty = apiFaculty.map(member => ({
+    name: member.name,
+    subject: member.subject,
+    experience: member.experience,
+    qualifications: member.qualification || 'UPSC Expert',
+    achievements: member.achievements?.[0] || 'Experienced Educator',
+    image: member.photo,
+    fullBio: member.quote || 'An experienced educator dedicated to UPSC coaching excellence.',
+  }));
 
   const openFaculty = (index: number) => {
     setSelectedFaculty(index);
