@@ -274,62 +274,6 @@ section.heroSection h1 {
 }
 
 /* Responsive Design */
-/* Narrow desktop views (mobile browser desktop mode) */
-@media (min-width: 769px) and (max-width: 900px) {
-  .heroSection {
-    padding: 35px 20px 65px;
-  }
-
-  .heroContainer {
-    height: 380px;
-    padding: 0 20px;
-  }
-
-  .slideContent {
-    gap: 20px;
-    padding: 0 15px;
-  }
-
-  .heroTitle {
-    font-size: 2.2rem;
-    line-height: 1.2;
-  }
-
-  .feature {
-    font-size: 1rem;
-    gap: 10px;
-  }
-
-  .checkIcon {
-    width: 24px;
-    height: 24px;
-    font-size: 0.95rem;
-  }
-
-  .imageCard {
-    height: 340px;
-    border-radius: 20px;
-  }
-
-  .prevButton {
-    left: 60px;
-  }
-
-  .nextButton {
-    right: 60px;
-  }
-
-  .indicators {
-    bottom: -50px;
-    gap: 10px;
-  }
-
-  .indicator {
-    width: 12px;
-    height: 12px;
-  }
-}
-
 @media (max-width: 1024px) {
   .heroSection {
     padding: 40px 30px 70px;

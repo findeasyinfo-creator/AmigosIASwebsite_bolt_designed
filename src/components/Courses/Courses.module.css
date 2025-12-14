@@ -540,40 +540,6 @@
   }
 }
 
-/* Narrow desktop views (mobile browser desktop mode) */
-@media (min-width: 769px) and (max-width: 900px) {
-  .coursesSection {
-    padding: 2.5rem 1rem;
-  }
-
-  .container {
-    padding: 1.5rem 1rem;
-  }
-
-  .sectionTitle {
-    font-size: clamp(36px, 5vw, 48px);
-  }
-
-  .sectionSubtitle {
-    font-size: 1rem;
-    margin-bottom: 2rem;
-  }
-
-  .coursesContainer {
-    padding: 1.5rem;
-  }
-
-  .coursesGrid {
-    grid-template-columns: repeat(2, minmax(220px, 1fr));
-    gap: 1rem;
-    max-width: 700px;
-  }
-
-  .upscEmblemCard {
-    max-width: 180px;
-  }
-}
-
 /* Tablet/Medium screens - 2 column grid */
 @media (max-width: 1024px) and (min-width: 769px) {
   .coursesGrid {
