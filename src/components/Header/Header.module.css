@@ -44,11 +44,24 @@
 @media (min-width: 769px) and (max-width: 950px) {
   .container {
     padding: 0 15px;
-    gap: 12px;
+    gap: 10px;
   }
   
   .logoImage {
-    height: 75px;
+    height: 70px;
+  }
+}
+
+/* For very narrow desktop views (mobile in desktop mode) */
+@media (min-width: 769px) and (max-width: 850px) {
+  .container {
+    padding: 0 10px;
+    gap: 8px;
+  }
+  
+  .logoImage {
+    height: 60px;
+    max-width: 200px;
   }
 }
 
@@ -88,11 +101,33 @@
 /* Ensure nav wraps better on smaller desktop views */
 @media (min-width: 769px) and (max-width: 1200px) {
   .nav {
-    gap: 16px;
+    gap: 14px;
   }
   
   .nav a, .navLink {
     font-size: 14px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 950px) {
+  .nav {
+    gap: 10px;
+  }
+  
+  .nav a, .navLink {
+    font-size: 13px;
+  }
+}
+
+/* For very narrow desktop views (mobile in desktop mode) */
+@media (min-width: 769px) and (max-width: 850px) {
+  .nav {
+    gap: 6px;
+  }
+  
+  .nav a, .navLink {
+    font-size: 11px;
+    font-weight: 500;
   }
 }
 
@@ -349,19 +384,36 @@
 /* Adjust header actions for mid-range screens */
 @media (min-width: 769px) and (max-width: 1100px) {
   .headerActions {
-    gap: 12px;
+    gap: 10px;
   }
   
   .ctaButton {
-    padding: 10px 18px;
+    padding: 10px 16px;
     font-size: 13px;
   }
 }
 
 @media (min-width: 769px) and (max-width: 950px) {
+  .headerActions {
+    gap: 8px;
+  }
+  
   .ctaButton {
-    padding: 10px 14px;
+    padding: 8px 12px;
     font-size: 12px;
+  }
+}
+
+/* For very narrow desktop views (mobile in desktop mode) */
+@media (min-width: 769px) and (max-width: 850px) {
+  .headerActions {
+    gap: 6px;
+  }
+  
+  .ctaButton {
+    padding: 6px 10px;
+    font-size: 10px;
+    white-space: nowrap;
   }
 }
 
