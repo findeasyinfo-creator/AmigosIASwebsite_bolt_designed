@@ -153,16 +153,20 @@ export default function FilterCalendar({mode, value, onChange, title, open = tru
   }
 
   const handleCustomDate = () => {
-    if (customDate && /^\d{4}-\d{2}-\d{2}$/.test(customDate)) {
-      selectAndClose(customDate)
-      setCustomDate('')
+    if (customMonth && customYear && /^\d{1,2}$/.test(customMonth) && /^\d{4}$/.test(customYear)) {
+      const m = parseInt(customMonth,10)
+      if(m>=1 && m<=12){
+        setCursor(new Date(parseInt(customYear,10), m-1, 1))
+      }
     }
   }
 
   const handleCustomWeek = () => {
-    if (customWeek && /^\d{4}-W\d{2}$/.test(customWeek)) {
-      selectAndClose(customWeek)
-      setCustomWeek('')
+    if (customMonth && customYear && /^\d{1,2}$/.test(customMonth) && /^\d{4}$/.test(customYear)) {
+      const m = parseInt(customMonth,10)
+      if(m>=1 && m<=12){
+        setCursor(new Date(parseInt(customYear,10), m-1, 1))
+      }
     }
   }
 
@@ -206,18 +210,31 @@ export default function FilterCalendar({mode, value, onChange, title, open = tru
         <>
           <div className={styles.customDateInput}>
             <input 
-              type="date" 
-              value={customDate}
-              onChange={(e) => setCustomDate(e.target.value)}
+              type="number" 
+              value={customMonth || String(cursor.getMonth()+1)}
+              onChange={(e) => setCustomMonth(e.target.value)}
               className={styles.dateInput}
-              placeholder="YYYY-MM-DD"
+              placeholder="Month (1-12)"
+              min="1"
+              max="12"
+              style={{flex: '0 0 45%'}}
+            />
+            <input 
+              type="number" 
+              value={customYear || String(cursor.getFullYear())}
+              onChange={(e) => setCustomYear(e.target.value)}
+              className={styles.dateInput}
+              placeholder="Year"
+              min="2000"
+              max="2100"
+              style={{flex: '0 0 45%'}}
             />
             <button 
               className={styles.addBtn} 
               onClick={handleCustomDate}
-              disabled={!customDate || !/^\d{4}-\d{2}-\d{2}$/.test(customDate)}
+              disabled={!((customMonth||String(cursor.getMonth()+1)) && (customYear||String(cursor.getFullYear())))}
             >
-              Add
+              Go
             </button>
           </div>
           <div className={styles.weekdayHeader}>
@@ -228,7 +245,8 @@ export default function FilterCalendar({mode, value, onChange, title, open = tru
           <div className={styles.grid}>
             {Array.from({length:startWeekday}).map((_,i)=> <div key={`empty-${i}`} className={styles.emptyCell} />)}
             {days.map((d)=>{
-              const selected = value && new Date(value).toDateString()===d.toDateString()
+              const today = new Date()
+              const selected = (value && new Date(value).toDateString()===d.toDateString()) || today.toDateString()===d.toDateString()
               return (
                 <button
                   key={d.toISOString()}
@@ -246,18 +264,31 @@ export default function FilterCalendar({mode, value, onChange, title, open = tru
         <>
           <div className={styles.customDateInput}>
             <input 
-              type="week" 
-              value={customWeek}
-              onChange={(e) => setCustomWeek(e.target.value)}
+              type="number" 
+              value={customMonth || String(cursor.getMonth()+1)}
+              onChange={(e) => setCustomMonth(e.target.value)}
               className={styles.dateInput}
-              placeholder="YYYY-Www"
+              placeholder="Month (1-12)"
+              min="1"
+              max="12"
+              style={{flex: '0 0 45%'}}
+            />
+            <input 
+              type="number" 
+              value={customYear || String(cursor.getFullYear())}
+              onChange={(e) => setCustomYear(e.target.value)}
+              className={styles.dateInput}
+              placeholder="Year"
+              min="2000"
+              max="2100"
+              style={{flex: '0 0 45%'}}
             />
             <button 
               className={styles.addBtn} 
               onClick={handleCustomWeek}
-              disabled={!customWeek || !/^\d{4}-W\d{2}$/.test(customWeek)}
+              disabled={!((customMonth||String(cursor.getMonth()+1)) && (customYear||String(cursor.getFullYear())))}
             >
-              Add
+              Go
             </button>
           </div>
           <div className={styles.weekdayHeader}>

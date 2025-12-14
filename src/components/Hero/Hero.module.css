@@ -1,286 +1,560 @@
-﻿/* Hero Section - Premium Sunrise Gradient */
-
-
+﻿/* Hero Section - Exact Reference Match */
 .heroSection {
-  background: linear-gradient(110deg, #f87448 0%, #fca74a 52%, #ffd45f 100%);
   position: relative;
-  overflow: hidden;
-  padding: 30px 0px 40px 0px;
-  z-index: 1;
   width: 100%;
-  max-width: 100vw;
-  min-height: 600px;
+  padding: 50px 0 80px;
+  /* Light theme: Orange to Yellow gradient (left to right) - exact match */
+  background: linear-gradient(90deg, #ff6b47 0%, #ff8659 25%, #ffb570 60%, #ffd699 100%);
+  overflow: visible;
 }
+  color: #ffffff !important;
 
-.heroSection::before,
-.heroSection::after {
-  content: none;
-}
-
-@keyframes particleFloat {
-  0% { transform: translateY(0px); }
-  100% { transform: translateY(-20px); }
-}
-
-/* Dark theme: let global body background show through */
-[data-theme="dark"] .heroSection {
-  background: linear-gradient(110deg, rgba(180, 55, 30, 0.95) 0%, rgba(200, 75, 35, 0.9) 30%, rgba(220, 100, 45, 0.85) 60%, rgba(230, 120, 50, 0.8) 100%);
-}
-
-[data-theme="light"] .heroSection {
-  background: linear-gradient(110deg, #b83a1a 0%, #cc4619 30%, #d95a26 62%, #e26f2e 100%);
+/* Dark theme: Navy blue with white shaded gradient */
+:global(.dark) .heroSection {
+  background: linear-gradient(135deg, #001a33 0%, #0d2e4d 40%, #1a4d7a 100%);
 }
 
 .heroContainer {
+  position: relative;
+  width: 100%;
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 2.5rem;
+  padding: 0 60px;
+  height: 460px;
+  box-sizing: border-box;
+  overflow: visible;
+}
+
+/* Carousel Wrapper */
+.carouselWrapper {
   position: relative;
+  width: 100%;
   height: 100%;
-  display: flex;
-  align-items: center;
-  min-height: 600px;
-  width: 100%;
-  overflow: hidden; /* Prevent any content from overflowing the hero container */
-  z-index: 2;
 }
 
-/* Slides viewport and track for sliding entire hero (text+image) */
-.slidesViewport {
-  position: relative;
-  overflow: hidden; /* Critical: clips all slide content to viewport bounds */
-  width: 100%;
-  max-width: 100%;
-  z-index: 3;
-}
-
-.slidesTrack {
-  display: flex;
-  width: 100%;
-  max-width: 100%;
-  /* Track contains all slides laid out horizontally */
-}
-
+/* Individual Slide */
 .slide {
-  flex: 0 0 100%; /* Each slide takes exactly 100% of viewport width, no grow/shrink */
-  min-width: 100%;
-  max-width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  box-sizing: border-box; /* Include padding/border in width calculation */
-  overflow: hidden; /* Prevent any child content from overflowing the slide */
+  height: 100%;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
 }
 
-.heroContent {
+.slide.activeSlide {
+  opacity: 1;
+  visibility: visible;
+  z-index: 1;
+  pointer-events: auto;
+}
+
+/* Slide Content - 40% Text / 60% Image Layout */
+.slideContent {
   display: grid;
-  grid-template-columns: 40% 60%;
+  grid-template-columns: 2fr 3fr;
+  gap: 40px;
   align-items: center;
-  gap: 2.75rem;
-  width: 100%;
-  position: relative;
-  min-height: 480px;
+  height: 100%;
+  max-width: 100%;
+  padding: 0 40px;
 }
 
-.textContent {
+/* Text Section - Left 40% */
+.textSection {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  gap: 28px;
+  padding-right: 20px;
   align-items: flex-start;
-  padding: 0;
+  text-align: left;
 }
 
 .heroTitle {
-  font-size: clamp(2.8rem, 6vw, 4.2rem);
-  font-weight: 700;
+  font-size: 3.5rem;
+  font-weight: 900;
+  line-height: 1.15;
   color: #ffffff !important;
-  margin-bottom: 2.5rem;
-  line-height: 1.2;
-  text-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-  font-family: 'Playfair Display', serif;
-  letter-spacing: 1px;
-  word-spacing: 0.15em;
-  text-align: left;
-  max-width: 100%;
-  font-style: normal;
+  text-shadow: 2px 4px 12px rgba(0, 0, 0, 0.25);
+  margin: 0;
+  letter-spacing: -0.5px;
 }
 
-.heroSection .heroTitle {
+.textSection .heroTitle,
+.slideContent .heroTitle,
+.heroSection .heroTitle,
+.heroSection h1,
+.heroSection .textSection h1,
+.heroSection .slideContent h1,
+section.heroSection h1 {
   color: #ffffff !important;
 }
 
-.heroSection h1 {
+.heroSection *,
+.heroSection .textSection *,
+.heroSection .slideContent * {
+  color: inherit;
+}
+
+.heroSection .textSection {
   color: #ffffff !important;
 }
 
 .features {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  margin-top: 0.5rem;
-  margin-bottom: 1rem;
+  gap: 16px;
 }
 
 .feature {
   display: flex;
-  align-items: flex-start;
-  gap: 1.25rem;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.25rem;
+  color: #ffffff !important;
+  font-weight: 700;
+  text-shadow: 1px 2px 6px rgba(0, 0, 0, 0.25);
 }
 
-.featureIcon {
-  background: linear-gradient(135deg, #FFD700, #FFA500);
-  color: #1a1a1a;
+.feature,
+.feature span,
+.feature *,
+.textSection .feature,
+.heroSection .feature,
+.features .feature,
+.heroSection .features .feature,
+.heroSection .textSection .feature,
+.slideContent .feature,
+.heroSection .textSection *,
+.heroSection .slideContent p,
+.heroSection .slideContent span,
+.heroSection .slideContent li,
+.heroSection .slideContent div {
+  color: #ffffff !important;
+}
+
+.checkIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 28px;
   height: 28px;
-  min-width: 28px;
-  min-height: 28px;
+  background: #ffd633;
+  color: #ff6b47;
   border-radius: 50%;
+  font-weight: 900;
+  font-size: 1.05rem;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+:global(.dark) .checkIcon {
+  background: #ffc107;
+  color: #1e3a5f;
+}
+
+/* Image Section - Right 60% */
+.imageSection {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+  padding: 0;
+  position: relative;
+}
+
+/* Image Card with rounded corners and shadow - matches reference */
+.imageCard {
+  position: relative;
+  width: 100%;
+  height: 380px;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 
+    0 20px 50px rgba(0, 0, 0, 0.25),
+    0 10px 20px rgba(0, 0, 0, 0.15);
+  background: #ffffff;
+}
+
+.imageCard::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.7) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.heroImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Navigation Buttons - Hidden by default, visible on hero hover */
+.navButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #ffb800;
+  color: #ffffff;
+  border: none;
+  font-size: 2rem;
+  font-weight: bold;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
-  font-weight: 800;
-  flex-shrink: 0;
-  box-shadow: 0 4px 12px rgba(255, 215, 0, 0.35);
-  margin-top: 2px;
+  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
 
-.featureText {
-  color: #ffffff !important;
-  font-size: 1.125rem;
-  font-weight: 500;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  line-height: 1.5;
-  letter-spacing: 0.3px;
+.navButton:hover {
+  background: #ffd633;
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+:global(.dark) .navButton {
+  background: rgba(255, 255, 255, 0.95);
+  color: #4a7fb8;
+}
+
+.prevButton {
+  left: 110px;
+}
+
+.nextButton {
+  right: 110px;
+}
+
+/* Carousel Indicators - Below hero section */
+.indicators {
+  position: absolute;
+  bottom: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 12px;
+  z-index: 10;
+}
+
+.indicator {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: none;
+  background: #d4d700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.indicator:hover {
+  background: #e6e800;
+}
+
+.indicator.activeIndicator {
+  background: #ffd633;
+  transform: scale(1.2);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .heroSection {
+    padding: 40px 30px 70px;
+  }
+
+  .heroContainer {
+    height: 420px;
+    padding: 0 30px;
+  }
+
+  .slideContent {
+    gap: 30px;
+    padding: 0 20px;
+  }
+
+  .heroTitle {
+    font-size: 2.75rem;
+  }
+
+  .feature {
+    font-size: 1.1rem;
+  }
+
+  .prevButton {
+    left: 80px;
+  }
+
+  .nextButton {
+    right: 80px;
+  }
+}
+
+@media (max-width: 768px) {
+  .heroSection {
+    padding: 4px 14px 26px;
+    overflow: visible;
+    min-height: auto;
+  }
+
+  .heroContainer {
+    height: 340px;
+    padding: 0 14px;
+    overflow: visible;
+  }
+
+  .carouselWrapper {
+    height: 100%;
+  }
+
+  .slide {
+    position: absolute;
+    height: 100%;
+  }
+
+  .slideContent {
+    grid-template-columns: 1fr;
+    gap: 4px;
+    padding: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .textSection {
+    padding-right: 0;
+    padding-bottom: 4px;
+    text-align: center;
+    gap: 8px;
+  }
+
+  .heroTitle {
+    font-size: 2.1rem;
+    line-height: 1.2;
+    color: #ffffff !important;
+  }
+
+  .features {
+    gap: 8px;
+  }
+
+  .feature {
+    font-size: 1rem;
+    justify-content: center;
+    color: #ffffff !important;
+  }
+
+  .feature span {
+    color: #ffffff !important;
+  }
+
+  .checkIcon {
+    width: 24px;
+    height: 24px;
+    font-size: 0.95rem;
+  }
+
+  .imageSection {
+    padding: 0;
+    width: 100%;
+    flex: 1;
+    display: flex;
+    align-items: stretch;
+  }
+
+  .imageCard {
+    height: 100%;
+    max-height: none;
+    border-radius: 16px;
+  }
+
+  .imageCard::after {
+    height: 70px;
+  }
+
+  .navButton {
+    width: 42px;
+    height: 42px;
+    font-size: 1.5rem;
+  }
+
+  .prevButton {
+    left: 12px;
+  }
+
+  .nextButton {
+    right: 12px;
+  }
+
+  .indicators {
+    bottom: -24px;
+    gap: 6px;
+  }
+
+  .indicator {
+    width: 10px;
+    height: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .heroSection {
+    padding: 4px 12px 24px;
+  }
+
+  .heroContainer {
+    padding: 0 10px;
+    height: 320px;
+  }
+
+  .heroTitle {
+    font-size: 1.8rem;
+    line-height: 1.2;
+    color: #ffffff !important;
+  }
+
+  .textSection {
+    gap: 5px;
+    padding-bottom: 2px;
+  }
+
+  .feature {
+    font-size: 0.95rem;
+    color: #ffffff !important;
+  }
+
+  .feature span {
+    color: #ffffff !important;
+  }
+
+  .checkIcon {
+    width: 22px;
+    height: 22px;
+    font-size: 0.9rem;
+  }
+
+  .imageCard {
+    max-height: 200px;
+    height: 200px;
+    border-radius: 14px;
+  }
+
+  .navButton {
+    width: 38px;
+    height: 38px;
+    font-size: 1.4rem;
+  }
+
+  .prevButton {
+    left: 8px;
+  }
+
+  .nextButton {
+    right: 8px;
+  }
+
+  .indicators {
+    bottom: -20px;
+  }
+
+  .indicator {
+    width: 9px;
+    height: 9px;
+  }
+
+  .checkIcon {
+    width: 24px;
+    height: 24px;
+    font-size: 0.95rem;
+  }
+
+  .imageCard {
+    max-height: 250px;
+  }
 }
 
 
 .imageContent {
+  width: 58%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   position: relative;
   z-index: 2;
-  overflow: hidden; /* Contain glow effects and background gradients within this slide only */
-}
-
-/* Secondary soft orange glow layer */
-.imageContent::before {
-  content: '';
-  position: absolute;
-  left: -110px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 440px;
-  height: 520px;
-  background: radial-gradient(
-    ellipse 88% 100% at 68% 50%,
-    rgba(255, 154, 92, 0.38) 0%,
-    rgba(255, 154, 92, 0.26) 22%,
-    rgba(255, 175, 110, 0.16) 44%,
-    rgba(255, 205, 140, 0.08) 64%,
-    transparent 82%
-  );
-  filter: blur(58px);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 1;
+  padding: 20px 0;
+  perspective: 1200px;
 }
 
 .imageWrapper {
-  position: relative;
   width: 100%;
-  max-width: 760px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden; /* Clip any glow/gradient effects to this wrapper only */
-  padding: 12px 6px;
+  max-width: 100%;
+  overflow: hidden;
+  background: transparent;
+  border-radius: 28px;
+  transform: perspective(1200px) rotateX(5deg) rotateY(-12deg) rotateZ(-3deg);
+  transform-origin: center center;
+  transform-style: preserve-3d;
+  box-shadow:
+    0 16px 45px rgba(0, 0, 0, 0.18),
+    0 10px 25px rgba(0, 0, 0, 0.14),
+    -15px 20px 50px rgba(0, 0, 0, 0.25);
+  position: relative;
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
+  padding: 0;
+  border: none;
 }
 
-/* Soft orange glow/gradient behind the card on the left */
-.imageWrapper::before {
-  content: '';
-  position: absolute;
-  left: -160px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 520px;
-  height: 600px;
-  background: radial-gradient(
-    ellipse 92% 105% at 70% 52%,
-    rgba(255, 150, 86, 0.46) 0%,
-    rgba(255, 170, 110, 0.32) 20%,
-    rgba(255, 200, 142, 0.16) 45%,
-    rgba(255, 220, 170, 0.08) 65%,
-    transparent 82%
-  );
-  filter: blur(68px);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 1;
-  opacity: 1;
+.imageWrapper:hover {
+  transform: perspective(1200px) rotateX(7deg) rotateY(-16deg) rotateZ(-3deg) translateZ(30px);
+  box-shadow:
+    0 25px 60px rgba(0, 0, 0, 0.25),
+    0 15px 35px rgba(0, 0, 0, 0.2),
+    -20px 25px 60px rgba(0, 0, 0, 0.3);
 }
 
 .heroImageContainer {
   width: 100%;
-  max-width: 760px;
-  height: 410px;
+  height: auto;
+  aspect-ratio: 2 / 1;
   position: relative;
-  overflow: hidden; /* Clips image to container bounds - prevents image overflow */
-  border-radius: 22px;
-  padding: 12px;
-  background: linear-gradient(115deg, #f87448 0%, #fca74a 55%, #ffd45f 100%);
-  box-shadow:
-    0 20px 40px rgba(0, 0, 0, 0.28),
-    0 10px 22px rgba(0, 0, 0, 0.18);
-  transition: transform 0.32s ease, box-shadow 0.32s ease;
+  overflow: hidden;
+  border-radius: 28px;
+  background: #fff0;
   display: flex;
   align-items: center;
   justify-content: center;
-  transform: translateY(0);
-  z-index: 5;
-  box-sizing: border-box; /* Include padding in width calculation */
-}
-
-.heroImageContainer::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 18px;
-  background: transparent;
+  transform-style: preserve-3d;
   box-shadow: none;
-  z-index: 1;
-  pointer-events: none;
+  border: none;
 }
 
-.heroImageContainer::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 18px;
-  box-shadow: 0 22px 30px rgba(0, 0, 0, 0.24);
-  z-index: 1;
-  pointer-events: none;
-}
 
-.heroImageContainer:hover {
-  box-shadow:
-    0 26px 52px rgba(0, 0, 0, 0.32),
-    0 12px 26px rgba(0, 0, 0, 0.2);
-  transform: translateY(-6px);
-}
 
 .heroImage {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Ensures image fills container without distortion */
+  object-fit: cover;
   display: block;
-  border-radius: 16px;
   position: relative;
-  z-index: 2;
-  filter: saturate(1.08) brightness(1.06);
-  max-width: 100%; /* Prevents image from exceeding container width */
+  transform-style: preserve-3d;
 }
 
 /* Navigation buttons positioned on sides of image */
@@ -288,15 +562,15 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  z-index: 10;
+  z-index: 15;
   background: rgba(255, 183, 77, 0.95); /* light orange for visibility */
   backdrop-filter: blur(6px);
   border: 2px solid #fb8c00; /* vivid orange border */
   color: #1a1a1a; /* dark icon/text for contrast */
-  width: 45px;
-  height: 45px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
-  font-size: 20px;
+  font-size: 24px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -304,8 +578,8 @@
   align-items: center;
   justify-content: center;
   box-shadow: 0 6px 18px rgba(251, 140, 0, 0.35);
-  opacity: 0;
-  visibility: hidden;
+  opacity: 1;
+  visibility: visible;
 }
 
 .navButton:hover {
@@ -316,18 +590,22 @@
 }
 
 .prevButton {
-  left: -60px;
+  left: 24px;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .nextButton {
-  right: -60px;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
 }
-
-/* Show arrows on hover for desktop-like devices */
 @media (hover: hover) and (pointer: fine) {
+  .navButton {
+    opacity: 0.7;
+  }
   .heroContainer:hover .navButton {
     opacity: 1;
-    visibility: visible;
   }
 }
 
@@ -343,25 +621,25 @@
 }
 
 .indicator {
-  width: 12px;
-  height: 12px;
+  width: 11px;
+  height: 11px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.5);
-  border: 2px solid rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.7);
+  border: none;
   cursor: pointer;
   transition: all 0.3s ease;
   padding: 0;
 }
 
 .indicator.active {
-  background: white;
-  transform: scale(1.2);
-  box-shadow: 0 0 16px rgba(255, 255, 255, 0.9);
+  background: #ffffff;
+  transform: scale(1.15);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.8);
 }
 
 .indicator:hover {
-  background: rgba(255, 255, 255, 0.8);
-  transform: scale(1.1);
+  background: rgba(255, 255, 255, 0.85);
+  transform: scale(1.08);
 }
 
 @media (max-width: 1024px) {
@@ -442,6 +720,7 @@
     margin-bottom: 0;
     width: 100%;
     max-width: 100%;
+    transform: perspective(1200px) rotateX(5deg) rotateY(-12deg) rotateZ(-3deg);
   }
   
   .imageWrapper::before {
@@ -479,29 +758,30 @@
     max-width: 100%;
     width: 100%;
     height: 290px;
-    border-radius: 20px;
-    padding: 10px;
-    background: linear-gradient(115deg, #f87448 0%, #fca74a 55%, #ffd45f 100%);
+    border-radius: 28px;
+    padding: 0;
+    background: transparent;
     box-shadow:
-      0 16px 30px rgba(0, 0, 0, 0.24),
-      0 8px 16px rgba(0, 0, 0, 0.15);
-    clip-path: polygon(0 3%, 100% 0, 100% 97%, 0 100%);
+      0 14px 36px rgba(0, 0, 0, 0.16),
+      0 10px 20px rgba(0, 0, 0, 0.12);
+    clip-path: none;
+    transform: none;
   }
   
   .heroImageContainer::before {
     inset: 0;
-    border-radius: 18px;
-    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.22);
+    border-radius: 28px;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14);
   }
   
   .heroImageContainer::after {
     inset: 0;
-    border-radius: 18px;
-    box-shadow: 0 16px 22px rgba(0, 0, 0, 0.18);
+    border-radius: 28px;
+    box-shadow: none;
   }
   
   .heroImage {
-    border-radius: 16px;
+    border-radius: 20px;
   }
 
   .imageIndicators {
@@ -569,10 +849,10 @@
     margin: 0 auto 18px;
     border-radius: 22px;
     padding: 0;
-    transform: translateY(0);
+    transform: none;
     box-shadow:
-      0 14px 30px rgba(0, 0, 0, 0.12),
-      0 9px 20px rgba(255, 178, 128, 0.18);
+      0 12px 26px rgba(0, 0, 0, 0.14),
+      0 8px 18px rgba(0, 0, 0, 0.1);
   }
   
   .heroImageContainer::before {
@@ -596,6 +876,7 @@
     width: 100%;
     max-width: 100%;
     padding: 0;
+    transform: perspective(1400px) rotateX(-8deg) rotateY(12deg) rotateZ(-2deg);
   }
   
   .imageContent {

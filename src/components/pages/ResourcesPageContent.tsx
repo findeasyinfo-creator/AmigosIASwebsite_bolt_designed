@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
 import Link from 'next/link';
 import CommunityForum from '@/components/CommunityForum';
+import DottedLines from '@/components/DottedLines';
 
 export default function ResourcesPageContent() {
   const tabs = [
@@ -79,6 +80,10 @@ export default function ResourcesPageContent() {
               ))}
               </div>
             </div>
+          </div>
+          {/* Spacer between header tabs and content with dotted lines */}
+          <div aria-hidden="true" className="py-8 sm:py-10">
+            <DottedLines />
           </div>
 
           {/* Tab Content */}

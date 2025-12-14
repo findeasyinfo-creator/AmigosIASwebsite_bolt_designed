@@ -298,8 +298,8 @@ export default function CurrentAffairsPageContent() {
       {/* Hero Section */}
       <section className="py-16 hero-section">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl sm:text-5xl font-bold mb-4 text-gray-900 dark:text-white">Current Affairs</h1>
-          <p className="text-xl text-gray-700 dark:text-gray-300">
+          <h1 className="text-4xl sm:text-5xl font-bold mb-4 text-gray-900 dark:text-[#D4AF37]">Current Affairs</h1>
+          <p className="text-xl text-gray-700 dark:text-white">
             Stay updated with comprehensive analysis of current events for UPSC preparation
           </p>
         </div>
@@ -309,7 +309,7 @@ export default function CurrentAffairsPageContent() {
       <section className="py-8 current-affairs-section" data-section="current-affairs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Main tabs - modern segmented pills */}
-          <div className="sticky top-[72px] md:top-[119px] z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-3 md:py-5 mb-6 md:mb-8 shadow-md">
+          <div className="sticky top-[72px] md:top-[119px] z-50 bg-white/95 dark:bg-[#0f1b2e]/95 backdrop-blur-md -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-3 md:py-5 mb-6 md:mb-8 shadow-md">
             <div className="max-w-7xl mx-auto">
               <div className="flex gap-3 overflow-x-auto pb-2">
                 {([
@@ -330,8 +330,8 @@ export default function CurrentAffairsPageContent() {
                   }}
                   className={`group px-6 py-2.5 rounded-full font-semibold whitespace-nowrap transition-all duration-300 border ${
                     activeTab === tab.id
-                      ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white border-transparent shadow-lg shadow-orange-500/30'
-                      : 'bg-orange-50/70 dark:bg-orange-900/20 text-orange-700 dark:text-orange-300 hover:bg-orange-100 dark:hover:bg-orange-900/30 border-orange-200 dark:border-orange-700'
+                      ? 'bg-orange-500 text-white border-orange-500 shadow-lg shadow-orange-500/30 dark:bg-[#D4AF37] dark:text-[#1a2942] dark:border-[#D4AF37] dark:shadow-[#D4AF37]/30'
+                        : 'bg-gradient-to-r from-orange-400 via-orange-500 to-orange-400 text-white border-transparent shadow-lg shadow-orange-500/30 dark:bg-[#D4AF37] dark:text-[#1a2942] dark:border-[#D4AF37] dark:shadow-[#D4AF37]/30'
                   }`}
                 >
                   <span className="inline-flex items-center gap-2">
@@ -363,8 +363,8 @@ export default function CurrentAffairsPageContent() {
           </div>
 
           {/* Dependent filters - refreshed UI */}
-          <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-lg p-4 md:p-6 mb-6 md:mb-8 relative z-20">
-            <h2 className="text-lg font-semibold mb-4">Filters</h2>
+          <div className="bg-white/80 dark:bg-[#1a2942]/90 backdrop-blur-sm rounded-2xl shadow-lg p-4 md:p-6 mb-6 md:mb-8 relative z-20">
+            <h2 className="text-lg font-semibold mb-4 dark:text-[#D4AF37]">Filters</h2>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
               <div className="relative" style={{zIndex: 30}}>
@@ -387,11 +387,11 @@ export default function CurrentAffairsPageContent() {
 
               {activeTab === 'daily' && (
                 <div className="relative">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Date</label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-white mb-2">Date</label>
                   <button
                     ref={dateButtonRef}
                     type="button"
-                    className="rounded-xl px-4 py-2.5 border border-orange-300 dark:border-orange-700 bg-gradient-to-r from-white/80 to-orange-50/40 dark:from-gray-700/80 dark:to-orange-900/20 shadow-sm hover:shadow-md text-orange-600 dark:text-orange-300 font-semibold transition-all backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 w-full text-left flex items-center justify-between"
+                    className="rounded-xl px-4 py-2.5 border border-orange-200 dark:border-[#D4AF37]/50 bg-white hover:bg-orange-50 dark:bg-[#1a2942] shadow-sm hover:shadow-md text-orange-600 dark:text-[#D4AF37] font-semibold transition-all backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30 dark:focus:ring-[#D4AF37]/20 w-full text-left flex items-center justify-between"
                     onClick={() => setOpenDate(v => !v)}
                   >
                     <span>{selectedDate === 'all' ? 'Select Date' : selectedDate}</span>
@@ -414,18 +414,18 @@ export default function CurrentAffairsPageContent() {
                     <button
                       type="button"
                       onClick={() => setSelectedDate('all')}
-                      className="px-3 py-2 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white hover:from-orange-600 hover:to-amber-600 text-xs font-semibold transition-all shadow-sm hover:shadow-md whitespace-nowrap"
+                      className="px-3 py-2 rounded-xl bg-gradient-to-r from-orange-400 via-orange-500 to-orange-400 text-white hover:from-orange-500 hover:via-orange-600 hover:to-orange-500 text-xs font-semibold transition-all shadow-sm hover:shadow-md whitespace-nowrap dark:bg-[#D4AF37] dark:text-[#1a2942] dark:hover:bg-[#C5A028]"
                     >All Dates</button>
                   </div>
                 </div>
               )}
               {activeTab === 'weekly' && (
                 <div className="relative">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Week</label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-white mb-2">Week</label>
                   <button
                     ref={weekButtonRef}
                     type="button"
-                    className="rounded-xl px-4 py-2.5 border border-orange-300 dark:border-orange-700 bg-gradient-to-r from-white/80 to-orange-50/40 dark:from-gray-700/80 dark:to-orange-900/20 shadow-sm hover:shadow-md text-orange-600 dark:text-orange-300 font-semibold transition-all backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 w-full text-left flex items-center justify-between"
+                    className="rounded-xl px-4 py-2.5 border border-orange-200 dark:border-[#D4AF37]/50 bg-white hover:bg-orange-50 dark:bg-[#1a2942] shadow-sm hover:shadow-md text-orange-600 dark:text-[#D4AF37] font-semibold transition-all backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30 dark:focus:ring-[#D4AF37]/20 w-full text-left flex items-center justify-between"
                     onClick={() => setOpenWeek(v => !v)}
                   >
                     <span>{selectedWeek || 'Select Week'}</span>
@@ -448,28 +448,28 @@ export default function CurrentAffairsPageContent() {
                     <button
                       type="button"
                       onClick={() => { setSelectedWeek(''); setWeeklyRange('this-week'); }}
-                      className="px-3 py-2 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white hover:from-orange-600 hover:to-amber-600 text-xs font-semibold transition-all shadow-sm hover:shadow-md whitespace-nowrap"
+                      className="px-3 py-2 rounded-xl bg-gradient-to-r from-orange-400 via-orange-500 to-orange-400 text-white hover:from-orange-500 hover:via-orange-600 hover:to-orange-500 text-xs font-semibold transition-all shadow-sm hover:shadow-md whitespace-nowrap dark:bg-[#D4AF37] dark:text-[#1a2942] dark:hover:bg-[#C5A028]"
                     >This Week</button>
                     <button
                       type="button"
                       onClick={() => { setSelectedWeek(''); setWeeklyRange('last-week'); }}
-                      className="px-3 py-2 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white hover:from-orange-600 hover:to-amber-600 text-xs font-semibold transition-all shadow-sm hover:shadow-md whitespace-nowrap"
+                      className="px-3 py-2 rounded-xl bg-gradient-to-r from-orange-400 via-orange-500 to-orange-400 text-white hover:from-orange-500 hover:via-orange-600 hover:to-orange-500 text-xs font-semibold transition-all shadow-sm hover:shadow-md whitespace-nowrap dark:bg-[#D4AF37] dark:text-[#1a2942] dark:hover:bg-[#C5A028]"
                     >Last Week</button>
                     <button
                       type="button"
                       onClick={() => { setSelectedWeek(''); setWeeklyRange('all'); }}
-                      className="px-3 py-2 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white hover:from-orange-600 hover:to-amber-600 text-xs font-semibold transition-all shadow-sm hover:shadow-md whitespace-nowrap"
+                      className="px-3 py-2 rounded-xl bg-gradient-to-r from-orange-400 via-orange-500 to-orange-400 text-white hover:from-orange-500 hover:via-orange-600 hover:to-orange-500 text-xs font-semibold transition-all shadow-sm hover:shadow-md whitespace-nowrap dark:bg-[#D4AF37] dark:text-[#1a2942] dark:hover:bg-[#C5A028]"
                     >All Weeks</button>
                   </div>
                 </div>
               )}
               {activeTab === 'monthly' && (
                 <div className="relative">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Month</label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-white mb-2">Month</label>
                   <button
                     ref={monthButtonRef}
                     type="button"
-                    className="rounded-xl px-4 py-2.5 border border-orange-300 dark:border-orange-700 bg-gradient-to-r from-white/80 to-orange-50/40 dark:from-gray-700/80 dark:to-orange-900/20 shadow-sm hover:shadow-md text-orange-600 dark:text-orange-300 font-semibold transition-all backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 w-full text-left flex items-center justify-between"
+                    className="rounded-xl px-4 py-2.5 border border-orange-200 dark:border-[#D4AF37]/50 bg-white hover:bg-orange-50 dark:bg-[#1a2942] shadow-sm hover:shadow-md text-orange-600 dark:text-[#D4AF37] font-semibold transition-all backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30 dark:focus:ring-[#D4AF37]/20 w-full text-left flex items-center justify-between"
                     onClick={() => setOpenMonth(v => !v)}
                   >
                     <span>{selectedMonth || 'Select Month'}</span>
@@ -492,17 +492,17 @@ export default function CurrentAffairsPageContent() {
                     <button
                       type="button"
                       onClick={() => { setSelectedMonth(''); setMonthlyRange('this-month'); }}
-                      className="px-3 py-2 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white hover:from-orange-600 hover:to-amber-600 text-xs font-semibold transition-all shadow-sm hover:shadow-md whitespace-nowrap"
+                      className="px-3 py-2 rounded-xl bg-orange-500 text-white hover:bg-orange-600 text-xs font-semibold transition-all shadow-sm hover:shadow-md whitespace-nowrap dark:bg-[#D4AF37] dark:text-[#1a2942] dark:hover:bg-[#C5A028]"
                     >This Month</button>
                     <button
                       type="button"
                       onClick={() => { setSelectedMonth(''); setMonthlyRange('last-month'); }}
-                      className="px-3 py-2 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white hover:from-orange-600 hover:to-amber-600 text-xs font-semibold transition-all shadow-sm hover:shadow-md whitespace-nowrap"
+                      className="px-3 py-2 rounded-xl bg-orange-500 text-white hover:bg-orange-600 text-xs font-semibold transition-all shadow-sm hover:shadow-md whitespace-nowrap dark:bg-[#D4AF37] dark:text-[#1a2942] dark:hover:bg-[#C5A028]"
                     >Last Month</button>
                     <button
                       type="button"
                       onClick={() => { setSelectedMonth(''); setMonthlyRange('all'); }}
-                      className="px-3 py-2 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white hover:from-orange-600 hover:to-amber-600 text-xs font-semibold transition-all shadow-sm hover:shadow-md whitespace-nowrap"
+                      className="px-3 py-2 rounded-xl bg-orange-500 text-white hover:bg-orange-600 text-xs font-semibold transition-all shadow-sm hover:shadow-md whitespace-nowrap dark:bg-[#D4AF37] dark:text-[#1a2942] dark:hover:bg-[#C5A028]"
                     >All Months</button>
                   </div>
                 </div>
@@ -520,7 +520,7 @@ export default function CurrentAffairsPageContent() {
                   if (activeTab === 'weekly') setWeeklyRange('all')
                   if (activeTab === 'monthly') setMonthlyRange('all')
                 }}
-                className="mt-4 px-4 py-2 rounded-lg bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 hover:bg-orange-200 dark:hover:bg-orange-900/50 text-sm font-medium transition-colors"
+                className="mt-4 px-4 py-2 rounded-lg bg-gradient-to-r from-orange-100 to-amber-100 dark:bg-[#D4AF37]/20 text-orange-600 dark:text-[#D4AF37] hover:bg-orange-200 dark:hover:bg-[#D4AF37]/30 text-sm font-medium transition-colors"
               >
                 Clear All Filters
               </button>
@@ -528,16 +528,16 @@ export default function CurrentAffairsPageContent() {
           </div>
 
           {/* Results Count */}
-          <div className="mb-4 text-gray-600 dark:text-gray-400">
+          <div className="mb-4 text-gray-600 dark:text-white">
             Showing {filteredItems.length} of {items.filter(i => i.type === activeTab).length} {activeTab === 'monthly' ? 'magazines' : 'articles'}
           </div>
 
           {/* Cards Grid - compact design */}
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 items-stretch relative z-0">
             {filteredItems.map((item) => (
-              <div key={item.id} className="bg-white/95 dark:bg-gray-900/75 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden h-full flex flex-col">
+              <div key={item.id} className="bg-white/95 dark:bg-[#1a2942]/95 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden h-full flex flex-col">
                 {/* Top image - compact 16:9 aspect */}
-                <div className="w-full aspect-video bg-gradient-to-br from-amber-50 to-orange-50 dark:from-orange-900/20 dark:to-orange-800/20 overflow-hidden">
+                <div className="w-full aspect-video bg-gradient-to-br from-orange-50 to-orange-100 dark:from-[#0f1b2e] dark:to-[#1a2942] overflow-hidden">
                   <img
                     src={getSubjectImage(item.subject)}
                     alt={item.title}
@@ -548,26 +548,26 @@ export default function CurrentAffairsPageContent() {
                 {/* Content */}
                 <div className="p-4 flex-1 flex flex-col">
                   <div className="flex items-start justify-between gap-2 mb-2">
-                    <div className="inline-block px-2.5 py-1 bg-amber-200 dark:bg-orange-900/40 text-gray-900 dark:text-orange-100 rounded-full text-xs font-medium">
+                    <div className="inline-block px-2.5 py-1 bg-orange-100 dark:bg-[#D4AF37]/20 text-gray-900 dark:text-white rounded-full text-xs font-medium">
                       {item.paper}
                     </div>
-                    <div className="text-xs px-2.5 py-1 bg-amber-100 dark:bg-orange-900/30 text-gray-900 dark:text-orange-100 rounded-full whitespace-nowrap">{item.date}</div>
+                    <div className="text-xs px-2.5 py-1 bg-orange-50 dark:bg-[#D4AF37]/20 text-gray-900 dark:text-white rounded-full whitespace-nowrap">{item.date}</div>
                   </div>
 
                   <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white line-clamp-2">
                     <button
                       type="button"
                       onClick={() => openItem(item.id)}
-                      className="ca-title-btn text-left focus:outline-none text-gray-900 dark:text-white hover:text-orange-600 dark:hover:text-orange-300"
+                      className="ca-title-btn text-left focus:outline-none text-gray-900 dark:text-white hover:text-orange-600 dark:hover:text-[#D4AF37]"
                     >{item.title}</button>
                   </h3>
 
-                  <p className="ca-text text-sm text-gray-600 dark:text-gray-200 mb-2 line-clamp-2">{item.summary}</p>
+                  <p className="ca-text text-sm text-gray-600 dark:text-white mb-2 line-clamp-2">{item.summary}</p>
 
                   <div className="flex items-center justify-between gap-2 mb-2">
                     <div className="flex flex-wrap gap-1.5">
                       {item.topics.slice(0, 3).map((topic, index) => (
-                        <span key={index} className="ca-chip px-2 py-0.5 bg-gradient-to-br from-amber-100 to-orange-100 text-gray-800 dark:bg-orange-900/30 dark:text-orange-200 rounded text-xs">
+                        <span key={index} className="ca-chip px-2 py-0.5 bg-gradient-to-br from-orange-50 to-orange-100 text-gray-800 dark:bg-[#D4AF37]/20 dark:text-white rounded text-xs">
                           {topic}
                         </span>
                       ))}
@@ -576,7 +576,7 @@ export default function CurrentAffairsPageContent() {
                     <button
                       type="button"
                       onClick={() => openItem(item.id)}
-                      className="ca-read-btn text-orange-500 dark:text-orange-300 hover:text-orange-600 dark:hover:text-orange-200 font-semibold text-xs flex items-center whitespace-nowrap shrink-0"
+                      className="ca-read-btn text-orange-500 dark:text-[#D4AF37] hover:text-orange-600 dark:hover:text-[#C5A028] font-semibold text-xs flex items-center whitespace-nowrap shrink-0"
                     >
                       Read
                       <svg className="w-3 h-3 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -585,15 +585,15 @@ export default function CurrentAffairsPageContent() {
                     </button>
                   </div>
 
-                  <div className="mt-2 pt-2 border-t border-gray-200 dark:border-gray-600 mt-auto">
-                    <div className="flex items-center justify-between text-xs text-gray-600 dark:text-gray-300">
+                  <div className="mt-2 pt-2 border-t border-gray-200 dark:border-[#D4AF37]/30 mt-auto">
+                    <div className="flex items-center justify-between text-xs text-gray-600 dark:text-white">
                       <div className="flex items-center truncate">
                         <svg className="w-3.5 h-3.5 mr-1.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
                         </svg>
                         <span className="truncate">{item.subject}</span>
                       </div>
-                      <div className="text-xs bg-orange-100 dark:bg-orange-900/40 text-orange-700 dark:text-orange-300 px-2 py-0.5 rounded-full font-medium shrink-0">
+                      <div className="text-xs bg-orange-100 dark:bg-[#D4AF37]/20 text-orange-700 dark:text-white px-2 py-0.5 rounded-full font-medium shrink-0">
                         {activeTab === 'daily' ? 'Daily' : activeTab === 'weekly' ? 'Weekly' : 'Monthly'}
                       </div>
                     </div>
@@ -606,14 +606,14 @@ export default function CurrentAffairsPageContent() {
           {/* No Results Message */}
           {filteredItems.length === 0 && (
             <div className="text-center py-12">
-              <p className="text-gray-600 dark:text-gray-400 text-lg">No articles found matching your filters.</p>
+              <p className="text-gray-600 dark:text-white text-lg">No articles found matching your filters.</p>
               <button
                 onClick={() => {
                   setSelectedSubject('all')
                   setSelectedPaper('all')
                   setSelectedDate(activeTab === 'daily' ? todayStr : 'all')
                 }}
-                className="mt-4 bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-6 rounded-lg transition-colors duration-200"
+                className="mt-4 bg-gradient-to-r from-orange-500 to-orange-600 dark:from-[#D4AF37] dark:to-[#C5A028] hover:from-orange-600 hover:to-orange-700 dark:hover:from-[#C5A028] dark:hover:to-[#B59020] text-white font-semibold py-2 px-6 rounded-lg transition-colors duration-200"
               >
                 Clear Filters
               </button>
@@ -628,13 +628,13 @@ export default function CurrentAffairsPageContent() {
               onClick={closeModal}
             >
               <div
-                className="bg-white dark:bg-gray-800 w-full max-w-3xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] my-auto"
+                className="bg-white dark:bg-[#1a2942] w-full max-w-3xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] my-auto"
                 onClick={(e) => e.stopPropagation()}
                 role="dialog"
                 aria-modal="true"
                 aria-labelledby="ca-modal-title"
               >
-                <div className="relative h-48 bg-gradient-to-br from-amber-50 to-orange-50 dark:from-orange-900/20 dark:to-orange-800/20 overflow-hidden">
+                <div className="relative h-48 bg-gradient-to-br from-amber-50 to-orange-50 dark:from-[#0f1b2e] dark:to-[#1a2942] overflow-hidden">
                   <img
                     src={getSubjectImage(selectedItem.subject)}
                     alt={selectedItem.title}
@@ -643,7 +643,7 @@ export default function CurrentAffairsPageContent() {
                   <button
                     ref={closeButtonRef}
                     onClick={closeModal}
-                    className="absolute top-3 right-3 bg-orange-500 hover:bg-orange-600 text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg"
+                    className="absolute top-3 right-3 bg-orange-500 dark:bg-[#D4AF37] hover:bg-orange-600 dark:hover:bg-[#C5A028] text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg"
                     aria-label="Close"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -655,27 +655,27 @@ export default function CurrentAffairsPageContent() {
                   <div className="flex items-start justify-between mb-4 gap-4">
                     <div>
                       <h2 id="ca-modal-title" className="text-2xl font-bold mb-2 text-gray-900 dark:text-white">{selectedItem.title}</h2>
-                      <div className="flex flex-wrap gap-2 mb-2 text-sm text-gray-600 dark:text-gray-400">
-                        <span className="px-3 py-1 bg-amber-200 dark:bg-orange-900/40 text-gray-900 dark:text-orange-100 rounded-full font-medium">{selectedItem.paper}</span>
-                        <span className="px-3 py-1 bg-amber-100 dark:bg-orange-900/30 text-gray-900 dark:text-orange-100 rounded-full">{selectedItem.date}</span>
-                        <span className="px-3 py-1 bg-amber-100 dark:bg-orange-900/30 text-gray-900 dark:text-orange-100 rounded-full">{selectedItem.subject}</span>
-                        <span className="px-3 py-1 bg-amber-100 dark:bg-orange-900/30 text-gray-900 dark:text-orange-100 rounded-full">{selectedItem.type === 'daily' ? 'Daily CA' : selectedItem.type === 'weekly' ? 'Weekly CA' : selectedItem.issue || 'Monthly'}</span>
+                      <div className="flex flex-wrap gap-2 mb-2 text-sm text-gray-600 dark:text-white">
+                        <span className="px-3 py-1 bg-orange-100 dark:bg-[#D4AF37]/20 text-gray-900 dark:text-white rounded-full font-medium">{selectedItem.paper}</span>
+                        <span className="px-3 py-1 bg-orange-50 dark:bg-[#D4AF37]/20 text-gray-900 dark:text-white rounded-full">{selectedItem.date}</span>
+                        <span className="px-3 py-1 bg-orange-50 dark:bg-[#D4AF37]/20 text-gray-900 dark:text-white rounded-full">{selectedItem.subject}</span>
+                        <span className="px-3 py-1 bg-orange-50 dark:bg-[#D4AF37]/20 text-gray-900 dark:text-white rounded-full">{selectedItem.type === 'daily' ? 'Daily CA' : selectedItem.type === 'weekly' ? 'Weekly CA' : selectedItem.issue || 'Monthly'}</span>
                       </div>
                     </div>
                   </div>
-                  <p className="ca-text text-gray-700 dark:text-gray-300 leading-relaxed mb-6 whitespace-pre-line">{selectedItem.fullContent}</p>
+                  <p className="ca-text text-gray-700 dark:text-white leading-relaxed mb-6 whitespace-pre-line">{selectedItem.fullContent}</p>
                   <div className="mb-6">
-                    <h3 className="text-lg font-semibold mb-3 text-gray-900 dark:text-white">Key Topics</h3>
+                    <h3 className="text-lg font-semibold mb-3 text-gray-900 dark:text-[#D4AF37]">Key Topics</h3>
                     <div className="flex flex-wrap gap-2">
                       {selectedItem.topics.map((t, i) => (
-                        <span key={i} className="px-2 py-1 bg-gradient-to-br from-amber-100 to-orange-100 text-gray-800 rounded text-xs shadow-sm">{t}</span>
+                        <span key={i} className="px-2 py-1 bg-gradient-to-br from-amber-100 to-orange-100 dark:bg-[#D4AF37]/20 text-gray-800 dark:text-white rounded text-xs shadow-sm">{t}</span>
                       ))}
                     </div>
                   </div>
                   <div className="flex justify-end">
                     <button
                       onClick={closeModal}
-                      className="px-5 py-2 rounded-lg bg-orange-500 hover:bg-orange-600 text-white font-semibold shadow"
+                      className="px-5 py-2 rounded-lg bg-gradient-to-r from-orange-500 to-orange-600 dark:from-[#D4AF37] dark:to-[#C5A028] hover:from-orange-600 hover:to-orange-700 dark:hover:from-[#C5A028] dark:hover:to-[#B59020] text-white font-semibold shadow"
                     >Close</button>
                   </div>
                 </div>

@@ -86,41 +86,45 @@ export default function ContactPageContent() {
                 <h2 className="text-3xl sm:text-4xl font-extrabold leading-tight text-[#0a1628] dark:text-white mb-4">
                   We're here to help you <span className="text-orange-600">succeed</span>
                 </h2>
-                <p className="text-gray-600 dark:text-gray-300 text-base leading-relaxed mb-8">
+                <p className="text-gray-600 dark:text-gray-300 text-base leading-relaxed mb-4">
                   Amigos IAS guides aspirants with structured courses, expert mentorship, and comprehensive resources for UPSC. Join thousands of successful candidates.
                 </p>
+                {/* Visit Us block placed between intro and branch cards */}
+                <div className="flex items-start gap-4 mb-6">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900/30 dark:to-orange-800/20 flex items-center justify-center text-orange-600">
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm font-semibold text-gray-900 dark:text-white mb-1">Visit Us</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">Shop No.6, 3rd floor, Near Grover Mithaivala, Bada Bazar Rd, Delhi, 110060</p>
+                  </div>
+                </div>
 
                 {/* Branch Cards */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+                  {/* Hyderabad first for mobile ordering */}
                   <div className="bg-white dark:bg-gray-700/40 backdrop-blur-sm rounded-2xl p-5 border border-orange-100 dark:border-gray-600 hover:border-orange-300 dark:hover:border-orange-500/50 transition-all duration-300 hover:shadow-lg group">
-                    <div className="flex items-center gap-2 mb-2">
-                      <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse" />
-                      <p className="text-sm font-bold text-[#0a1628] dark:text-white">Head Office</p>
-                    </div>
-                    <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">Bada Bazar Rd, Karol Bagh, New Delhi</p>
-                  </div>
-                  <div className="bg-white dark:bg-gray-700/40 backdrop-blur-sm rounded-2xl p-5 border border-orange-100 dark:border-gray-600 hover:border-orange-300 dark:hover:border-orange-500/50 transition-all duration-300 hover:shadow-lg group">
-                    <div className="flex items-center gap-2 mb-2">
+                    <div className="flex items-center gap-2 mb-1">
                       <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse" />
                       <p className="text-sm font-bold text-[#0a1628] dark:text-white">Hyderabad Center</p>
                     </div>
+                    <p className="text-xs font-semibold text-orange-600 mb-1">Visit Us</p>
                     <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">Near SR Nagar, Hyderabad</p>
+                  </div>
+                  <div className="bg-white dark:bg-gray-700/40 backdrop-blur-sm rounded-2xl p-5 border border-orange-100 dark:border-gray-600 hover:border-orange-300 dark:hover:border-orange-500/50 transition-all duration-300 hover:shadow-lg group">
+                    <div className="flex items-center gap-2 mb-1">
+                      <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse" />
+                      <p className="text-sm font-bold text-[#0a1628] dark:text-white">Head Office</p>
+                    </div>
+                    <p className="text-xs font-semibold text-orange-600 mb-1">Visit Us</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">Bada Bazar Rd, Karol Bagh, New Delhi</p>
                   </div>
                 </div>
 
                 {/* Contact Methods */}
                 <div className="space-y-4">
-                  <div className="flex items-start gap-4 group cursor-pointer">
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900/30 dark:to-orange-800/20 flex items-center justify-center text-orange-600 group-hover:scale-110 transition-transform duration-300">
-                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                      </svg>
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-sm font-semibold text-gray-900 dark:text-white mb-1">Visit Us</p>
-                      <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">Shop No.6, 3rd floor, Near Grover Mithaivala, Bada Bazar Rd, Delhi, 110060</p>
-                    </div>
-                  </div>
                   <div className="flex items-start gap-4 group cursor-pointer">
                     <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900/30 dark:to-orange-800/20 flex items-center justify-center text-orange-600 group-hover:scale-110 transition-transform duration-300">
                       <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -206,14 +210,14 @@ export default function ContactPageContent() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">State (Optional)</label>
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">State</label>
                     <input 
                       type="text" 
                       name="state" 
                       value={formData.state} 
                       onChange={handleChange} 
                       className="w-full px-4 py-3.5 rounded-xl bg-gray-50 dark:bg-gray-700/50 border-2 border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all duration-200" 
-                      placeholder="Enter your State" 
+                      placeholder="Enter your state" 
                     />
                   </div>
                   <div>

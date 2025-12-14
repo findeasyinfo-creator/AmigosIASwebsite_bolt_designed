@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Inter, Playfair_Display } from 'next/font/google'
 import './globals.css'
 import { ThemeProvider } from './ThemeProvider'
@@ -19,6 +19,13 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   title: 'Amigos IAS - UPSC Coaching Excellence',
   description: 'Transform Your Dreams into Reality with India\'s Premier IAS Academy',
+}
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
 }
 
 export default function RootLayout({

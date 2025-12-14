@@ -286,186 +286,185 @@ export default function CoursesPageContent() {
         </div>
       </section>
 
-      {/* Course Detail Popup */}
+      {/* Course Detail Popup - Compact & Simple Design */}
       {selectedCourse !== null && (
         <div 
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 bg-black/70 backdrop-blur-sm z-[9999] flex items-center justify-center p-2 sm:p-3 animate-fadeIn"
           onClick={closeCoursePopup}
+          style={{ paddingTop: '80px', paddingBottom: '20px' }}
         >
           <div 
-            className="bg-white dark:bg-gray-800 rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border-2 border-yellow-500 dark:border-yellow-600"
+            className="bg-white dark:bg-gray-900 rounded-xl max-w-2xl w-full shadow-2xl border-2 border-orange-500 animate-slideUp relative"
             onClick={(e) => e.stopPropagation()}
+            style={{ maxHeight: 'calc(100vh - 100px)' }}
           >
-            <div className="sticky top-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-6 flex justify-between items-center">
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Course Details</h3>
-              <button
-                onClick={closeCoursePopup}
-                className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 text-3xl leading-none"
-              >
-                ×
-              </button>
-            </div>
-            {courses.find(c => c.id === selectedCourse) && (
-              <div className="p-6">
-                <div className="flex flex-col md:flex-row gap-6 mb-6">
-                  <div className="flex-shrink-0">
-                    <div className="w-32 h-32 bg-gradient-to-br from-orange-100 to-yellow-100 dark:from-orange-900/30 dark:to-yellow-900/30 rounded-2xl p-6 flex items-center justify-center">
-                      <img 
-                        src={courses.find(c => c.id === selectedCourse)!.icon} 
-                        alt={courses.find(c => c.id === selectedCourse)!.title}
-                        className="w-full h-full object-contain"
-                      />
-                    </div>
+            {/* X Close Button */}
+            <button
+              onClick={closeCoursePopup}
+              className="absolute top-2 right-2 z-20 w-9 h-9 bg-orange-500 hover:bg-orange-600 text-white rounded-full shadow-lg transition-all duration-300 hover:rotate-90 hover:scale-110 flex items-center justify-center"
+              aria-label="Close"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            {/* Scrollable Content */}
+            <div className="overflow-y-auto custom-scrollbar" style={{ maxHeight: 'calc(100vh - 100px)' }}>
+              {/* Compact Header */}
+              <div className="bg-gradient-to-r from-orange-500 to-orange-600 p-4 text-white rounded-t-xl">
+                <div className="flex items-center gap-4">
+                  <div className="w-14 h-14 bg-white/20 rounded-lg p-2.5 flex items-center justify-center flex-shrink-0">
+                    <img 
+                      src={courses.find(c => c.id === selectedCourse)!.icon} 
+                      alt={courses.find(c => c.id === selectedCourse)!.title}
+                      className="w-full h-full object-contain brightness-0 invert"
+                    />
                   </div>
-                  <div className="flex-1">
-                    <h4 className="text-2xl font-bold mb-2 text-gray-900 dark:text-white">
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-lg sm:text-xl font-bold mb-2 leading-tight">
                       {courses.find(c => c.id === selectedCourse)!.title}
-                    </h4>
-                    <div className="flex flex-wrap gap-4 mb-4">
-                      <span className="px-3 py-1 bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 rounded-full text-sm font-medium">
-                        {courses.find(c => c.id === selectedCourse)!.duration}
+                    </h3>
+                    <div className="flex flex-wrap gap-2 text-xs">
+                      <span className="px-2.5 py-1 bg-white/20 rounded-full font-medium">
+                        ⏱ {courses.find(c => c.id === selectedCourse)!.duration}
                       </span>
-                      <span className="px-3 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 rounded-full text-sm font-semibold border border-yellow-500 dark:border-yellow-600">
-                        Online/Offline
+                      <span className="px-2.5 py-1 bg-white/20 rounded-full font-medium">
+                        📅 {courses.find(c => c.id === selectedCourse)!.startDate}
+                      </span>
+                      <span className="px-2.5 py-1 bg-white rounded-full text-orange-600 font-bold">
+                        💰 {courses.find(c => c.id === selectedCourse)!.fees}
                       </span>
                     </div>
-                    <p className="text-gray-600 dark:text-gray-400 mb-2">
-                      <strong>Start Date:</strong> {courses.find(c => c.id === selectedCourse)!.startDate}
-                    </p>
                   </div>
                 </div>
-                
-                <div className="border-t border-gray-200 dark:border-gray-700 pt-6 mb-6">
-                  <h5 className="text-xl font-semibold mb-3 text-gray-900 dark:text-white">About This Course</h5>
-                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+              </div>
+
+              {/* Main Content */}
+              <div className="p-4 space-y-4">
+                {/* About Section */}
+                <div className="bg-orange-50 dark:bg-orange-900/10 rounded-lg p-4 border-l-4 border-orange-500">
+                  <h5 className="text-base sm:text-lg font-bold mb-2 text-gray-900 dark:text-white flex items-center gap-2">
+                    <span className="text-lg sm:text-xl">📚</span>
+                    About This Course
+                  </h5>
+                  <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
                     {courses.find(c => c.id === selectedCourse)!.fullDescription}
                   </p>
                 </div>
 
-                <div className="border-t border-gray-200 dark:border-gray-700 pt-6 mb-6">
-                  <h5 className="text-xl font-semibold mb-3 text-gray-900 dark:text-white">What You'll Get</h5>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {/* Features */}
+                <div>
+                  <h5 className="text-base sm:text-lg font-bold mb-3 text-gray-900 dark:text-white flex items-center gap-2">
+                    <span className="text-lg sm:text-xl">✅</span>
+                    What You'll Get
+                  </h5>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     {courses.find(c => c.id === selectedCourse)!.features.map((feature, index) => (
-                      <div key={index} className="flex items-start text-gray-700 dark:text-gray-300">
-                        <svg
-                          className="w-5 h-5 text-orange-500 mr-2 flex-shrink-0 mt-0.5"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M5 13l4 4L19 7"
-                          />
-                        </svg>
-                        {feature}
+                      <div key={index} className="flex items-start bg-gray-50 dark:bg-gray-800/50 rounded-md p-2.5 text-sm">
+                        <span className="text-orange-500 mr-2 flex-shrink-0 font-bold">✓</span>
+                        <span className="text-gray-800 dark:text-gray-200">{feature}</span>
                       </div>
                     ))}
                   </div>
                 </div>
 
-                <div className="border-t border-gray-200 dark:border-gray-700 pt-6 mb-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <h5 className="text-xl font-semibold text-gray-900 dark:text-white">Payment Information</h5>
-                    <span className="text-3xl font-bold text-orange-600 dark:text-orange-400">
-                      {courses.find(c => c.id === selectedCourse)!.fees}
-                    </span>
-                  </div>
+                {/* Payment Section */}
+                <div className="bg-purple-50 dark:bg-purple-900/10 rounded-lg p-4 border border-purple-300 dark:border-purple-700/30">
+                  <h5 className="text-base sm:text-lg font-bold mb-3 text-gray-900 dark:text-white flex items-center gap-2">
+                    <span className="text-lg sm:text-xl">💳</span>
+                    Payment Information
+                  </h5>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {/* Bank Details */}
-                    <div className="bg-gradient-to-br from-orange-50 to-yellow-50 dark:from-gray-700 dark:to-gray-600 p-5 rounded-xl border-2 border-orange-200 dark:border-orange-800">
-                      <h6 className="font-semibold text-lg mb-3 text-gray-900 dark:text-white flex items-center">
-                        <svg className="w-5 h-5 mr-2 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
-                          <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z"/>
-                          <path fillRule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clipRule="evenodd"/>
-                        </svg>
-                        Bank Details
+                    <div className="bg-white dark:bg-gray-800/30 p-3 rounded-lg border border-orange-200 dark:border-orange-700/30">
+                      <h6 className="font-bold text-sm mb-2 text-gray-900 dark:text-white flex items-center gap-1.5">
+                        <span>🏦</span>
+                        Bank Transfer
                       </h6>
-                      <div className="space-y-2 text-sm">
-                        <div>
-                          <span className="font-semibold text-gray-700 dark:text-gray-300">Account Name:</span>
-                          <p className="text-gray-900 dark:text-white">{courses.find(c => c.id === selectedCourse)!.bankDetails.accountName}</p>
+                      <div className="space-y-2 text-xs">
+                        <div className="bg-orange-50 dark:bg-gray-700/30 p-2 rounded">
+                          <span className="text-gray-600 dark:text-gray-400 block text-[10px] mb-0.5">Account Name</span>
+                          <p className="text-gray-900 dark:text-white font-medium">{courses.find(c => c.id === selectedCourse)!.bankDetails.accountName}</p>
                         </div>
-                        <div>
-                          <span className="font-semibold text-gray-700 dark:text-gray-300">Account Number:</span>
-                          <p className="text-gray-900 dark:text-white font-mono">{courses.find(c => c.id === selectedCourse)!.bankDetails.accountNumber}</p>
+                        <div className="bg-orange-50 dark:bg-gray-700/30 p-2 rounded">
+                          <span className="text-gray-600 dark:text-gray-400 block text-[10px] mb-0.5">Account Number</span>
+                          <p className="text-gray-900 dark:text-white font-mono font-bold">{courses.find(c => c.id === selectedCourse)!.bankDetails.accountNumber}</p>
                         </div>
-                        <div>
-                          <span className="font-semibold text-gray-700 dark:text-gray-300">IFSC Code:</span>
-                          <p className="text-gray-900 dark:text-white font-mono">{courses.find(c => c.id === selectedCourse)!.bankDetails.ifsc}</p>
+                        <div className="bg-orange-50 dark:bg-gray-700/30 p-2 rounded">
+                          <span className="text-gray-600 dark:text-gray-400 block text-[10px] mb-0.5">IFSC Code</span>
+                          <p className="text-gray-900 dark:text-white font-mono font-bold">{courses.find(c => c.id === selectedCourse)!.bankDetails.ifsc}</p>
                         </div>
-                        <div>
-                          <span className="font-semibold text-gray-700 dark:text-gray-300">Bank Name:</span>
-                          <p className="text-gray-900 dark:text-white">{courses.find(c => c.id === selectedCourse)!.bankDetails.bankName}</p>
-                        </div>
-                        <div>
-                          <span className="font-semibold text-gray-700 dark:text-gray-300">Branch:</span>
-                          <p className="text-gray-900 dark:text-white">{courses.find(c => c.id === selectedCourse)!.bankDetails.branch}</p>
+                        <div className="bg-orange-50 dark:bg-gray-700/30 p-2 rounded">
+                          <span className="text-gray-600 dark:text-gray-400 block text-[10px] mb-0.5">Bank & Branch</span>
+                          <p className="text-gray-900 dark:text-white font-medium">{courses.find(c => c.id === selectedCourse)!.bankDetails.bankName}, {courses.find(c => c.id === selectedCourse)!.bankDetails.branch}</p>
                         </div>
                       </div>
                     </div>
 
                     {/* UPI Payment */}
-                    <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-gray-700 dark:to-gray-600 p-5 rounded-xl border-2 border-purple-200 dark:border-purple-800">
-                      <h6 className="font-semibold text-lg mb-3 text-gray-900 dark:text-white flex items-center">
-                        <svg className="w-5 h-5 mr-2 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
-                          <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/>
-                        </svg>
+                    <div className="bg-white dark:bg-gray-800/30 p-3 rounded-lg border border-purple-200 dark:border-purple-700/30">
+                      <h6 className="font-bold text-sm mb-2 text-gray-900 dark:text-white flex items-center gap-1.5">
+                        <span>📱</span>
                         UPI Payment
                       </h6>
                       <div className="text-center">
-                        <div className="bg-white p-3 rounded-lg inline-block mb-3 shadow-md">
+                        <div className="bg-gradient-to-br from-purple-100 to-pink-100 dark:from-gray-700/30 dark:to-gray-600/30 p-2 rounded-lg inline-block mb-2">
                           <img 
                             src={courses.find(c => c.id === selectedCourse)!.bankDetails.qrCode}
                             alt="UPI QR Code"
-                            className="w-40 h-40"
+                            className="w-24 h-24 rounded"
                           />
                         </div>
-                        <div className="text-sm">
-                          <span className="font-semibold text-gray-700 dark:text-gray-300">UPI ID:</span>
-                          <p className="text-gray-900 dark:text-white font-mono text-base mt-1">{courses.find(c => c.id === selectedCourse)!.bankDetails.upiId}</p>
+                        <div className="bg-purple-50 dark:bg-gray-700/30 p-2 rounded">
+                          <span className="text-gray-600 dark:text-gray-400 block text-[10px] mb-0.5">UPI ID</span>
+                          <p className="text-gray-900 dark:text-white font-mono font-bold text-xs">{courses.find(c => c.id === selectedCourse)!.bankDetails.upiId}</p>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* Payment Acknowledgement Note */}
-                  <div className="mt-6 bg-yellow-50 dark:bg-yellow-900/20 border-2 border-yellow-400 dark:border-yellow-600 rounded-lg p-4">
-                    <div className="flex items-start">
-                      <svg className="w-6 h-6 text-yellow-600 dark:text-yellow-400 mr-3 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd"/>
-                      </svg>
+                  {/* Payment Note */}
+                  <div className="mt-3 bg-yellow-50 dark:bg-yellow-900/10 border border-yellow-400 dark:border-yellow-600/30 rounded-lg p-3">
+                    <div className="flex items-start gap-2 text-xs">
+                      <span className="text-yellow-600 dark:text-yellow-400 text-base flex-shrink-0">⚠️</span>
                       <div>
-                        <p className="font-semibold text-yellow-900 dark:text-yellow-100 mb-1">Important:</p>
-                        <p className="text-yellow-800 dark:text-yellow-200 text-sm">
-                          Please send the payment acknowledgement/screenshot to WhatsApp: <span className="font-bold">+91 98765 43210</span> or Email: <span className="font-bold">payments@amigosias.com</span> with your name and course details for confirmation.
+                        <p className="font-bold text-yellow-900 dark:text-yellow-100 mb-1">Payment Confirmation</p>
+                        <p className="text-yellow-800 dark:text-yellow-200">
+                          Send payment screenshot to:
+                          <span className="inline-flex items-center ml-1 bg-white/60 dark:bg-gray-800/30 px-2 py-1 rounded text-[10px]">
+                            <span className="mr-1">📞</span>
+                            <span className="font-bold">+91 98765 43210</span>
+                          </span>
+                          <span className="mx-1">or</span>
+                          <span className="inline-flex items-center bg-white/60 dark:bg-gray-800/30 px-2 py-1 rounded text-[10px]">
+                            <span className="mr-1">✉️</span>
+                            <span className="font-bold">payments@amigosias.com</span>
+                          </span>
                         </p>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <div className="border-t border-gray-200 dark:border-gray-700 pt-6">
-                  <div className="flex flex-col sm:flex-row gap-3">
-                    <Link
-                      href="/contact"
-                      className="flex-1 text-center bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-150"
-                    >
-                      Contact Us for More Info
-                    </Link>
-                    <button
-                      onClick={closeCoursePopup}
-                      className="flex-1 text-center bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-150"
-                    >
-                      Close
-                    </button>
-                  </div>
+                {/* Action Buttons */}
+                <div className="flex gap-3 pt-2">
+                  <Link
+                    href="/contact"
+                    className="flex-1 text-center bg-orange-500 hover:bg-orange-600 text-white font-bold py-2.5 px-4 rounded-lg transition-all text-sm"
+                  >
+                    📧 Contact Us
+                  </Link>
+                  <button
+                    onClick={closeCoursePopup}
+                    className="flex-1 text-center bg-gray-200 hover:bg-gray-300 dark:bg-gray-700/50 dark:hover:bg-gray-600/50 text-gray-800 dark:text-white font-bold py-2.5 px-4 rounded-lg transition-all text-sm"
+                  >
+                    Close
+                  </button>
                 </div>
               </div>
-            )}
+            </div>
           </div>
         </div>
       )}

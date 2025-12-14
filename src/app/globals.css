@@ -19,6 +19,9 @@ html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Ensure proper scaling on all devices and desktop view on mobile */
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
 }
 
 body {
@@ -29,6 +32,20 @@ body {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Prevent overflow issues in desktop view on mobile */
+  min-width: 100%;
+}
+
+/* Ensure all sections respect viewport width */
+* {
+  max-width: 100%;
+}
+
+/* Fix for desktop view on mobile browsers */
+@media (min-width: 769px) {
+  body {
+    min-width: 1024px;
+  }
 }
 
 :root {
@@ -200,6 +217,47 @@ h1, h2, h3, h4, h5, h6 {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Ensure containers don't overflow in desktop view on mobile */
+@media (min-width: 769px) {
+  .container {
+    padding: 0 max(20px, 2vw);
+  }
+}
+
+/* Global responsive fixes for desktop view on mobile */
+@media (min-width: 769px) {
+  /* Ensure proper min-width for desktop view */
+  html, body {
+    min-width: 1024px;
+  }
+  
+  /* Fix any flex or grid layouts that might overflow */
+  section, main, article {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* Ensure images scale properly */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  /* Fix for any absolute positioned elements */
+  [style*="position: absolute"], 
+  [class*="absolute"] {
+    max-width: 100%;
+  }
+}
+
+/* Prevent horizontal scroll on all screen sizes */
+section, main, div, article {
+  overflow-x: clip;
 }
 
 /* Animations */
@@ -226,6 +284,49 @@ h1, h2, h3, h4, h5, h6 {
 @keyframes gradient-shift {
   0%, 100% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.animate-slideUp {
+  animation: slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Custom Scrollbar for Modal */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #FF7A00, #FFB84D);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #FF5722, #FF7A00);
 }
 
 .animate-gradient-shift {

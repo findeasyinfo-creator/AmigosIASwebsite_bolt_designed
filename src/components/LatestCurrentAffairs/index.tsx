@@ -106,7 +106,17 @@ export default function LatestCurrentAffairs() {
     return () => window.removeEventListener('keydown', handleEsc)
   }, [])
 
-  // Inline panel: no body scroll lock needed
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    if (selectedItem) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [selectedItem])
 
   return (
     <section className={styles.caSection} ref={sectionRef}>
@@ -138,56 +148,6 @@ export default function LatestCurrentAffairs() {
                   </button>
                 </div>
               </div>
-              {selectedItem?.id === item.id && (
-                <div 
-                  className={styles.inlinePanel}
-                  ref={(el) => { panelRefs.current[item.id] = el }}
-                >
-                  <div className={styles.inlineHeader}>
-                    <div className={styles.inlineThumb}>
-                      <img src={item.imageUrl} alt={item.title} />
-                    </div>
-                    <button
-                      onClick={() => setSelectedItem(null)}
-                      className={styles.inlineClose}
-                      aria-label="Close"
-                      ref={closeBtnRef}
-                    >
-                      ×
-                    </button>
-                  </div>
-                  <div className={styles.inlineBody}>
-                    <div className={styles.modalMeta}>
-                      <span className={styles.modalPaper}>{item.paper}</span>
-                      <span className={styles.modalDate}>{item.date}</span>
-                      <span className={styles.modalSubject}>{item.subject}</span>
-                    </div>
-                    <h2 className={styles.modalTitle}>{item.title}</h2>
-                    <p className={styles.modalFullContent}>{item.fullContent}</p>
-                    <div className={styles.modalTopics}>
-                      <h3 className={styles.modalTopicsTitle}>Key Topics</h3>
-                      <div className={styles.modalTopicsContainer}>
-                        {item.topics.map((topic, index) => (
-                          <span key={index} className={styles.modalTopic}>
-                            {topic}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                    <div className={styles.modalActions}>
-                      <button
-                        onClick={() => setSelectedItem(null)}
-                        className={styles.modalCloseBtn}
-                      >
-                        Close
-                      </button>
-                      <Link href="/current-affairs" className={styles.modalViewAllBtn}>
-                        View All Current Affairs
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              )}
             </div>
           ))}
         </div>
@@ -199,6 +159,63 @@ export default function LatestCurrentAffairs() {
         </div>
       </div>
 
+      {/* Fullscreen Modal Popup */}
+      {selectedItem && (
+        <div className={styles.modalOverlay} onClick={() => setSelectedItem(null)}>
+          <div className={styles.modalCard} onClick={(e) => e.stopPropagation()}>
+            <button
+              onClick={() => setSelectedItem(null)}
+              className={styles.modalCloseX}
+              aria-label="Close"
+              ref={closeBtnRef}
+            >
+              ×
+            </button>
+            
+            <div className={styles.modalHeader}>
+              <img 
+                src={selectedItem.imageUrl} 
+                alt={selectedItem.title} 
+                className={styles.modalImage}
+              />
+            </div>
+            
+            <div className={styles.modalBody}>
+              <div className={styles.modalMeta}>
+                <span className={styles.modalPaper}>{selectedItem.paper}</span>
+                <span className={styles.modalDate}>{selectedItem.date}</span>
+                <span className={styles.modalSubject}>{selectedItem.subject}</span>
+              </div>
+              
+              <h2 className={styles.modalTitle}>{selectedItem.title}</h2>
+              <p className={styles.modalFullContent}>{selectedItem.fullContent}</p>
+              
+              <div className={styles.modalTopics}>
+                <h3 className={styles.modalTopicsTitle}>Key Topics</h3>
+                <div className={styles.modalTopicsContainer}>
+                  {selectedItem.topics.map((topic, index) => (
+                    <span key={index} className={styles.modalTopic}>
+                      {topic}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              
+              <div className={styles.modalActions}>
+                <button
+                  onClick={() => setSelectedItem(null)}
+                  className={styles.modalCloseBtn}
+                >
+                  Close
+                </button>
+                <Link href="/current-affairs" className={styles.modalViewAllBtn}>
+                  View All Current Affairs
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   )
 }

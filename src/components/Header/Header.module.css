@@ -10,7 +10,10 @@
   border-bottom: 1px solid rgba(255, 122, 0, 0.3);
   transition: all 0.3s ease;
   width: 100%;
+  min-width: 100%;
+  max-width: 100%;
   will-change: transform;
+  overflow: visible;
 }
 
 [data-theme="light"] .header {
@@ -27,6 +30,26 @@
   align-items: center;
   justify-content: space-between;
   gap: 20px;
+}
+
+/* Better spacing for mid-range screens */
+@media (min-width: 769px) and (max-width: 1200px) {
+  .container {
+    padding: 0 20px;
+    gap: 15px;
+  }
+}
+
+/* For smaller desktop views */
+@media (min-width: 769px) and (max-width: 950px) {
+  .container {
+    padding: 0 15px;
+    gap: 12px;
+  }
+  
+  .logoImage {
+    height: 75px;
+  }
 }
 
 .logo {
@@ -53,13 +76,35 @@
 
 .nav {
   display: flex;
-  gap: 28px;
+  gap: 20px;
   flex: 0 1 auto;
   justify-content: flex-end;
   align-items: center;
   max-width: none;
   padding: 0;
   margin-left: auto;
+}
+
+/* Ensure nav wraps better on smaller desktop views */
+@media (min-width: 769px) and (max-width: 1200px) {
+  .nav {
+    gap: 16px;
+  }
+  
+  .nav a, .navLink {
+    font-size: 14px;
+  }
+}
+
+/* For desktop view on mobile (wider than 769px) */
+@media (min-width: 769px) {
+  .nav {
+    display: flex !important;
+  }
+  
+  .menuToggle {
+    display: none !important;
+  }
 }
 
 .navItem {
@@ -221,15 +266,16 @@
   color: #FFD700;
 }
 
+/* Mobile only - hide nav and adjust layout */
 @media (max-width: 768px) {
   .nav {
-    display: none;
+    display: none !important;
   }
   .container {
     padding: 0 12px;
   }
   .logoImage {
-    height: 88px;
+    height: 75px;
     max-width: 360px;
   }
 }
@@ -300,13 +346,27 @@
   margin-left: 0;
 }
 
-@media (max-width: 1024px) {
+/* Adjust header actions for mid-range screens */
+@media (min-width: 769px) and (max-width: 1100px) {
+  .headerActions {
+    gap: 12px;
+  }
+  
   .ctaButton {
-    display: none;
+    padding: 10px 18px;
+    font-size: 13px;
   }
 }
 
-@media (max-width: 640px) {
+@media (min-width: 769px) and (max-width: 950px) {
+  .ctaButton {
+    padding: 10px 14px;
+    font-size: 12px;
+  }
+}
+
+/* Mobile only - hide header actions */
+@media (max-width: 768px) {
   .headerActions {
     display: none;
   }
@@ -319,6 +379,13 @@
   .mobileActions .themeToggleButton {
     flex: 1;
     justify-content: center;
+  }
+}
+
+/* Ensure header actions show in desktop view */
+@media (min-width: 769px) {
+  .headerActions {
+    display: flex !important;
   }
 }
 
@@ -614,9 +681,17 @@
   box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
 }
 
+/* Only show on actual mobile devices */
 @media (max-width: 768px) {
   .menuToggle {
     display: block;
+  }
+}
+
+/* Force hide on desktop view even on mobile browsers */
+@media (min-width: 769px) {
+  .menuToggle {
+    display: none !important;
   }
 }
 
@@ -1096,18 +1171,18 @@
   font-size: 13px;
 }
 
-/* Mobile Responsive */
+/* Mobile Responsive - only for actual mobile devices */
 @media (max-width: 768px) {
   .nav {
-    display: none;
+    display: none !important;
   }
 
   .headerActions {
-    display: none;
+    display: none !important;
   }
 
   .menuToggle {
-    display: block;
+    display: block !important;
   }
 
   .container {
@@ -1116,7 +1191,7 @@
   }
 
   .logoImage {
-    height: 40px;
+    height: 65px;
   }
 }
 
