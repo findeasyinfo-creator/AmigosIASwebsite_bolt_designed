@@ -4,6 +4,8 @@
   color: white;
   border-top: 1px solid rgba(212, 175, 55, 0.15);
   position: relative;
+  width: 100%;
+  margin-top: auto;
   z-index: 1;
 }
 
@@ -175,6 +177,31 @@
 
 [data-theme="light"] .footerBottom a:hover {
   color: #FFE17B;
+}
+
+/* Narrow desktop views (mobile browser desktop mode) */
+@media (min-width: 769px) and (max-width: 900px) {
+  .footerContainer {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .footerLinks {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+  
+  .footerColumn h4 {
+    font-size: 0.95rem;
+  }
+  
+  .footerColumn a {
+    font-size: 0.8rem;
+  }
+  
+  .footerDescription {
+    font-size: 0.85rem;
+  }
 }
 
 /* Mobile Responsive */

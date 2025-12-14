@@ -44,7 +44,18 @@ body {
 /* Fix for desktop view on mobile browsers */
 @media (min-width: 769px) {
   body {
-    min-width: 1024px;
+    min-width: 100%;
+  }
+}
+
+/* Ensure proper layout for narrow desktop views */
+@media (min-width: 769px) and (max-width: 900px) {
+  * {
+    max-width: 100%;
+  }
+
+  section, div {
+    box-sizing: border-box;
   }
 }
 
@@ -148,6 +159,8 @@ body {
     linear-gradient(180deg, #0a1628 0%, #0d1b2e 50%, #0f1f35 100%);
   min-height: 100vh;
   position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Starfield particles for dark theme */
@@ -653,6 +666,22 @@ button:hover, a:hover, [role="button"]:hover {
   .section-divider {
     height: 70px;
   }
+}
+
+/* Narrow desktop views (mobile browser desktop mode) */
+@media (min-width: 769px) and (max-width: 900px) {
+  .section-divider {
+    height: 80px;
+  }
+}
+
+/* Main content wrapper for proper footer positioning */
+main {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
 }
 
 /* Respect reduced motion preferences */

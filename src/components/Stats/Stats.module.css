@@ -431,6 +431,37 @@
 }
 
 /* Responsive */
+/* Narrow desktop views (mobile browser desktop mode) */
+@media (min-width: 769px) and (max-width: 900px) {
+  .statsSection {
+    padding: 2rem 1rem;
+  }
+
+  .statsGrid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    max-width: 900px;
+  }
+
+  .statCard {
+    padding: 1.5rem 1rem;
+  }
+
+  .statIcon {
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+  }
+
+  .statValue {
+    font-size: 2rem;
+  }
+
+  .statLabel {
+    font-size: 0.85rem;
+  }
+}
+
 @media (max-width: 1024px) {
   .statsGrid {
     grid-template-columns: repeat(2, 1fr);
