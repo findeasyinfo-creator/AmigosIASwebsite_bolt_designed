@@ -38,7 +38,7 @@ export default function Hero() {
   }, [isTransitioning])
 
   return (
-    <section className={styles.heroSection}>
+    <section className={`${styles.heroSection} hero-section`}>
       {/* Navigation Arrows - Positioned at screen edges */}
       <button 
         className={`${styles.navButton} ${styles.prevButton}`}

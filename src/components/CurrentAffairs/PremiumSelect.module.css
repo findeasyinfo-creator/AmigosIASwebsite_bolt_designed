@@ -15,9 +15,24 @@
   box-shadow:0 10px 24px rgba(255,122,0,0.12);
   backdrop-filter: blur(8px);
 }
+
+/* Dark theme for trigger button */
+:global([data-theme="dark"]) .trigger {
+  background: #1a2942 !important;
+  border: 1px solid rgba(212, 175, 55, 0.5) !important;
+  color: #D4AF37 !important;
+  box-shadow: 0 10px 24px rgba(212, 175, 55, 0.12) !important;
+}
+
 .triggerIcon{
   width:18px; height:18px; color:#ff7a00;
 }
+
+/* Dark theme for trigger icon */
+:global([data-theme="dark"]) .triggerIcon {
+  color: #D4AF37 !important;
+}
+
 .panelPortal{
   border-radius:18px;
   padding:10px;
@@ -26,6 +41,14 @@
   box-shadow:0 20px 40px rgba(255,122,0,0.18), 0 10px 25px rgba(10,22,40,0.12);
   backdrop-filter: blur(8px);
 }
+
+/* Dark theme for dropdown panel */
+:global([data-theme="dark"]) .panelPortal {
+  background: #1a2942 !important;
+  border: 1px solid rgba(212, 175, 55, 0.5) !important;
+  box-shadow: 0 20px 40px rgba(212, 175, 55, 0.18), 0 10px 25px rgba(10, 22, 40, 0.5) !important;
+}
+
 .option{
   display:flex;
   align-items:center;
@@ -37,19 +60,50 @@
   background:linear-gradient(135deg, rgba(255,255,255,0.85), rgba(255,245,235,0.7));
   border:1px solid rgba(255,122,0,0.2);
 }
+
+/* Dark theme for options */
+:global([data-theme="dark"]) .option {
+  background: rgba(45, 62, 92, 0.8) !important;
+  color: #D4AF37 !important;
+  border: 1px solid rgba(212, 175, 55, 0.3) !important;
+}
+
 .option + .option{ margin-top:6px; }
 .option:hover{ box-shadow:0 8px 20px rgba(255,122,0,.15); transform: translateY(-2px); }
+
+:global([data-theme="dark"]) .option:hover {
+  box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3) !important;
+}
+
 .optionActive{
   background:linear-gradient(135deg, #ff7a00, #ff5722);
   color:#fff;
   border-color:transparent;
 }
+
+/* Dark theme for active option */
+:global([data-theme="dark"]) .optionActive {
+  background: linear-gradient(135deg, #D4AF37, #F2C94C) !important;
+  color: #1a2942 !important;
+}
+
 .check{
   color:#ff7a00;
 }
+
+/* Dark theme for check mark */
+:global([data-theme="dark"]) .check {
+  color: #1a2942 !important;
+}
+
 .labelTitle{
   font-weight:700;
   margin-bottom:8px;
+}
+
+/* Dark theme for label */
+:global([data-theme="dark"]) .labelTitle {
+  color: #D4AF37 !important;
 }
 .scroll{
   max-height:260px;

@@ -1,0 +1,41 @@
+.themeButton {
+  padding: 8px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  transition: all 150ms;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* Light theme - Orange gradient */
+html[data-theme="light"] .themeButton,
+:global([data-theme="light"]) .themeButton {
+  background: linear-gradient(135deg, #FF5722 0%, #FF7043 100%) !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 15px rgba(255, 87, 34, 0.3) !important;
+}
+
+html[data-theme="light"] .themeButton:hover,
+:global([data-theme="light"]) .themeButton:hover {
+  background: linear-gradient(135deg, #E64A19 0%, #FF5722 100%) !important;
+  box-shadow: 0 6px 20px rgba(255, 87, 34, 0.4) !important;
+  transform: translateY(-1px);
+}
+
+/* Dark theme - Gold gradient */
+html[data-theme="dark"] .themeButton,
+:global([data-theme="dark"]) .themeButton {
+  background: linear-gradient(135deg, #D4AF37 0%, #F2C94C 100%) !important;
+  color: #1a2942 !important;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3) !important;
+}
+
+html[data-theme="dark"] .themeButton:hover,
+:global([data-theme="dark"]) .themeButton:hover {
+  background: linear-gradient(135deg, #F2C94C 0%, #FFD700 100%) !important;
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4) !important;
+  transform: translateY(-1px);
+}

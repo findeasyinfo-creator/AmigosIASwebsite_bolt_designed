@@ -123,8 +123,8 @@ export default function AboutPageContent() {
             {/* Scrollable Content */}
             <div className="overflow-y-auto custom-scrollbar" style={{ maxHeight: 'calc(100vh - 100px)' }}>
               {/* Header */}
-              <div className="bg-gradient-to-r from-orange-500 to-orange-600 dark:from-[#D4AF37] dark:to-[#B8941F] p-4 text-white rounded-t-xl">
-                <h4 className="text-xl font-bold">Faculty Profile</h4>
+              <div className="bg-gradient-to-r from-orange-500 to-orange-600 dark:from-[#1e3a8a] dark:to-[#3b82f6] p-4 rounded-t-xl">
+                <h4 className="text-xl font-bold text-white">Faculty Profile</h4>
               </div>
               <div className="p-6">
               {selectedFaculty !== null && (
@@ -164,9 +164,9 @@ export default function AboutPageContent() {
 
 function HeroSection() {
   return (
-      <section className="py-16 hero-section">
+      <section className="py-16 hero-section" style={{ overflow: 'visible' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-4xl sm:text-5xl font-bold mb-4 text-gray-900 dark:text-white">About Amigos IAS</h1>
+        <h1 className="text-4xl sm:text-5xl font-bold mb-4 text-gray-900 dark:text-white" style={{ overflow: 'visible', paddingBottom: '8px' }}>About Amigos IAS</h1>
         <p className="text-xl text-gray-700 dark:text-gray-300 max-w-3xl">
           Building excellence in UPSC preparation with dedication, expertise, and proven results
         </p>

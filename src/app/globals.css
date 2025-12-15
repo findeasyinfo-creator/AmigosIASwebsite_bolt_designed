@@ -738,6 +738,13 @@ button:hover, a:hover, [role="button"]:hover {
   overflow: hidden;
 }
 
+/* Hero Section Background for Dark Theme - Navy Blue */
+[data-theme="dark"] .hero-section {
+  background: #1a2942 !important;
+  position: relative;
+  overflow: hidden;
+}
+
 [data-theme="light"] .hero-section::before {
   content: '';
   position: absolute;
@@ -863,14 +870,33 @@ button:hover, a:hover, [role="button"]:hover {
 /* Limit override to `.ca-text` only to avoid removing heading/label bars */
 
 /* Enhanced button styling for light theme */
+/* Orange button styling for light theme */
+html[data-theme="light"] .bg-orange-500,
 [data-theme="light"] .bg-orange-500 {
   background: linear-gradient(135deg, #FF5722 0%, #FF7043 100%) !important;
+  color: #FFFFFF !important;
   box-shadow: 0 4px 15px rgba(255, 87, 34, 0.3) !important;
 }
 
+html[data-theme="light"] .bg-orange-500:hover,
 [data-theme="light"] .bg-orange-500:hover {
   background: linear-gradient(135deg, #E64A19 0%, #FF5722 100%) !important;
   box-shadow: 0 6px 20px rgba(255, 87, 34, 0.4) !important;
+  transform: translateY(-1px);
+}
+
+/* Gold button styling for dark theme */
+html[data-theme="dark"] .bg-orange-500,
+[data-theme="dark"] .bg-orange-500 {
+  background: linear-gradient(135deg, #D4AF37 0%, #F2C94C 100%) !important;
+  color: #1a2942 !important;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3) !important;
+}
+
+html[data-theme="dark"] .bg-orange-500:hover,
+[data-theme="dark"] .bg-orange-500:hover {
+  background: linear-gradient(135deg, #F2C94C 0%, #FFD700 100%) !important;
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4) !important;
   transform: translateY(-1px);
 }
 
@@ -910,6 +936,112 @@ button:hover, a:hover, [role="button"]:hover {
 [data-theme="light"] select:focus {
   border-color: #FF5722 !important;
   box-shadow: 0 0 0 3px rgba(255, 87, 34, 0.1) !important;
+}
+
+/* Enhanced form inputs for dark theme */
+[data-theme="dark"] input,
+[data-theme="dark"] textarea,
+[data-theme="dark"] select {
+  background: #1a2942 !important;
+  border: 2px solid #D4AF37 !important;
+  color: #D4AF37 !important;
+}
+
+[data-theme="dark"] input::placeholder,
+[data-theme="dark"] textarea::placeholder {
+  color: #D4AF37 !important;
+  opacity: 1 !important;
+}
+
+[data-theme="dark"] input::-webkit-input-placeholder,
+[data-theme="dark"] textarea::-webkit-input-placeholder {
+  color: #D4AF37 !important;
+  opacity: 1 !important;
+}
+
+[data-theme="dark"] input::-moz-placeholder,
+[data-theme="dark"] textarea::-moz-placeholder {
+  color: #D4AF37 !important;
+  opacity: 1 !important;
+}
+
+[data-theme="dark"] input:-ms-input-placeholder,
+[data-theme="dark"] textarea:-ms-input-placeholder {
+  color: #D4AF37 !important;
+  opacity: 1 !important;
+}
+
+[data-theme="dark"] input:focus,
+[data-theme="dark"] textarea:focus,
+[data-theme="dark"] select:focus {
+  border-color: #F2C94C !important;
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2) !important;
+}
+
+/* Dark theme button text visibility */
+[data-theme="dark"] button span {
+  color: inherit !important;
+}
+
+/* Ensure Select Date and other placeholder text is visible in dark theme */
+[data-theme="dark"] [type="text"]::placeholder,
+[data-theme="dark"] [type="date"]::placeholder {
+  color: #D4AF37 !important;
+  opacity: 1 !important;
+}
+
+/* Force dark theme text color for date/week/month buttons in current affairs */
+[data-theme="dark"] .current-affairs-section button span {
+  color: #D4AF37 !important;
+}
+
+[data-theme="dark"] .current-affairs-section button svg {
+  color: #D4AF37 !important;
+}
+
+/* Dark theme study materials cards - navy blue to white gradient */
+[data-theme="dark"] .study-card[data-theme-card="study"] {
+  background: linear-gradient(135deg, #1a2942 0%, #2d3e5c 40%, rgba(255,255,255,0.15) 100%) !important;
+  border-color: rgba(212, 175, 55, 0.3) !important;
+}
+
+/* Dark theme styling for main tab buttons - active state */
+[data-theme="dark"] .current-affairs-section .sticky button.group[class*="bg-orange-500"] {
+  background: linear-gradient(135deg, #D4AF37 0%, #F2C94C 100%) !important;
+  color: #000000 !important;
+  border-color: #D4AF37 !important;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3) !important;
+}
+
+[data-theme="dark"] .current-affairs-section .sticky button.group[class*="bg-orange-500"] svg {
+  color: #000000 !important;
+  stroke: #000000 !important;
+}
+
+[data-theme="dark"] .current-affairs-section .sticky button.group[class*="bg-orange-500"] span {
+  color: #000000 !important;
+}
+
+/* Dark theme styling for main tab buttons - inactive state */
+[data-theme="dark"] .current-affairs-section .sticky button.group[class*="bg-white"] {
+  background: rgba(26, 41, 66, 0.8) !important;
+  color: #D4AF37 !important;
+  border-color: rgba(212, 175, 55, 0.3) !important;
+}
+
+[data-theme="dark"] .current-affairs-section .sticky button.group[class*="bg-white"]:hover {
+  background: rgba(26, 41, 66, 0.95) !important;
+  border-color: rgba(212, 175, 55, 0.5) !important;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2) !important;
+}
+
+[data-theme="dark"] .current-affairs-section .sticky button.group[class*="bg-white"] svg {
+  color: #D4AF37 !important;
+  stroke: #D4AF37 !important;
+}
+
+[data-theme="dark"] .current-affairs-section .sticky button.group[class*="bg-white"] span {
+  color: #D4AF37 !important;
 }
 
 /* Modern select dropdown styling */

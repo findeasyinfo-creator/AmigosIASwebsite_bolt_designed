@@ -257,7 +257,7 @@ function LazyStudyCard({ material, index }: { material: { title: string; subject
             <div className="w-full h-full rounded-xl bg-gradient-to-br from-orange-50 to-rose-50 animate-pulse" />
           )}
         </div>
-        <span className="px-2.5 py-1 sm:px-3 sm:py-1 md:px-4 md:py-1.5 bg-[#d4c4b0] text-[#4a4035] dark:bg-[#d4c4b0] dark:text-[#4a4035] rounded-full text-[10px] sm:text-xs font-medium shadow-[0_2px_8px_rgba(0,0,0,0.12)]">
+        <span className="px-2.5 py-1 sm:px-3 sm:py-1 md:px-4 md:py-1.5 bg-[#d4c4b0] text-[#4a4035] dark:bg-[#F2C94C] dark:text-[#1a2942] rounded-full text-[10px] sm:text-xs font-medium shadow-[0_2px_8px_rgba(0,0,0,0.12)]">
           {material.subject}
         </span>
       </div>
@@ -918,37 +918,36 @@ function FacultyColumnsTab({ openColumn }: { openColumn: (column: Column) => voi
   return (
     <div id="faculty-columns" className="space-y-6">
       {columns.map((column, index) => (
-        <div key={index} className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
+        <div key={index} className="bg-white/80 dark:bg-[#1a2942]/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg border dark:border-[#D4AF37]/20">
           <span className="inline-block px-3 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400 rounded-full text-sm font-medium mb-3">
             {column.category}
           </span>
-          <h3 className="text-xl font-semibold mb-3 hover:text-orange-500 transition-colors cursor-pointer">
+          <h3 className="text-xl font-semibold mb-3 text-gray-900 dark:text-white hover:text-orange-500 dark:hover:text-[#F2C94C] transition-colors cursor-pointer">
             {column.title}
           </h3>
-          <div className="flex items-center text-sm text-gray-600 dark:text-gray-400 mb-4">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center text-white font-semibold mr-3">
+          <div className="flex items-center text-sm text-gray-600 dark:text-gray-300 mb-4">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-500 to-red-500 dark:from-[#D4AF37] dark:to-[#F2C94C] flex items-center justify-center text-white dark:text-[#1a2942] font-semibold mr-3">
               {column.author.charAt(0)}
             </div>
             <div>
-              <div className="font-medium">{column.author}</div>
-              <div className="text-xs">{column.date}</div>
+              <div className="font-medium text-gray-900 dark:text-white">{column.author}</div>
+              <div className="text-xs text-gray-600 dark:text-gray-400">{column.date}</div>
             </div>
           </div>
           {column.excerpt && (
-            <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
+            <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
               {column.excerpt}
             </p>
           )}
-          <button
-            type="button"
+          <div
             onClick={() => openColumn(column)}
-            className="text-orange-500 hover:text-orange-600 font-medium text-sm flex items-center transition-colors"
+            className="text-orange-500 dark:text-[#F2C94C] hover:text-orange-600 dark:hover:text-[#FFD700] font-medium text-sm flex items-center transition-colors cursor-pointer"
           >
             Read More
             <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
-          </button>
+          </div>
         </div>
       ))}
     </div>

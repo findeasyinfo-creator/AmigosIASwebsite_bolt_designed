@@ -2,6 +2,7 @@
 import React, { useMemo, useState, useEffect } from 'react'
 import FilterCalendar from '@/components/CurrentAffairs/FilterCalendar'
 import PremiumSelect from '@/components/CurrentAffairs/PremiumSelect'
+import styles from './CurrentAffairsPageContent.module.css'
 
 type CAType = 'daily' | 'weekly' | 'monthly'
 
@@ -254,44 +255,16 @@ export default function CurrentAffairsPageContent() {
 
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null)
   const selectedItem = selectedItemId != null ? items.find(i => i.id === selectedItemId) : null
-  const modalRef = React.useRef<HTMLDivElement>(null)
-  const closeButtonRef = React.useRef<HTMLButtonElement>(null)
 
-  // Open item with scroll to modal and focus
+  // Open item
   const openItem = (itemId: number) => {
     setSelectedItemId(itemId)
-    window.location.hash = `ca-modal-${itemId}`
-    setTimeout(() => {
-      modalRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
-      closeButtonRef.current?.focus()
-    }, 100)
   }
 
   // Close modal
   const closeModal = () => {
     setSelectedItemId(null)
-    if (window.location.hash.startsWith('#ca-modal-')) {
-      window.history.replaceState(null, '', window.location.pathname)
-    }
   }
-
-  // Lock body scroll when modal opens
-  useEffect(() => {
-    if (selectedItemId != null) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = 'unset'
-    }
-  }, [selectedItemId])
-
-  // Close on ESC
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') closeModal()
-    }
-    window.addEventListener('keydown', handler)
-    return () => window.removeEventListener('keydown', handler)
-  }, [])
 
   return (
     <div>
@@ -386,31 +359,18 @@ export default function CurrentAffairsPageContent() {
 
               {activeTab === 'daily' && (
                 <div className="relative">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-white mb-2">Date</label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-[#D4AF37] mb-2">Date</label>
                   <button
                     ref={dateButtonRef}
                     type="button"
-                    className="rounded-xl px-4 py-2.5 border border-orange-200 dark:border-[#D4AF37]/50 bg-white hover:bg-orange-50 dark:bg-[#1a2942] shadow-sm hover:shadow-md text-black dark:text-[#D4AF37] font-semibold transition-all backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30 dark:focus:ring-[#D4AF37]/20 w-full text-left flex items-center justify-between"
+                    className="rounded-xl px-4 py-2.5 border border-orange-200 dark:border-[#D4AF37]/50 bg-white hover:bg-orange-50 dark:bg-[#1a2942] shadow-sm hover:shadow-md font-semibold transition-all backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30 dark:focus:ring-[#D4AF37]/20 w-full text-left flex items-center justify-between"
                     onClick={() => setOpenDate(v => !v)}
                   >
-                    <span className="!text-black dark:text-[#D4AF37]">{selectedDate === 'all' ? 'Select Date' : selectedDate}</span>
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                    <span className="text-gray-900 dark:text-[#D4AF37]">{selectedDate === 'all' ? 'Select Date' : selectedDate}</span>
+                    <svg className="w-4 h-4 text-orange-500 dark:text-[#D4AF37]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                   </button>
                   {openDate && (
                     <div className="mt-2">
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-sm font-medium text-gray-700 dark:text-white">Calendar</span>
-                        <button
-                          type="button"
-                          onClick={() => setOpenDate(false)}
-                          className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors"
-                          aria-label="Close calendar"
-                        >
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                          </svg>
-                        </button>
-                      </div>
                       <FilterCalendar
                         mode="date"
                         value={selectedDate === 'all' ? '' : selectedDate}
@@ -426,38 +386,25 @@ export default function CurrentAffairsPageContent() {
                     <button
                       type="button"
                       onClick={() => setSelectedDate('all')}
-                      className="px-3 py-2 rounded-xl bg-gradient-to-r from-orange-400 via-orange-500 to-orange-400 text-white hover:from-orange-500 hover:via-orange-600 hover:to-orange-500 text-xs font-semibold transition-all shadow-sm hover:shadow-md whitespace-nowrap dark:bg-[#D4AF37] dark:text-[#1a2942] dark:hover:bg-[#C5A028]"
+                      className={styles.themeButton}
                     >All Dates</button>
                   </div>
                 </div>
               )}
               {activeTab === 'weekly' && (
                 <div className="relative">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-white mb-2">Week</label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-[#D4AF37] mb-2">Week</label>
                   <button
                     ref={weekButtonRef}
                     type="button"
-                    className="rounded-xl px-4 py-2.5 border border-orange-200 dark:border-[#D4AF37]/50 bg-white hover:bg-orange-50 dark:bg-[#1a2942] shadow-sm hover:shadow-md text-black dark:text-[#D4AF37] font-semibold transition-all backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30 dark:focus:ring-[#D4AF37]/20 w-full text-left flex items-center justify-between"
+                    className="rounded-xl px-4 py-2.5 border border-orange-200 dark:border-[#D4AF37]/50 bg-white hover:bg-orange-50 dark:bg-[#1a2942] shadow-sm hover:shadow-md font-semibold transition-all backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30 dark:focus:ring-[#D4AF37]/20 w-full text-left flex items-center justify-between"
                     onClick={() => setOpenWeek(v => !v)}
                   >
-                    <span className="!text-black dark:text-[#D4AF37]">{selectedWeek || 'Select Week'}</span>
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                    <span className="text-gray-900 dark:text-[#D4AF37]">{selectedWeek || 'Select Week'}</span>
+                    <svg className="w-4 h-4 text-orange-500 dark:text-[#D4AF37]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                   </button>
                   {openWeek && (
                     <div className="mt-2">
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-sm font-medium text-gray-700 dark:text-white">Calendar</span>
-                        <button
-                          type="button"
-                          onClick={() => setOpenWeek(false)}
-                          className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors"
-                          aria-label="Close calendar"
-                        >
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                          </svg>
-                        </button>
-                      </div>
                       <FilterCalendar
                         mode="week"
                         value={selectedWeek}
@@ -473,48 +420,35 @@ export default function CurrentAffairsPageContent() {
                     <button
                       type="button"
                       onClick={() => { setSelectedWeek(''); setWeeklyRange('this-week'); }}
-                      className="px-3 py-2 rounded-xl bg-gradient-to-r from-orange-400 via-orange-500 to-orange-400 text-white hover:from-orange-500 hover:via-orange-600 hover:to-orange-500 text-xs font-semibold transition-all shadow-sm hover:shadow-md whitespace-nowrap dark:bg-[#D4AF37] dark:text-[#1a2942] dark:hover:bg-[#C5A028]"
+                      className={styles.themeButton}
                     >This Week</button>
                     <button
                       type="button"
                       onClick={() => { setSelectedWeek(''); setWeeklyRange('last-week'); }}
-                      className="px-3 py-2 rounded-xl bg-gradient-to-r from-orange-400 via-orange-500 to-orange-400 text-white hover:from-orange-500 hover:via-orange-600 hover:to-orange-500 text-xs font-semibold transition-all shadow-sm hover:shadow-md whitespace-nowrap dark:bg-[#D4AF37] dark:text-[#1a2942] dark:hover:bg-[#C5A028]"
+                      className={styles.themeButton}
                     >Last Week</button>
                     <button
                       type="button"
                       onClick={() => { setSelectedWeek(''); setWeeklyRange('all'); }}
-                      className="px-3 py-2 rounded-xl bg-gradient-to-r from-orange-400 via-orange-500 to-orange-400 text-white hover:from-orange-500 hover:via-orange-600 hover:to-orange-500 text-xs font-semibold transition-all shadow-sm hover:shadow-md whitespace-nowrap dark:bg-[#D4AF37] dark:text-[#1a2942] dark:hover:bg-[#C5A028]"
+                      className={styles.themeButton}
                     >All Weeks</button>
                   </div>
                 </div>
               )}
               {activeTab === 'monthly' && (
                 <div className="relative">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-white mb-2">Month</label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-[#D4AF37] mb-2">Month</label>
                   <button
                     ref={monthButtonRef}
                     type="button"
-                    className="rounded-xl px-4 py-2.5 border border-orange-200 dark:border-[#D4AF37]/50 bg-white hover:bg-orange-50 dark:bg-[#1a2942] shadow-sm hover:shadow-md text-black dark:text-[#D4AF37] font-semibold transition-all backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30 dark:focus:ring-[#D4AF37]/20 w-full text-left flex items-center justify-between"
+                    className="rounded-xl px-4 py-2.5 border border-orange-200 dark:border-[#D4AF37]/50 bg-white hover:bg-orange-50 dark:bg-[#1a2942] shadow-sm hover:shadow-md font-semibold transition-all backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30 dark:focus:ring-[#D4AF37]/20 w-full text-left flex items-center justify-between"
                     onClick={() => setOpenMonth(v => !v)}
                   >
-                    <span className="!text-black dark:text-[#D4AF37]">{selectedMonth || 'Select Month'}</span>
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                    <span className="text-gray-900 dark:text-[#D4AF37]">{selectedMonth || 'Select Month'}</span>
+                    <svg className="w-4 h-4 text-orange-500 dark:text-[#D4AF37]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                   </button>
                   {openMonth && (
                     <div className="mt-2">
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-sm font-medium text-gray-700 dark:text-white">Calendar</span>
-                        <button
-                          type="button"
-                          onClick={() => setOpenMonth(false)}
-                          className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors"
-                          aria-label="Close calendar"
-                        >
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                          </svg>
-                        </button>
-                      </div>
                       <FilterCalendar
                         mode="month"
                         value={selectedMonth}
@@ -530,17 +464,17 @@ export default function CurrentAffairsPageContent() {
                     <button
                       type="button"
                       onClick={() => { setSelectedMonth(''); setMonthlyRange('this-month'); }}
-                      className="px-3 py-2 rounded-xl bg-orange-500 text-white hover:bg-orange-600 text-xs font-semibold transition-all shadow-sm hover:shadow-md whitespace-nowrap dark:bg-[#D4AF37] dark:text-[#1a2942] dark:hover:bg-[#C5A028]"
+                      className={styles.themeButton}
                     >This Month</button>
                     <button
                       type="button"
                       onClick={() => { setSelectedMonth(''); setMonthlyRange('last-month'); }}
-                      className="px-3 py-2 rounded-xl bg-orange-500 text-white hover:bg-orange-600 text-xs font-semibold transition-all shadow-sm hover:shadow-md whitespace-nowrap dark:bg-[#D4AF37] dark:text-[#1a2942] dark:hover:bg-[#C5A028]"
+                      className={styles.themeButton}
                     >Last Month</button>
                     <button
                       type="button"
                       onClick={() => { setSelectedMonth(''); setMonthlyRange('all'); }}
-                      className="px-3 py-2 rounded-xl bg-orange-500 text-white hover:bg-orange-600 text-xs font-semibold transition-all shadow-sm hover:shadow-md whitespace-nowrap dark:bg-[#D4AF37] dark:text-[#1a2942] dark:hover:bg-[#C5A028]"
+                      className={styles.themeButton}
                     >All Months</button>
                   </div>
                 </div>
@@ -657,71 +591,107 @@ export default function CurrentAffairsPageContent() {
               </button>
             </div>
           )}
+        </div>
+      </section>
 
-          {/* Modal Popup */}
-          {selectedItem && (
-            <div
-              ref={modalRef}
-              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto"
+      {/* Modal Popup */}
+      {selectedItem && (
+        <div 
+          className="fixed inset-0 bg-black/70 backdrop-blur-sm z-[9999] flex items-center justify-center p-2 sm:p-3 animate-fadeIn"
+          onClick={closeModal}
+          style={{ paddingTop: '80px', paddingBottom: '20px' }}
+        >
+          <div 
+            className="bg-white dark:bg-gray-900 rounded-xl max-w-3xl w-full shadow-2xl border-2 border-orange-500 dark:border-[#D4AF37] animate-slideUp relative"
+            onClick={(e) => e.stopPropagation()}
+            style={{ maxHeight: 'calc(100vh - 100px)' }}
+          >
+            {/* X Close Button */}
+            <button
               onClick={closeModal}
+              className="absolute top-2 right-2 z-20 w-9 h-9 bg-orange-500 dark:bg-[#D4AF37] hover:bg-orange-600 dark:hover:bg-[#F2C94C] text-white rounded-full shadow-lg transition-all duration-300 hover:rotate-90 hover:scale-110 flex items-center justify-center"
+              aria-label="Close"
             >
-              <div
-                className="bg-white dark:bg-[#1a2942] w-full max-w-3xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] my-auto"
-                onClick={(e) => e.stopPropagation()}
-                role="dialog"
-                aria-modal="true"
-                aria-labelledby="ca-modal-title"
-              >
-                <div className="relative h-48 bg-gradient-to-br from-amber-50 to-orange-50 dark:from-[#0f1b2e] dark:to-[#1a2942] overflow-hidden">
-                  <img
-                    src={getSubjectImage(selectedItem.subject)}
-                    alt={selectedItem.title}
-                    className="w-full h-full object-cover"
-                  />
-                  <button
-                    ref={closeButtonRef}
-                    onClick={closeModal}
-                    className="absolute top-3 right-3 bg-orange-500 dark:bg-[#D4AF37] hover:bg-orange-600 dark:hover:bg-[#C5A028] text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg"
-                    aria-label="Close"
-                  >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </button>
+              <svg className="w-5 h-5 text-white dark:text-[#0a1628]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            {/* Scrollable Content */}
+            <div className="overflow-y-auto custom-scrollbar" style={{ maxHeight: 'calc(100vh - 100px)' }}>
+              {/* Compact Header */}
+              <div className="bg-gradient-to-r from-orange-500 to-orange-600 dark:from-[#D4AF37] dark:to-[#F2C94C] p-4 text-white dark:text-[#1a2942] rounded-t-xl">
+                <h2 id="ca-modal-title" className="text-lg sm:text-xl font-bold mb-2 leading-tight">{selectedItem.title}</h2>
+                <div className="flex flex-wrap gap-2 text-xs">
+                  <span className="px-2.5 py-1 bg-white/20 dark:bg-[#1a2942]/30 rounded-full font-medium">
+                    📄 {selectedItem.paper}
+                  </span>
+                  <span className="px-2.5 py-1 bg-white/20 dark:bg-[#1a2942]/30 rounded-full font-medium">
+                    📅 {selectedItem.date}
+                  </span>
+                  <span className="px-2.5 py-1 bg-white/20 dark:bg-[#1a2942]/30 rounded-full font-medium">
+                    📚 {selectedItem.subject}
+                  </span>
+                  <span className="px-2.5 py-1 bg-white dark:bg-[#1a2942] rounded-full text-orange-600 dark:text-[#D4AF37] font-bold">
+                    {selectedItem.type === 'daily' ? '📰 Daily CA' : selectedItem.type === 'weekly' ? '📅 Weekly CA' : selectedItem.issue || '📖 Monthly'}
+                  </span>
                 </div>
-                <div className="p-6 overflow-y-auto">
-                  <div className="flex items-start justify-between mb-4 gap-4">
-                    <div>
-                      <h2 id="ca-modal-title" className="text-2xl font-bold mb-2 text-gray-900 dark:text-white">{selectedItem.title}</h2>
-                      <div className="flex flex-wrap gap-2 mb-2 text-sm text-gray-600 dark:text-white">
-                        <span className="px-3 py-1 bg-orange-100 dark:bg-[#D4AF37]/20 text-gray-900 dark:text-white rounded-full font-medium">{selectedItem.paper}</span>
-                        <span className="px-3 py-1 bg-orange-50 dark:bg-[#D4AF37]/20 text-gray-900 dark:text-white rounded-full">{selectedItem.date}</span>
-                        <span className="px-3 py-1 bg-orange-50 dark:bg-[#D4AF37]/20 text-gray-900 dark:text-white rounded-full">{selectedItem.subject}</span>
-                        <span className="px-3 py-1 bg-orange-50 dark:bg-[#D4AF37]/20 text-gray-900 dark:text-white rounded-full">{selectedItem.type === 'daily' ? 'Daily CA' : selectedItem.type === 'weekly' ? 'Weekly CA' : selectedItem.issue || 'Monthly'}</span>
+              </div>
+
+              {/* Main Content */}
+              <div className="p-4 space-y-4">
+                {/* Summary Section */}
+                <div className="bg-orange-50 dark:bg-orange-900/10 rounded-lg p-4 border-l-4 border-orange-500 dark:border-[#D4AF37]">
+                  <h5 className="text-base sm:text-lg font-bold mb-2 text-gray-900 dark:text-[#F2C94C] flex items-center gap-2">
+                    <span className="text-lg sm:text-xl">📋</span>
+                    Summary
+                  </h5>
+                  <p className="text-gray-700 dark:text-gray-100 text-sm leading-relaxed">
+                    {selectedItem.summary}
+                  </p>
+                </div>
+
+                {/* Full Content Section */}
+                <div className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-4">
+                  <h5 className="text-base sm:text-lg font-bold mb-2 text-gray-900 dark:text-[#F2C94C] flex items-center gap-2">
+                    <span className="text-lg sm:text-xl">📖</span>
+                    Detailed Analysis
+                  </h5>
+                  <p className="text-gray-700 dark:text-gray-100 text-sm leading-relaxed whitespace-pre-line">
+                    {selectedItem.fullContent}
+                  </p>
+                </div>
+
+                {/* Key Topics */}
+                <div>
+                  <h5 className="text-base sm:text-lg font-bold mb-3 text-gray-900 dark:text-[#F2C94C] flex items-center gap-2">
+                    <span className="text-lg sm:text-xl">🔑</span>
+                    Key Topics
+                  </h5>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {selectedItem.topics.map((topic, index) => (
+                      <div key={index} className="flex items-start bg-gray-50 dark:bg-gray-800/50 rounded-md p-2.5 text-sm">
+                        <span className="text-orange-500 dark:text-[#F2C94C] mr-2 flex-shrink-0 font-bold">✓</span>
+                        <span className="text-gray-800 dark:text-white">{topic}</span>
                       </div>
-                    </div>
+                    ))}
                   </div>
-                  <p className="ca-text text-gray-700 dark:text-white leading-relaxed mb-6 whitespace-pre-line">{selectedItem.fullContent}</p>
-                  <div className="mb-6">
-                    <h3 className="text-lg font-semibold mb-3 text-gray-900 dark:text-[#D4AF37]">Key Topics</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {selectedItem.topics.map((t, i) => (
-                        <span key={i} className="px-2 py-1 bg-gradient-to-br from-amber-100 to-orange-100 dark:bg-[#D4AF37]/20 text-gray-800 dark:text-white rounded text-xs shadow-sm">{t}</span>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="flex justify-end">
-                    <button
-                      onClick={closeModal}
-                      className="px-5 py-2 rounded-lg bg-gradient-to-r from-orange-500 to-orange-600 dark:from-[#D4AF37] dark:to-[#C5A028] hover:from-orange-600 hover:to-orange-700 dark:hover:from-[#C5A028] dark:hover:to-[#B59020] text-white font-semibold shadow"
-                    >Close</button>
-                  </div>
+                </div>
+
+                {/* Close Button */}
+                <div className="flex justify-end pt-2">
+                  <button
+                    onClick={closeModal}
+                    className="px-5 py-2.5 rounded-lg bg-gradient-to-r from-orange-500 to-orange-600 dark:from-[#D4AF37] dark:to-[#F2C94C] hover:from-orange-600 hover:to-orange-700 dark:hover:from-[#F2C94C] dark:hover:to-[#FFD700] text-white dark:text-[#1a2942] font-semibold shadow-lg transition-all duration-300 hover:scale-105"
+                  >
+                    Close
+                  </button>
                 </div>
               </div>
             </div>
-          )}
+          </div>
         </div>
-      </section>
+      )}
     </div>
   );
 }
