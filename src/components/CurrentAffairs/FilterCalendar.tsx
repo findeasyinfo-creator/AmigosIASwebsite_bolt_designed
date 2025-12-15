@@ -217,7 +217,7 @@ export default function FilterCalendar({mode, value, onChange, title, open = tru
               placeholder="Month (1-12)"
               min="1"
               max="12"
-              style={{flex: '0 0 45%'}}
+              style={{flex: '1 1 0'}}
             />
             <input 
               type="number" 
@@ -227,7 +227,7 @@ export default function FilterCalendar({mode, value, onChange, title, open = tru
               placeholder="Year"
               min="2000"
               max="2100"
-              style={{flex: '0 0 45%'}}
+              style={{flex: '1 1 0'}}
             />
             <button 
               className={styles.addBtn} 
@@ -271,7 +271,7 @@ export default function FilterCalendar({mode, value, onChange, title, open = tru
               placeholder="Month (1-12)"
               min="1"
               max="12"
-              style={{flex: '0 0 45%'}}
+              style={{flex: '1 1 0'}}
             />
             <input 
               type="number" 
@@ -281,7 +281,7 @@ export default function FilterCalendar({mode, value, onChange, title, open = tru
               placeholder="Year"
               min="2000"
               max="2100"
-              style={{flex: '0 0 45%'}}
+              style={{flex: '1 1 0'}}
             />
             <button 
               className={styles.addBtn} 
@@ -329,7 +329,7 @@ export default function FilterCalendar({mode, value, onChange, title, open = tru
               placeholder="Month (1-12)"
               min="1"
               max="12"
-              style={{flex: '0 0 45%'}}
+              style={{flex: '1 1 0'}}
             />
             <input 
               type="number" 
@@ -339,7 +339,7 @@ export default function FilterCalendar({mode, value, onChange, title, open = tru
               placeholder="Year"
               min="2000"
               max="2100"
-              style={{flex: '0 0 45%'}}
+              style={{flex: '1 1 0'}}
             />
             <button 
               className={styles.addBtn} 

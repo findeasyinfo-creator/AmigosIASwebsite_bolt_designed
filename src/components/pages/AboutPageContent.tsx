@@ -5,6 +5,89 @@ import Link from 'next/link';
 import { useTheme } from '@/app/ThemeProvider';
 
 export default function AboutPageContent() {
+  const [selectedFaculty, setSelectedFaculty] = useState<number | null>(null);
+
+  const faculty = [
+    {
+      name: 'Dr. Rajesh Kumar',
+      subject: 'History & Culture',
+      experience: '15+ Years',
+      qualifications: 'PhD in History, MA History',
+      achievements: 'Mentored 200+ Toppers',
+      image: 'https://randomuser.me/api/portraits/men/46.jpg',
+      fullBio: 'Dr. Rajesh Kumar is a distinguished historian with over 15 years of experience in UPSC coaching. His innovative teaching methods and deep understanding of historical patterns have helped hundreds of students crack the UPSC exam. He has authored multiple books on Indian History and Culture, and his lectures are known for their clarity and comprehensive coverage of the syllabus.',
+    },
+    {
+      name: 'Prof. Anjali Sharma',
+      subject: 'Geography & Environment',
+      experience: '12+ Years',
+      qualifications: 'MA Geography, M.Phil',
+      achievements: 'Published Author',
+      image: 'https://randomuser.me/api/portraits/women/68.jpg',
+      fullBio: 'Prof. Anjali Sharma brings 12 years of expertise in teaching Geography and Environmental Studies. Her approach combines theoretical knowledge with current environmental challenges, making complex concepts easy to understand. She has published several research papers on climate change and sustainable development, which adds immense value to her teaching methodology.',
+    },
+    {
+      name: 'Dr. Amit Verma',
+      subject: 'Polity & Governance',
+      experience: '18+ Years',
+      qualifications: 'PhD in Political Science',
+      achievements: 'Former Civil Servant',
+      image: 'https://randomuser.me/api/portraits/men/54.jpg',
+      fullBio: 'Dr. Amit Verma, a former IAS officer, brings real-world governance experience to the classroom. With 18 years of teaching experience, he provides unique insights into the functioning of Indian polity and administration. His practical approach helps students understand constitutional provisions in the context of contemporary governance challenges.',
+    },
+    {
+      name: 'Ms. Priya Singh',
+      subject: 'Economy & Development',
+      experience: '10+ Years',
+      qualifications: 'MA Economics, NET',
+      achievements: 'Expert in Economic Analysis',
+      image: 'https://randomuser.me/api/portraits/women/44.jpg',
+      fullBio: 'Ms. Priya Singh specializes in Indian Economy and Development issues. Her teaching style simplifies complex economic concepts and relates them to current affairs. With 10 years of experience, she has developed a unique framework for understanding economic policies and their implications, which has been highly appreciated by students.',
+    },
+    {
+      name: 'Dr. Suresh Patel',
+      subject: 'Science & Technology',
+      experience: '14+ Years',
+      qualifications: 'PhD in Physics',
+      achievements: 'Research Publications',
+      image: 'https://randomuser.me/api/portraits/men/32.jpg',
+      fullBio: 'Dr. Suresh Patel is a renowned physicist who has made Science and Technology accessible to UPSC aspirants. His 14 years of teaching experience includes making complex scientific concepts relevant to current affairs and policy-making. His research work in renewable energy and space technology adds contemporary relevance to his teaching.',
+    },
+    {
+      name: 'Prof. Meera Reddy',
+      subject: 'Ethics & Integrity',
+      experience: '11+ Years',
+      qualifications: 'MA Philosophy, M.Phil',
+      achievements: 'Ethics Training Expert',
+      image: 'https://randomuser.me/api/portraits/women/65.jpg',
+      fullBio: 'Prof. Meera Reddy is a specialist in Ethics, Integrity, and Aptitude. With 11 years of experience, she has developed a comprehensive approach to ethics education that goes beyond textbook knowledge. Her case study-based teaching method helps students develop a strong ethical foundation and critical thinking skills essential for civil services.',
+    },
+  ];
+
+  const openFaculty = (index: number) => {
+    setSelectedFaculty(index);
+    document.body.style.overflow = 'hidden';
+  };
+
+  const closeFacultyPopup = () => {
+    setSelectedFaculty(null);
+    document.body.style.overflow = '';
+  };
+
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && selectedFaculty !== null) {
+        closeFacultyPopup();
+      }
+    };
+    
+    window.addEventListener('keydown', handleEscape);
+    return () => {
+      window.removeEventListener('keydown', handleEscape);
+      document.body.style.overflow = '';
+    };
+  }, [selectedFaculty]);
+
   return (
     <div>
       <HeroSection />
@@ -12,7 +95,69 @@ export default function AboutPageContent() {
         <DirectorMessageSection />
         <ChiefAdviserSection />
       </div>
-      <FacultySection />
+      <FacultySection faculty={faculty} openFaculty={openFaculty} />
+      
+      {/* Faculty Detail Popup - At Top Level Like Courses Page */}
+      {selectedFaculty !== null && (
+        <div
+          className="fixed inset-0 bg-black/70 backdrop-blur-sm z-[9999] flex items-center justify-center p-2 sm:p-3 animate-fadeIn"
+          onClick={closeFacultyPopup}
+          style={{ paddingTop: '80px', paddingBottom: '20px' }}
+        >
+          <div 
+            className="bg-white dark:bg-[#1a2942] rounded-xl max-w-2xl w-full shadow-2xl border-2 border-orange-500 dark:border-[#D4AF37] animate-slideUp relative"
+            onClick={(e) => e.stopPropagation()}
+            style={{ maxHeight: 'calc(100vh - 100px)' }}
+          >
+            {/* X Close Button */}
+            <button
+              onClick={closeFacultyPopup}
+              className="absolute top-2 right-2 z-20 w-9 h-9 bg-orange-500 hover:bg-orange-600 text-white rounded-full shadow-lg transition-all duration-300 hover:rotate-90 hover:scale-110 flex items-center justify-center"
+              aria-label="Close"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            {/* Scrollable Content */}
+            <div className="overflow-y-auto custom-scrollbar" style={{ maxHeight: 'calc(100vh - 100px)' }}>
+              {/* Header */}
+              <div className="bg-gradient-to-r from-orange-500 to-orange-600 dark:from-[#D4AF37] dark:to-[#B8941F] p-4 text-white rounded-t-xl">
+                <h4 className="text-xl font-bold">Faculty Profile</h4>
+              </div>
+              <div className="p-6">
+              {selectedFaculty !== null && (
+                <div className="flex flex-col md:flex-row gap-6 mb-6">
+                  <div className="flex-shrink-0">
+                    <img
+                      src={faculty[selectedFaculty].image}
+                      alt={faculty[selectedFaculty].name}
+                      className="w-48 h-48 rounded-lg object-cover shadow-lg"
+                    />
+                  </div>
+                  <div className="flex-1">
+                    <h5 className="text-2xl font-bold mb-2 text-gray-900 dark:text-white">{faculty[selectedFaculty].name}</h5>
+                    <p className="text-lg text-orange-600 dark:text-[#D4AF37] font-semibold mb-3">{faculty[selectedFaculty].subject}</p>
+                    <div className="space-y-2 text-gray-700 dark:text-white">
+                      <p><strong>Experience:</strong> {faculty[selectedFaculty].experience}</p>
+                      <p><strong>Qualifications:</strong> {faculty[selectedFaculty].qualifications}</p>
+                      <p><strong>Achievements:</strong> {faculty[selectedFaculty].achievements}</p>
+                    </div>
+                  </div>
+                </div>
+              )}
+              <div className="border-t border-gray-200 dark:border-gray-700 pt-6">
+                <h6 className="text-xl font-semibold mb-3 text-gray-900 dark:text-[#D4AF37]">About</h6>
+                <p className="text-gray-700 dark:text-white leading-relaxed text-base">
+                  {selectedFaculty !== null ? faculty[selectedFaculty].fullBio : ''}
+                </p>
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -489,94 +634,23 @@ function ChiefAdviserSection() {
   );
 }
 
-function FacultySection() {
-  const [selectedFaculty, setSelectedFaculty] = useState<number | null>(null);
+interface FacultyMember {
+  name: string;
+  subject: string;
+  experience: string;
+  qualifications: string;
+  achievements: string;
+  image: string;
+  fullBio: string;
+}
+
+interface FacultySectionProps {
+  faculty: FacultyMember[];
+  openFaculty: (index: number) => void;
+}
+
+function FacultySection({ faculty, openFaculty }: FacultySectionProps) {
   const sectionRef = useRef<HTMLDivElement | null>(null);
-  const closeBtnRef = useRef<HTMLButtonElement | null>(null);
-  
-  const faculty = [
-    {
-      name: 'Dr. Rajesh Kumar',
-      subject: 'History & Culture',
-      experience: '15+ Years',
-      qualifications: 'PhD in History, MA History',
-      achievements: 'Mentored 200+ Toppers',
-      image: 'https://randomuser.me/api/portraits/men/46.jpg',
-      fullBio: 'Dr. Rajesh Kumar is a distinguished historian with over 15 years of experience in UPSC coaching. His innovative teaching methods and deep understanding of historical patterns have helped hundreds of students crack the UPSC exam. He has authored multiple books on Indian History and Culture, and his lectures are known for their clarity and comprehensive coverage of the syllabus.',
-    },
-    {
-      name: 'Prof. Anjali Sharma',
-      subject: 'Geography & Environment',
-      experience: '12+ Years',
-      qualifications: 'MA Geography, M.Phil',
-      achievements: 'Published Author',
-      image: 'https://randomuser.me/api/portraits/women/68.jpg',
-      fullBio: 'Prof. Anjali Sharma brings 12 years of expertise in teaching Geography and Environmental Studies. Her approach combines theoretical knowledge with current environmental challenges, making complex concepts easy to understand. She has published several research papers on climate change and sustainable development, which adds immense value to her teaching methodology.',
-    },
-    {
-      name: 'Dr. Amit Verma',
-      subject: 'Polity & Governance',
-      experience: '18+ Years',
-      qualifications: 'PhD in Political Science',
-      achievements: 'Former Civil Servant',
-      image: 'https://randomuser.me/api/portraits/men/54.jpg',
-      fullBio: 'Dr. Amit Verma, a former IAS officer, brings real-world governance experience to the classroom. With 18 years of teaching experience, he provides unique insights into the functioning of Indian polity and administration. His practical approach helps students understand constitutional provisions in the context of contemporary governance challenges.',
-    },
-    {
-      name: 'Ms. Priya Singh',
-      subject: 'Economy & Development',
-      experience: '10+ Years',
-      qualifications: 'MA Economics, NET',
-      achievements: 'Expert in Economic Analysis',
-      image: 'https://randomuser.me/api/portraits/women/44.jpg',
-      fullBio: 'Ms. Priya Singh specializes in Indian Economy and Development issues. Her teaching style simplifies complex economic concepts and relates them to current affairs. With 10 years of experience, she has developed a unique framework for understanding economic policies and their implications, which has been highly appreciated by students.',
-    },
-    {
-      name: 'Dr. Suresh Patel',
-      subject: 'Science & Technology',
-      experience: '14+ Years',
-      qualifications: 'PhD in Physics',
-      achievements: 'Research Publications',
-      image: 'https://randomuser.me/api/portraits/men/32.jpg',
-      fullBio: 'Dr. Suresh Patel is a renowned physicist who has made Science and Technology accessible to UPSC aspirants. His 14 years of teaching experience includes making complex scientific concepts relevant to current affairs and policy-making. His research work in renewable energy and space technology adds contemporary relevance to his teaching.',
-    },
-    {
-      name: 'Prof. Meera Reddy',
-      subject: 'Ethics & Integrity',
-      experience: '11+ Years',
-      qualifications: 'MA Philosophy, M.Phil',
-      achievements: 'Ethics Training Expert',
-      image: 'https://randomuser.me/api/portraits/women/65.jpg',
-      fullBio: 'Prof. Meera Reddy is a specialist in Ethics, Integrity, and Aptitude. With 11 years of experience, she has developed a comprehensive approach to ethics education that goes beyond textbook knowledge. Her case study-based teaching method helps students develop a strong ethical foundation and critical thinking skills essential for civil services.',
-    },
-  ];
-
-  const openFaculty = (index: number) => {
-    setSelectedFaculty(index);
-    try {
-      window.location.hash = 'faculty-modal';
-    } catch {}
-    setTimeout(() => {
-      sectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      closeBtnRef.current?.focus();
-    }, 0);
-  };
-
-  const closeFacultyPopup = () => {
-    setSelectedFaculty(null);
-    try {
-      const { pathname, search } = window.location;
-      window.history.replaceState(null, '', `${pathname}${search}`);
-    } catch {}
-  };
-
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') closeFacultyPopup();
-    };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, []);
 
   return (
     <section id="faculty" className="py-16 relative" ref={sectionRef}>
@@ -626,72 +700,6 @@ function FacultySection() {
           ))}
         </div>
       </div>
-
-      {selectedFaculty !== null && (
-        <div
-          className="fixed inset-0 z-40 flex items-center justify-center p-4 overflow-auto"
-          aria-modal="true"
-          role="dialog"
-          id="faculty-modal"
-        >
-          {/* Full viewport backdrop */}
-          <div
-            className="fixed inset-0 bg-black/40 backdrop-blur-sm"
-            onClick={closeFacultyPopup}
-          />
-          {/* Centered popup card with full visibility */}
-          <div className="relative z-50 w-full max-w-2xl my-auto rounded-2xl bg-white dark:bg-[#1a2942] shadow-2xl border border-orange-200 dark:border-[#D4AF37] overflow-hidden flex flex-col">
-            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
-              <h4 className="text-2xl font-bold text-gray-900 dark:text-[#D4AF37]">Faculty Profile</h4>
-              <button
-                onClick={closeFacultyPopup}
-                aria-label="Close"
-                className="text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-100 text-3xl leading-none"
-                ref={closeBtnRef}
-              >
-                ×
-              </button>
-            </div>
-            <div className="p-6">
-              {selectedFaculty !== null && (
-                <div className="flex flex-col md:flex-row gap-6 mb-6">
-                  <div className="flex-shrink-0">
-                    <img
-                      src={faculty[selectedFaculty].image}
-                      alt={faculty[selectedFaculty].name}
-                      className="w-48 h-48 rounded-lg object-cover shadow-lg"
-                    />
-                  </div>
-                  <div className="flex-1">
-                    <h5 className="text-2xl font-bold mb-2 text-gray-900 dark:text-white">{faculty[selectedFaculty].name}</h5>
-                    <p className="text-lg text-orange-600 dark:text-[#D4AF37] font-semibold mb-3">{faculty[selectedFaculty].subject}</p>
-                    <div className="space-y-2 text-gray-700 dark:text-white">
-                      <p><strong>Experience:</strong> {faculty[selectedFaculty].experience}</p>
-                      <p><strong>Qualifications:</strong> {faculty[selectedFaculty].qualifications}</p>
-                      <p><strong>Achievements:</strong> {faculty[selectedFaculty].achievements}</p>
-                    </div>
-                  </div>
-                </div>
-              )}
-              <div className="border-t border-gray-200 dark:border-gray-700 pt-6">
-                <h6 className="text-xl font-semibold mb-3 text-gray-900 dark:text-[#D4AF37]">About</h6>
-                <p className="text-gray-700 dark:text-white leading-relaxed text-base">
-                  {selectedFaculty !== null ? faculty[selectedFaculty].fullBio : ''}
-                </p>
-              </div>
-            </div>
-            <div className="border-t border-gray-200 dark:border-gray-700 px-6 py-4 flex justify-end gap-3 flex-shrink-0 bg-gray-50 dark:bg-[#0f1b2e]">
-              <button
-                onClick={closeFacultyPopup}
-                className="px-6 py-2 rounded-lg border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 font-medium transition-colors"
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
     </section>
   );
 }

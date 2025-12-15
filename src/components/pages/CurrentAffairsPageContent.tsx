@@ -309,9 +309,8 @@ export default function CurrentAffairsPageContent() {
       <section className="py-8 current-affairs-section" data-section="current-affairs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Main tabs - modern segmented pills */}
-          <div className="sticky top-[72px] md:top-[119px] z-50 bg-white/95 dark:bg-[#0f1b2e]/95 backdrop-blur-md -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-3 md:py-5 mb-6 md:mb-8 shadow-md">
-            <div className="max-w-7xl mx-auto">
-              <div className="flex gap-3 overflow-x-auto pb-2">
+          <div className="sticky top-[72px] md:top-[119px] z-50 bg-white/95 dark:bg-[#0f1b2e]/95 backdrop-blur-md py-3 md:py-5 mb-6 md:mb-8 overflow-visible">
+            <div className="flex gap-3 overflow-x-auto overflow-y-visible pb-2 pl-4 sm:pl-6 lg:pl-8">
                 {([
                 { id: 'daily', name: 'Daily CA' },
                 { id: 'weekly', name: 'Weekly CA' },
@@ -328,15 +327,16 @@ export default function CurrentAffairsPageContent() {
                     setSelectedWeek('')
                     setSelectedMonth('')
                   }}
-                  className={`group px-6 py-2.5 rounded-full font-semibold whitespace-nowrap transition-all duration-300 border ${
+                  className={`group px-5 py-2 rounded-full font-semibold whitespace-nowrap transition-all duration-300 border ${
                     activeTab === tab.id
-                      ? 'bg-orange-500 text-white border-orange-500 shadow-lg shadow-orange-500/30 dark:bg-[#D4AF37] dark:text-[#1a2942] dark:border-[#D4AF37] dark:shadow-[#D4AF37]/30'
-                        : 'bg-gradient-to-r from-orange-400 via-orange-500 to-orange-400 text-white border-transparent shadow-lg shadow-orange-500/30 dark:bg-[#D4AF37] dark:text-[#1a2942] dark:border-[#D4AF37] dark:shadow-[#D4AF37]/30'
+                      ? '!bg-orange-500 !text-white !border-orange-500 !rounded-full !shadow-lg shadow-orange-500/30 [&_svg]:!stroke-white [&_svg]:!text-white'
+                        : '!bg-white !text-black !border-gray-300 !rounded-full !shadow-sm hover:!shadow-md'
                   }`}
                 >
+                  
                   <span className="inline-flex items-center gap-2">
                     {tab.id === 'daily' && (
-                      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                      <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                         <rect x="3" y="4" width="18" height="18" rx="2" ry="2" strokeWidth="2"/>
                         <line x1="16" y1="2" x2="16" y2="6" strokeWidth="2" strokeLinecap="round"/>
                         <line x1="8" y1="2" x2="8" y2="6" strokeWidth="2" strokeLinecap="round"/>
@@ -344,13 +344,13 @@ export default function CurrentAffairsPageContent() {
                       </svg>
                     )}
                     {tab.id === 'weekly' && (
-                      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                      <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                         <path strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                         <path strokeWidth="2" d="M9 15h2m2 0h2"/>
                       </svg>
                     )}
                     {tab.id === 'monthly' && (
-                      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                      <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                         <path strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
                       </svg>
                     )}
@@ -358,15 +358,14 @@ export default function CurrentAffairsPageContent() {
                   </span>
                 </button>
               ))}
-              </div>
             </div>
           </div>
 
           {/* Dependent filters - refreshed UI */}
-          <div className="bg-white/80 dark:bg-[#1a2942]/90 backdrop-blur-sm rounded-2xl shadow-lg p-4 md:p-6 mb-6 md:mb-8 relative z-20">
+          <div className="bg-white/80 dark:bg-[#1a2942]/90 backdrop-blur-sm rounded-2xl shadow-lg p-4 md:p-6 mb-6 md:mb-8 relative z-20 overflow-visible">
             <h2 className="text-lg font-semibold mb-4 dark:text-[#D4AF37]">Filters</h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 overflow-visible">
               <div className="relative" style={{zIndex: 30}}>
                 <PremiumSelect
                   label="Subject"
@@ -391,14 +390,27 @@ export default function CurrentAffairsPageContent() {
                   <button
                     ref={dateButtonRef}
                     type="button"
-                    className="rounded-xl px-4 py-2.5 border border-orange-200 dark:border-[#D4AF37]/50 bg-white hover:bg-orange-50 dark:bg-[#1a2942] shadow-sm hover:shadow-md text-orange-600 dark:text-[#D4AF37] font-semibold transition-all backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30 dark:focus:ring-[#D4AF37]/20 w-full text-left flex items-center justify-between"
+                    className="rounded-xl px-4 py-2.5 border border-orange-200 dark:border-[#D4AF37]/50 bg-white hover:bg-orange-50 dark:bg-[#1a2942] shadow-sm hover:shadow-md text-black dark:text-[#D4AF37] font-semibold transition-all backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30 dark:focus:ring-[#D4AF37]/20 w-full text-left flex items-center justify-between"
                     onClick={() => setOpenDate(v => !v)}
                   >
-                    <span>{selectedDate === 'all' ? 'Select Date' : selectedDate}</span>
+                    <span className="!text-black dark:text-[#D4AF37]">{selectedDate === 'all' ? 'Select Date' : selectedDate}</span>
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                   </button>
                   {openDate && (
                     <div className="mt-2">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-sm font-medium text-gray-700 dark:text-white">Calendar</span>
+                        <button
+                          type="button"
+                          onClick={() => setOpenDate(false)}
+                          className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors"
+                          aria-label="Close calendar"
+                        >
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                        </button>
+                      </div>
                       <FilterCalendar
                         mode="date"
                         value={selectedDate === 'all' ? '' : selectedDate}
@@ -410,7 +422,7 @@ export default function CurrentAffairsPageContent() {
                       />
                     </div>
                   )}
-                  <div className="mt-2">
+                  <div className="mt-2 overflow-visible">
                     <button
                       type="button"
                       onClick={() => setSelectedDate('all')}
@@ -425,14 +437,27 @@ export default function CurrentAffairsPageContent() {
                   <button
                     ref={weekButtonRef}
                     type="button"
-                    className="rounded-xl px-4 py-2.5 border border-orange-200 dark:border-[#D4AF37]/50 bg-white hover:bg-orange-50 dark:bg-[#1a2942] shadow-sm hover:shadow-md text-orange-600 dark:text-[#D4AF37] font-semibold transition-all backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30 dark:focus:ring-[#D4AF37]/20 w-full text-left flex items-center justify-between"
+                    className="rounded-xl px-4 py-2.5 border border-orange-200 dark:border-[#D4AF37]/50 bg-white hover:bg-orange-50 dark:bg-[#1a2942] shadow-sm hover:shadow-md text-black dark:text-[#D4AF37] font-semibold transition-all backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30 dark:focus:ring-[#D4AF37]/20 w-full text-left flex items-center justify-between"
                     onClick={() => setOpenWeek(v => !v)}
                   >
-                    <span>{selectedWeek || 'Select Week'}</span>
+                    <span className="!text-black dark:text-[#D4AF37]">{selectedWeek || 'Select Week'}</span>
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                   </button>
                   {openWeek && (
                     <div className="mt-2">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-sm font-medium text-gray-700 dark:text-white">Calendar</span>
+                        <button
+                          type="button"
+                          onClick={() => setOpenWeek(false)}
+                          className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors"
+                          aria-label="Close calendar"
+                        >
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                        </button>
+                      </div>
                       <FilterCalendar
                         mode="week"
                         value={selectedWeek}
@@ -444,7 +469,7 @@ export default function CurrentAffairsPageContent() {
                       />
                     </div>
                   )}
-                  <div className="flex gap-2 mt-2">
+                  <div className="flex gap-2 mt-2 overflow-visible">
                     <button
                       type="button"
                       onClick={() => { setSelectedWeek(''); setWeeklyRange('this-week'); }}
@@ -469,14 +494,27 @@ export default function CurrentAffairsPageContent() {
                   <button
                     ref={monthButtonRef}
                     type="button"
-                    className="rounded-xl px-4 py-2.5 border border-orange-200 dark:border-[#D4AF37]/50 bg-white hover:bg-orange-50 dark:bg-[#1a2942] shadow-sm hover:shadow-md text-orange-600 dark:text-[#D4AF37] font-semibold transition-all backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30 dark:focus:ring-[#D4AF37]/20 w-full text-left flex items-center justify-between"
+                    className="rounded-xl px-4 py-2.5 border border-orange-200 dark:border-[#D4AF37]/50 bg-white hover:bg-orange-50 dark:bg-[#1a2942] shadow-sm hover:shadow-md text-black dark:text-[#D4AF37] font-semibold transition-all backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30 dark:focus:ring-[#D4AF37]/20 w-full text-left flex items-center justify-between"
                     onClick={() => setOpenMonth(v => !v)}
                   >
-                    <span>{selectedMonth || 'Select Month'}</span>
+                    <span className="!text-black dark:text-[#D4AF37]">{selectedMonth || 'Select Month'}</span>
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                   </button>
                   {openMonth && (
                     <div className="mt-2">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-sm font-medium text-gray-700 dark:text-white">Calendar</span>
+                        <button
+                          type="button"
+                          onClick={() => setOpenMonth(false)}
+                          className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors"
+                          aria-label="Close calendar"
+                        >
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                        </button>
+                      </div>
                       <FilterCalendar
                         mode="month"
                         value={selectedMonth}
@@ -488,7 +526,7 @@ export default function CurrentAffairsPageContent() {
                       />
                     </div>
                   )}
-                  <div className="flex gap-2 mt-2">
+                  <div className="flex gap-2 mt-2 overflow-visible">
                     <button
                       type="button"
                       onClick={() => { setSelectedMonth(''); setMonthlyRange('this-month'); }}
@@ -687,3 +725,4 @@ export default function CurrentAffairsPageContent() {
     </div>
   );
 }
+

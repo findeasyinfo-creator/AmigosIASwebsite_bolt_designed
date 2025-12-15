@@ -170,9 +170,9 @@ export default function CoursesPageContent() {
       <section className="py-8 courses-section" data-section="courses">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Category Tabs */}
-          <div className="sticky top-[72px] md:top-[119px] z-30 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-4 mb-8 -mt-2 shadow-md">
-            <div className="max-w-7xl mx-auto overflow-x-auto">
-              <div className="flex space-x-2 pb-2">
+          <div className="sticky top-[72px] md:top-[119px] z-30 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md py-4 mb-8 -mt-2 shadow-md overflow-visible">
+            <div className="w-full overflow-x-auto overflow-y-visible px-4 sm:px-6 lg:px-8">
+              <div className="flex space-x-2 pb-2 min-w-max overflow-visible">
                 {categories.map((category) => (
                 <button
                   key={category.id}

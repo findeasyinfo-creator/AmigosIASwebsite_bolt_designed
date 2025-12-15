@@ -1,5 +1,26 @@
 'use client'
-import React, { useState, useEffect, useLayoutEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+
+// Shared types for resources items
+type Article = {
+  title: string;
+  author: string;
+  date: string;
+  readTime: string;
+  category: string;
+  excerpt?: string;
+  content: string;
+};
+
+type Column = {
+  title: string;
+  author: string;
+  date: string;
+  category: string;
+  excerpt?: string;
+  content: string;
+  topics?: string[];
+};
 import Link from 'next/link';
 import CommunityForum from '@/components/CommunityForum';
 import DottedLines from '@/components/DottedLines';
@@ -18,19 +39,35 @@ export default function ResourcesPageContent() {
 
   const validTabIds = ['study-materials', 'ncerts', 'strategy', 'pyq', 'videos', 'faculty-columns', 'faq', 'community-forum'];
 
-  const [activeTab, setActiveTab] = useState('study-materials');
+  // Avoid hydration mismatch by deferring tab selection to client mount
+  const [activeTab, setActiveTab] = useState<
+    'study-materials' | 'ncerts' | 'strategy' | 'pyq' | 'videos' | 'faculty-columns' | 'faq' | 'community-forum' | null
+  >(null);
+  const [hydrated, setHydrated] = useState(false);
+  const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
+  const [selectedColumn, setSelectedColumn] = useState<Column | null>(null);
 
-  // Use useLayoutEffect to sync hash before paint (client-side only)
-  useLayoutEffect(() => {
+  // On mount, set hydrated and initialize activeTab from hash
+  useEffect(() => {
+    setHydrated(true);
     const hash = window.location.hash.slice(1);
     if (hash && validTabIds.includes(hash)) {
-      setActiveTab(hash);
+      setActiveTab(hash as Exclude<typeof activeTab, null>);
+    } else {
+      setActiveTab('study-materials');
     }
   }, []);
 
-  // Sync hash with activeTab whenever it changes
+  // Sync hash with activeTab whenever it changes (but not on initial mount)
+  const isInitialMount = useRef(true);
   useEffect(() => {
-    window.history.replaceState(null, '', `#${activeTab}`);
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+    } else {
+      if (activeTab) {
+        window.history.replaceState(null, '', `#${activeTab}`);
+      }
+    }
   }, [activeTab]);
 
   // Handle hash navigation when hash changes
@@ -38,7 +75,7 @@ export default function ResourcesPageContent() {
     const handleHashChange = () => {
       const hash = window.location.hash.slice(1);
       if (hash && validTabIds.includes(hash)) {
-        setActiveTab(hash);
+        setActiveTab(hash as Exclude<typeof activeTab, null>);
       }
     };
 
@@ -61,44 +98,54 @@ export default function ResourcesPageContent() {
       {/* Tab Navigation and Content */}
       <section id="resources-tabs" className="py-8 resources-tabs in-view" data-section="resources-tabs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Tab Navigation */}
-          <div className="sticky top-[72px] md:top-[119px] z-30 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-4 mb-8 -mt-2 shadow-md">
-            <div className="max-w-7xl mx-auto overflow-x-auto">
-              <div className="flex space-x-2 pb-2">
-                {tabs.map((tab) => (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`px-6 py-3 rounded-lg font-medium whitespace-nowrap transition-all duration-200 ${
-                    activeTab === tab.id
-                    ? 'bg-orange-500 text-white shadow-lg'
-                    : 'bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-orange-50 dark:hover:bg-gray-700 hover:border-orange-300'
-                  }`}
-                >
-                  {tab.name}
-                </button>
-              ))}
+          {/* Tab Navigation (render only when activeTab is set) */}
+          {activeTab && (
+            <div className="sticky top-[72px] md:top-[119px] z-30 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md py-4 mb-8 -mt-2 shadow-md overflow-visible">
+              <div className="w-full overflow-x-auto overflow-y-visible px-4 sm:px-6 lg:px-8">
+                <div className="flex space-x-2 pb-2 min-w-max overflow-visible">
+                  {tabs.map((tab) => (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id as Exclude<typeof activeTab, null>)}
+                    className={`px-6 py-3 rounded-full font-medium whitespace-nowrap transition-all duration-200 ${
+                      activeTab === tab.id
+                      ? 'bg-orange-500 text-white shadow-lg'
+                      : 'bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-orange-50 dark:hover:bg-gray-700 hover:border-orange-300'
+                    }`}
+                  >
+                    {tab.name}
+                  </button>
+                ))}
+                </div>
               </div>
             </div>
-          </div>
+          )}
           {/* Spacer between header tabs and content with dotted lines */}
           <div aria-hidden="true" className="py-8 sm:py-10">
             <DottedLines />
           </div>
 
-          {/* Tab Content */}
-          <div>
-            {activeTab === 'study-materials' && <StudyMaterialsTab />}
-            {activeTab === 'ncerts' && <NCERTsTab />}
-            {activeTab === 'strategy' && <StrategyTab />}
-            {activeTab === 'pyq' && <PYQTab />}
-            {activeTab === 'videos' && <VideosTab />}
-            {activeTab === 'faculty-columns' && <FacultyColumnsTab />}
-            {activeTab === 'faq' && <FAQTab />}
-            {activeTab === 'community-forum' && <CommunityForumTab />}
-          </div>
+          {/* Tab Content - gated until hydrated and activeTab set to prevent SSR/CSR mismatch */}
+          {hydrated && activeTab && (
+            <div>
+              {activeTab === 'study-materials' && <StudyMaterialsTab />}
+              {activeTab === 'ncerts' && <NCERTsTab />}
+              {activeTab === 'strategy' && <StrategyTab openArticle={setSelectedArticle} />}
+              {activeTab === 'pyq' && <PYQTab />}
+              {activeTab === 'videos' && <VideosTab />}
+              {activeTab === 'faculty-columns' && <FacultyColumnsTab openColumn={setSelectedColumn} />}
+              {activeTab === 'faq' && <FAQTab />}
+              {activeTab === 'community-forum' && <CommunityForumTab />}
+            </div>
+          )}
         </div>
       </section>
+
+      {/* Strategy Article Detail Popup */}
+      <StrategyPopup selectedArticle={selectedArticle} onClose={() => setSelectedArticle(null)} />
+
+      {/* Faculty Column Detail Popup */}
+      <FacultyColumnPopup selectedColumn={selectedColumn} onClose={() => setSelectedColumn(null)} />
 
       {/* Floating Community Forum Button - Resources page only */}
       <button
@@ -322,16 +369,13 @@ function NCERTsTab() {
               <div className="absolute top-4 left-4 px-3 py-1 bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 rounded-lg text-xs font-bold shadow-lg">
                 Class {ncert.class}
               </div>
-              <div className="absolute top-4 right-4 px-2 py-1 bg-black/60 text-white rounded text-xs">
-                {ncert.pages}
-              </div>
             </div>
 
             {/* Content */}
             <div className="p-5">
-              <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white line-clamp-2">
+              <p className="text-xs font-bold text-orange-600 dark:text-orange-400 mb-2 uppercase tracking-wide">
                 {ncert.title}
-              </h3>
+              </p>
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
                 {ncert.description}
               </p>
@@ -351,47 +395,194 @@ function NCERTsTab() {
   );
 }
 
-function StrategyTab() {
+function StrategyTab({ openArticle }: { openArticle: (article: Article) => void }) {
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+
   const articles = [
-    { title: 'How to Prepare for UPSC Prelims in 6 Months', author: 'Dr. Rajesh Kumar', date: '2025-11-01', readTime: '8 min' },
-    { title: 'Answer Writing Strategy for Mains', author: 'Prof. Anjali Sharma', date: '2025-10-28', readTime: '10 min' },
-    { title: 'Mastering Current Affairs for UPSC', author: 'Dr. Amit Verma', date: '2025-10-25', readTime: '12 min' },
-    { title: 'Optional Subject Selection Guide', author: 'Ms. Priya Singh', date: '2025-10-20', readTime: '6 min' },
-    { title: 'Time Management Tips for UPSC Preparation', author: 'Dr. Vikram Patel', date: '2025-10-15', readTime: '9 min' },
-    { title: 'How to Score 300+ in UPSC Mains', author: 'Prof. Anjali Sharma', date: '2025-10-10', readTime: '15 min' },
-    { title: 'Revision Strategy for Last 3 Months', author: 'Dr. Rajesh Kumar', date: '2025-10-05', readTime: '11 min' },
-    { title: 'Interview Preparation Complete Guide', author: 'Ms. Priya Singh', date: '2025-09-28', readTime: '14 min' },
-    { title: 'Daily Routine for UPSC Aspirants', author: 'Dr. Amit Verma', date: '2025-09-20', readTime: '7 min' },
-    { title: 'How to Make Effective Notes', author: 'Dr. Neha Reddy', date: '2025-09-15', readTime: '10 min' },
-    { title: 'Essay Writing Masterclass', author: 'Prof. Suresh Gupta', date: '2025-09-10', readTime: '13 min' },
-    { title: 'Tackling Negative Marking in Prelims', author: 'Dr. Vikram Patel', date: '2025-09-05', readTime: '8 min' },
+    { 
+      title: 'How to Prepare for UPSC Prelims in 6 Months', 
+      author: 'Dr. Rajesh Kumar', 
+      date: '2025-11-01', 
+      readTime: '8 min',
+      category: 'Prelims Strategy',
+      excerpt: 'A comprehensive 6-month roadmap to crack UPSC Prelims with strategic planning and focused preparation.',
+      content: 'Preparing for UPSC Prelims in 6 months requires disciplined planning and execution. Key strategies include: Month 1-2: Complete NCERT readings (6-12) with note-making, focus on building conceptual clarity. Month 3-4: Subject-wise revision with standard reference books, integrate current affairs daily. Month 5: Intensive test series practice, identify weak areas and work on them. Month 6: Revision and practice, previous year papers analysis, mock tests. Important tips: Follow 80-20 rule, focus on high-weightage topics, maintain consistency in current affairs, practice MCQs regularly, develop elimination techniques for negative marking.'
+    },
+    { 
+      title: 'Answer Writing Strategy for Mains', 
+      author: 'Prof. Anjali Sharma', 
+      date: '2025-10-28', 
+      readTime: '10 min',
+      category: 'Mains Strategy',
+      excerpt: 'Master the art of structured answer writing to score high in UPSC Mains examination.',
+      content: 'Effective answer writing is crucial for Mains success. Key elements: Introduction (10%): Hook the examiner, define key terms, mention dimensions. Body (75%): Use subheadings, bullet points, diagrams/flowcharts, maintain logical flow, provide examples and case studies, show multiple perspectives, link theory with current developments. Conclusion (15%): Summarize key points, suggest way forward, end with impact statement. Additional tips: Time management (allocate 10-12 minutes per answer), presentation matters (neat handwriting, proper spacing), use of keywords from question, balance between content and presentation, regular practice with peer/mentor evaluation.'
+    },
+    { 
+      title: 'Mastering Current Affairs for UPSC', 
+      author: 'Dr. Amit Verma', 
+      date: '2025-10-25', 
+      readTime: '12 min',
+      category: 'Current Affairs',
+      excerpt: 'Strategic approach to stay updated with current affairs and integrate them effectively in your preparation.',
+      content: 'Current Affairs integration is essential for both Prelims and Mains. Effective strategy: Daily: Read newspaper (The Hindu/Indian Express), note important issues, editorials, government schemes. Weekly: Consolidate notes, connect with static portions, practice MCQs. Monthly: Revise consolidated notes, prepare monthly compilations, focus on recurring themes. Sources: Newspapers, PIB releases, Yojana, Kurukshetra magazines, reliable online sources. Important areas: Government schemes and policies, International relations developments, Economic indicators and surveys, Science & technology breakthroughs, Environmental issues, Social justice initiatives. Integration technique: Link current events with syllabus topics, prepare issue-based notes, maintain separate registers for different subjects.'
+    },
+    { 
+      title: 'Optional Subject Selection Guide', 
+      author: 'Ms. Priya Singh', 
+      date: '2025-10-20', 
+      readTime: '6 min',
+      category: 'Optional Strategy',
+      excerpt: 'Comprehensive guide to choosing the right optional subject that aligns with your strengths and interests.',
+      content: 'Choosing the right optional can be a game-changer. Selection criteria: Background and interest: Academic background, genuine interest in subject. Availability of resources: Quality coaching, study material, guidance. Scoring potential: Previous years toppers choices, scoring trends. Overlap with GS: Synergy with General Studies papers. Popular optionals: Geography (high scoring, overlap with GS), Public Administration (relevant for aspirants), Sociology (scoring, manageable syllabus), History (extensive but predictable), Anthropology (scientific, scoring), PSIR (overlap with GS-II). Decision factors: Give mock tests in multiple subjects, consult seniors/toppers, evaluate your commitment, consider time available. Remember: Optional can fetch 400-500 marks, choose wisely but dont overthink.'
+    },
+    { 
+      title: 'Time Management Tips for UPSC Preparation', 
+      author: 'Dr. Vikram Patel', 
+      date: '2025-10-15', 
+      readTime: '9 min',
+      category: 'Study Planning',
+      excerpt: 'Effective time management techniques to optimize your UPSC preparation and maintain work-life balance.',
+      content: 'Time management is critical for long-term preparation. Effective strategies: Daily schedule: Wake up early (5-6 AM), 8-10 hours focused study, include breaks every 90 minutes, physical exercise (30-45 minutes), adequate sleep (6-7 hours). Weekly planning: Allocate subject-wise time, keep one day for revision, include current affairs daily. Monthly targets: Set monthly goals, track progress, adjust strategy based on performance. Productivity tips: Eliminate distractions (social media, phone), use Pomodoro technique, prioritize high-weightage topics, quality over quantity, active learning methods (write, discuss, teach). Balance: Take weekly offs, pursue hobbies, maintain social connections, avoid burnout. Remember: Its a marathon, not a sprint. Consistency beats intensity.'
+    },
+    { 
+      title: 'How to Score 300+ in UPSC Mains', 
+      author: 'Prof. Anjali Sharma', 
+      date: '2025-10-10', 
+      readTime: '15 min',
+      category: 'Mains Strategy',
+      excerpt: 'Proven strategies and techniques to achieve 300+ score in UPSC Mains examination.',
+      content: 'Scoring 300+ in Mains requires strategic preparation and execution. Key pillars: Content Quality: Deep conceptual understanding, diverse perspectives, factual accuracy, latest data and examples. Presentation: Structured answers with intro-body-conclusion, effective use of diagrams/flowcharts, neat handwriting and spacing, proper use of headings and subheadings. Answer Writing Skills: Address all dimensions of question, maintain word limit, time management, relevant examples and case studies. Subject-wise strategy: Essay: Choose wisely, outline before writing, philosophical depth. GS-I: Focus on social issues, diverse viewpoints, map work. GS-II: Governance, polity, IR - link theory with current affairs. GS-III: Economy, environment, security - data-driven answers. GS-IV: Ethics - real-life examples, balanced approach. Optional: In-depth preparation, previous year analysis. Practice: Daily answer writing, peer review, mentor evaluation. Mock tests: Simulate exam conditions, improve speed and accuracy.'
+    },
+    { 
+      title: 'Revision Strategy for Last 3 Months', 
+      author: 'Dr. Rajesh Kumar', 
+      date: '2025-10-05', 
+      readTime: '11 min',
+      category: 'Revision',
+      excerpt: 'Comprehensive revision plan for the final 3 months before UPSC examination.',
+      content: 'Last 3 months are crucial for consolidation and revision. Month-wise strategy: Month 1 (90-60 days): Complete first round of revision of all subjects, focus on weak areas, continue current affairs, start test series. Month 2 (60-30 days): Second round of quick revision using notes, intensive test series practice, error analysis and improvement, maintain current affairs. Month 3 (30-0 days): Third round of rapid revision, focus on high-weightage topics, previous year papers, maintain calm and confidence. Revision techniques: Use prepared notes, flashcards, Mind maps and diagrams, Teach/discuss concepts, Group study sessions (limited). Test series: Join reliable test series, analyze each test thoroughly, focus on time management, work on weak areas. Dont do: Start new topics, join new test series, compare with others, compromise on sleep/health. Maintain momentum, stay positive, trust your preparation.'
+    },
+    { 
+      title: 'Interview Preparation Complete Guide', 
+      author: 'Ms. Priya Singh', 
+      date: '2025-09-28', 
+      readTime: '14 min',
+      category: 'Interview',
+      excerpt: 'Complete guide to excel in UPSC personality test with confidence and authenticity.',
+      content: 'UPSC Interview (Personality Test) is the final and crucial stage. Preparation strategy: DAF Analysis: Thoroughly analyze your Detailed Application Form, prepare for questions on hobbies, education, work experience, hometown. Current Affairs: Depth in national and international issues, opinions on contemporary topics, awareness of government initiatives. Optional Subject: Be ready for depth questions, connect with current developments. Core Areas: Ethics and values, administrative decision-making, problem-solving abilities, social awareness. Mock Interviews: Multiple mocks with different panels, feedback incorporation, body language improvement. Presentation: Dress formally but comfortably, maintain eye contact, clear communication, confident body language, honesty is key. Common Questions: Tell us about yourself, Why civil services?, Opinion on current issues, Situational/ethical dilemmas, Hobbies and interests (depth expected). Dos: Be yourself, think before answering, admit if you dont know, stay calm and composed. Donts: Be overconfident, argue with panel, give bookish answers, show nervousness. Remember: Panel assesses your suitability for civil services, not just knowledge.'
+    },
+    { 
+      title: 'Daily Routine for UPSC Aspirants', 
+      author: 'Dr. Amit Verma', 
+      date: '2025-09-20', 
+      readTime: '7 min',
+      category: 'Study Planning',
+      excerpt: 'Ideal daily routine to maximize productivity and maintain consistency in UPSC preparation.',
+      content: 'A well-structured daily routine ensures consistency and productivity. Sample routine: 5:30 AM: Wake up, freshen up. 6:00-7:00 AM: Newspaper reading, note important issues. 7:00-8:00 AM: Morning walk/exercise, breakfast. 8:00-12:00 PM: Core study session (subject 1) with breaks. 12:00-1:00 PM: Lunch, short rest. 1:00-5:00 PM: Core study session (subject 2) with breaks. 5:00-6:00 PM: Current affairs (magazines, online sources). 6:00-7:00 PM: Break, physical activity, hobbies. 7:00-9:00 PM: Revision/test practice/answer writing. 9:00-10:00 PM: Dinner, family time. 10:00-11:00 PM: Light reading, planning next day. 11:00 PM: Sleep. Customization: Adjust timing based on your productivity peaks, working professionals: utilize early morning/late evening, keep one flexible slot for unexpected tasks. Key principles: Early start, dedicated study blocks, regular breaks, physical activity, adequate sleep (6-7 hours), consistency over intensity. Remember: Stick to routine for at least 21 days to form habit.'
+    },
+    { 
+      title: 'How to Make Effective Notes', 
+      author: 'Dr. Neha Reddy', 
+      date: '2025-09-15', 
+      readTime: '10 min',
+      category: 'Study Techniques',
+      excerpt: 'Techniques and methods to create concise, effective notes for quick revision.',
+      content: 'Effective note-making is crucial for revision and retention. Note-making principles: Conciseness: Write only key points, avoid lengthy sentences, use abbreviations. Structured format: Use headings, subheadings, bullet points, numbering. Visual aids: Include diagrams, flowcharts, mind maps, tables. Highlighting: Use colors/markers for emphasis, underline important terms. Personal touch: Add your understanding, examples, connections. Note-making methods: Cornell Method: Divide page into cues, notes, summary sections. Outline Method: Hierarchical structure with main topics and subtopics. Mapping Method: Visual representation with central idea and branches. Charting Method: Compare and contrast information in table format. Subject-wise approach: History: Timeline-based, event-cause-effect. Geography: Map-based, data tables. Polity: Topic-wise, article-wise. Economy: Concept-theme-example format. Current Affairs: Issue-based, monthly compilations. Digital vs Physical: Physical notes: Better retention, easy to revise. Digital notes: Easy to edit, portable, searchable. Revision: Create different levels (detailed, medium, quick revision notes). Regular updates: Add new information, examples. Remember: Notes are personal, develop your own style that works for you.'
+    },
+    { 
+      title: 'Essay Writing Masterclass', 
+      author: 'Prof. Suresh Gupta', 
+      date: '2025-09-10', 
+      readTime: '13 min',
+      category: 'Essay',
+      excerpt: 'Master the art of essay writing with structure, content, and presentation techniques.',
+      content: 'Essay paper can be a game-changer with 250 marks. Essay selection: Read all topics carefully (5-10 minutes), choose topic you can write 1000-1200 words on, prefer abstract over concrete topics, ensure you have diverse content. Essay structure: Introduction (100-150 words): Hook/quote, define key terms, outline dimensions, thesis statement. Body (700-900 words): 4-5 paragraphs, each discussing one dimension, use subheadings, examples, quotes, data, logical flow, diverse perspectives (social, economic, political, ethical). Conclusion (100-150 words): Summarize key arguments, balanced view, way forward, impactful ending. Content enrichment: Use quotes (philosophers, leaders, scriptures), examples (historical, contemporary, personal), data and facts, comparative analysis, connect with national/global context. Presentation: Clear handwriting, proper spacing, paragraphing, underline headings, avoid overwriting, maintain word limit. Types of essays: Philosophical, social, economic, political, technological. Practice: Write 2-3 essays per week, get evaluated, read quality essays, develop your unique style. Common mistakes: Going off-topic, one-sided arguments, factual errors, poor presentation, exceeding word limit. Remember: Essay reflects your personality, knowledge, and perspective. Showcase analytical ability and balanced thinking.'
+    },
+    { 
+      title: 'Tackling Negative Marking in Prelims', 
+      author: 'Dr. Vikram Patel', 
+      date: '2025-09-05', 
+      readTime: '8 min',
+      category: 'Prelims Strategy',
+      excerpt: 'Smart strategies to handle negative marking and maximize your Prelims score.',
+      content: 'Negative marking (1/3 for each wrong answer) requires strategic approach. Understanding: Each correct answer: +2 marks, each wrong answer: -0.66 marks, to break even: accuracy needed is 25%. Strategies: Elimination technique: Eliminate obviously wrong options, if you can eliminate 2 options, attempt the question, if confident between 2 options, go with stronger reasoning. Confidence levels: Very confident (90%+): Must attempt. Confident (70-90%): Attempt after elimination. Moderate (50-70%): Attempt only if you can eliminate 2 options. Low confidence (<50%): Skip. Question selection: Attempt questions you know first, mark doubtful questions for review, use remaining time for intelligent guessing. Calculated risk: GS Paper 1: Aim for 60-70 attempts with 85%+ accuracy. CSAT: Aim for 65-70 attempts with 80%+ accuracy. Risk profiles: Conservative: High accuracy, fewer attempts (safe for those already in comfort zone). Moderate: Balanced approach (recommended for most). Aggressive: More attempts, slightly lower accuracy (for those needing high scores). Practice: Take multiple mock tests, analyze your risk profile, improve accuracy through practice. Remember: Quality over quantity. Its better to attempt 65 questions with 90% accuracy than 80 questions with 75% accuracy. Develop your elimination skills and trust your preparation.'
+    },
   ];
 
+
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {articles.map((article, index) => (
-        <div key={index} className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300">
-          <div className="flex items-start justify-between mb-3">
-            <h3 className="text-xl font-semibold hover:text-orange-500 transition-colors cursor-pointer">
+        <div 
+          key={index} 
+          ref={(el) => { cardRefs.current[index] = el; }}
+          className="group relative bg-white dark:bg-white backdrop-blur-sm rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-visible border border-orange-100"
+        >
+          {/* Decorative accent bar */}
+          <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-orange-400 to-orange-600 transform scale-y-0 group-hover:scale-y-100 transition-transform duration-300 origin-top" />
+          
+          <div className="p-6 pl-8">
+            {/* Category badge */}
+            <div className="flex items-start justify-between mb-3">
+              <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-gradient-to-r from-orange-50 to-amber-50 dark:from-orange-900/20 dark:to-amber-900/20 text-orange-600 dark:text-orange-400 border border-orange-200/50 dark:border-orange-700/50">
+                <svg className="w-3 h-3 mr-1.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z" />
+                </svg>
+                {article.category}
+              </span>
+              <span className="flex items-center text-xs font-medium text-black/70 bg-orange-50 px-3 py-1 rounded-full">
+                <svg className="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                {article.readTime}
+              </span>
+            </div>
+
+            {/* Title */}
+            <h3 className="text-xl font-bold mb-3 text-black group-hover:text-orange-600 transition-colors cursor-pointer line-clamp-2">
               {article.title}
             </h3>
-            <span className="text-sm text-gray-500 dark:text-gray-400 whitespace-nowrap ml-4">{article.readTime}</span>
-          </div>
-          <div className="flex items-center text-sm text-gray-600 dark:text-gray-400 mb-4">
-            <div className="w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center text-white font-semibold mr-3">
-              {article.author.charAt(0)}
+
+            {/* Excerpt */}
+            {article.excerpt && (
+              <p className="text-sm text-black/80 mb-4 line-clamp-2 leading-relaxed">
+                {article.excerpt}
+              </p>
+            )}
+
+            {/* Author info and CTA */}
+              <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <div className="relative w-11 h-11">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 via-orange-500 to-orange-600 flex items-center justify-center text-white font-bold text-sm shadow-md">
+                    {article.author.charAt(0)}
+                  </div>
+                  <div className="absolute bottom-0 right-0 w-4 h-4 bg-green-500 rounded-full border-2 border-white dark:border-white z-10" />
+                </div>
+                <div className="ml-3">
+                  <div className="text-sm font-semibold text-black">{article.author}</div>
+                  <div className="text-xs text-black/60 flex items-center">
+                    <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    {article.date}
+                  </div>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => openArticle(article)}
+                className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white text-sm font-semibold rounded-lg shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200"
+              >
+                Read Full Article
+                <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </button>
             </div>
-            <div>
-              <div className="font-medium">{article.author}</div>
-              <div className="text-xs">{article.date}</div>
-            </div>
           </div>
-          <Link href="#" className="text-orange-500 hover:text-orange-600 font-medium text-sm flex items-center">
-            Read Full Article
-            <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </Link>
         </div>
       ))}
     </div>
@@ -480,7 +671,7 @@ function PYQTab() {
             <div className="relative z-10 mb-6">
               <div className="flex items-start gap-3 mb-4">
                 <div className="text-2xl opacity-60">
-                  {p.stage === 'Prelims' ? '❓' : '📝'}
+                  {p.stage === 'Prelims' ? '📚' : '📝'}
                 </div>
                 <p className="text-amber-900 dark:text-amber-950 font-medium text-base">
                   {p.stats}
@@ -571,8 +762,8 @@ function VideosTab() {
                     {v.facultyName}
                   </div>
                 </div>
-                <div className="absolute bottom-4 right-4 bg-black/70 text-white px-3 py-1 rounded text-sm font-semibold">
-                  {v.duration}
+                <div className="absolute bottom-4 right-4 bg-black/70 px-3 py-1 rounded text-sm font-semibold">
+                  <span className="!text-white">{v.duration}</span>
                 </div>
               </div>
               
@@ -588,10 +779,8 @@ function VideosTab() {
 
             {/* Card Content */}
             <div className="p-6">
-              <h3 className="text-lg font-bold mb-2 text-amber-900">
-                {v.title} - {v.subtitle}
-              </h3>
-              <p className="text-sm text-amber-800 mb-4">
+              <p className="text-sm text-amber-800 mb-2">
+                <strong style={{ fontSize: '18px', color: '#1f2937', display: 'block', marginBottom: '10px', fontWeight: '700', lineHeight: '1.4' }}>{v.title}</strong>
                 {v.subtitle} • {v.views} views
               </p>
               <button 
@@ -611,8 +800,7 @@ function VideosTab() {
   );
 }
 
-function FacultyColumnsTab() {
-  const [selectedColumn, setSelectedColumn] = useState<number | null>(null);
+function FacultyColumnsTab({ openColumn }: { openColumn: (column: Column) => void }) {
 
   const columns = [
     { 
@@ -725,23 +913,7 @@ function FacultyColumnsTab() {
     },
   ];
 
-  // Close modal on ESC key
-  useEffect(() => {
-    const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setSelectedColumn(null);
-    };
-    window.addEventListener('keydown', handleEsc);
-    return () => window.removeEventListener('keydown', handleEsc);
-  }, []);
 
-  // Prevent body scroll when modal is open
-  useEffect(() => {
-    if (selectedColumn !== null) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-  }, [selectedColumn]);
 
   return (
     <div id="faculty-columns" className="space-y-6">
@@ -768,7 +940,8 @@ function FacultyColumnsTab() {
             </p>
           )}
           <button
-            onClick={() => setSelectedColumn(index)}
+            type="button"
+            onClick={() => openColumn(column)}
             className="text-orange-500 hover:text-orange-600 font-medium text-sm flex items-center transition-colors"
           >
             Read More
@@ -778,70 +951,6 @@ function FacultyColumnsTab() {
           </button>
         </div>
       ))}
-
-      {/* Modal */}
-      {selectedColumn !== null && (
-        <div 
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-          onClick={() => setSelectedColumn(null)}
-        >
-          <div 
-            className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="sticky top-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-6 flex justify-between items-start z-10">
-              <div className="flex-1 pr-4">
-                <span className="inline-block px-3 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400 rounded-full text-sm font-medium mb-3">
-                  {columns[selectedColumn].category}
-                </span>
-                <h2 className="text-2xl font-bold mb-2">{columns[selectedColumn].title}</h2>
-                <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center text-white font-semibold mr-3">
-                    {columns[selectedColumn].author.charAt(0)}
-                  </div>
-                  <div>
-                    <div className="font-medium">{columns[selectedColumn].author}</div>
-                    <div className="text-xs">{columns[selectedColumn].date}</div>
-                  </div>
-                </div>
-              </div>
-              <button
-                onClick={() => setSelectedColumn(null)}
-                className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors"
-                aria-label="Close modal"
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-            
-            <div className="p-6">
-              <div className="prose dark:prose-invert max-w-none">
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
-                  {columns[selectedColumn].content}
-                </p>
-                
-                {columns[selectedColumn].topics && columns[selectedColumn].topics.length > 0 && (
-                  <div className="mt-6">
-                    <h3 className="text-lg font-semibold mb-3">Key Topics Covered:</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {columns[selectedColumn].topics.map((topic, i) => (
-                        <span
-                          key={i}
-                          className="px-3 py-1 bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 rounded-full text-sm"
-                        >
-                          {topic}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
@@ -1025,6 +1134,177 @@ function CommunityForumTab() {
                 <div className="text-white/80">Collaborative learning</div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Strategy Article Popup Component
+function StrategyPopup({ selectedArticle, onClose }: { selectedArticle: Article | null, onClose: () => void }) {
+
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    if (selectedArticle !== null) {
+      document.body.style.overflow = 'hidden';
+      window.addEventListener('keydown', handleEsc);
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      window.removeEventListener('keydown', handleEsc);
+      document.body.style.overflow = 'unset';
+    };
+  }, [selectedArticle, onClose]);
+
+  if (selectedArticle === null) return null;
+
+  return (
+    <div 
+      className="fixed inset-0 bg-black/70 backdrop-blur-sm z-[9999] flex items-center justify-center p-2 sm:p-3 animate-fadeIn"
+      onClick={onClose}
+      style={{ paddingTop: '80px', paddingBottom: '20px' }}
+    >
+      <div 
+        className="bg-white dark:bg-gray-900 rounded-xl max-w-2xl w-full shadow-2xl border-2 border-orange-500 animate-slideUp relative"
+        onClick={(e) => e.stopPropagation()}
+        style={{ maxHeight: 'calc(100vh - 100px)' }}
+      >
+        <button
+          onClick={onClose}
+          className="absolute top-2 right-2 z-20 w-9 h-9 bg-orange-500 hover:bg-orange-600 text-white rounded-full shadow-lg transition-all duration-300 hover:rotate-90 hover:scale-110 flex items-center justify-center"
+          aria-label="Close"
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+
+        <div className="overflow-y-auto custom-scrollbar" style={{ maxHeight: 'calc(100vh - 100px)' }}>
+          <div className="bg-gradient-to-r from-orange-500 to-orange-600 p-4 text-white rounded-t-xl">
+            <span className="inline-block px-3 py-1 bg-white/20 rounded-full text-xs font-semibold mb-2">
+              {selectedArticle.category}
+            </span>
+            <h3 className="text-xl font-bold mb-2">
+              {selectedArticle.title}
+            </h3>
+            <div className="flex items-center text-sm">
+              <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center font-bold mr-2">
+                {selectedArticle.author.charAt(0)}
+              </div>
+              <div>
+                <div className="font-medium">{selectedArticle.author}</div>
+                <div className="text-xs opacity-90">{selectedArticle.date} • {selectedArticle.readTime}</div>
+              </div>
+            </div>
+          </div>
+
+          <div className="p-6">
+            {selectedArticle.excerpt && (
+              <div className="bg-orange-50 dark:bg-orange-900/10 rounded-lg p-4 mb-6 border-l-4 border-orange-500">
+                <p className="text-gray-700 dark:text-gray-300 font-medium italic">
+                  {selectedArticle.excerpt}
+                </p>
+              </div>
+            )}
+            <div className="prose max-w-none">
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line">
+                {selectedArticle.content}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Faculty Column Popup Component  
+function FacultyColumnPopup({ selectedColumn, onClose }: { selectedColumn: Column | null, onClose: () => void }) {
+
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    if (selectedColumn !== null) {
+      document.body.style.overflow = 'hidden';
+      window.addEventListener('keydown', handleEsc);
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      window.removeEventListener('keydown', handleEsc);
+      document.body.style.overflow = 'unset';
+    };
+  }, [selectedColumn, onClose]);
+
+  if (selectedColumn === null) return null;
+
+  return (
+    <div 
+      className="fixed inset-0 bg-black/70 backdrop-blur-sm z-[9999] flex items-center justify-center p-2 sm:p-3 animate-fadeIn"
+      onClick={onClose}
+      style={{ paddingTop: '80px', paddingBottom: '20px' }}
+    >
+      <div 
+        className="bg-white dark:bg-gray-900 rounded-xl max-w-2xl w-full shadow-2xl border-2 border-orange-500 animate-slideUp relative"
+        onClick={(e) => e.stopPropagation()}
+        style={{ maxHeight: 'calc(100vh - 100px)' }}
+        role="dialog"
+        aria-modal="true"
+        aria-label={selectedColumn.title}
+      >
+        <button
+          onClick={onClose}
+          className="absolute top-2 right-2 z-20 w-9 h-9 bg-orange-500 hover:bg-orange-600 text-white rounded-full shadow-lg transition-all duration-300 hover:rotate-90 hover:scale-110 flex items-center justify-center"
+          aria-label="Close"
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+
+        <div className="overflow-y-auto custom-scrollbar" style={{ maxHeight: 'calc(100vh - 100px)' }}>
+          <div className="bg-gradient-to-r from-orange-500 to-orange-600 p-4 text-white rounded-t-xl">
+            <span className="inline-block px-3 py-1 bg-white/20 rounded-full text-xs font-semibold mb-2">
+              {selectedColumn.category}
+            </span>
+            <h3 className="text-xl font-bold mb-2 leading-tight">
+              {selectedColumn.title}
+            </h3>
+            <div className="flex items-center text-sm">
+              <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center font-bold mr-2">
+                {selectedColumn.author.charAt(0)}
+              </div>
+              <div>
+                <div className="font-medium">{selectedColumn.author}</div>
+                <div className="text-xs opacity-90">{selectedColumn.date}</div>
+              </div>
+            </div>
+          </div>
+
+          <div className="p-6">
+            <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
+              {selectedColumn.content}
+            </p>
+            {selectedColumn.topics && selectedColumn.topics.length > 0 && (
+              <div className="mt-6">
+                <h3 className="text-lg font-semibold mb-3 text-gray-900 dark:text-white">Key Topics Covered:</h3>
+                <div className="flex flex-wrap gap-2">
+                  {selectedColumn.topics.map((topic, i) => (
+                    <span
+                      key={i}
+                      className="px-3 py-1 bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 rounded-full text-sm"
+                    >
+                      {topic}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
