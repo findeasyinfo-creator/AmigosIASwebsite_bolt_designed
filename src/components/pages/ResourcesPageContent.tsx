@@ -106,7 +106,10 @@ export default function ResourcesPageContent() {
                   {tabs.map((tab) => (
                   <button
                     key={tab.id}
-                    onClick={() => setActiveTab(tab.id as Exclude<typeof activeTab, null>)}
+                    onClick={() => {
+                      setActiveTab(tab.id as Exclude<typeof activeTab, null>);
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
                     className={`px-6 py-3 rounded-full font-medium whitespace-nowrap transition-all duration-200 ${
                       activeTab === tab.id
                       ? 'bg-orange-500 text-white shadow-lg'
@@ -152,7 +155,10 @@ export default function ResourcesPageContent() {
         type="button"
         aria-label="Open Community Forum"
         title="Community Forum"
-        onClick={() => setActiveTab('community-forum')}
+        onClick={() => {
+          setActiveTab('community-forum');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
         className="fixed bottom-[190px] right-[30px] z-40 w-14 h-14 rounded-full shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-blue-300/50 transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] hover:-translate-y-[3px] hover:scale-105 active:scale-95 overflow-hidden bg-transparent md:bottom-[190px] md:right-[30px] md:w-14 md:h-14 sm:bottom-[214px] sm:right-[12px] sm:w-[50px] sm:h-[50px] max-sm:bottom-[178px] max-sm:right-[10px] max-sm:w-[44px] max-sm:h-[44px]"
         style={{ boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)' }}
       >

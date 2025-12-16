@@ -315,17 +315,17 @@ function DirectorMessageSection() {
               </h2>
 
               <div className="relative w-full max-w-3xl mx-auto my-6 lg:hidden">
-                {mounted && (
+                {/* {mounted && (
                   <Image
                     key={`chairman-mobile-${theme}`}
-                    src={isDark ? "/assets/chairman dark theme .png" : "/assets/chairman light theme.jpg"}
+                    src={isDark ? "/assets/chairman dark theme .png" : "/assets/chairman light theme.png"}
                     alt="Musku Ramana Reddy - Chairman"
                     width={700}
                     height={850}
                     className="w-full h-auto object-contain"
                     priority
                   />
-                )}
+                )} */}
                 <div className="absolute bottom-0 left-1/2 w-3/4 h-12 bg-gradient-to-r from-transparent via-black/20 to-transparent blur-xl -translate-x-1/2 transform" />
               </div>
 
@@ -381,17 +381,17 @@ function DirectorMessageSection() {
           {/* Right side - Image */}
           <div className="director-image hidden lg:flex items-center justify-start lg:justify-center lg:order-2 lg:-mt-32">
             <div className="relative">
-              {mounted && (
+              {/* {mounted && (
                 <Image
                   key={`chairman-desktop-${theme}`}
-                  src={isDark ? "/assets/chairman dark theme .png" : "/assets/chairman light theme.jpg"}
+                  src={isDark ? "/assets/chairman dark theme .png" : "/assets/chairman light theme.png"}
                   alt="Musku Ramana Reddy - Chairman"
                   width={1400}
                   height={1600}
                   className="w-auto h-auto object-contain relative z-10 lg:max-w-[800px] xl:max-w-[900px]"
                   priority
                 />
-              )}
+              )} */}
               {/* Shadow underneath */}
               <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-3/4 h-20 bg-gradient-to-r from-transparent via-black/20 to-transparent blur-2xl -z-0"></div>
             </div>
@@ -548,16 +548,16 @@ function ChiefAdviserSection() {
           {/* Left side - Image */}
           <div className="adviser-image hidden lg:flex items-center justify-center">
             <div className="relative">
-              {mounted && (
+              {/* {mounted && (
                 <Image
                   key={`advisor-desktop-${theme}`}
-                  src={isDark ? "/assets/advisor dark theme.png" : "/assets/advisor light theme.jpg"}
+                  src={isDark ? "/assets/advisor dark theme.png" : "/assets/advisor light theme.png"}
                   alt="GHP Raju IPS - Chief Advisor"
                   width={1400}
                   height={1600}
                   className="w-auto h-auto object-contain relative z-10 lg:max-w-[800px] xl:max-w-[900px]"
                 />
-              )}
+              )} */}
               {/* Shadow underneath */}
               <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-3/4 h-20 bg-gradient-to-r from-transparent via-black/20 to-transparent blur-2xl -z-0"></div>
             </div>
@@ -571,16 +571,16 @@ function ChiefAdviserSection() {
               </h2>
 
               <div className="relative w-full max-w-3xl h-96 sm:h-full mx-auto mt-2 mb-5 overflow-hidden rounded-xl lg:hidden">
-                {mounted && (
+                {/* {mounted && (
                   <Image
                     key={`advisor-mobile-${theme}`}
-                    src={isDark ? "/assets/advisor dark theme.png" : "/assets/advisor light theme.jpg"}
+                    src={isDark ? "/assets/advisor dark theme.png" : "/assets/advisor light theme.png"}
                     alt="GHP Raju IPS - Chief Advisor"
                     width={700}
                     height={850}
                     className="w-full h-full object-cover object-top"
                   />
-                )}
+                )} */}
                 <div className="absolute bottom-0 left-1/2 w-3/4 h-12 bg-gradient-to-r from-transparent via-black/20 to-transparent blur-xl -translate-x-1/2 transform hidden lg:block" />
               </div>
 

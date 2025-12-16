@@ -176,7 +176,10 @@ export default function CoursesPageContent() {
                 {categories.map((category) => (
                 <button
                   key={category.id}
-                  onClick={() => setActiveTab(category.id)}
+                  onClick={() => {
+                    setActiveTab(category.id);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
                   className={`px-6 py-2 rounded-full font-medium whitespace-nowrap transition-all duration-150 ${
                     activeTab === category.id
                       ? 'bg-orange-500 text-white shadow-lg'

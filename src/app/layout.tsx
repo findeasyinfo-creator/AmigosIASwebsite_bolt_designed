@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { Inter, Playfair_Display } from 'next/font/google'
 import './globals.css'
 import { ThemeProvider } from './ThemeProvider'
+import ScrollToTop from '@/components/ScrollToTop'
 import React from 'react'
 
 const inter = Inter({ 
@@ -55,6 +56,7 @@ export default function RootLayout({
       </head>
       <body className={`${inter.variable} ${playfair.variable}`}>
         <ThemeProvider>
+          <ScrollToTop />
           {children}
         </ThemeProvider>
       </body>

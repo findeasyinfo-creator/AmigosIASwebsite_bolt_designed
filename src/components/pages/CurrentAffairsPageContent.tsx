@@ -299,6 +299,8 @@ export default function CurrentAffairsPageContent() {
                     if (tab.id === 'monthly') setMonthlyRange('this-month')
                     setSelectedWeek('')
                     setSelectedMonth('')
+                    // Scroll to top
+                    window.scrollTo({ top: 0, behavior: 'smooth' })
                   }}
                   className={`group px-5 py-2 rounded-full font-semibold whitespace-nowrap transition-all duration-300 border ${
                     activeTab === tab.id
