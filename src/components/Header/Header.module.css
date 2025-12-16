@@ -56,12 +56,13 @@
 @media (min-width: 769px) and (max-width: 850px) {
   .container {
     padding: 0 10px;
-    gap: 8px;
+    gap: 5px;
   }
   
   .logoImage {
-    height: 60px;
-    max-width: 200px;
+    height: 45px !important;
+    max-width: 160px !important;
+    width: auto !important;
   }
 }
 
@@ -122,12 +123,26 @@
 /* For very narrow desktop views (mobile in desktop mode) */
 @media (min-width: 769px) and (max-width: 850px) {
   .nav {
-    gap: 6px;
+    gap: 4px;
+    flex-wrap: nowrap;
   }
   
   .nav a, .navLink {
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 500;
+    padding: 4px 6px;
+    white-space: nowrap;
+  }
+  
+  .themeToggle {
+    padding: 6px !important;
+    min-width: 32px !important;
+  }
+  
+  .ctaButton {
+    font-size: 10px !important;
+    padding: 6px 10px !important;
+    min-width: auto !important;
   }
 }
 
