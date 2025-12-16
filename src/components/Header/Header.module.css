@@ -56,12 +56,12 @@
 @media (min-width: 769px) and (max-width: 850px) {
   .container {
     padding: 0 6px;
-    gap: 3px;
+    gap: 4px;
   }
   
   .logoImage {
-    height: 32px !important;
-    max-width: 110px !important;
+    height: 30px !important;
+    max-width: 105px !important;
     width: auto !important;
   }
 }
@@ -70,7 +70,7 @@
 @media (min-width: 769px) and (max-width: 820px) {
   .container {
     padding: 0 5px;
-    gap: 2px;
+    gap: 3px;
   }
   
   .logoImage {
@@ -137,50 +137,60 @@
 /* For very narrow desktop views (mobile in desktop mode) */
 @media (min-width: 769px) and (max-width: 850px) {
   .nav {
-    gap: 2px;
+    gap: 4px;
     flex-wrap: nowrap;
   }
   
   .nav a, .navLink {
-    font-size: 7.5px;
+    font-size: 9px;
     font-weight: 500;
-    padding: 2px 3px;
+    padding: 4px 6px;
     white-space: nowrap;
   }
   
   .themeToggle {
-    padding: 3px !important;
-    min-width: 24px !important;
-    height: 24px !important;
+    padding: 4px !important;
+    min-width: 28px !important;
+    height: 28px !important;
   }
   
   .ctaButton {
-    font-size: 7.5px !important;
-    padding: 3px 5px !important;
+    font-size: 9px !important;
+    padding: 5px 10px !important;
     min-width: auto !important;
+  }
+  
+  /* Hide Mentorship button to save space */
+  .headerActions .ctaButton:first-child {
+    display: none !important;
   }
 }
 
 /* For extremely narrow desktop views (smallest mobile devices) */
 @media (min-width: 769px) and (max-width: 820px) {
   .nav {
-    gap: 1px;
+    gap: 3px;
   }
   
   .nav a, .navLink {
-    font-size: 7px;
-    padding: 2px 3px;
+    font-size: 8.5px;
+    padding: 3px 5px;
   }
   
   .themeToggle {
-    padding: 2px !important;
-    min-width: 22px !important;
-    height: 22px !important;
+    padding: 3px !important;
+    min-width: 26px !important;
+    height: 26px !important;
   }
   
   .ctaButton {
-    font-size: 7px !important;
-    padding: 2px 4px !important;
+    font-size: 8.5px !important;
+    padding: 4px 8px !important;
+  }
+  
+  /* Hide Mentorship button to save space */
+  .headerActions .ctaButton:first-child {
+    display: none !important;
   }
 }
 
@@ -460,12 +470,12 @@
 /* For very narrow desktop views (mobile in desktop mode) */
 @media (min-width: 769px) and (max-width: 850px) {
   .headerActions {
-    gap: 3px;
+    gap: 6px;
   }
   
   .ctaButton {
-    padding: 3px 5px;
-    font-size: 7.5px;
+    padding: 5px 10px;
+    font-size: 9px;
     white-space: nowrap;
   }
 }
@@ -473,12 +483,12 @@
 /* For extremely narrow desktop views */
 @media (min-width: 769px) and (max-width: 820px) {
   .headerActions {
-    gap: 2px;
+    gap: 5px;
   }
   
   .ctaButton {
-    padding: 2px 4px;
-    font-size: 7px;
+    padding: 4px 8px;
+    font-size: 8.5px;
     white-space: nowrap;
   }
 }
@@ -545,7 +555,60 @@
 /* Responsive theme toggle for mobile desktop view */
 @media (min-width: 769px) and (max-width: 850px) {
   .toggleTrack {
-    width: 50px;
+    width: 56px;
+    height: 28px;
+    padding: 2px;
+  }
+  
+  .toggleSlider {
+    width: 24px;
+    height: 24px;
+    top: 2px;
+  }
+  
+  .sliderLight {
+    left: calc(100% - 26px);
+  }
+  
+  .moonIcon,
+  .sunIcon {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .moonIcon {
+    left: 6px;
+  }
+  
+  .sunIcon {
+    right: 6px;
+  }
+  
+  .moon {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .moon::before {
+    width: 14px;
+    height: 14px;
+    left: 4px;
+  }
+  
+  .sunCore {
+    width: 13px;
+    height: 13px;
+  }
+  
+  .star1, .star2, .star3 {
+    width: 2px;
+    height: 2px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 820px) {
+  .toggleTrack {
+    width: 52px;
     height: 26px;
     padding: 2px;
   }
@@ -566,6 +629,14 @@
     height: 14px;
   }
   
+  .moonIcon {
+    left: 5px;
+  }
+  
+  .sunIcon {
+    right: 5px;
+  }
+  
   .moon {
     width: 14px;
     height: 14px;
@@ -574,57 +645,12 @@
   .moon::before {
     width: 12px;
     height: 12px;
-    left: 4px;
-  }
-  
-  .sunCore {
-    width: 12px;
-    height: 12px;
-  }
-  
-  .star1, .star2, .star3 {
-    width: 2px;
-    height: 2px;
-  }
-}
-
-@media (min-width: 769px) and (max-width: 820px) {
-  .toggleTrack {
-    width: 44px;
-    height: 22px;
-    padding: 2px;
-  }
-  
-  .toggleSlider {
-    width: 18px;
-    height: 18px;
-    top: 2px;
-  }
-  
-  .sliderLight {
-    left: calc(100% - 20px);
-  }
-  
-  .moonIcon,
-  .sunIcon {
-    width: 12px;
-    height: 12px;
-  }
-  
-  .moon {
-    width: 12px;
-    height: 12px;
-  }
-  
-  .moon::before {
-    width: 10px;
-    height: 10px;
     left: 3px;
   }
   
   .sunCore {
-    width: 10px;
-    height: 10px;
+    width: 11px;
+    height: 11px;
   }
 }
 

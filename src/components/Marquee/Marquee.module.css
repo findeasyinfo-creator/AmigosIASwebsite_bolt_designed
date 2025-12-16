@@ -141,7 +141,7 @@
 .marqueeContent {
   display: inline-flex;
   gap: 0;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
   letter-spacing: 0.5px;
   will-change: transform;
@@ -151,7 +151,7 @@
 
 .marqueeContent span {
   display: inline-block;
-  padding: 0 2rem;
+  padding: 0 1.5rem;
   white-space: nowrap;
 }
 
@@ -234,10 +234,10 @@
   }
 
   .marqueeContent {
-    font-size: 14px;
+    font-size: 13px;
   }
 
   .marqueeContent span {
-    padding: 0 1rem;
+    padding: 0 1.2rem;
   }
 }

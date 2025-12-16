@@ -41,13 +41,6 @@ body {
   max-width: 100%;
 }
 
-/* Fix for desktop view on mobile browsers */
-@media (min-width: 769px) {
-  body {
-    min-width: 1024px;
-  }
-}
-
 :root {
   /* Modern Navy Blue & Gold Palette - Dark Theme */
   --navy-primary: #0A1929;
