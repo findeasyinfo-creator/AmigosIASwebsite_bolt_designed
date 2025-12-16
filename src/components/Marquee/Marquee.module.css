@@ -48,11 +48,11 @@
 
   /* Fade masks adapted for light theme */
   [data-theme="light"] .marqueeWrapper::before {
-    background: linear-gradient(to right, rgba(255,255,255,1) 0%, rgba(255,255,255,0.0) 100%);
+    background: linear-gradient(to right, rgba(255, 255, 255, 1) 0%, transparent 100%);
   }
 
   [data-theme="light"] .marqueeWrapper::after {
-    background: linear-gradient(to left, rgba(255,255,255,1) 0%, rgba(255,255,255,0.0) 100%);
+    background: linear-gradient(to left, rgba(255, 255, 255, 1) 0%, transparent 100%);
   }
 
 @keyframes borderShine {
@@ -119,8 +119,8 @@
   left: 0;
   top: 0;
   bottom: 0;
-  width: 80px;
-  background: linear-gradient(to right, rgba(255,255,255,1) 0%, rgba(255,255,255,0.0) 100%);
+  width: 60px;
+  background: linear-gradient(to right, rgba(212, 175, 55, 0.9) 0%, transparent 100%);
   z-index: 2;
   pointer-events: none;
 }
@@ -132,8 +132,8 @@
   right: 0;
   top: 0;
   bottom: 0;
-  width: 80px;
-  background: linear-gradient(to left, rgba(255,255,255,1) 0%, rgba(255,255,255,0.0) 100%);
+  width: 60px;
+  background: linear-gradient(to left, rgba(245, 158, 11, 0.9) 0%, transparent 100%);
   z-index: 2;
   pointer-events: none;
 }
@@ -147,12 +147,14 @@
   will-change: transform;
   color: #0a0e1a;
   text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Segoe UI Emoji", "Segoe UI Symbol", "Apple Color Emoji", "Noto Color Emoji", sans-serif;
 }
 
 .marqueeContent span {
   display: inline-block;
   padding: 0 1.5rem;
   white-space: nowrap;
+  line-height: 1.6;
 }
 
 @keyframes marqueeShine {
@@ -189,55 +191,27 @@
     );
   }
 
-  /* Reduce edge masks so they don't cover content */
+  /* Remove edge masks completely on mobile to show all text */
   .marqueeWrapper::before,
   .marqueeWrapper::after {
-    width: 56px;
-    backdrop-filter: blur(1px);
+    display: none;
   }
 
-  .marqueeWrapper::before {
-    background: linear-gradient(
-      to right,
-      rgba(212, 175, 55, 0.55) 0%,
-      rgba(212, 175, 55, 0.35) 40%,
-      transparent 100%
-    );
-  }
-
-  .marqueeWrapper::after {
-    background: linear-gradient(
-      to left,
-      rgba(245, 158, 11, 0.55) 0%,
-      rgba(245, 158, 11, 0.35) 40%,
-      transparent 100%
-    );
-  }
-
-  /* Light theme mobile edge masks */
-  [data-theme="light"] .marqueeWrapper::before {
-    background: linear-gradient(
-      to right,
-      rgba(255, 255, 255, 0.9) 0%,
-      rgba(255, 255, 255, 0.5) 40%,
-      transparent 100%
-    );
-  }
-
-  [data-theme="light"] .marqueeWrapper::after {
-    background: linear-gradient(
-      to left,
-      rgba(255, 255, 255, 0.9) 0%,
-      rgba(255, 255, 255, 0.5) 40%,
-      transparent 100%
-    );
+  .marqueeWrapper {
+    padding: 0 10px;
   }
 
   .marqueeContent {
-    font-size: 13px;
+    font-size: 15px;
+    line-height: 2;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
   }
 
   .marqueeContent span {
-    padding: 0 1.2rem;
+    padding: 0 2rem;
+    display: inline-block;
+    white-space: nowrap;
   }
 }

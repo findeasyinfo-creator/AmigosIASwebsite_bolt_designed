@@ -194,14 +194,29 @@
   }
 }
 
-/* For desktop view on mobile (wider than 769px) */
-@media (min-width: 769px) {
+/* For desktop view (wider than 850px) */
+@media (min-width: 851px) {
   .nav {
     display: flex !important;
   }
   
   .menuToggle {
     display: none !important;
+  }
+}
+
+/* Mobile menu for mobile browser desktop view (769-850px) */
+@media (min-width: 769px) and (max-width: 850px) {
+  .nav {
+    display: none !important;
+  }
+  
+  .headerActions {
+    display: none !important;
+  }
+  
+  .menuToggle {
+    display: block !important;
   }
 }
 
@@ -911,15 +926,15 @@
   box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
 }
 
-/* Only show on actual mobile devices */
-@media (max-width: 768px) {
+/* Show on mobile devices and mobile browser desktop view */
+@media (max-width: 850px) {
   .menuToggle {
     display: block;
   }
 }
 
-/* Force hide on desktop view even on mobile browsers */
-@media (min-width: 769px) {
+/* Force hide on true desktop view */
+@media (min-width: 851px) {
   .menuToggle {
     display: none !important;
   }
@@ -1008,7 +1023,7 @@
   ) 1;
 }
 
-@media (min-width: 769px) {
+@media (min-width: 851px) {
   .mobileMenu {
     display: none;
   }
@@ -1401,8 +1416,8 @@
   font-size: 13px;
 }
 
-/* Mobile Responsive - only for actual mobile devices */
-@media (max-width: 768px) {
+/* Mobile Responsive - mobile devices and mobile browser desktop view */
+@media (max-width: 850px) {
   .nav {
     display: none !important;
   }
