@@ -206,7 +206,7 @@ function DirectorMessageSection() {
   }, []);
 
   return (
-    <section className="py-20 relative" ref={sectionRef}>
+    <section className="py-20 relative bg-white dark:bg-[#0f1b2e]" ref={sectionRef}>
       <style>{`
         @keyframes slideInRight {
           from {
@@ -433,7 +433,7 @@ function ChiefAdviserSection() {
   }, []);
 
   return (
-    <section className="pt-10 pb-16 sm:py-20 border-t border-gray-200 dark:border-gray-800 relative" ref={sectionRef}>
+    <section className="pt-10 pb-16 sm:py-20 border-t border-gray-200 dark:border-gray-800 relative bg-white dark:bg-[#0f1b2e]" ref={sectionRef}>
       <style>{`
         @keyframes slideInRight {
           from {

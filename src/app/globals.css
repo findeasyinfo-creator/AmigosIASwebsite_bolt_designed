@@ -1134,3 +1134,26 @@ select option:checked::after {
 [data-theme="dark"] .btnPrimaryOrange:hover {
   background: linear-gradient(135deg, #FFE17B 0%, #F2C94C 100%);
 }
+/* Force dark theme for sticky containers on mobile */
+@media (max-width: 768px) {
+  [data-theme="dark"] .sticky[class*="bg-white"] {
+    background: rgba(15, 27, 46, 0.95) !important;
+  }
+  
+  [data-theme="dark"] .courses-section .sticky[class*="bg-white"] {
+    background: rgba(17, 24, 39, 0.95) !important;
+  }
+  
+  [data-theme="dark"] .resources-tabs .sticky[class*="bg-white"] {
+    background: rgba(17, 24, 39, 0.95) !important;
+  }
+  
+  [data-theme="dark"] .sticky button[class*="bg-white/80"]:not([class*="bg-orange-500"]) {
+    background: rgba(31, 41, 55, 0.8) !important;
+    color: rgb(209, 213, 219) !important;
+  }
+  
+  [data-theme="dark"] .sticky button[class*="bg-white/80"]:hover:not([class*="bg-orange-500"]) {
+    background: rgb(55, 65, 81) !important;
+  }
+}
