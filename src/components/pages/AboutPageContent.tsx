@@ -314,18 +314,18 @@ function DirectorMessageSection() {
                 Meet Our<br />Chairman
               </h2>
 
-              <div className="relative w-full max-w-3xl mx-auto my-6 lg:hidden">
-                {/* {mounted && (
+              <div className="relative w-full max-w-2xl mx-auto my-6 lg:hidden">
+                {mounted && (
                   <Image
                     key={`chairman-mobile-${theme}`}
-                    src={isDark ? "/assets/chairman dark theme .png" : "/assets/chairman light theme.png"}
+                    src={isDark ? "/assets/chairman dark theme.png" : "/assets/chairman light theme.jpg"}
                     alt="Musku Ramana Reddy - Chairman"
                     width={700}
                     height={850}
                     className="w-full h-auto object-contain"
                     priority
                   />
-                )} */}
+                )}
                 <div className="absolute bottom-0 left-1/2 w-3/4 h-12 bg-gradient-to-r from-transparent via-black/20 to-transparent blur-xl -translate-x-1/2 transform" />
               </div>
 
@@ -379,19 +379,19 @@ function DirectorMessageSection() {
           </div>
 
           {/* Right side - Image */}
-          <div className="director-image hidden lg:flex items-center justify-start lg:justify-center lg:order-2 lg:-mt-32">
-            <div className="relative">
-              {/* {mounted && (
+          <div className="director-image hidden lg:flex items-center justify-start lg:justify-center lg:order-2 lg:-mt-16 lg:pl-12">
+            <div className="relative w-full max-w-[600px] xl:max-w-[700px]">
+              {mounted && (
                 <Image
                   key={`chairman-desktop-${theme}`}
-                  src={isDark ? "/assets/chairman dark theme .png" : "/assets/chairman light theme.png"}
+                  src={isDark ? "/assets/chairman dark theme.png" : "/assets/chairman light theme.jpg"}
                   alt="Musku Ramana Reddy - Chairman"
-                  width={1400}
-                  height={1600}
-                  className="w-auto h-auto object-contain relative z-10 lg:max-w-[800px] xl:max-w-[900px]"
+                  width={700}
+                  height={850}
+                  className="w-full h-auto object-contain relative z-10"
                   priority
                 />
-              )} */}
+              )}
               {/* Shadow underneath */}
               <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-3/4 h-20 bg-gradient-to-r from-transparent via-black/20 to-transparent blur-2xl -z-0"></div>
             </div>
@@ -546,18 +546,18 @@ function ChiefAdviserSection() {
           <div className="hidden lg:block absolute right-1/2 top-0 transform translate-x-1/2 w-8 bg-orange-500 dark:bg-[#D4AF37] orange-bar-divider" style={{ height: isVisible ? '380px' : '0px', opacity: isVisible ? 1 : 0 }}></div>
 
           {/* Left side - Image */}
-          <div className="adviser-image hidden lg:flex items-center justify-center">
-            <div className="relative">
-              {/* {mounted && (
+          <div className="adviser-image hidden lg:flex items-center justify-center lg:pr-12">
+            <div className="relative w-full max-w-[600px] xl:max-w-[700px]">
+              {mounted && (
                 <Image
                   key={`advisor-desktop-${theme}`}
-                  src={isDark ? "/assets/advisor dark theme.png" : "/assets/advisor light theme.png"}
+                  src={isDark ? "/assets/advisor dark theme.png" : "/assets/advisor light theme.jpg"}
                   alt="GHP Raju IPS - Chief Advisor"
-                  width={1400}
-                  height={1600}
-                  className="w-auto h-auto object-contain relative z-10 lg:max-w-[800px] xl:max-w-[900px]"
+                  width={700}
+                  height={850}
+                  className="w-full h-auto object-contain relative z-10"
                 />
-              )} */}
+              )}
               {/* Shadow underneath */}
               <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-3/4 h-20 bg-gradient-to-r from-transparent via-black/20 to-transparent blur-2xl -z-0"></div>
             </div>
@@ -570,18 +570,18 @@ function ChiefAdviserSection() {
                 Meet Our Chief<br />Advisor
               </h2>
 
-              <div className="relative w-full max-w-3xl h-96 sm:h-full mx-auto mt-2 mb-5 overflow-hidden rounded-xl lg:hidden">
-                {/* {mounted && (
+              <div className="relative w-full max-w-2xl mx-auto mt-2 mb-5 lg:hidden">
+                {mounted && (
                   <Image
                     key={`advisor-mobile-${theme}`}
-                    src={isDark ? "/assets/advisor dark theme.png" : "/assets/advisor light theme.png"}
+                    src={isDark ? "/assets/advisor dark theme.png" : "/assets/advisor light theme.jpg"}
                     alt="GHP Raju IPS - Chief Advisor"
                     width={700}
                     height={850}
-                    className="w-full h-full object-cover object-top"
+                    className="w-full h-auto object-contain"
                   />
-                )} */}
-                <div className="absolute bottom-0 left-1/2 w-3/4 h-12 bg-gradient-to-r from-transparent via-black/20 to-transparent blur-xl -translate-x-1/2 transform hidden lg:block" />
+                )}
+                <div className="absolute bottom-0 left-1/2 w-3/4 h-12 bg-gradient-to-r from-transparent via-black/20 to-transparent blur-xl -translate-x-1/2 transform" />
               </div>
 
               <h3 className="text-3xl sm:text-4xl font-bold text-orange-500 dark:text-[#D4AF37] mb-6">
