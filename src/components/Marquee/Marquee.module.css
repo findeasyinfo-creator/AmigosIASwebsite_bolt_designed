@@ -27,7 +27,7 @@
   animation: borderShine 3s linear infinite;
   z-index: 1;
   width: 100%;
-  max-width: 100vw;
+  max-width: 100%;
 }
 
   [data-theme="light"] .marqueeSection {
