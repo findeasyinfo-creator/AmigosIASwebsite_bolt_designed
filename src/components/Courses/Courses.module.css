@@ -925,6 +925,59 @@
   box-shadow: 0 12px 40px rgba(255, 122, 0, 0.4);
 }
 
+/* Mobile browser desktop view (769-850px) - adjust for smaller viewport */
+@media (min-width: 769px) and (max-width: 850px) {
+  .coursesSection {
+    padding: 2rem 1rem;
+  }
+
+  .container {
+    padding: 1.5rem 1rem;
+    max-width: 100%;
+  }
+
+  .sectionTitle {
+    font-size: clamp(32px, 5vw, 42px);
+    margin-bottom: 0.5rem;
+  }
+
+  .sectionSubtitle {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .coursesWrapper {
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 0;
+  }
+
+  .coursesContainer {
+    padding: 1.5rem;
+    width: 100%;
+  }
+
+  .coursesGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .lbsnaaBanner {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .bottomButtonArea {
+    margin-top: 2rem;
+    padding: 0;
+  }
+
+  .exploreAllCoursesBtn {
+    padding: 14px 28px;
+    font-size: 16px;
+  }
+}
+
 /* Mobile responsive updates for bottom button */
 @media (max-width: 768px) {
   .bottomButtonArea {

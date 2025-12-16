@@ -431,8 +431,39 @@
 }
 
 /* Responsive */
-/* Narrow desktop views (mobile browser desktop mode) */
-@media (min-width: 769px) and (max-width: 900px) {
+/* Mobile browser desktop view (769-850px) */
+@media (min-width: 769px) and (max-width: 850px) {
+  .statsSection {
+    padding: 2rem 1rem;
+  }
+
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    max-width: 100%;
+  }
+
+  .statCard {
+    padding: 1.8rem 1.2rem;
+  }
+
+  .statIcon {
+    width: 55px;
+    height: 55px;
+    font-size: 1.6rem;
+  }
+
+  .statValue {
+    font-size: 2.2rem;
+  }
+
+  .statLabel {
+    font-size: 0.9rem;
+  }
+}
+
+/* Wider narrow desktop views */
+@media (min-width: 851px) and (max-width: 900px) {
   .statsSection {
     padding: 2rem 1rem;
   }
