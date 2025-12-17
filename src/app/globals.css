@@ -21,6 +21,11 @@ html {
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
+  background-color: #0a1628;
+}
+
+html[data-theme="light"] {
+  background-color: #FFFFFF !important;
 }
 
 body {
@@ -146,6 +151,11 @@ body {
   overflow-x: clip;
   margin: 0;
   padding: 0;
+  background-color: #0a1628;
+  background: #0a1628;
+  background: -webkit-linear-gradient(180deg, #0a1628 0%, #0d1b2e 50%, #0f1f35 100%);
+  background: -moz-linear-gradient(180deg, #0a1628 0%, #0d1b2e 50%, #0f1f35 100%);
+  background: linear-gradient(180deg, #0a1628 0%, #0d1b2e 50%, #0f1f35 100%);
   background: 
     radial-gradient(ellipse at 20% 30%, rgba(30, 50, 80, 0.3) 0%, transparent 45%),
     radial-gradient(ellipse at 80% 70%, rgba(20, 35, 60, 0.4) 0%, transparent 50%),
@@ -348,6 +358,10 @@ section, main, div, article {
    ============================================ */
 
 [data-theme="light"] body {
+  background-color: #FFFFFF !important;
+  background: #FFFFFF;
+  background: -webkit-linear-gradient(to bottom, rgba(255, 186, 64, 0.15) 0%, rgba(255, 186, 64, 0.08) 400px, rgba(255, 255, 255, 1) 600px, #FFFFFF 100%);
+  background: -moz-linear-gradient(to bottom, rgba(255, 186, 64, 0.15) 0%, rgba(255, 186, 64, 0.08) 400px, rgba(255, 255, 255, 1) 600px, #FFFFFF 100%);
   background: linear-gradient(to bottom, rgba(255, 186, 64, 0.15) 0%, rgba(255, 186, 64, 0.08) 400px, rgba(255, 255, 255, 1) 600px, #FFFFFF 100%);
 }
 
@@ -1160,4 +1174,97 @@ select option:checked::after {
   [data-theme="dark"] .sticky button[class*="bg-white/80"]:hover:not([class*="bg-orange-500"]) {
     background: rgb(55, 65, 81) !important;
   }
+}
+
+/* ============================================
+   BROWSER COMPATIBILITY FIXES FOR DARK THEME
+   ============================================ */
+
+/* Ensure all sections have proper background in dark theme */
+[data-theme="dark"] section,
+[data-theme="dark"] main,
+[data-theme="dark"] article {
+  background-color: transparent;
+}
+
+/* Fix white backgrounds showing in dark theme across all browsers */
+[data-theme="dark"] .bg-white:not([class*="dark:bg-"]) {
+  background-color: #0f1b2e !important;
+}
+
+[data-theme="dark"] [class*="bg-white"] {
+  background-color: #0f1b2e;
+}
+
+/* Ensure modal and card backgrounds work in dark theme */
+[data-theme="dark"] [class*="bg-gray-900"],
+[data-theme="dark"] [class*="dark:bg-gray-900"] {
+  background-color: #111827 !important;
+}
+
+[data-theme="dark"] [class*="bg-gray-800"],
+[data-theme="dark"] [class*="dark:bg-gray-800"] {
+  background-color: #1f2937 !important;
+}
+
+[data-theme="dark"] [class*="bg-gray-700"],
+[data-theme="dark"] [class*="dark:bg-gray-700"] {
+  background-color: #374151 !important;
+}
+
+/* Ensure specific component backgrounds */
+[data-theme="dark"] [class*="dark:bg-[#0f1b2e]"],
+[data-theme="dark"] section[class*="bg-white"][class*="dark:bg-[#0f1b2e]"] {
+  background-color: #0f1b2e !important;
+}
+
+[data-theme="dark"] [class*="dark:bg-[#1a2942]"],
+[data-theme="dark"] [class*="bg-white"][class*="dark:bg-[#1a2942]"] {
+  background-color: #1a2942 !important;
+}
+
+/* Fix container backgrounds */
+[data-theme="dark"] .container,
+[data-theme="dark"] .wrapper {
+  background-color: transparent;
+}
+
+/* Ensure text colors are visible */
+[data-theme="dark"] [class*="text-gray-900"] {
+  color: #f9fafb !important;
+}
+
+[data-theme="dark"] [class*="text-gray-800"] {
+  color: #ffffff !important;
+}
+
+/* Fix border colors in dark theme */
+[data-theme="dark"] [class*="border-gray-200"] {
+  border-color: #374151 !important;
+}
+
+[data-theme="dark"] [class*="border-gray-300"] {
+  border-color: #4b5563 !important;
+}
+
+/* Vendor prefixes for gradients in dark theme */
+[data-theme="dark"] [style*="background: linear-gradient"] {
+  -webkit-background: linear-gradient;
+  -moz-background: linear-gradient;
+}
+
+/* Force dark theme styling for hero sections */
+[data-theme="dark"] .hero-section,
+[data-theme="dark"] section[class*="hero"] {
+  background-color: transparent !important;
+}
+
+/* Ensure current affairs section backgrounds */
+[data-theme="dark"] .current-affairs-section {
+  background-color: transparent !important;
+}
+
+/* Fix About page specific sections */
+[data-theme="dark"] section.py-20[class*="bg-white"] {
+  background-color: #0f1b2e !important;
 }
