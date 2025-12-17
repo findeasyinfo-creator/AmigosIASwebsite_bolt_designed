@@ -305,8 +305,8 @@ function DirectorMessageSection() {
       <style>{`
         @media (min-width: 769px) and (max-width: 850px) {
           .about-section-container {
-            padding-left: 1rem !important;
-            padding-right: 1rem !important;
+            padding-left: 1.5rem !important;
+            padding-right: 1.5rem !important;
             max-width: 100% !important;
           }
         }
@@ -334,13 +334,21 @@ function DirectorMessageSection() {
                   max-width: 100%;
                 }
                 .director-content > div {
-                  padding: 0 1rem;
+                  padding: 0 1.5rem;
                   max-width: 100%;
                 }
                 .director-content h2,
-                .director-content h3,
+                .director-content h3 {
+                  text-align: left !important;
+                  margin-left: 0;
+                  margin-right: 0;
+                  max-width: 100%;
+                  padding-left: 0;
+                  padding-right: 0;
+                }
                 .director-content p {
-                  text-align: left;
+                  text-align: justify !important;
+                  text-justify: inter-word !important;
                   margin-left: 0;
                   margin-right: 0;
                   max-width: 100%;
@@ -605,8 +613,8 @@ function ChiefAdviserSection() {
       <style>{`
         @media (min-width: 769px) and (max-width: 850px) {
           .about-section-container {
-            padding-left: 1rem !important;
-            padding-right: 1rem !important;
+            padding-left: 1.5rem !important;
+            padding-right: 1.5rem !important;
             max-width: 100% !important;
           }
           .adviser-content {
@@ -616,13 +624,21 @@ function ChiefAdviserSection() {
             max-width: 100%;
           }
           .adviser-content > div {
-            padding: 0 1rem;
+            padding: 0 1.5rem;
             max-width: 100%;
           }
           .adviser-content h2,
-          .adviser-content h3,
+          .adviser-content h3 {
+            text-align: left !important;
+            margin-left: 0;
+            margin-right: 0;
+            max-width: 100%;
+            padding-left: 0;
+            padding-right: 0;
+          }
           .adviser-content p {
-            text-align: left;
+            text-align: justify !important;
+            text-justify: inter-word !important;
             margin-left: 0;
             margin-right: 0;
             max-width: 100%;

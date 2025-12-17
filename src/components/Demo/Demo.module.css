@@ -406,6 +406,98 @@
   }
 }
 
+/* Mobile browser desktop view (769-850px) - carousel style */
+@media (min-width: 769px) and (max-width: 850px) {
+  .demoSection {
+    padding: 2rem 0.5rem;
+  }
+
+  .container {
+    padding: 2rem 1rem;
+    max-width: 100%;
+    overflow: visible;
+  }
+
+  .sectionTitle {
+    font-size: clamp(28px, 4.5vw, 36px);
+    margin-bottom: 0.5rem;
+  }
+
+  .demoSubtitle {
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+    padding: 0 0.5rem;
+  }
+
+  .demoGrid {
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    gap: 1.25rem;
+    padding: 0.5rem 1rem 1.5rem;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(212, 175, 55, 0.5) rgba(0, 0, 0, 0.2);
+  }
+
+  .demoGrid::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  .demoGrid::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+  }
+
+  .demoGrid::-webkit-scrollbar-thumb {
+    background: rgba(212, 175, 55, 0.5);
+    border-radius: 4px;
+  }
+
+  .demoGrid::-webkit-scrollbar-thumb:hover {
+    background: rgba(212, 175, 55, 0.7);
+  }
+
+  [data-theme="light"] .demoGrid::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+  }
+
+  [data-theme="light"] .demoGrid::-webkit-scrollbar-thumb {
+    background: rgba(255, 152, 0, 0.5);
+  }
+
+  [data-theme="light"] .demoGrid::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 152, 0, 0.7);
+  }
+
+  .demoCard {
+    min-width: 320px;
+    max-width: 320px;
+    scroll-snap-align: start;
+    flex-shrink: 0;
+    scroll-snap-stop: always;
+  }
+
+  .demoContent {
+    padding: 1.25rem;
+  }
+
+  .demoTitle {
+    font-size: 1rem;
+  }
+
+  .demoDescription {
+    font-size: 0.875rem;
+  }
+
+  .exploreBtn {
+    padding: 11px 26px;
+    font-size: 15px;
+  }
+}
+
 @media (max-width: 480px) {
   .demoSection {
     padding: 2.5rem 0.5rem;
