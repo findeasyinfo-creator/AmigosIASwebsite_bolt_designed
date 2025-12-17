@@ -191,14 +191,20 @@ export default function LatestCurrentAffairs() {
               <p className={styles.modalFullContent}>{selectedItem.fullContent}</p>
               
               <div className={styles.modalTopics}>
-                <h3 className={styles.modalTopicsTitle}>Key Topics</h3>
-                <div className={styles.modalTopicsContainer}>
-                  {selectedItem.topics.map((topic, index) => (
-                    <span key={index} className={styles.modalTopic}>
-                      {topic}
-                    </span>
-                  ))}
-                </div>
+                <h3 className={styles.modalTopicsTitle}>🔑 Key Topics</h3>
+                {selectedItem.topics && selectedItem.topics.length > 0 ? (
+                  <div className={styles.modalTopicsContainer}>
+                    {selectedItem.topics.map((topic, index) => (
+                      <span key={index} className={styles.modalTopic}>
+                        {topic}
+                      </span>
+                    ))}
+                  </div>
+                ) : (
+                  <p style={{ color: 'var(--text-secondary, #666)', fontSize: '0.875rem' }}>
+                    No key topics available
+                  </p>
+                )}
               </div>
               
               <div className={styles.modalActions}>

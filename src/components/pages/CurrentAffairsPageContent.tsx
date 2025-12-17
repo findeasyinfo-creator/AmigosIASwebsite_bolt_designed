@@ -665,18 +665,22 @@ export default function CurrentAffairsPageContent() {
                 </div>
 
                 {/* Key Topics */}
-                <div>
+                <div className="mb-4">
                   <h5 className="text-base sm:text-lg font-bold mb-3 text-gray-900 dark:text-[#F2C94C] flex items-center gap-2">
                     <span className="text-lg sm:text-xl">🔑</span>
                     Key Topics
                   </h5>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    {selectedItem.topics.map((topic, index) => (
-                      <div key={index} className="flex items-start bg-gray-50 dark:bg-gray-800/50 rounded-md p-2.5 text-sm">
-                        <span className="text-orange-500 dark:text-[#F2C94C] mr-2 flex-shrink-0 font-bold">✓</span>
-                        <span className="text-gray-800 dark:text-white">{topic}</span>
-                      </div>
-                    ))}
+                    {selectedItem.topics && selectedItem.topics.length > 0 ? (
+                      selectedItem.topics.map((topic, index) => (
+                        <div key={index} className="flex items-start bg-orange-50 dark:bg-[#1a2942] rounded-md p-2.5 text-sm border-2 border-orange-200 dark:border-[#D4AF37]/30">
+                          <span className="text-orange-500 dark:text-[#F2C94C] mr-2 flex-shrink-0 font-bold text-base">✓</span>
+                          <span className="text-gray-800 dark:text-white font-medium">{topic}</span>
+                        </div>
+                      ))
+                    ) : (
+                      <p className="text-gray-500 dark:text-gray-400 text-sm col-span-2">No key topics available</p>
+                    )}
                   </div>
                 </div>
 

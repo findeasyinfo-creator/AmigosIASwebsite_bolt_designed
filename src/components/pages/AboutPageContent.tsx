@@ -302,13 +302,75 @@ function DirectorMessageSection() {
           animation: fillCircle2 2s ease-in-out forwards 0.8s;
         }
       `}</style>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <style>{`
+        @media (min-width: 769px) and (max-width: 850px) {
+          .about-section-container {
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
+            max-width: 100% !important;
+          }
+        }
+        @media (max-width: 1200px) and (max-height: 600px) {
+          .about-section-container {
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
+            max-width: 100% !important;
+          }
+        }
+      `}</style>
+      <div className="about-section-container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center relative">
           {/* Animated Gold Bar Divider */}
           <div className="hidden lg:block absolute left-1/2 top-0 transform -translate-x-1/2 w-8 bg-orange-500 dark:bg-[#D4AF37] orange-bar-divider" style={{ height: isVisible ? '380px' : '0px', opacity: isVisible ? 1 : 0 }}></div>
 
           {/* Left side - Content */}
           <div className="director-content lg:border-l-8 lg:border-orange-500 dark:lg:border-[#D4AF37] lg:pl-12">
+            <style>{`
+              @media (min-width: 769px) and (max-width: 850px) {
+                .director-content {
+                  padding-left: 0 !important;
+                  padding-right: 0 !important;
+                  border-left: none !important;
+                  max-width: 100%;
+                }
+                .director-content > div {
+                  padding: 0 1rem;
+                  max-width: 100%;
+                }
+                .director-content h2,
+                .director-content h3,
+                .director-content p {
+                  text-align: left;
+                  margin-left: 0;
+                  margin-right: 0;
+                  max-width: 100%;
+                  padding-left: 0;
+                  padding-right: 0;
+                }
+              }
+              @media (max-width: 1200px) and (max-height: 600px) {
+                .director-content {
+                  padding-left: 0 !important;
+                  padding-right: 0 !important;
+                  border-left: none !important;
+                  max-width: 100%;
+                }
+                .director-content > div {
+                  padding: 0 1rem;
+                  max-width: 100%;
+                }
+                .director-content h2,
+                .director-content h3,
+                .director-content p {
+                  text-align: left;
+                  margin-left: 0;
+                  margin-right: 0;
+                  max-width: 100%;
+                  padding-left: 0;
+                  padding-right: 0;
+                }
+              }
+            `}</style>
             <div>
               <h2 className="text-5xl sm:text-6xl lg:text-7xl font-black text-gray-900 dark:text-[#D4AF37] mb-6 leading-tight">
                 Meet Our<br />Chairman
@@ -540,7 +602,63 @@ function ChiefAdviserSection() {
           animation: fillCircle4 2s ease-in-out forwards 0.8s;
         }
       `}</style>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <style>{`
+        @media (min-width: 769px) and (max-width: 850px) {
+          .about-section-container {
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
+            max-width: 100% !important;
+          }
+          .adviser-content {
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+            border-left: none !important;
+            max-width: 100%;
+          }
+          .adviser-content > div {
+            padding: 0 1rem;
+            max-width: 100%;
+          }
+          .adviser-content h2,
+          .adviser-content h3,
+          .adviser-content p {
+            text-align: left;
+            margin-left: 0;
+            margin-right: 0;
+            max-width: 100%;
+            padding-left: 0;
+            padding-right: 0;
+          }
+        }
+        @media (max-width: 1200px) and (max-height: 600px) {
+          .about-section-container {
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
+            max-width: 100% !important;
+          }
+          .adviser-content {
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+            border-left: none !important;
+            max-width: 100%;
+          }
+          .adviser-content > div {
+            padding: 0 1rem;
+            max-width: 100%;
+          }
+          .adviser-content h2,
+          .adviser-content h3,
+          .adviser-content p {
+            text-align: left;
+            margin-left: 0;
+            margin-right: 0;
+            max-width: 100%;
+            padding-left: 0;
+            padding-right: 0;
+          }
+        }
+      `}</style>
+      <div className="about-section-container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-16 items-center relative">
           {/* Animated Gold Bar Divider */}
           <div className="hidden lg:block absolute right-1/2 top-0 transform translate-x-1/2 w-8 bg-orange-500 dark:bg-[#D4AF37] orange-bar-divider" style={{ height: isVisible ? '380px' : '0px', opacity: isVisible ? 1 : 0 }}></div>
