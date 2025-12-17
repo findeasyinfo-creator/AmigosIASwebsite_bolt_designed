@@ -9,7 +9,7 @@
   align-items: center;
   width: 100%;
   max-width: 100%;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 .container {
@@ -22,7 +22,7 @@
   box-shadow: none;
   border: none;
   width: 100%;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 .sectionTitle {
@@ -61,7 +61,6 @@
   align-items: center;
   justify-content: center;
   max-width: 1300px;
-  width: 100%;
   margin: 0 auto;
 }
 
@@ -82,8 +81,6 @@
   overflow: visible;
   position: relative;
   animation: container-glow 4s ease-in-out infinite;
-  width: 100%;
-  max-width: 100%;
 }
 
 [data-theme="light"] .coursesContainer {
@@ -115,11 +112,10 @@
 
 .coursesGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(2, minmax(280px, 1fr));
   gap: 2rem;
   flex: 1;
-  max-width: 100%;
-  width: 100%;
+  max-width: 700px;
   margin: 0 auto;
 }
 
@@ -421,8 +417,7 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  max-width: 320px;
-  width: 100%;
+  width: 320px;
   min-height: 100%;
   padding: 0;
   border-radius: 28px;
@@ -969,50 +964,6 @@
   .coursesGrid {
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
-  }
-}
-
-/* Step 6: Mobile desktop mode - comprehensive fix for viewport issues */
-@media (max-width: 1024px) {
-  .coursesSection {
-    padding-left: 16px;
-    padding-right: 16px;
-    overflow-x: hidden;
-  }
-
-  .container {
-    padding-left: 16px;
-    padding-right: 16px;
-    max-width: 100%;
-    overflow-x: hidden;
-  }
-
-  .coursesWrapper {
-    flex-direction: column;
-    gap: 1.5rem;
-    width: 100%;
-    max-width: 100%;
-  }
-
-  .coursesContainer {
-    width: 100%;
-    max-width: 100%;
-    padding: 1.5rem 1rem;
-  }
-
-  .coursesGrid {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
-  }
-
-  .upscEmblemCard {
-    display: none;
-  }
-
-  .upscEmblemMobile {
-    display: block;
-    width: 100%;
-    max-width: 280px;
   }
 }
 
