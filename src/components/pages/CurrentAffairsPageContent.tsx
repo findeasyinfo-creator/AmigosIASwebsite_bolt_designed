@@ -21,7 +21,10 @@ type CAItem = {
 }
 
 export default function CurrentAffairsPageContent() {
-  const todayStr = useMemo(() => new Date().toISOString().slice(0, 10), [])
+  const todayStr = useMemo(() => {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  }, [])
   const [activeTab, setActiveTab] = useState<CAType>('daily')
   // For Daily: start with 'all' to show all daily items by default
   const [selectedDate, setSelectedDate] = useState<string>('all')
@@ -231,7 +234,8 @@ export default function CurrentAffairsPageContent() {
     if (activeTab === 'daily' && selectedDate && selectedDate !== 'all' && item.date !== selectedDate) return false
 
     if (activeTab === 'weekly' && weeklyRange !== 'all') {
-      const d = new Date(item.date)
+      const [year, month, day] = item.date.split('-').map(Number)
+      const d = new Date(year, month - 1, day)
       d.setHours(0, 0, 0, 0)
       const inThisWeek = d >= currentWeekStart && d <= currentWeekEnd
       const inLastWeek = d >= lastWeekStart && d <= lastWeekEnd
@@ -239,16 +243,17 @@ export default function CurrentAffairsPageContent() {
       if (weeklyRange === 'last-week' && !inLastWeek) return false
     }
     if (activeTab === 'monthly' && monthlyRange !== 'all') {
-      const d = new Date(item.date)
-      const month = d.getMonth()
-      const year = d.getFullYear()
+      const [year, month, day] = item.date.split('-').map(Number)
+      const d = new Date(year, month - 1, day)
+      const actualMonth = d.getMonth()
+      const actualYear = d.getFullYear()
       const currentMonth = today.getMonth()
       const currentYear = today.getFullYear()
       const lastMonthDate = new Date(currentYear, currentMonth - 1, 1)
       const lastMonth = lastMonthDate.getMonth()
       const lastMonthYear = lastMonthDate.getFullYear()
-      if (monthlyRange === 'this-month' && !(month === currentMonth && year === currentYear)) return false
-      if (monthlyRange === 'last-month' && !(month === lastMonth && year === lastMonthYear)) return false
+      if (monthlyRange === 'this-month' && !(actualMonth === currentMonth && actualYear === currentYear)) return false
+      if (monthlyRange === 'last-month' && !(actualMonth === lastMonth && actualYear === lastMonthYear)) return false
     }
     return true
   })

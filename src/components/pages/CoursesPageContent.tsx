@@ -335,9 +335,6 @@ export default function CoursesPageContent() {
                       <span className="px-2.5 py-1 bg-white/20 rounded-full font-medium">
                         📅 {courses.find(c => c.id === selectedCourse)!.startDate}
                       </span>
-                      <span className="px-2.5 py-1 bg-white rounded-full text-orange-600 font-bold">
-                        💰 {courses.find(c => c.id === selectedCourse)!.fees}
-                      </span>
                     </div>
                   </div>
                 </div>

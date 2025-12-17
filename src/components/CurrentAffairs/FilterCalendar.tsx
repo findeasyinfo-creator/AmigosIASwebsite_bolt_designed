@@ -153,19 +153,31 @@ export default function FilterCalendar({mode, value, onChange, title, open = tru
   }
 
   const handleCustomDate = () => {
-    if (customMonth && customYear && /^\d{1,2}$/.test(customMonth) && /^\d{4}$/.test(customYear)) {
-      const m = parseInt(customMonth,10)
-      if(m>=1 && m<=12){
-        setCursor(new Date(parseInt(customYear,10), m-1, 1))
+    const monthToUse = customMonth || String(cursor.getMonth() + 1)
+    const yearToUse = customYear || String(cursor.getFullYear())
+    
+    if (monthToUse && yearToUse && /^\d{1,2}$/.test(monthToUse) && /^\d{4}$/.test(yearToUse)) {
+      const m = parseInt(monthToUse, 10)
+      const y = parseInt(yearToUse, 10)
+      if (m >= 1 && m <= 12 && y >= 2000 && y <= 2100) {
+        setCursor(new Date(y, m - 1, 1))
+        setCustomMonth('')
+        setCustomYear('')
       }
     }
   }
 
   const handleCustomWeek = () => {
-    if (customMonth && customYear && /^\d{1,2}$/.test(customMonth) && /^\d{4}$/.test(customYear)) {
-      const m = parseInt(customMonth,10)
-      if(m>=1 && m<=12){
-        setCursor(new Date(parseInt(customYear,10), m-1, 1))
+    const monthToUse = customMonth || String(cursor.getMonth() + 1)
+    const yearToUse = customYear || String(cursor.getFullYear())
+    
+    if (monthToUse && yearToUse && /^\d{1,2}$/.test(monthToUse) && /^\d{4}$/.test(yearToUse)) {
+      const m = parseInt(monthToUse, 10)
+      const y = parseInt(yearToUse, 10)
+      if (m >= 1 && m <= 12 && y >= 2000 && y <= 2100) {
+        setCursor(new Date(y, m - 1, 1))
+        setCustomMonth('')
+        setCustomYear('')
       }
     }
   }
@@ -232,7 +244,6 @@ export default function FilterCalendar({mode, value, onChange, title, open = tru
             <button 
               className={styles.addBtn} 
               onClick={handleCustomDate}
-              disabled={!((customMonth||String(cursor.getMonth()+1)) && (customYear||String(cursor.getFullYear())))}
             >
               Go
             </button>
@@ -246,12 +257,19 @@ export default function FilterCalendar({mode, value, onChange, title, open = tru
             {Array.from({length:startWeekday}).map((_,i)=> <div key={`empty-${i}`} className={styles.emptyCell} />)}
             {days.map((d)=>{
               const today = new Date()
-              const selected = (value && new Date(value).toDateString()===d.toDateString()) || today.toDateString()===d.toDateString()
+              today.setHours(0, 0, 0, 0)
+              const isToday = today.toDateString() === d.toDateString()
+              const isSelected = value && new Date(value).toDateString() === d.toDateString()
+              const dateStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
               return (
                 <button
                   key={d.toISOString()}
-                  className={`${styles.cell} ${selected?styles.cellActive:''}`}
-                  onClick={()=> selectAndClose(d.toISOString().slice(0,10))}
+                  className={`${styles.cell} ${isSelected ? styles.cellActive : ''} ${isToday ? styles.cellToday : ''}`}
+                  onClick={()=> selectAndClose(dateStr)}
+                  onTouchEnd={(e) => {
+                    e.preventDefault();
+                    selectAndClose(dateStr);
+                  }}
                   type="button"
                 >{d.getDate()}</button>
               )
@@ -286,7 +304,6 @@ export default function FilterCalendar({mode, value, onChange, title, open = tru
             <button 
               className={styles.addBtn} 
               onClick={handleCustomWeek}
-              disabled={!((customMonth||String(cursor.getMonth()+1)) && (customYear||String(cursor.getFullYear())))}
             >
               Go
             </button>
@@ -297,7 +314,7 @@ export default function FilterCalendar({mode, value, onChange, title, open = tru
             ))}
           </div>
           <div className={styles.grid}>
-            {Array.from({length:startWeekday}).map((_,i)=> <div key={`empty-${i}`} />)}
+            {Array.from({length:startWeekday}).map((_,i)=> <div key={`empty-${i}`} className={styles.emptyCell} />)}
             {days.map((d)=>{
               const ms = new Date(d)
               const dow = ms.getDay()
@@ -311,6 +328,11 @@ export default function FilterCalendar({mode, value, onChange, title, open = tru
                   key={d.toISOString()+"w"}
                   className={`${styles.cell} ${selected?styles.cellActive:''}`}
                   onClick={()=> selectAndClose(isoStr)}
+                  onTouchEnd={(e) => {
+                    e.preventDefault();
+                    selectAndClose(isoStr);
+                  }}
+                  type="button"
                 >{d.getDate()}</button>
               )
             })}
@@ -355,7 +377,16 @@ export default function FilterCalendar({mode, value, onChange, title, open = tru
             const val = `${year}-${String(i+1).padStart(2,'0')}`
             const selected = value===val
             return (
-              <button key={val} className={`${styles.monthCell} ${selected?styles.monthActive:''}`} onClick={()=> selectAndClose(val)}>
+              <button 
+                key={val} 
+                className={`${styles.monthCell} ${selected?styles.monthActive:''}`} 
+                onClick={()=> selectAndClose(val)}
+                onTouchEnd={(e) => {
+                  e.preventDefault();
+                  selectAndClose(val);
+                }}
+                type="button"
+              >
                 {label}
               </button>
             )

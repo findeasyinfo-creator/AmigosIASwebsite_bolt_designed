@@ -88,6 +88,10 @@
   line-height: 1.2;
   width: 100%;
   height: auto;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
   opacity: 1 !important;
   visibility: visible !important;
 }
@@ -100,6 +104,20 @@
   color:#fff !important;
   border-color:transparent !important;
   box-shadow:0 10px 24px rgba(255,87,34,.25);
+}
+
+.cellToday{
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(255, 225, 123, 0.15)) !important;
+  border: 2px solid #D4AF37 !important;
+  color: #0a1628;
+  font-weight: 700;
+}
+
+[data-theme="dark"] .cellToday{
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.25), rgba(255, 225, 123, 0.2)) !important;
+  border: 2px solid #D4AF37 !important;
+  color: #FFE17B;
+  font-weight: 700;
 }
 .weekRow{
   display:grid;
@@ -136,6 +154,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
 }
 .monthCell:hover{
   transform:translateY(-3px);
