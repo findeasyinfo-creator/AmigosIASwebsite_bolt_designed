@@ -9,6 +9,8 @@
   padding: 0;
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
+  /* Smooth scrolling for all scrollable elements */
+  -webkit-overflow-scrolling: touch;
 }
 
 html {
@@ -21,6 +23,14 @@ html {
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
+  /* Enhanced mobile scrolling */
+  -webkit-overflow-scrolling: touch;
+  scroll-padding-top: 80px;
+  /* Hardware acceleration for smooth scrolling */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 body {
@@ -31,11 +41,38 @@ body {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Enhanced mobile scrolling */
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: none;
+  /* Hardware acceleration */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  /* Improve scroll performance */
+  will-change: scroll-position;
 }
 
 /* Ensure all sections respect viewport width */
 * {
   max-width: 100%;
+}
+
+/* Mobile scroll optimization */
+@media (max-width: 768px) {
+  html,
+  body {
+    /* Enhanced touch scrolling for mobile */
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: none;
+    scroll-behavior: smooth;
+  }
+  
+  /* Optimize all scrollable containers */
+  * {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
 }
 
 /* Step 1: Mobile desktop view fix */
