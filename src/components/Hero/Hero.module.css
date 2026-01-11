@@ -160,31 +160,12 @@
   align-items: center;
   position: relative;
   z-index: 2;
-  overflow: hidden; /* Contain glow effects and background gradients within this slide only */
+  overflow: visible;
 }
 
-/* Secondary soft orange glow layer */
+/* Secondary soft orange glow layer - disabled */
 .imageContent::before {
-  content: '';
-  position: absolute;
-  left: -110px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 440px;
-  height: 520px;
-  background: radial-gradient(
-    ellipse 88% 100% at 68% 50%,
-    rgba(255, 154, 92, 0.38) 0%,
-    rgba(255, 154, 92, 0.26) 22%,
-    rgba(255, 175, 110, 0.16) 44%,
-    rgba(255, 205, 140, 0.08) 64%,
-    transparent 82%
-  );
-  filter: blur(58px);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 1;
+  content: none;
 }
 
 .imageWrapper {
@@ -194,93 +175,35 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden; /* Clip any glow/gradient effects to this wrapper only */
-  padding: 12px 6px;
+  overflow: visible;
+  padding: 0;
 }
 
-/* Soft orange glow/gradient behind the card on the left */
+/* Soft orange glow/gradient behind the card - disabled */
 .imageWrapper::before {
-  content: '';
-  position: absolute;
-  left: -160px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 520px;
-  height: 600px;
-  background: radial-gradient(
-    ellipse 92% 105% at 70% 52%,
-    rgba(255, 150, 86, 0.46) 0%,
-    rgba(255, 170, 110, 0.32) 20%,
-    rgba(255, 200, 142, 0.16) 45%,
-    rgba(255, 220, 170, 0.08) 65%,
-    transparent 82%
-  );
-  filter: blur(68px);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 1;
-  opacity: 1;
+  content: none;
 }
 
 .heroImageContainer {
   width: 100%;
   max-width: 760px;
-  height: 410px;
+  height: 420px;
   position: relative;
-  overflow: hidden; /* Clips image to container bounds - prevents image overflow */
-  border-radius: 22px;
-  padding: 12px;
-  background: linear-gradient(115deg, #f87448 0%, #fca74a 55%, #ffd45f 100%);
-  box-shadow:
-    0 20px 40px rgba(0, 0, 0, 0.28),
-    0 10px 22px rgba(0, 0, 0, 0.18);
-  transition: transform 0.32s ease, box-shadow 0.32s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transform: translateY(0);
-  z-index: 5;
-  box-sizing: border-box; /* Include padding in width calculation */
-}
-
-.heroImageContainer::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 18px;
-  background: transparent;
+  overflow: hidden;
+  border-radius: 20px;
+  padding: 0;
+  background: none;
   box-shadow: none;
-  z-index: 1;
-  pointer-events: none;
-}
-
-.heroImageContainer::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 18px;
-  box-shadow: 0 22px 30px rgba(0, 0, 0, 0.24);
-  z-index: 1;
-  pointer-events: none;
+  isolation: isolate;
 }
 
 .heroImageContainer:hover {
-  box-shadow:
-    0 26px 52px rgba(0, 0, 0, 0.32),
-    0 12px 26px rgba(0, 0, 0, 0.2);
-  transform: translateY(-6px);
+  transform: translateY(-2px);
 }
 
 .heroImage {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* Ensures image fills container without distortion */
-  display: block;
-  border-radius: 16px;
-  position: relative;
-  z-index: 2;
-  filter: saturate(1.08) brightness(1.06);
-  max-width: 100%; /* Prevents image from exceeding container width */
+  border-radius: 20px;
+  object-fit: cover;
 }
 
 /* Navigation buttons positioned on sides of image */
@@ -445,19 +368,11 @@
   }
   
   .imageWrapper::before {
-    width: 400px;
-    height: 420px;
-    left: -150px;
-    filter: blur(55px);
-    opacity: 0.85;
+    content: none;
   }
-  
+
   .imageContent::before {
-    width: 320px;
-    height: 350px;
-    left: -120px;
-    filter: blur(45px);
-    opacity: 0.75;
+    content: none;
   }
   
   .heroTitle {
@@ -478,28 +393,15 @@
   .heroImageContainer {
     max-width: 100%;
     width: 100%;
-    height: 290px;
-    border-radius: 20px;
-    padding: 10px;
-    background: linear-gradient(115deg, #f87448 0%, #fca74a 55%, #ffd45f 100%);
-    box-shadow:
-      0 16px 30px rgba(0, 0, 0, 0.24),
-      0 8px 16px rgba(0, 0, 0, 0.15);
-    clip-path: polygon(0 3%, 100% 0, 100% 97%, 0 100%);
+    height: 280px;
+    border-radius: 16px;
+    padding: 0;
+    background: none;
+    box-shadow: none;
+    clip-path: none;
+    overflow: hidden;
   }
-  
-  .heroImageContainer::before {
-    inset: 0;
-    border-radius: 18px;
-    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.22);
-  }
-  
-  .heroImageContainer::after {
-    inset: 0;
-    border-radius: 18px;
-    box-shadow: 0 16px 22px rgba(0, 0, 0, 0.18);
-  }
-  
+
   .heroImage {
     border-radius: 16px;
   }
@@ -547,47 +449,28 @@
   }
   
   .imageWrapper::before {
-    width: 280px;
-    height: 290px;
-    left: -100px;
-    filter: blur(50px);
-    opacity: 0.7;
+    content: none;
   }
-  
+
   .imageContent::before {
-    width: 220px;
-    height: 240px;
-    left: -80px;
-    filter: blur(40px);
-    opacity: 0.6;
+    content: none;
   }
   
   .heroImageContainer {
     max-width: 100%;
     width: 100%;
-    height: 230px;
+    height: 220px;
     margin: 0 auto 18px;
-    border-radius: 22px;
+    border-radius: 12px;
     padding: 0;
     transform: translateY(0);
-    box-shadow:
-      0 14px 30px rgba(0, 0, 0, 0.12),
-      0 9px 20px rgba(255, 178, 128, 0.18);
+    background: none;
+    box-shadow: none;
+    overflow: hidden;
   }
-  
-  .heroImageContainer::before {
-    inset: 0;
-    border-radius: 22px;
-  }
-  
-  .heroImageContainer::after {
-    inset: 0;
-    border-radius: 22px;
-  }
-  
+
   .heroImageContainer .heroImage {
-    object-fit: cover;
-    border-radius: 20px;
+    border-radius: 12px;
   }
   .features { display: none; }
   

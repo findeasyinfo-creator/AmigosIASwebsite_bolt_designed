@@ -191,10 +191,11 @@ export default function Hero() {
                         <Image
                           src={slide.imageUrl || '/assets/hero-banner.jpg'}
                           alt={slide.title}
-                          width={800}
-                          height={500}
+                          fill
+                          sizes="(max-width: 768px) 100vw, 760px"
                           className={styles.heroImage}
                           priority={idx <= 2}
+                          style={{ borderRadius: '20px', objectFit: 'cover' }}
                         />
                       </div>
                     </div>

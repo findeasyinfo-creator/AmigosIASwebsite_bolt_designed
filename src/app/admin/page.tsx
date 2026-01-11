@@ -7,6 +7,11 @@ import {
   Users,
   MessageSquare,
   TrendingUp,
+  Plus,
+  Newspaper,
+  Filter,
+  Settings,
+  ExternalLink,
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
@@ -14,6 +19,8 @@ import AdminLayout from '@/components/admin/AdminLayout';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import { api } from '@/services/api';
 import { cn } from '@/lib/utils';
+import { useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/button';
 
 interface StatCard {
   title: string;
@@ -35,6 +42,7 @@ export default function AdminDashboard() {
 }
 
 function DashboardContent() {
+  const router = useRouter();
   const [stats, setStats] = useState<StatCard[]>([
     {
       title: 'Hero Slides',
@@ -154,33 +162,51 @@ function DashboardContent() {
         <div className="md:col-span-1">
           <Card>
             <CardHeader>
-              <CardTitle className="text-xl font-semibold">Quick Stats</CardTitle>
+              <CardTitle className="text-xl font-semibold">Quick Links</CardTitle>
             </CardHeader>
             <CardContent className="p-6">
-              <div className="flex flex-col gap-4">
-                <div>
-                  <div className="flex justify-between mb-1.5">
-                    <span className="text-sm text-gray-600">Content Completion</span>
-                    <span className="text-sm font-semibold">20%</span>
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div
-                      className="bg-indigo-600 h-2 rounded-full transition-all duration-300"
-                      style={{ width: '20%' }}
-                    ></div>
-                  </div>
-                </div>
-                <div>
-                  <div className="flex justify-between mb-1.5">
-                    <span className="text-sm text-gray-600">Active Sections</span>
-                    <span className="text-sm font-semibold">2/8</span>
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div
-                      className="bg-green-600 h-2 rounded-full transition-all duration-300"
-                      style={{ width: '25%' }}
-                    ></div>
-                  </div>
+              <div className="flex flex-col gap-3">
+                <Button
+                  onClick={() => router.push('/admin/courses')}
+                  variant="outline"
+                  className="w-full justify-start gap-2 hover:bg-indigo-50 hover:text-indigo-700 hover:border-indigo-300"
+                >
+                  <Plus className="h-4 w-4" />
+                  Add New Course
+                </Button>
+                <Button
+                  onClick={() => router.push('/admin/current-affairs')}
+                  variant="outline"
+                  className="w-full justify-start gap-2 hover:bg-green-50 hover:text-green-700 hover:border-green-300"
+                >
+                  <Newspaper className="h-4 w-4" />
+                  Add Current Affairs
+                </Button>
+                <Button
+                  onClick={() => router.push('/admin/filter-configs')}
+                  variant="outline"
+                  className="w-full justify-start gap-2 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-300"
+                >
+                  <Filter className="h-4 w-4" />
+                  Manage Filters
+                </Button>
+                <Button
+                  onClick={() => router.push('/admin/settings')}
+                  variant="outline"
+                  className="w-full justify-start gap-2 hover:bg-purple-50 hover:text-purple-700 hover:border-purple-300"
+                >
+                  <Settings className="h-4 w-4" />
+                  Site Settings
+                </Button>
+                <div className="border-t pt-3 mt-2">
+                  <Button
+                    onClick={() => window.open('/', '_blank')}
+                    variant="outline"
+                    className="w-full justify-start gap-2 hover:bg-amber-50 hover:text-amber-700 hover:border-amber-300"
+                  >
+                    <ExternalLink className="h-4 w-4" />
+                    View Website
+                  </Button>
                 </div>
               </div>
             </CardContent>

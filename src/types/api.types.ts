@@ -77,6 +77,7 @@ export interface Course {
   isOffline: boolean;
   isActive: boolean;
   order: number;
+  displayOnHome: boolean;
   bankAccountName?: string | null;
   bankAccountNumber?: string | null;
   bankIFSC?: string | null;
@@ -101,6 +102,7 @@ export interface CreateCourseDto {
   isOffline?: boolean;
   isActive?: boolean;
   order?: number;
+  displayOnHome?: boolean;
   bankAccountName?: string;
   bankAccountNumber?: string;
   bankIFSC?: string;

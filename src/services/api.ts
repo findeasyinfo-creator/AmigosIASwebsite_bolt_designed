@@ -443,7 +443,66 @@ export const api = {
       });
     },
   },
+
+  // Filter Configurations
+  filterConfigs: {
+    getAll: async (params?: any): Promise<ApiResponse<any>> => {
+      const queryParams = params ? `?${new URLSearchParams(params).toString()}` : '';
+      return apiFetch<any>(`/filter-configs${queryParams}`, {
+        method: 'GET',
+      });
+    },
+
+    getVisible: async (): Promise<ApiResponse<any>> => {
+      return apiFetch<any>('/filter-configs/visible', {
+        method: 'GET',
+      });
+    },
+
+    getById: async (id: string): Promise<ApiResponse<any>> => {
+      return apiFetch<any>(`/filter-configs/${id}`, {
+        method: 'GET',
+      });
+    },
+
+    create: async (data: any): Promise<ApiResponse<any>> => {
+      return apiFetch<any>('/filter-configs', {
+        method: 'POST',
+        body: JSON.stringify(data),
+      });
+    },
+
+    update: async (id: string, data: any): Promise<ApiResponse<any>> => {
+      return apiFetch<any>(`/filter-configs/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify(data),
+      });
+    },
+
+    delete: async (id: string): Promise<ApiResponse<void>> => {
+      return apiFetch<void>(`/filter-configs/${id}`, {
+        method: 'DELETE',
+      });
+    },
+
+    bulkUpdateVisibility: async (ids: string[], isVisible: boolean): Promise<ApiResponse<void>> => {
+      return apiFetch<void>('/filter-configs/bulk/visibility', {
+        method: 'POST',
+        body: JSON.stringify({ ids, isVisible }),
+      });
+    },
+
+    bulkUpdateOrder: async (updates: Array<{ id: string; order: number }>): Promise<ApiResponse<void>> => {
+      return apiFetch<void>('/filter-configs/bulk/order', {
+        method: 'POST',
+        body: JSON.stringify({ updates }),
+      });
+    },
+  },
 };
+
+// Default export
+export default api;
 
 // Export token management functions for use in other parts of the app
 export { getToken, setToken, clearToken };

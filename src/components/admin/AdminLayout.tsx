@@ -38,6 +38,7 @@ import {
   Trophy,
   Sparkles,
   Video,
+  Filter,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -62,6 +63,7 @@ const menuItems: MenuItem[] = [
   { text: 'Testimonials', icon: <MessageSquare className="w-5 h-5" />, path: '/admin/testimonials' },
   { text: 'Blog Posts', icon: <FileText className="w-5 h-5" />, path: '/admin/blog', badge: 'Soon' },
   { text: 'Current Affairs', icon: <Newspaper className="w-5 h-5" />, path: '/admin/current-affairs' },
+  { text: 'Filter Configs', icon: <Filter className="w-5 h-5" />, path: '/admin/filters' },
   { text: 'Settings', icon: <Settings className="w-5 h-5" />, path: '/admin/settings' },
 ];
 
@@ -105,7 +107,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   const SidebarContent = () => (
     <div className="flex h-full flex-col">
       {/* Logo/Brand */}
-      <div className="flex items-center gap-3 border-b bg-gradient-to-r from-indigo-500 to-purple-600 p-5">
+      <div className="flex items-center gap-3 border-b bg-gradient-to-r from-cyan-500 via-blue-500 to-indigo-600 p-5">
         <Avatar className="h-10 w-10 border-2 border-white">
           <AvatarFallback className="bg-white text-indigo-600 font-bold text-lg">
             A
@@ -247,7 +249,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
-                <DropdownMenuLabel className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white">
+                <DropdownMenuLabel className="bg-gradient-to-r from-cyan-500 via-blue-500 to-indigo-600 text-white">
                   <div>
                     <p className="font-semibold">{user?.name || 'Admin User'}</p>
                     <p className="text-xs text-white/90">{user?.email || 'admin@amigosias.com'}</p>

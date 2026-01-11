@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { Switch } from '@/components/ui/switch';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
@@ -26,6 +27,31 @@ interface SiteSettings {
   instagramUrl: string | null;
   privacyPolicyUrl: string | null;
   termsServiceUrl: string | null;
+
+  // Marquee settings
+  marqueeText: string;
+  marqueeActive: boolean;
+
+  // Homepage section descriptions
+  coursesSectionDesc: string | null;
+  facultySectionDesc: string | null;
+  testimonialsSectionDesc: string | null;
+  demoSectionDesc: string | null;
+  currentAffairsSectionDesc: string | null;
+
+  // Resources page tab descriptions
+  studyMaterialsDesc: string | null;
+  strategyArticlesDesc: string | null;
+  facultyColumnsDesc: string | null;
+
+  // About Us page content
+  chairmanName: string | null;
+  chairmanImage: string | null;
+  chairmanMessage: string | null;
+  chiefAdvisorName: string | null;
+  chiefAdvisorImage: string | null;
+  chiefAdvisorMessage: string | null;
+
   updatedAt: string;
 }
 
@@ -57,6 +83,22 @@ function SettingsContent() {
     instagramUrl: '',
     privacyPolicyUrl: '',
     termsServiceUrl: '',
+    marqueeText: '',
+    marqueeActive: true,
+    coursesSectionDesc: '',
+    facultySectionDesc: '',
+    testimonialsSectionDesc: '',
+    demoSectionDesc: '',
+    currentAffairsSectionDesc: '',
+    studyMaterialsDesc: '',
+    strategyArticlesDesc: '',
+    facultyColumnsDesc: '',
+    chairmanName: '',
+    chairmanImage: '',
+    chairmanMessage: '',
+    chiefAdvisorName: '',
+    chiefAdvisorImage: '',
+    chiefAdvisorMessage: '',
   });
 
   useEffect(() => {
@@ -79,6 +121,22 @@ function SettingsContent() {
         instagramUrl: response.data.instagramUrl || '',
         privacyPolicyUrl: response.data.privacyPolicyUrl || '',
         termsServiceUrl: response.data.termsServiceUrl || '',
+        marqueeText: response.data.marqueeText || '',
+        marqueeActive: response.data.marqueeActive ?? true,
+        coursesSectionDesc: response.data.coursesSectionDesc || '',
+        facultySectionDesc: response.data.facultySectionDesc || '',
+        testimonialsSectionDesc: response.data.testimonialsSectionDesc || '',
+        demoSectionDesc: response.data.demoSectionDesc || '',
+        currentAffairsSectionDesc: response.data.currentAffairsSectionDesc || '',
+        studyMaterialsDesc: response.data.studyMaterialsDesc || '',
+        strategyArticlesDesc: response.data.strategyArticlesDesc || '',
+        facultyColumnsDesc: response.data.facultyColumnsDesc || '',
+        chairmanName: response.data.chairmanName || '',
+        chairmanImage: response.data.chairmanImage || '',
+        chairmanMessage: response.data.chairmanMessage || '',
+        chiefAdvisorName: response.data.chiefAdvisorName || '',
+        chiefAdvisorImage: response.data.chiefAdvisorImage || '',
+        chiefAdvisorMessage: response.data.chiefAdvisorMessage || '',
       });
     } catch (error: any) {
       toast({
@@ -301,6 +359,226 @@ function SettingsContent() {
                   value={formData.termsServiceUrl}
                   onChange={(e) => setFormData({ ...formData, termsServiceUrl: e.target.value })}
                   placeholder="/terms-of-service"
+                />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Marquee Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Marquee Announcement</CardTitle>
+            <CardDescription>
+              Scrolling announcement text displayed at the top of the homepage
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="space-y-0.5">
+                <Label htmlFor="marqueeActive">Enable Marquee</Label>
+                <p className="text-sm text-gray-500">Show the announcement banner on homepage</p>
+              </div>
+              <Switch
+                id="marqueeActive"
+                checked={formData.marqueeActive}
+                onCheckedChange={(checked) =>
+                  setFormData({ ...formData, marqueeActive: checked })
+                }
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="marqueeText">Marquee Text</Label>
+              <Textarea
+                id="marqueeText"
+                value={formData.marqueeText}
+                onChange={(e) => setFormData({ ...formData, marqueeText: e.target.value })}
+                placeholder="📢 Formulating Offers | Free Demo Classes Invitation This Week 🎉"
+                rows={3}
+                disabled={!formData.marqueeActive}
+              />
+              <p className="text-sm text-gray-500">
+                Use emojis and separators (|) for visual appeal
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Homepage Section Descriptions */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Homepage Section Descriptions</CardTitle>
+            <CardDescription>
+              Text displayed below each section heading on the homepage
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="coursesSectionDesc">Courses Section Description</Label>
+              <Textarea
+                id="coursesSectionDesc"
+                value={formData.coursesSectionDesc}
+                onChange={(e) => setFormData({ ...formData, coursesSectionDesc: e.target.value })}
+                placeholder="Choose from our carefully designed courses..."
+                rows={2}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="facultySectionDesc">Faculty Section Description</Label>
+              <Textarea
+                id="facultySectionDesc"
+                value={formData.facultySectionDesc}
+                onChange={(e) => setFormData({ ...formData, facultySectionDesc: e.target.value })}
+                placeholder="Our experienced educators bring decades of expertise..."
+                rows={2}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="testimonialsSectionDesc">Testimonials Section Description</Label>
+              <Textarea
+                id="testimonialsSectionDesc"
+                value={formData.testimonialsSectionDesc}
+                onChange={(e) => setFormData({ ...formData, testimonialsSectionDesc: e.target.value })}
+                placeholder="Hear from our successful students..."
+                rows={2}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="demoSectionDesc">Demo Videos Section Description</Label>
+              <Textarea
+                id="demoSectionDesc"
+                value={formData.demoSectionDesc}
+                onChange={(e) => setFormData({ ...formData, demoSectionDesc: e.target.value })}
+                placeholder="Watch our free demo classes..."
+                rows={2}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="currentAffairsSectionDesc">Current Affairs Section Description</Label>
+              <Textarea
+                id="currentAffairsSectionDesc"
+                value={formData.currentAffairsSectionDesc}
+                onChange={(e) => setFormData({ ...formData, currentAffairsSectionDesc: e.target.value })}
+                placeholder="Stay updated with comprehensive current affairs coverage..."
+                rows={2}
+              />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Resources Page Tab Descriptions */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Resources Page Tab Descriptions</CardTitle>
+            <CardDescription>
+              Text displayed at the top of each tab in the Resources page
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="studyMaterialsDesc">Study Materials Tab Description</Label>
+              <Textarea
+                id="studyMaterialsDesc"
+                value={formData.studyMaterialsDesc}
+                onChange={(e) => setFormData({ ...formData, studyMaterialsDesc: e.target.value })}
+                placeholder="Access our curated collection of subject-wise notes..."
+                rows={2}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="strategyArticlesDesc">Strategy Articles Tab Description</Label>
+              <Textarea
+                id="strategyArticlesDesc"
+                value={formData.strategyArticlesDesc}
+                onChange={(e) => setFormData({ ...formData, strategyArticlesDesc: e.target.value })}
+                placeholder="Expert insights and proven strategies..."
+                rows={2}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="facultyColumnsDesc">Faculty Columns Tab Description</Label>
+              <Textarea
+                id="facultyColumnsDesc"
+                value={formData.facultyColumnsDesc}
+                onChange={(e) => setFormData({ ...formData, facultyColumnsDesc: e.target.value })}
+                placeholder="Read insightful columns from our expert faculty..."
+                rows={2}
+              />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* About Us Page Content */}
+        <Card>
+          <CardHeader>
+            <CardTitle>About Us Page Leadership Content</CardTitle>
+            <CardDescription>
+              Chairman and Chief Advisor information displayed on the About Us page
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div className="space-y-4">
+              <h3 className="font-semibold text-lg">Chairman Information</h3>
+              <div className="space-y-2">
+                <Label htmlFor="chairmanName">Chairman Name</Label>
+                <Input
+                  id="chairmanName"
+                  value={formData.chairmanName}
+                  onChange={(e) => setFormData({ ...formData, chairmanName: e.target.value })}
+                  placeholder="Dr. John Doe"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="chairmanImage">Chairman Image URL</Label>
+                <Input
+                  id="chairmanImage"
+                  value={formData.chairmanImage}
+                  onChange={(e) => setFormData({ ...formData, chairmanImage: e.target.value })}
+                  placeholder="https://... or base64 image"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="chairmanMessage">Chairman Message</Label>
+                <Textarea
+                  id="chairmanMessage"
+                  value={formData.chairmanMessage}
+                  onChange={(e) => setFormData({ ...formData, chairmanMessage: e.target.value })}
+                  placeholder="Welcome message from the Chairman..."
+                  rows={4}
+                />
+              </div>
+            </div>
+
+            <Separator />
+
+            <div className="space-y-4">
+              <h3 className="font-semibold text-lg">Chief Advisor Information</h3>
+              <div className="space-y-2">
+                <Label htmlFor="chiefAdvisorName">Chief Advisor Name</Label>
+                <Input
+                  id="chiefAdvisorName"
+                  value={formData.chiefAdvisorName}
+                  onChange={(e) => setFormData({ ...formData, chiefAdvisorName: e.target.value })}
+                  placeholder="Prof. Jane Smith"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="chiefAdvisorImage">Chief Advisor Image URL</Label>
+                <Input
+                  id="chiefAdvisorImage"
+                  value={formData.chiefAdvisorImage}
+                  onChange={(e) => setFormData({ ...formData, chiefAdvisorImage: e.target.value })}
+                  placeholder="https://... or base64 image"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="chiefAdvisorMessage">Chief Advisor Message</Label>
+                <Textarea
+                  id="chiefAdvisorMessage"
+                  value={formData.chiefAdvisorMessage}
+                  onChange={(e) => setFormData({ ...formData, chiefAdvisorMessage: e.target.value })}
+                  placeholder="Message from the Chief Advisor..."
+                  rows={4}
                 />
               </div>
             </div>

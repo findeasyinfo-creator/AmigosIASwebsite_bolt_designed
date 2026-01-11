@@ -1,68 +1,52 @@
 'use client'
-import { useEffect, useRef } from 'react'
+import { useEffect, useState } from 'react'
 import styles from './Marquee.module.css'
 
 export default function Marquee() {
-  const marqueeRef = useRef<HTMLDivElement>(null)
+  const [marqueeData, setMarqueeData] = useState({
+    text: '📢 Formulating Offers | Free Demo Classes Invitation This Week 🎉',
+    active: true
+  })
+  const [loading, setLoading] = useState(true)
 
+  // Fetch marquee settings from API
   useEffect(() => {
-    const marquee = marqueeRef.current
-    if (!marquee) return
-
-    let scrollAmount = 0
-    // Adjust speed based on screen width
-    const getScrollSpeed = () => {
-      const width = window.innerWidth
-      if (width < 480) return 0.5 // Slower on small phones
-      if (width < 768) return 0.7 // Medium on tablets
-      return 1 // Normal on desktop
-    }
-    
-    let scrollSpeed = getScrollSpeed()
-    
-    // Update speed on resize
-    const handleResize = () => {
-      scrollSpeed = getScrollSpeed()
-    }
-    window.addEventListener('resize', handleResize)
-    
-    const scroll = () => {
-      scrollAmount -= scrollSpeed
-      if (marquee.firstElementChild) {
-        const firstChild = marquee.firstElementChild as HTMLElement
-        if (Math.abs(scrollAmount) >= firstChild.offsetWidth / 2) {
-          scrollAmount = 0
+    async function fetchMarqueeSettings() {
+      try {
+        const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
+        const response = await fetch(`${API_URL}/settings`);
+        if (response.ok) {
+          const data = await response.json();
+          if (data.success && data.data) {
+            setMarqueeData({
+              text: data.data.marqueeText || '📢 Formulating Offers | Free Demo Classes Invitation This Week 🎉',
+              active: data.data.marqueeActive ?? true
+            });
+          }
         }
+      } catch (error) {
+        console.warn('Failed to fetch marquee settings, using default:', error);
+      } finally {
+        setLoading(false);
       }
-      if (marquee) {
-        marquee.style.transform = `translateX(${scrollAmount}px)`
-      }
-      requestAnimationFrame(scroll)
     }
 
-    const animationId = requestAnimationFrame(scroll)
-    return () => {
-      cancelAnimationFrame(animationId)
-      window.removeEventListener('resize', handleResize)
-    }
-  }, [])
+    fetchMarqueeSettings();
+  }, []);
+
+  // Don't render if not active or still loading
+  if (loading || !marqueeData.active) {
+    return null;
+  }
 
   return (
     <div className={styles.marqueeSection}>
       <div className={styles.marqueeWrapper}>
-        <div ref={marqueeRef} className={styles.marqueeContent}>
-          <span>
-            📢 Formulating Offers | Free Demo Classes Invitation This Week 🎉 | 
-            📢 Join India's Premier IAS Academy 🎉 | 
-            📢 Expert Faculty | Proven Excellence 🎉 | 
-            📢 Limited Seats Available - Enroll Today! 🎉
-          </span>
-          <span>
-            📢 Formulating Offers | Free Demo Classes Invitation This Week 🎉 | 
-            📢 Join India's Premier IAS Academy 🎉 | 
-            📢 Expert Faculty | Proven Excellence 🎉 | 
-            📢 Limited Seats Available - Enroll Today! 🎉
-          </span>
+        <div className={styles.marqueeContent}>
+          <span>{marqueeData.text}</span>
+          <span>{marqueeData.text}</span>
+          <span>{marqueeData.text}</span>
+          <span>{marqueeData.text}</span>
         </div>
       </div>
     </div>

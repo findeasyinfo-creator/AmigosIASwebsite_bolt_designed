@@ -44,8 +44,8 @@ export function useCourses() {
   useEffect(() => {
     async function fetchCourses() {
       try {
-        const response = await fetch(`${API_URL}/courses`);
-        if (!response.ok) throw new Error('Failed to fetch courses');
+        const response = await fetch(`${API_URL}/courses/homepage`);
+        if (!response.ok) throw new Error('Failed to fetch homepage courses');
 
         const data = await response.json();
         if (data.success && data.data) {

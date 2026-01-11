@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { ColumnDef } from '@tanstack/react-table';
 import {
   Plus,
@@ -41,7 +41,7 @@ import {
 import { useToast } from '@/hooks/use-toast';
 import { Toaster } from '@/components/ui/toaster';
 
-const categories = [
+const defaultCategories = [
   { value: 'foundation', label: 'Foundation' },
   { value: 'prelims', label: 'Prelims' },
   { value: 'mains', label: 'Mains' },
@@ -83,6 +83,7 @@ function CoursesContent() {
     isOffline: true,
     isActive: true,
     order: 0,
+    displayOnHome: false,
     bankAccountName: '',
     bankAccountNumber: '',
     bankIFSC: '',
@@ -95,6 +96,24 @@ function CoursesContent() {
   const [imageInputMode, setImageInputMode] = useState<'url' | 'upload'>('url');
   const [uploadingImage, setUploadingImage] = useState(false);
   const [newFeature, setNewFeature] = useState('');
+  const [showCustomCategory, setShowCustomCategory] = useState(false);
+  const [customCategory, setCustomCategory] = useState('');
+
+  // Get all unique categories from existing courses + default categories
+  const allCategories = useMemo(() => {
+    const courseCategories = courses.map(c => c.category);
+    const uniqueCategories = new Set([
+      ...defaultCategories.map(c => c.value),
+      ...courseCategories
+    ]);
+    return Array.from(uniqueCategories).map(cat => {
+      const defaultCat = defaultCategories.find(c => c.value === cat);
+      return {
+        value: cat,
+        label: defaultCat?.label || cat.charAt(0).toUpperCase() + cat.slice(1)
+      };
+    });
+  }, [courses]);
 
   useEffect(() => {
     fetchCourses();
@@ -133,6 +152,7 @@ function CoursesContent() {
         isOffline: course.isOffline,
         isActive: course.isActive,
         order: course.order,
+        displayOnHome: course.displayOnHome || false,
         bankAccountName: course.bankAccountName || '',
         bankAccountNumber: course.bankAccountNumber || '',
         bankIFSC: course.bankIFSC || '',
@@ -156,6 +176,7 @@ function CoursesContent() {
         isOffline: true,
         isActive: true,
         order: courses.length,
+        displayOnHome: false,
         bankAccountName: '',
         bankAccountNumber: '',
         bankIFSC: '',
@@ -166,11 +187,15 @@ function CoursesContent() {
     }
     setOpenDialog(true);
     setCurrentTab('basic');
+    setShowCustomCategory(false);
+    setCustomCategory('');
   };
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
     setEditingCourse(null);
+    setShowCustomCategory(false);
+    setCustomCategory('');
     setCurrentTab('basic');
   };
 
@@ -271,7 +296,24 @@ function CoursesContent() {
   };
 
   const handleSubmit = async () => {
+    // Validate 4-course homepage limit (must match backend validation)
+    if (formData.displayOnHome && formData.isActive) {
+      const featuredCount = courses.filter(
+        c => c.displayOnHome && c.isActive && c.id !== editingCourse?.id
+      ).length;
+      if (featuredCount >= 4) {
+        toast({
+          title: 'Error',
+          description: 'Maximum 4 active courses can be featured on homepage. Please deselect another course first.',
+          variant: 'destructive',
+        });
+        return;
+      }
+    }
+
     try {
+      console.log('Submitting course:', { editingCourse: editingCourse?.id, formData });
+
       if (editingCourse) {
         await api.courses.update(editingCourse.id, formData);
         toast({
@@ -288,9 +330,10 @@ function CoursesContent() {
       handleCloseDialog();
       fetchCourses();
     } catch (error: any) {
+      console.error('Failed to save course:', error);
       toast({
         title: 'Error',
-        description: error.message || 'Failed to save course',
+        description: error.response?.data?.message || error.message || 'Failed to save course',
         variant: 'destructive',
       });
     }
@@ -382,6 +425,18 @@ function CoursesContent() {
       ),
     },
     {
+      accessorKey: 'displayOnHome',
+      header: 'Homepage',
+      cell: ({ row }) => (
+        <Badge
+          variant={row.getValue('displayOnHome') ? 'default' : 'secondary'}
+          className={row.getValue('displayOnHome') ? 'bg-cyan-600' : ''}
+        >
+          {row.getValue('displayOnHome') ? 'Featured' : 'Not Featured'}
+        </Badge>
+      ),
+    },
+    {
       id: 'actions',
       header: 'Actions',
       cell: ({ row }) => (
@@ -462,23 +517,68 @@ function CoursesContent() {
 
                 <div>
                   <Label htmlFor="category">Category *</Label>
-                  <Select
-                    value={formData.category}
-                    onValueChange={(value) =>
-                      setFormData({ ...formData, category: value })
-                    }
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {categories.map((cat) => (
-                        <SelectItem key={cat.value} value={cat.value}>
-                          {cat.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  {showCustomCategory ? (
+                    <div className="flex gap-2">
+                      <Input
+                        id="customCategory"
+                        value={customCategory}
+                        onChange={(e) => setCustomCategory(e.target.value.toLowerCase().replace(/\s+/g, '-'))}
+                        placeholder="e.g., crash-course"
+                        className="flex-1"
+                      />
+                      <Button
+                        type="button"
+                        size="sm"
+                        onClick={() => {
+                          if (customCategory.trim()) {
+                            setFormData({ ...formData, category: customCategory.trim() });
+                            setShowCustomCategory(false);
+                            setCustomCategory('');
+                          }
+                        }}
+                      >
+                        Add
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          setShowCustomCategory(false);
+                          setCustomCategory('');
+                        }}
+                      >
+                        Cancel
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="flex gap-2">
+                      <Select
+                        value={formData.category}
+                        onValueChange={(value) => {
+                          if (value === '__custom__') {
+                            setShowCustomCategory(true);
+                          } else {
+                            setFormData({ ...formData, category: value });
+                          }
+                        }}
+                      >
+                        <SelectTrigger className="flex-1">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {allCategories.map((cat) => (
+                            <SelectItem key={cat.value} value={cat.value}>
+                              {cat.label}
+                            </SelectItem>
+                          ))}
+                          <SelectItem value="__custom__" className="text-cyan-600 font-medium">
+                            + Add New Category
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  )}
                 </div>
 
                 <div>
@@ -559,6 +659,19 @@ function CoursesContent() {
                       }
                     />
                     <Label htmlFor="isActive">Active</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Switch
+                      id="displayOnHome"
+                      checked={formData.displayOnHome}
+                      onCheckedChange={(checked) =>
+                        setFormData({ ...formData, displayOnHome: checked })
+                      }
+                    />
+                    <Label htmlFor="displayOnHome" className="flex items-center gap-1">
+                      Display on Homepage
+                      <span className="text-xs text-gray-500">(Max 4)</span>
+                    </Label>
                   </div>
                 </div>
 

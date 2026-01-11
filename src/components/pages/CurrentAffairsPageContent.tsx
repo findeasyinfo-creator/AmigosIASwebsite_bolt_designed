@@ -3,8 +3,10 @@ import React, { useMemo, useState, useEffect } from 'react'
 import FilterCalendar from '@/components/CurrentAffairs/FilterCalendar'
 import PremiumSelect from '@/components/CurrentAffairs/PremiumSelect'
 import { useCurrentAffairs } from '@/hooks/useCurrentAffairs'
+import { api } from '@/services/api'
 
 type CAType = 'daily' | 'weekly' | 'monthly'
+type TabType = 'all' | CAType
 
 type CAItem = {
   id: number | string
@@ -22,7 +24,8 @@ type CAItem = {
 
 export default function CurrentAffairsPageContent() {
   const todayStr = useMemo(() => new Date().toISOString().slice(0, 10), [])
-  const [activeTab, setActiveTab] = useState<CAType>('daily')
+  const [activeTab, setActiveTab] = useState<TabType>('all')
+  const [selectedType, setSelectedType] = useState<string>('all')
   // For Daily: start with 'all' to show all daily items by default
   const [selectedDate, setSelectedDate] = useState<string>('all')
   const [selectedSubject, setSelectedSubject] = useState<string>('all')
@@ -55,17 +58,64 @@ export default function CurrentAffairsPageContent() {
   }
 
   // Fetch current affairs from API based on active tab
-  const { currentAffairs, loading } = useCurrentAffairs({
-    type: activeTab,
-  })
+  const { currentAffairs, loading } = useCurrentAffairs(
+    activeTab === 'all' ? {} : { type: activeTab }
+  )
 
   // Convert API data to component format
   const items: CAItem[] = currentAffairs.map(item => ({
     ...item,
     imageUrl: item.imageUrl || getSubjectImage(item.subject)
   }))
-  const subjects = ['all', 'Polity', 'Economy', 'International Relations', 'Environment', 'Governance', 'Science & Technology', 'Compilation']
-  const papers = ['all', 'GS-I', 'GS-II', 'GS-III', 'GS-IV', 'GS-I/II/III']
+
+  // State for filter options (fetched from backend)
+  const [subjects, setSubjects] = useState<Array<{ value: string; label: string }>>([])
+  const [papers, setPapers] = useState<Array<{ value: string; label: string }>>([])
+  const [filtersLoading, setFiltersLoading] = useState(true)
+
+  // Fetch filter options from backend
+  useEffect(() => {
+    const fetchFilterOptions = async () => {
+      try {
+        const response = await api.filterConfigs.getVisible()
+        if (response.success && response.data) {
+          // Add "all" option at the beginning
+          setSubjects([
+            { value: 'all', label: 'All Subjects' },
+            ...response.data.subjects
+          ])
+          setPapers([
+            { value: 'all', label: 'All Papers' },
+            ...response.data.papers
+          ])
+        }
+      } catch (error) {
+        console.error('Failed to fetch filter options:', error)
+        // Fallback to default options if API fails
+        setSubjects([
+          { value: 'all', label: 'All Subjects' },
+          { value: 'Polity', label: 'Polity' },
+          { value: 'Economy', label: 'Economy' },
+          { value: 'International Relations', label: 'International Relations' },
+          { value: 'Environment', label: 'Environment' },
+          { value: 'Governance', label: 'Governance' },
+          { value: 'Science & Technology', label: 'Science & Technology' },
+          { value: 'Compilation', label: 'Compilation' }
+        ])
+        setPapers([
+          { value: 'all', label: 'All Papers' },
+          { value: 'GS-I', label: 'GS-I' },
+          { value: 'GS-II', label: 'GS-II' },
+          { value: 'GS-III', label: 'GS-III' },
+          { value: 'GS-IV', label: 'GS-IV' },
+          { value: 'GS-I/II/III', label: 'GS-I/II/III' }
+        ])
+      } finally {
+        setFiltersLoading(false)
+      }
+    }
+    fetchFilterOptions()
+  }, [])
 
   // Date helpers for weekly/monthly filtering
   const today = useMemo(() => {
@@ -91,12 +141,18 @@ export default function CurrentAffairsPageContent() {
   lastWeekEnd.setDate(lastWeekEnd.getDate() + 6)
 
   const filteredItems = items.filter((item) => {
-    if (item.type !== activeTab) return false
+    // For "all" tab, filter by selectedType; for specific tabs, filter by tab type
+    if (activeTab === 'all') {
+      if (selectedType !== 'all' && item.type !== selectedType) return false
+    } else {
+      if (item.type !== activeTab) return false
+    }
+
     if (selectedSubject !== 'all' && item.subject !== selectedSubject) return false
     if (selectedPaper !== 'all' && item.paper !== selectedPaper) return false
-    if (activeTab === 'daily' && selectedDate && selectedDate !== 'all' && item.date !== selectedDate) return false
+    if ((activeTab === 'daily' || (activeTab === 'all' && selectedType === 'daily')) && selectedDate && selectedDate !== 'all' && item.date !== selectedDate) return false
 
-    if (activeTab === 'weekly' && weeklyRange !== 'all') {
+    if ((activeTab === 'weekly' || (activeTab === 'all' && selectedType === 'weekly')) && weeklyRange !== 'all') {
       const d = new Date(item.date)
       d.setHours(0, 0, 0, 0)
       const inThisWeek = d >= currentWeekStart && d <= currentWeekEnd
@@ -104,7 +160,7 @@ export default function CurrentAffairsPageContent() {
       if (weeklyRange === 'this-week' && !inThisWeek) return false
       if (weeklyRange === 'last-week' && !inLastWeek) return false
     }
-    if (activeTab === 'monthly' && monthlyRange !== 'all') {
+    if ((activeTab === 'monthly' || (activeTab === 'all' && selectedType === 'monthly')) && monthlyRange !== 'all') {
       const d = new Date(item.date)
       const month = d.getMonth()
       const year = d.getFullYear()
@@ -180,18 +236,24 @@ export default function CurrentAffairsPageContent() {
             <div className="max-w-7xl mx-auto">
               <div className="flex gap-3 overflow-x-auto pb-2">
                 {([
-                { id: 'daily', name: 'Daily CA' },
-                { id: 'weekly', name: 'Weekly CA' },
-                { id: 'monthly', name: 'Monthly Magazines' },
-              ] as { id: CAType; name: string }[]).map((tab) => (
+                { id: 'all', name: 'All', icon: 'grid' },
+                { id: 'daily', name: 'Daily CA', icon: 'calendar' },
+                { id: 'weekly', name: 'Weekly CA', icon: 'week' },
+                { id: 'monthly', name: 'Monthly Magazines', icon: 'book' },
+              ] as { id: TabType; name: string; icon: string }[]).map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => {
                     setActiveTab(tab.id)
+                    setSelectedType('all')
                     // Reset date for weekly/monthly
                     if (tab.id !== 'daily') setSelectedDate('all')
                     if (tab.id === 'weekly') setWeeklyRange('this-week')
                     if (tab.id === 'monthly') setMonthlyRange('this-month')
+                    if (tab.id === 'all') {
+                      setWeeklyRange('all')
+                      setMonthlyRange('all')
+                    }
                     setSelectedWeek('')
                     setSelectedMonth('')
                   }}
@@ -202,7 +264,15 @@ export default function CurrentAffairsPageContent() {
                   }`}
                 >
                   <span className="inline-flex items-center gap-2">
-                    {tab.id === 'daily' && (
+                    {tab.icon === 'grid' && (
+                      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <rect x="3" y="3" width="7" height="7" rx="1" strokeWidth="2"/>
+                        <rect x="14" y="3" width="7" height="7" rx="1" strokeWidth="2"/>
+                        <rect x="3" y="14" width="7" height="7" rx="1" strokeWidth="2"/>
+                        <rect x="14" y="14" width="7" height="7" rx="1" strokeWidth="2"/>
+                      </svg>
+                    )}
+                    {tab.icon === 'calendar' && (
                       <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                         <rect x="3" y="4" width="18" height="18" rx="2" ry="2" strokeWidth="2"/>
                         <line x1="16" y1="2" x2="16" y2="6" strokeWidth="2" strokeLinecap="round"/>
@@ -210,13 +280,13 @@ export default function CurrentAffairsPageContent() {
                         <line x1="3" y1="10" x2="21" y2="10" strokeWidth="2"/>
                       </svg>
                     )}
-                    {tab.id === 'weekly' && (
+                    {tab.icon === 'week' && (
                       <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                         <path strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                         <path strokeWidth="2" d="M9 15h2m2 0h2"/>
                       </svg>
                     )}
-                    {tab.id === 'monthly' && (
+                    {tab.icon === 'book' && (
                       <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                         <path strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
                       </svg>
@@ -233,13 +303,30 @@ export default function CurrentAffairsPageContent() {
           <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-lg p-4 md:p-6 mb-6 md:mb-8 relative z-20">
             <h2 className="text-lg font-semibold mb-4">Filters</h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-3 md:gap-4">
+              {/* Type filter - shown when "All" tab is selected */}
+              {activeTab === 'all' && (
+                <div className="relative" style={{zIndex: 30}}>
+                  <PremiumSelect
+                    label="Type"
+                    value={selectedType}
+                    onChange={setSelectedType}
+                    options={[
+                      { value: 'all', label: 'All Types' },
+                      { value: 'daily', label: 'Daily CA' },
+                      { value: 'weekly', label: 'Weekly CA' },
+                      { value: 'monthly', label: 'Monthly Magazines' },
+                    ]}
+                  />
+                </div>
+              )}
+
               <div className="relative" style={{zIndex: 30}}>
                 <PremiumSelect
                   label="Subject"
                   value={selectedSubject}
                   onChange={setSelectedSubject}
-                  options={subjects.map(s=>({label: s==='all'?'All Subjects': s, value: s}))}
+                  options={subjects}
                 />
               </div>
 
@@ -248,11 +335,11 @@ export default function CurrentAffairsPageContent() {
                   label="UPSC Paper"
                   value={selectedPaper}
                   onChange={setSelectedPaper}
-                  options={papers.map(p=>({label: p==='all'?'All Papers': p, value: p}))}
+                  options={papers}
                 />
               </div>
 
-              {activeTab === 'daily' && (
+              {(activeTab === 'daily' || (activeTab === 'all' && selectedType === 'daily')) && (
                 <div className="relative">
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Date</label>
                   <button
@@ -286,7 +373,7 @@ export default function CurrentAffairsPageContent() {
                   </div>
                 </div>
               )}
-              {activeTab === 'weekly' && (
+              {(activeTab === 'weekly' || (activeTab === 'all' && selectedType === 'weekly')) && (
                 <div className="relative">
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Week</label>
                   <button
@@ -330,7 +417,7 @@ export default function CurrentAffairsPageContent() {
                   </div>
                 </div>
               )}
-              {activeTab === 'monthly' && (
+              {(activeTab === 'monthly' || (activeTab === 'all' && selectedType === 'monthly')) && (
                 <div className="relative">
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Month</label>
                   <button
@@ -376,16 +463,17 @@ export default function CurrentAffairsPageContent() {
               )}
             </div>
 
-            {(selectedSubject !== 'all' || selectedPaper !== 'all' || (activeTab === 'daily' && selectedDate !== 'all') || (activeTab === 'weekly' && weeklyRange !== 'all') || (activeTab === 'monthly' && monthlyRange !== 'all')) && (
+            {(selectedSubject !== 'all' || selectedPaper !== 'all' || (activeTab === 'all' && selectedType !== 'all') || ((activeTab === 'daily' || (activeTab === 'all' && selectedType === 'daily')) && selectedDate !== 'all') || ((activeTab === 'weekly' || (activeTab === 'all' && selectedType === 'weekly')) && weeklyRange !== 'all') || ((activeTab === 'monthly' || (activeTab === 'all' && selectedType === 'monthly')) && monthlyRange !== 'all')) && (
               <button
                 onClick={() => {
                   setSelectedSubject('all')
                   setSelectedPaper('all')
+                  setSelectedType('all')
                   setSelectedDate('all')
                   setSelectedWeek('')
                   setSelectedMonth('')
-                  if (activeTab === 'weekly') setWeeklyRange('all')
-                  if (activeTab === 'monthly') setMonthlyRange('all')
+                  setWeeklyRange('all')
+                  setMonthlyRange('all')
                 }}
                 className="mt-4 px-4 py-2 rounded-lg bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 hover:bg-orange-200 dark:hover:bg-orange-900/50 text-sm font-medium transition-colors"
               >
@@ -397,7 +485,7 @@ export default function CurrentAffairsPageContent() {
           {/* Results Count */}
           {!loading && (
             <div className="mb-4 text-gray-600 dark:text-gray-400">
-              Showing {filteredItems.length} of {items.filter(i => i.type === activeTab).length} {activeTab === 'monthly' ? 'magazines' : 'articles'}
+              Showing {filteredItems.length} of {activeTab === 'all' ? items.length : items.filter(i => i.type === activeTab).length} {activeTab === 'monthly' || (activeTab === 'all' && selectedType === 'monthly') ? 'magazines' : 'articles'}
             </div>
           )}
 
