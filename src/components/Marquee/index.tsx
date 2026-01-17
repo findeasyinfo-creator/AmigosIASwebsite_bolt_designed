@@ -6,6 +6,8 @@ export default function Marquee() {
   const marqueeRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
     const marquee = marqueeRef.current
     if (!marquee) return
 

@@ -66,15 +66,21 @@ export default function AboutPageContent() {
 
   const openFaculty = (index: number) => {
     setSelectedFaculty(index);
-    document.body.style.overflow = 'hidden';
+    if (typeof document !== 'undefined') {
+      document.body.style.overflow = 'hidden';
+    }
   };
 
   const closeFacultyPopup = () => {
     setSelectedFaculty(null);
-    document.body.style.overflow = '';
+    if (typeof document !== 'undefined') {
+      document.body.style.overflow = '';
+    }
   };
 
   useEffect(() => {
+    if (typeof window === 'undefined' || typeof document === 'undefined') return;
+    
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && selectedFaculty !== null) {
         closeFacultyPopup();

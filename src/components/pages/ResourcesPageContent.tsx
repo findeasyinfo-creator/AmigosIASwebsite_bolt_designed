@@ -50,11 +50,13 @@ export default function ResourcesPageContent() {
   // On mount, set hydrated and initialize activeTab from hash
   useEffect(() => {
     setHydrated(true);
-    const hash = window.location.hash.slice(1);
-    if (hash && validTabIds.includes(hash)) {
-      setActiveTab(hash as Exclude<typeof activeTab, null>);
-    } else {
-      setActiveTab('study-materials');
+    if (typeof window !== 'undefined') {
+      const hash = window.location.hash.slice(1);
+      if (hash && validTabIds.includes(hash)) {
+        setActiveTab(hash as Exclude<typeof activeTab, null>);
+      } else {
+        setActiveTab('study-materials');
+      }
     }
   }, []);
 
@@ -64,7 +66,7 @@ export default function ResourcesPageContent() {
     if (isInitialMount.current) {
       isInitialMount.current = false;
     } else {
-      if (activeTab) {
+      if (activeTab && typeof window !== 'undefined') {
         window.history.replaceState(null, '', `#${activeTab}`);
       }
     }
@@ -72,6 +74,8 @@ export default function ResourcesPageContent() {
 
   // Handle hash navigation when hash changes
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
     const handleHashChange = () => {
       const hash = window.location.hash.slice(1);
       if (hash && validTabIds.includes(hash)) {

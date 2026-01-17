@@ -90,7 +90,7 @@ export default function FilterCalendar({mode, value, onChange, title, open = tru
   }, [])
 
   useEffect(() => {
-    if (open && triggerElement) {
+    if (open && triggerElement && typeof window !== 'undefined') {
       const rect = triggerElement.getBoundingClientRect()
       const viewportWidth = window.innerWidth
       const viewportHeight = window.innerHeight

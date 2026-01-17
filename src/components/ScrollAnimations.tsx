@@ -4,6 +4,9 @@ import { useEffect } from 'react'
 
 export default function ScrollAnimations() {
   useEffect(() => {
+    if (typeof window === 'undefined' || typeof document === 'undefined') return;
+    if (!('IntersectionObserver' in window)) return;
+    
     // Account for sticky headers: ~120px on desktop, ~72px mobile
     const observerOptions = {
       threshold: 0.1,

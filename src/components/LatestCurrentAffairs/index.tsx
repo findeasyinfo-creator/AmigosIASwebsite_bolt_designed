@@ -84,9 +84,11 @@ export default function LatestCurrentAffairs() {
   // Open item: set hash, scroll to popup panel, focus close
   const openItem = (item: CAItem) => {
     setSelectedItem(item)
-    try {
-      window.location.hash = `ca-${item.id}`
-    } catch {}
+    if (typeof window !== 'undefined') {
+      try {
+        window.location.hash = `ca-${item.id}`
+      } catch {}
+    }
     setTimeout(() => {
       // Scroll to the expanded panel instead of the section
       const panel = panelRefs.current[item.id]
@@ -99,6 +101,8 @@ export default function LatestCurrentAffairs() {
 
   // Close on ESC key
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setSelectedItem(null)
     }
@@ -108,6 +112,8 @@ export default function LatestCurrentAffairs() {
 
   // Lock body scroll when modal is open
   useEffect(() => {
+    if (typeof document === 'undefined') return;
+    
     if (selectedItem) {
       document.body.style.overflow = 'hidden'
     } else {

@@ -34,18 +34,22 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const setThemeScript = `(() => {
+  const setThemeScript = `(function() {
     try {
-      var t = localStorage.getItem('theme');
+      var t = null;
+      try {
+        t = localStorage.getItem('theme');
+      } catch (e) {}
       if (!t) {
-        // Force light as default so the special design shows immediately
         t = 'light';
       }
-      document.documentElement.setAttribute('data-theme', t);
-      if (t === 'dark') {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
+      if (typeof document !== 'undefined') {
+        document.documentElement.setAttribute('data-theme', t);
+        if (t === 'dark') {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
       }
     } catch (e) {}
   })();`
@@ -54,7 +58,7 @@ export default function RootLayout({
       <head>
         <script dangerouslySetInnerHTML={{ __html: setThemeScript }} />
       </head>
-      <body className={`${inter.variable} ${playfair.variable}`}>
+      <body className={`${inter.variable} ${playfair.variable}`} suppressHydrationWarning>
         <ThemeProvider>
           <ScrollToTop />
           {children}

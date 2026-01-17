@@ -7,7 +7,6 @@
   background: linear-gradient(90deg, #ff6b47 0%, #ff8659 25%, #ffb570 60%, #ffd699 100%);
   overflow: visible;
 }
-  color : #ffffff !important;
 
 /* Dark theme: Navy blue solid color */
 :global(.dark) .heroSection {

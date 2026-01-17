@@ -21,6 +21,7 @@ html {
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
+  text-size-adjust: 100%;
   background-color: #0a1628;
 }
 
@@ -36,6 +37,7 @@ body {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 /* Ensure all sections respect viewport width */
@@ -155,6 +157,7 @@ body {
   background: #0a1628;
   background: -webkit-linear-gradient(180deg, #0a1628 0%, #0d1b2e 50%, #0f1f35 100%);
   background: -moz-linear-gradient(180deg, #0a1628 0%, #0d1b2e 50%, #0f1f35 100%);
+  background: -o-linear-gradient(180deg, #0a1628 0%, #0d1b2e 50%, #0f1f35 100%);
   background: linear-gradient(180deg, #0a1628 0%, #0d1b2e 50%, #0f1f35 100%);
   background: 
     radial-gradient(ellipse at 20% 30%, rgba(30, 50, 80, 0.3) 0%, transparent 45%),
@@ -1245,12 +1248,6 @@ select option:checked::after {
 
 [data-theme="dark"] [class*="border-gray-300"] {
   border-color: #4b5563 !important;
-}
-
-/* Vendor prefixes for gradients in dark theme */
-[data-theme="dark"] [style*="background: linear-gradient"] {
-  -webkit-background: linear-gradient;
-  -moz-background: linear-gradient;
 }
 
 /* Force dark theme styling for hero sections */
