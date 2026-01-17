@@ -220,6 +220,41 @@ h1, h2, h3, h4, h5, h6 {
   font-style: normal;
 }
 
+/* Dark theme: Ensure all text is readable with high contrast */
+[data-theme="dark"] {
+  /* Base text colors - high contrast for readability */
+  --text-primary-dark: #FFFFFF;
+  --text-secondary-dark: #E5E7EB;
+  --text-tertiary-dark: #D1D5DB;
+  --text-muted-dark: #9CA3AF;
+}
+
+/* Global dark theme text improvements */
+[data-theme="dark"] p,
+[data-theme="dark"] span:not([class*="gradient"]):not([class*="gold"]) {
+  color: #E5E7EB !important;
+}
+
+[data-theme="dark"] .text-gray-600 {
+  color: #E5E7EB !important;
+}
+
+[data-theme="dark"] .text-gray-700 {
+  color: #F3F4F6 !important;
+}
+
+[data-theme="dark"] .text-gray-500 {
+  color: #D1D5DB !important;
+}
+
+[data-theme="dark"] .text-gray-400 {
+  color: #9CA3AF !important;
+}
+
+[data-theme="dark"] .text-gray-300 {
+  color: #D1D5DB !important;
+}
+
 @keyframes starfield {
   0% { background-position: 0% 0%; }
   100% { background-position: 100% 100%; }
@@ -1231,6 +1266,146 @@ select option:checked::after {
 [data-theme="dark"] .wrapper {
   background-color: transparent;
 }
+
+/* ==================================
+   DARK THEME TEXT VISIBILITY FIXES
+   ==================================
+   Ensures all text is readable across all browsers and devices
+*/
+
+/* Body text - high contrast white */
+[data-theme="dark"] body {
+  color: #FFFFFF !important;
+}
+
+/* All paragraph text - bright white for readability */
+[data-theme="dark"] p:not([class*="text-orange"]):not([class*="text-yellow"]):not([class*="gradient"]) {
+  color: #F3F4F6 !important;
+}
+
+/* All div text content */
+[data-theme="dark"] div:not([class*="bg-orange"]):not([class*="bg-yellow"]):not([class*="gradient"]) > span,
+[data-theme="dark"] div:not([class*="bg-orange"]):not([class*="bg-yellow"]):not([class*="gradient"]) > p {
+  color: #F3F4F6 !important;
+}
+
+/* List items */
+[data-theme="dark"] li {
+  color: #E5E7EB !important;
+}
+
+/* Labels and small text */
+[data-theme="dark"] label {
+  color: #E5E7EB !important;
+}
+
+/* Ensure all section content is visible */
+[data-theme="dark"] section p,
+[data-theme="dark"] section div {
+  color: #F3F4F6;
+}
+
+/* Override all gray text classes in dark theme */
+[data-theme="dark"] [class*="text-gray-900"] {
+  color: #FFFFFF !important;
+}
+
+[data-theme="dark"] [class*="text-gray-800"] {
+  color: #F9FAFB !important;
+}
+
+[data-theme="dark"] [class*="text-gray-700"]:not([class*="dark:text-"]) {
+  color: #F3F4F6 !important;
+}
+
+[data-theme="dark"] [class*="text-gray-600"]:not([class*="dark:text-"]) {
+  color: #E5E7EB !important;
+}
+
+[data-theme="dark"] [class*="text-gray-500"]:not([class*="dark:text-"]) {
+  color: #D1D5DB !important;
+}
+
+[data-theme="dark"] [class*="text-gray-400"]:not([class*="dark:text-"]) {
+  color: #9CA3AF !important;
+}
+
+[data-theme="dark"] [class*="text-gray-300"]:not([class*="dark:text-"]) {
+  color: #D1D5DB !important;
+}
+
+/* Force visibility on specific content areas */
+[data-theme="dark"] .hero-section p,
+[data-theme="dark"] .hero-section span,
+[data-theme="dark"] .about-section p,
+[data-theme="dark"] .about-section span,
+[data-theme="dark"] .content p,
+[data-theme="dark"] .content span {
+  color: #F3F4F6 !important;
+}
+
+/* Ensure readable text in cards and boxes */
+[data-theme="dark"] [class*="card"] p,
+[data-theme="dark"] [class*="box"] p,
+[data-theme="dark"] [class*="container"] p {
+  color: #E5E7EB !important;
+}
+
+/* Text in specific layout sections */
+[data-theme="dark"] article p,
+[data-theme="dark"] main p {
+  color: #F3F4F6 !important;
+}
+
+/* Headings remain gold gradient but ensure backup color */
+[data-theme="dark"] h1:not([class*="text-white"]),
+[data-theme="dark"] h2:not([class*="text-white"]),
+[data-theme="dark"] h3:not([class*="text-white"]) {
+  color: #D4AF37;
+}
+
+/* Links in dark theme */
+[data-theme="dark"] a:not([class*="bg-"]) {
+  color: #FFE17B;
+}
+
+[data-theme="dark"] a:not([class*="bg-"]):hover {
+  color: #D4AF37;
+}
+
+/* Ensure form inputs are visible */
+[data-theme="dark"] input:not([type="button"]):not([type="submit"]),
+[data-theme="dark"] textarea,
+[data-theme="dark"] select {
+  color: #FFFFFF !important;
+  background-color: #1a2942 !important;
+  border-color: #374151 !important;
+}
+
+[data-theme="dark"] input::placeholder,
+[data-theme="dark"] textarea::placeholder {
+  color: #9CA3AF !important;
+}
+
+/* Buttons with text */
+[data-theme="dark"] button:not([class*="bg-orange"]):not([class*="bg-yellow"]):not([class*="bg-gradient"]) {
+  color: #E5E7EB;
+}
+
+/* Table text */
+[data-theme="dark"] table td,
+[data-theme="dark"] table th {
+  color: #E5E7EB !important;
+}
+
+/* Code and pre blocks */
+[data-theme="dark"] code,
+[data-theme="dark"] pre {
+  color: #F3F4F6 !important;
+  background-color: #1a2942 !important;
+}
+
+/* ================================== */
 
 /* Ensure text colors are visible */
 [data-theme="dark"] [class*="text-gray-900"] {
