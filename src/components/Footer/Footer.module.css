@@ -111,22 +111,22 @@
 
 .footerColumn a {
   font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.7);
+  color: #FFFFFF !important;
   transition: all 0.3s ease;
   text-decoration: none;
 }
 
 .footerColumn a:hover {
-  color: var(--soft-amber);
+  color: #FFE17B !important;
   padding-left: 3px;
 }
 
 [data-theme="light"] .footerColumn a {
-  color: rgba(255, 255, 255, 0.7);
+  color: #FFFFFF !important;
 }
 
 [data-theme="light"] .footerColumn a:hover {
-  color: #FFE17B;
+  color: #FFE17B !important;
 }
 
 .contactItem {

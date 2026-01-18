@@ -117,7 +117,7 @@ export default function ResourcesPageContent() {
                     className={`px-6 py-3 rounded-full font-medium whitespace-nowrap transition-all duration-200 ${
                       activeTab === tab.id
                       ? 'bg-orange-500 text-white shadow-lg'
-                      : 'bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-orange-50 dark:hover:bg-gray-700 hover:border-orange-300'
+                      : 'bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-white hover:bg-orange-50 dark:hover:bg-gray-700 hover:border-orange-300'
                     }`}
                   >
                     {tab.name}
@@ -245,7 +245,7 @@ function LazyStudyCard({ material, index }: { material: { title: string; subject
   return (
     <div
       ref={ref}
-      className="study-card rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 shadow-[0_8px_24px_rgba(0,0,0,0.06)] hover:shadow-[0_12px_32px_rgba(0,0,0,0.1)] hover:scale-[1.02] transition-all duration-300 border border-[#f2dccb] dark:border-gray-700"
+      className="study-card rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 shadow-[0_8px_24px_rgba(0,0,0,0.06)] hover:shadow-[0_12px_32px_rgba(0,0,0,0.1)] dark:shadow-[0_8px_24px_rgba(59,130,246,0.2)] hover:scale-[1.02] transition-all duration-300 border border-[#f2dccb] dark:border-blue-500/30"
       style={{
         background:
           'radial-gradient(140% 120% at 0% 0%, rgba(255,214,176,0.55) 0%, rgba(255,249,244,0.95) 45%, rgba(246,248,255,0.95) 100%), linear-gradient(135deg, #ffffff 0%, #ffffff 100%)',
@@ -367,7 +367,7 @@ function NCERTsTab() {
         {filteredNCERTs.map((ncert, index) => (
           <div 
             key={index}
-            className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 border-l-4 border-orange-500"
+            className="bg-white/80 dark:bg-gray-800/95 backdrop-blur-sm rounded-2xl overflow-hidden shadow-lg hover:shadow-xl dark:shadow-[0_8px_24px_rgba(59,130,246,0.2)] transition-all duration-300 border-l-4 border-orange-500 dark:border-blue-500"
           >
             {/* Image */}
             <div className="relative h-48 overflow-hidden">
@@ -527,7 +527,7 @@ function StrategyTab({ openArticle }: { openArticle: (article: Article) => void 
         <div 
           key={index} 
           ref={(el) => { cardRefs.current[index] = el; }}
-          className="group relative bg-white dark:bg-white backdrop-blur-sm rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-visible border border-orange-100"
+          className="group relative bg-white dark:bg-gray-800 backdrop-blur-sm rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-visible border border-orange-100 dark:border-blue-500/40"
         >
           {/* Decorative accent bar */}
           <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-orange-400 to-orange-600 transform scale-y-0 group-hover:scale-y-100 transition-transform duration-300 origin-top" />
@@ -550,13 +550,13 @@ function StrategyTab({ openArticle }: { openArticle: (article: Article) => void 
             </div>
 
             {/* Title */}
-            <h3 className="text-xl font-bold mb-3 text-black group-hover:text-orange-600 transition-colors cursor-pointer line-clamp-2">
+            <h3 className="text-xl font-bold mb-3 text-black dark:text-white group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors cursor-pointer line-clamp-2">
               {article.title}
             </h3>
 
             {/* Excerpt */}
             {article.excerpt && (
-              <p className="text-sm text-black/80 mb-4 line-clamp-2 leading-relaxed">
+              <p className="text-sm text-black/80 dark:text-gray-300 mb-4 line-clamp-2 leading-relaxed">
                 {article.excerpt}
               </p>
             )}
@@ -568,11 +568,11 @@ function StrategyTab({ openArticle }: { openArticle: (article: Article) => void 
                   <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 via-orange-500 to-orange-600 flex items-center justify-center text-white font-bold text-sm shadow-md">
                     {article.author.charAt(0)}
                   </div>
-                  <div className="absolute bottom-0 right-0 w-4 h-4 bg-green-500 rounded-full border-2 border-white dark:border-white z-10" />
+                  <div className="absolute bottom-0 right-0 w-4 h-4 bg-green-500 rounded-full border-2 border-white dark:border-gray-800 z-10" />
                 </div>
                 <div className="ml-3">
-                  <div className="text-sm font-semibold text-black">{article.author}</div>
-                  <div className="text-xs text-black/60 flex items-center">
+                  <div className="text-sm font-semibold text-black dark:text-white">{article.author}</div>
+                  <div className="text-xs text-black/60 dark:text-gray-400 flex items-center">
                     <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>
@@ -660,7 +660,7 @@ function PYQTab() {
         {filteredPapers.map((p, i) => (
           <div 
             key={`${p.year}-${p.stage}-${i}`} 
-            className="relative bg-gradient-to-br from-[#FFF8F0] to-[#FFF0E0] dark:from-[#FFF8F0] dark:to-[#FFF0E0] rounded-3xl p-8 shadow-xl overflow-hidden"
+            className="relative bg-gradient-to-br from-[#FFF8F0] to-[#FFF0E0] dark:from-gray-800 dark:to-gray-900 rounded-3xl p-8 shadow-xl overflow-hidden border-2 border-transparent dark:border-blue-500/30"
             role="group" 
             aria-label={`${p.year} ${p.stage} ${p.title}`}
           >
@@ -683,7 +683,7 @@ function PYQTab() {
                 <div className="text-2xl opacity-60">
                   {p.stage === 'Prelims' ? '📚' : '📝'}
                 </div>
-                <p className="text-amber-900 dark:text-amber-950 font-medium text-base">
+                <p className="text-amber-900 dark:text-gray-200 font-medium text-base">
                   {p.stats}
                 </p>
               </div>
@@ -748,7 +748,7 @@ function VideosTab() {
         {videos.map((v, i) => (
           <div 
             key={`${v.title}-${i}`} 
-            className="bg-gradient-to-br from-[#FFF8F0] to-[#FFF0E0] dark:from-[#FFF8F0] dark:to-[#FFF0E0] rounded-3xl overflow-hidden shadow-xl" 
+            className="bg-gradient-to-br from-[#FFF8F0] to-[#FFF0E0] dark:from-gray-800 dark:to-gray-900 rounded-3xl overflow-hidden shadow-xl border-2 border-transparent dark:border-blue-500/30" 
             role="group" 
             aria-label={`${v.title} video`}
           >
@@ -789,8 +789,8 @@ function VideosTab() {
 
             {/* Card Content */}
             <div className="p-6">
-              <p className="text-sm text-amber-800 mb-2">
-                <strong style={{ fontSize: '18px', color: '#1f2937', display: 'block', marginBottom: '10px', fontWeight: '700', lineHeight: '1.4' }}>{v.title}</strong>
+              <p className="text-sm text-amber-800 dark:text-gray-300 mb-2">
+                <strong style={{ fontSize: '18px', color: '#1f2937', display: 'block', marginBottom: '10px', fontWeight: '700', lineHeight: '1.4' }} className="dark:!text-white">{v.title}</strong>
                 {v.subtitle} • {v.views} views
               </p>
               <button 

@@ -3,6 +3,7 @@ import { Inter, Playfair_Display } from 'next/font/google'
 import './globals.css'
 import { ThemeProvider } from './ThemeProvider'
 import ScrollToTop from '@/components/ScrollToTop'
+import ScrollRestoration from '@/components/ScrollRestoration'
 import React from 'react'
 
 const inter = Inter({ 
@@ -60,6 +61,7 @@ export default function RootLayout({
       </head>
       <body className={`${inter.variable} ${playfair.variable}`} suppressHydrationWarning>
         <ThemeProvider>
+          <ScrollRestoration />
           <ScrollToTop />
           {children}
         </ThemeProvider>

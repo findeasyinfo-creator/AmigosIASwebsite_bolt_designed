@@ -310,7 +310,7 @@ export default function CurrentAffairsPageContent() {
                   className={`group px-5 py-2 rounded-full font-semibold whitespace-nowrap transition-all duration-300 border ${
                     activeTab === tab.id
                       ? '!bg-orange-500 !text-white !border-orange-500 !rounded-full !shadow-lg shadow-orange-500/30 [&_svg]:!stroke-white [&_svg]:!text-white'
-                        : '!bg-white !text-black !border-gray-300 !rounded-full !shadow-sm hover:!shadow-md'
+                        : '!bg-white dark:!bg-gray-800 !text-black dark:!text-white !border-gray-300 dark:!border-gray-600 !rounded-full !shadow-sm hover:!shadow-md'
                   }`}
                 >
                   

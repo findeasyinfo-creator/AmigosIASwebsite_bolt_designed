@@ -53,13 +53,13 @@ export default function ContactPageContent() {
       {/* Hero Section */}
       <section className="py-12 sm:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="inline-block mb-4 px-4 py-2 bg-orange-50 dark:bg-orange-900/20 rounded-full">
-            <p className="text-sm font-semibold tracking-wider text-orange-600 uppercase">Get In Touch</p>
+          <div className="inline-block mb-4 px-4 py-2 bg-orange-50 dark:bg-orange-600/30 rounded-full border-2 border-orange-200 dark:border-orange-500">
+            <p className="text-sm font-semibold tracking-wider text-orange-600 dark:text-orange-300 uppercase">Get In Touch</p>
           </div>
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight text-[#0a1628] dark:text-white mb-4">
-            Let's Start Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-orange-600">IAS Journey</span>
+            Let's Start Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-orange-600 dark:from-orange-400 dark:to-orange-500">IAS Journey</span>
           </h1>
-          <p className="text-gray-600 dark:text-gray-300 text-lg max-w-2xl mx-auto">
+          <p className="text-gray-600 dark:text-gray-200 text-lg max-w-2xl mx-auto">
             Connect with Amigos IAS — your trusted partner for UPSC preparation. We're here to guide you every step of the way.
           </p>
         </div>
@@ -105,21 +105,21 @@ export default function ContactPageContent() {
                 {/* Branch Cards */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
                   {/* Hyderabad first for mobile ordering */}
-                  <div className="bg-white dark:bg-gray-700/40 backdrop-blur-sm rounded-2xl p-5 border border-orange-100 dark:border-gray-600 hover:border-orange-300 dark:hover:border-orange-500/50 transition-all duration-300 hover:shadow-lg group">
+                  <div className="bg-white dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl p-5 border border-orange-100 dark:border-orange-500/50 hover:border-orange-300 dark:hover:border-orange-400 transition-all duration-300 hover:shadow-lg group">
                     <div className="flex items-center gap-2 mb-1">
                       <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse" />
                       <p className="text-sm font-bold text-[#0a1628] dark:text-white">Hyderabad Center</p>
                     </div>
-                    <p className="text-xs font-semibold text-orange-600 mb-1">Visit Us</p>
-                    <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">Near SR Nagar, Hyderabad</p>
+                    <p className="text-xs font-semibold text-orange-600 dark:text-orange-400 mb-1">Visit Us</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-200 leading-relaxed">Near SR Nagar, Hyderabad</p>
                   </div>
-                  <div className="bg-white dark:bg-gray-700/40 backdrop-blur-sm rounded-2xl p-5 border border-orange-100 dark:border-gray-600 hover:border-orange-300 dark:hover:border-orange-500/50 transition-all duration-300 hover:shadow-lg group">
+                  <div className="bg-white dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl p-5 border border-orange-100 dark:border-orange-500/50 hover:border-orange-300 dark:hover:border-orange-400 transition-all duration-300 hover:shadow-lg group">
                     <div className="flex items-center gap-2 mb-1">
                       <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse" />
                       <p className="text-sm font-bold text-[#0a1628] dark:text-white">Head Office</p>
                     </div>
-                    <p className="text-xs font-semibold text-orange-600 mb-1">Visit Us</p>
-                    <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">Bada Bazar Rd, Karol Bagh, New Delhi</p>
+                    <p className="text-xs font-semibold text-orange-600 dark:text-orange-400 mb-1">Visit Us</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-200 leading-relaxed">Bada Bazar Rd, Karol Bagh, New Delhi</p>
                   </div>
                 </div>
 

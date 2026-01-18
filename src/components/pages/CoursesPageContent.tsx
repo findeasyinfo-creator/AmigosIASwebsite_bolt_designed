@@ -183,7 +183,7 @@ export default function CoursesPageContent() {
                   className={`px-6 py-2 rounded-full font-medium whitespace-nowrap transition-all duration-150 ${
                     activeTab === category.id
                       ? 'bg-orange-500 text-white shadow-lg'
-                      : 'bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm text-gray-700 dark:text-gray-300 hover:bg-orange-100 dark:hover:bg-gray-700'
+                      : 'bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm text-gray-700 dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700'
                   }`}
                 >
                   {category.name}

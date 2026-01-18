@@ -7,6 +7,7 @@ import { heroSlides } from '@/data/heroSlides'
 export default function Hero() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isTransitioning, setIsTransitioning] = useState(false)
+  const [isMounted, setIsMounted] = useState(false)
 
   const nextSlide = () => {
     setIsTransitioning(true)
@@ -23,11 +24,17 @@ export default function Hero() {
     setCurrentIndex(index)
   }
 
+  // Set mounted state
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
   // Auto-advance carousel
   useEffect(() => {
+    if (!isMounted) return
     const timer = setInterval(nextSlide, 5000)
     return () => clearInterval(timer)
-  }, [])
+  }, [isMounted])
 
   // Reset transition state
   useEffect(() => {
@@ -44,6 +51,7 @@ export default function Hero() {
         className={`${styles.navButton} ${styles.prevButton}`}
         onClick={prevSlide}
         aria-label="Previous slide"
+        style={{ display: isMounted ? 'flex' : 'none' }}
       >
         ‹
       </button>
@@ -52,6 +60,7 @@ export default function Hero() {
         className={`${styles.navButton} ${styles.nextButton}`}
         onClick={nextSlide}
         aria-label="Next slide"
+        style={{ display: isMounted ? 'flex' : 'none' }}
       >
         ›
       </button>
@@ -97,7 +106,7 @@ export default function Hero() {
         </div>
 
         {/* Carousel Indicators - Below hero section */}
-        <div className={styles.indicators}>
+        <div className={styles.indicators} style={{ display: isMounted ? 'flex' : 'none' }}>
           {heroSlides.map((_, index) => (
             <button
               key={index}

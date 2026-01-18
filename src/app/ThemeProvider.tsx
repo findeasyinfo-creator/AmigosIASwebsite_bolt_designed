@@ -11,12 +11,12 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>('light')
+  const [theme, setTheme] = useState<Theme>('dark')
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
     setMounted(true)
-    // Load theme from localStorage or use system preference
+    // Load theme from localStorage or default to dark
     if (typeof window !== 'undefined') {
       let savedTheme: Theme | null = null
       try {
@@ -32,10 +32,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
           document.documentElement.classList.remove('dark')
         }
       } else {
-        const initialTheme: Theme = 'light'
+        const initialTheme: Theme = 'dark'
         setTheme(initialTheme)
         document.documentElement.setAttribute('data-theme', initialTheme)
-        document.documentElement.classList.remove('dark')
+        document.documentElement.classList.add('dark')
       }
     }
   }, [])

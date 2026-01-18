@@ -610,33 +610,35 @@
 }
 
 .modalViewAllBtn {
-  padding: 0.75rem 1.5rem;
+  padding: 0.875rem 2rem;
   background: linear-gradient(135deg, #FF7A00, #FF5722);
   color: #ffffff;
   border: none;
-  border-radius: 10px;
+  border-radius: 50px;
   font-size: 1rem;
   font-weight: 600;
   text-decoration: none;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   display: inline-block;
+  box-shadow: 0 4px 15px rgba(255, 122, 0, 0.3);
 }
 
 .modalViewAllBtn:hover {
   background: linear-gradient(135deg, #FF5722, #E64A19);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(255, 122, 0, 0.4);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(255, 122, 0, 0.5);
 }
 
 [data-theme="dark"] .modalViewAllBtn {
-  background: linear-gradient(135deg, #D4AF37, #FFE17B);
-  color: #0a1628;
+  background: linear-gradient(135deg, #D4AF37, #FFE17B) !important;
+  color: #0a1628 !important;
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.35) !important;
 }
 
 [data-theme="dark"] .modalViewAllBtn:hover {
-  background: linear-gradient(135deg, #FFE17B, #F2C94C);
-  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
+  background: linear-gradient(135deg, #FFE17B, #F2C94C) !important;
+  box-shadow: 0 8px 28px rgba(212, 175, 55, 0.45) !important;
 }
 
 .caActions {
@@ -649,33 +651,35 @@
 }
 
 .viewAllBtn {
-  padding: 0.75rem 2rem;
+  padding: 0.875rem 2.5rem;
   background: linear-gradient(135deg, #FF7A00, #FF5722);
   color: #ffffff;
   border: none;
-  border-radius: 12px;
+  border-radius: 50px;
   font-size: 1rem;
   font-weight: 600;
   text-decoration: none;
   cursor: pointer;
   transition: all 0.3s ease;
   display: inline-block;
+  box-shadow: 0 4px 15px rgba(255, 122, 0, 0.3);
 }
 
 .viewAllBtn:hover {
   background: linear-gradient(135deg, #FF5722, #E64A19);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255, 122, 0, 0.4);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(255, 122, 0, 0.5);
 }
 
 [data-theme="dark"] .viewAllBtn {
-  background: linear-gradient(135deg, #D4AF37, #FFE17B);
-  color: #0a1628;
+  background: linear-gradient(135deg, #D4AF37, #FFE17B) !important;
+  color: #0a1628 !important;
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.35) !important;
 }
 
 [data-theme="dark"] .viewAllBtn:hover {
-  background: linear-gradient(135deg, #FFE17B, #F2C94C);
-  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+  background: linear-gradient(135deg, #FFE17B, #F2C94C) !important;
+  box-shadow: 0 8px 28px rgba(212, 175, 55, 0.45) !important;
 }
 
 /* Responsive */

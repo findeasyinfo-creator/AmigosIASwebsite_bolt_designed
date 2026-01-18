@@ -27,23 +27,25 @@
 }
 
 .whatsappButton {
-  background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
-  color: white;
+  background: linear-gradient(135deg, #25D366 0%, #128C7E 100%) !important;
+  color: white !important;
 }
 
 .whatsappButton:hover {
-  transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 6px 25px rgba(37, 211, 102, 0.4);
+  transform: translateY(-3px) scale(1.05) !important;
+  box-shadow: 0 6px 25px rgba(37, 211, 102, 0.4) !important;
+  background: linear-gradient(135deg, #25D366 0%, #128C7E 100%) !important;
 }
 
 .enquireButton {
-  background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
-  color: white;
+  background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%) !important;
+  color: white !important;
 }
 
 .enquireButton:hover {
-  transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 6px 25px rgba(255, 107, 53, 0.4);
+  transform: translateY(-3px) scale(1.05) !important;
+  box-shadow: 0 6px 25px rgba(255, 107, 53, 0.4) !important;
+  background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%) !important;
 }
 
 .icon {

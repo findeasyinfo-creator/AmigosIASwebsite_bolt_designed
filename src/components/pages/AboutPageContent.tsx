@@ -118,11 +118,50 @@ export default function AboutPageContent() {
             {/* X Close Button */}
             <button
               onClick={closeFacultyPopup}
-              className="absolute top-2 right-2 z-20 w-9 h-9 bg-orange-500 hover:bg-orange-600 text-white rounded-full shadow-lg transition-all duration-300 hover:rotate-90 hover:scale-110 flex items-center justify-center"
+              className="absolute top-2 right-2 z-20 flex items-center justify-center"
               aria-label="Close"
+              style={{ 
+                width: '40px',
+                height: '40px',
+                backgroundColor: '#000000',
+                border: '3px solid #FFFFFF',
+                borderRadius: '50%',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'rotate(90deg) scale(1.1)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'rotate(0deg) scale(1)';
+              }}
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
+              <svg 
+                width="24" 
+                height="24" 
+                viewBox="0 0 24 24" 
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                style={{ display: 'block' }}
+              >
+                <line 
+                  x1="6" 
+                  y1="6" 
+                  x2="18" 
+                  y2="18" 
+                  stroke="#FFFFFF" 
+                  strokeWidth="4" 
+                  strokeLinecap="round"
+                />
+                <line 
+                  x1="18" 
+                  y1="6" 
+                  x2="6" 
+                  y2="18" 
+                  stroke="#FFFFFF" 
+                  strokeWidth="4" 
+                  strokeLinecap="round"
+                />
               </svg>
             </button>
 
@@ -331,7 +370,7 @@ function DirectorMessageSection() {
 
           {/* Left side - Content */}
           <div className="director-content lg:border-l-8 lg:border-orange-500 dark:lg:border-[#D4AF37] lg:pl-12">
-            <style>{`
+            <style dangerouslySetInnerHTML={{ __html: `
               @media (min-width: 769px) and (max-width: 850px) {
                 .director-content {
                   padding-left: 0 !important;
@@ -384,7 +423,7 @@ function DirectorMessageSection() {
                   padding-right: 0;
                 }
               }
-            `}</style>
+            ` }} />
             <div>
               <h2 className="text-5xl sm:text-6xl lg:text-7xl font-black text-gray-900 dark:text-[#D4AF37] mb-6 leading-tight">
                 Meet Our<br />Chairman
@@ -616,7 +655,7 @@ function ChiefAdviserSection() {
           animation: fillCircle4 2s ease-in-out forwards 0.8s;
         }
       `}</style>
-      <style>{`
+      <style dangerouslySetInnerHTML={{ __html: `
         @media (min-width: 769px) and (max-width: 850px) {
           .about-section-container {
             padding-left: 1.5rem !important;
@@ -679,7 +718,7 @@ function ChiefAdviserSection() {
             padding-right: 0;
           }
         }
-      `}</style>
+      ` }} />
       <div className="about-section-container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-16 items-center relative">
           {/* Animated Gold Bar Divider */}
