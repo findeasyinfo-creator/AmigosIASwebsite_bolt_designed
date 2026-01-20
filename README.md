@@ -1,189 +1,213 @@
-# Amigos IAS Academy Website
+# Amigos IAS Landing Page - Next.js
 
-A professional, high-performance website for Amigos IAS Academy built with Next.js, React, and Tailwind CSS.
+Modern Next.js conversion of the Amigos IAS UPSC coaching landing page with component-based architecture and modular CSS.
 
-## Features
+## 🚀 Features
 
-### Design Principles
-- **Mobile-first responsive design** optimized for all devices
-- **Outstanding UI** with smooth animations and micro-interactions
-- **Color scheme** based on the Amigos IAS brand logo (orange, red, yellow accents)
-- **Performance-focused** with Next.js optimization for fast loading
-- **User-centric** with minimal cognitive load and intuitive navigation
-
-### Key Pages
-
-1. **Home Page**
-   - Hero section with prominent CTAs
-   - Statistics showcase
-   - Why Choose section
-   - Featured courses carousel
-   - Top faculty profiles
-   - Student testimonials
-   - Latest announcements
-
-2. **Current Affairs**
-   - Advanced filtering by subject, paper, and date
-   - Card-based magazine-style layout
-   - Tagged content for easy navigation
-
-3. **About Us**
-   - Vision and mission statements
-   - Director's message
-   - Faculty profiles with expertise
-   - Academy timeline
-
-4. **Courses**
-   - Categorized course listings
-   - Detailed course information
-   - Batch timings and fees
-   - Direct enrollment links
-
-5. **Admissions**
-   - Multi-step form with progress indicator
-   - Real-time validation with visual feedback
-   - Chunking for reduced cognitive load
-   - Progressive disclosure
-
-6. **Resources & Blog**
-   - Tabbed interface for easy navigation
-   - Study materials
-   - Strategy articles
-   - Previous year papers
-   - Video lectures
-   - Faculty columns
-   - Exam updates
-
-7. **Results**
-   - Interactive topper showcase
-   - Filterable by year and rank
-   - Success stories with testimonials
-   - Direct course enrollment links
-
-8. **Contact Us**
-   - Enquiry form with validation
-   - Contact information
-   - WhatsApp integration
-   - Google Maps placeholder
-
-### Global Components
-
-- **Sticky Header** with smooth scroll behavior
-- **Comprehensive Footer** with quick links and social media
-- **Mobile FAB** (Floating Action Bar) with:
-  - Join Now button
-  - Enquire button
-  - WhatsApp chat integration
-
-### Technical Features
-
-- **Next.js 16** with App Router
-- **Tailwind CSS 4** for styling
+- **Next.js 14** with App Router
 - **TypeScript** for type safety
-- **Responsive design** with mobile-first approach
-- **Form validation** with real-time feedback
-- **Micro-interactions** for enhanced UX
-- **SEO-optimized** structure
+- **CSS Modules** for scoped component styling
+- **Google Fonts** (Poppins & Playfair Display) optimized loading
+- **Responsive Design** matching original
+- **Modern React Patterns** (hooks, client components where needed)
+- **Hero Panel** with background image support
+- **Modern Testimonial Cards** with horizontal scroll
 
-## Getting Started
+## 📁 Project Structure
 
-### Installation
+```
+nextjs-landing/
+├── src/
+│   ├── app/
+│   │   ├── layout.tsx          # Root layout with fonts
+│   │   ├── page.tsx             # Main page composing all sections
+│   │   └── globals.css          # Global styles & CSS variables
+│   └── components/
+│       ├── Header/              # Sticky header with mobile menu
+│       │   ├── index.tsx
+│       │   └── Header.module.css
+│       ├── Marquee/             # Announcement marquee
+│       ├── Hero/                # Hero carousel with panel design
+│       ├── Trusted/             # Trust indicators section
+│       ├── Courses/             # Courses grid (placeholder)
+│       ├── Faculty/             # Faculty slider (placeholder)
+│       ├── Testimonials/        # Modern horizontal scroll cards
+│       ├── Demo/                # Demo videos (placeholder)
+│       └── Footer/              # Footer section
+├── public/
+│   └── assets/                  # Images (copy your assets here)
+│       ├── amigos-logo.png
+│       ├── hero-banner.jpg
+│       └── hero-bg.jpg          # Background for hero panel
+├── package.json
+├── tsconfig.json
+├── next.config.js
+└── tailwind.config.ts
+```
 
-```bash
+## 🛠️ Setup & Installation
+
+### 1. Navigate to the project
+
+```powershell
+cd "d:\projects\landing page\nextjs-landing"
+```
+
+### 2. Install dependencies
+
+```powershell
 npm install
 ```
 
-### Development
+### 3. Copy assets
 
-```bash
+Copy your images from the original project to `public/assets/`:
+
+```powershell
+# Create assets directory if it doesn't exist
+New-Item -ItemType Directory -Force -Path "public\assets"
+
+# Copy logo
+Copy-Item "..\assets\amigos-logo.png" "public\assets\" -Force
+
+# Copy hero banner
+Copy-Item "..\assets\hero-banner.jpg" "public\assets\" -Force
+
+# Copy hero background (from your WhatsApp image)
+Copy-Item "C:\Users\sivak\AppData\Local\Packages\5319275A.WhatsAppDesktop_cv1g1gvanyjgm\TempState\61EB1BF9204A81F413B1287C2C563853\WhatsApp Image 2025-11-10 at 12.08.02_7e385168.jpg" "public\assets\hero-bg.jpg" -Force
+```
+
+### 4. Run development server
+
+```powershell
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to view the website.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-### Build
+## 📝 Available Scripts
 
-```bash
-npm run build
+- `npm run dev` - Start development server (http://localhost:3000)
+- `npm run build` - Build for production
+- `npm start` - Start production server
+- `npm run lint` - Run ESLint
+
+## 🎨 Styling Approach
+
+### CSS Modules
+Each component has its own `.module.css` file for scoped styles:
+
+```tsx
+import styles from './Header.module.css'
+
+<header className={styles.header}>
+  ...
+</header>
 ```
 
-### Start Production
+### Global Styles
+CSS variables and animations are in `src/app/globals.css`:
 
-```bash
+```css
+:root {
+  --deep-saffron: #E97122;
+  --soft-amber: #F6C36B;
+  --royal-navy: #1A2341;
+  ...
+}
+```
+
+### Tailwind CSS
+Available for utility classes, but preflight disabled to preserve custom styles.
+
+## 🔧 Customization
+
+### Colors
+Edit CSS variables in `src/app/globals.css`:
+
+```css
+:root {
+  --deep-saffron: #E97122;  /* Change hero orange tint */
+  --royal-navy: #1A2341;     /* Change header background */
+}
+```
+
+### Hero Background
+Replace `public/assets/hero-bg.jpg` with your preferred background image.
+
+### Testimonials
+Edit testimonial data in `src/components/Testimonials/index.tsx`:
+
+```tsx
+const testimonials = [
+  {
+    name: 'Your Name',
+    rank: 'AIR X • 2024',
+    image: '/path/to/image.jpg',
+    stars: 5,
+    text: 'Your testimonial...',
+    tilt: 'tilt1'  // tilt1, tilt2, or tilt3
+  },
+  ...
+]
+```
+
+## 📦 Building for Production
+
+```powershell
+npm run build
 npm start
 ```
 
-## Color Palette
+The optimized production build will be in `.next/` directory.
 
-Based on the Amigos IAS logo:
+## 🚢 Deployment
 
-- **Primary Navy**: #1D3557 (Main brand color)
-- **Primary Red**: #E63946 (Accent)
-- **Primary Orange**: #F77F00 (Accent)
-- **Primary Yellow**: #FCBF49 (Accent)
-- **Secondary Green**: #06D6A0 (Growth/Success)
-- **Secondary Blue**: #118AB2 (Trust)
-
-## Project Structure
-
-```
-project/
-├── app/
-│   ├── layout.tsx          # Root layout with header/footer
-│   ├── page.tsx            # Home page
-│   ├── globals.css         # Global styles
-│   ├── about/             # About Us page
-│   ├── admissions/        # Admissions page
-│   ├── contact/           # Contact page
-│   ├── courses/           # Courses page
-│   ├── current-affairs/   # Current Affairs page
-│   ├── resources/         # Resources & Blog page
-│   └── results/           # Results page
-├── components/
-│   ├── Header.tsx         # Global header
-│   ├── Footer.tsx         # Global footer
-│   └── MobileFAB.tsx      # Mobile floating action bar
-├── public/                # Static assets
-├── tailwind.config.js     # Tailwind configuration
-└── package.json          # Dependencies
-
+### Vercel (Recommended)
+```powershell
+npm i -g vercel
+vercel
 ```
 
-## Key UX Principles Implemented
+### Other Platforms
+- **Netlify**: Connect your Git repo
+- **AWS Amplify**: Use the Next.js build preset
+- **Docker**: Use official Next.js Dockerfile
 
-1. **Chunking**: Breaking down complex information into manageable units
-2. **Progressive Disclosure**: Showing essential information first, details on demand
-3. **Consistency**: Unified design language across all pages
-4. **Visual Hierarchy**: Clear structure with typography and spacing
-5. **Micro-interactions**: Hover states, transitions, form validation feedback
-6. **Mobile-First**: Optimized for thumb-friendly navigation
-7. **Conversion Architecture**: Strategic CTA placement for lead generation
+## 🔄 Migration Notes
 
-## Browser Support
+### From Original HTML/CSS
+- All sections converted to React components
+- Inline styles moved to CSS Modules
+- JavaScript carousel logic → React hooks (useState)
+- Marquee element → React component (could upgrade to CSS animation)
 
-- Chrome (latest)
-- Firefox (latest)
-- Safari (latest)
-- Edge (latest)
-- Mobile browsers (iOS Safari, Chrome Mobile)
+### What's Different
+- **No jQuery** - Pure React hooks
+- **Image Optimization** - Next.js `<Image>` component
+- **Font Loading** - Optimized via `next/font/google`
+- **Module Bundling** - Automatic code splitting
 
-## Performance Optimizations
+## 📚 Learn More
 
-- Next.js automatic code splitting
-- Image optimization
-- CSS optimization with Tailwind
-- Fast page transitions
-- Optimized for Core Web Vitals
+- [Next.js Documentation](https://nextjs.org/docs)
+- [CSS Modules](https://nextjs.org/docs/app/building-your-application/styling/css-modules)
+- [Next.js Font Optimization](https://nextjs.org/docs/app/building-your-application/optimizing/fonts)
 
-## Future Enhancements
+## ⚠️ Known Issues / TODOs
 
-- Integration with Supabase database for dynamic content
-- Admin panel for content management
-- Online payment gateway integration
-- Student dashboard
-- Video streaming integration
-- Advanced analytics
+- ✅ Header with mobile menu
+- ✅ Hero carousel with panel design
+- ✅ Modern testimonial cards
+- ⚠️ Courses section (placeholder - needs full implementation)
+- ⚠️ Faculty section (placeholder - needs video integration)
+- ⚠️ Demo section (placeholder - needs YouTube embed)
+- ⚠️ Footer (simplified - needs full links)
+
+## 📞 Support
+
+For questions or issues, refer to the original project documentation or Next.js resources.
 
 ---
 
-Built with excellence for UPSC aspirants.
+**Built with ❤️ using Next.js 14**

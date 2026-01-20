@@ -1,0 +1,672 @@
+"use client"
+import React, { useMemo, useState, useEffect } from 'react'
+import FilterCalendar from '@/components/CurrentAffairs/FilterCalendar'
+import PremiumSelect from '@/components/CurrentAffairs/PremiumSelect'
+import { useCurrentAffairs } from '@/hooks/useCurrentAffairs'
+import { api } from '@/services/api'
+
+type CAType = 'daily' | 'weekly' | 'monthly'
+type TabType = 'all' | CAType
+
+type CAItem = {
+  id: number | string
+  type: CAType
+  title: string
+  date: string
+  subject: string
+  paper: string
+  summary: string
+  fullContent: string
+  topics: string[]
+  imageUrl?: string
+  issue?: string
+}
+
+export default function CurrentAffairsPageContent() {
+  const todayStr = useMemo(() => new Date().toISOString().slice(0, 10), [])
+  const [activeTab, setActiveTab] = useState<TabType>('all')
+  const [selectedType, setSelectedType] = useState<string>('all')
+  // For Daily: start with 'all' to show all daily items by default
+  const [selectedDate, setSelectedDate] = useState<string>('all')
+  const [selectedSubject, setSelectedSubject] = useState<string>('all')
+  const [selectedPaper, setSelectedPaper] = useState<string>('all')
+  const [weeklyRange, setWeeklyRange] = useState<'all' | 'this-week' | 'last-week'>('this-week')
+  const [monthlyRange, setMonthlyRange] = useState<'all' | 'this-month' | 'last-month'>('this-month')
+  // New pickers for week and month (ISO week string: YYYY-Www, month: YYYY-MM)
+  const [selectedWeek, setSelectedWeek] = useState<string>('')
+  const [selectedMonth, setSelectedMonth] = useState<string>('')
+  const [openDate, setOpenDate] = useState(false)
+  const [openWeek, setOpenWeek] = useState(false)
+  const [openMonth, setOpenMonth] = useState(false)
+  const dateButtonRef = React.useRef<HTMLButtonElement>(null)
+  const weekButtonRef = React.useRef<HTMLButtonElement>(null)
+  const monthButtonRef = React.useRef<HTMLButtonElement>(null)
+
+  // Subject-based image mapping function for consistent rendering
+  const getSubjectImage = (subject: string): string => {
+    const imageMap: Record<string, string> = {
+      'International Relations': 'https://images.unsplash.com/photo-1526666923127-b2970f64b422?w=800&h=450&fit=crop&q=80',
+      'Environment': 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800&h=450&fit=crop&q=80',
+      'Governance': 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&h=450&fit=crop&q=80',
+      'Economy': 'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=800&h=450&fit=crop&q=80',
+      'Polity': 'https://images.unsplash.com/photo-1541872703-74c5e44368f9?w=800&h=450&fit=crop&q=80',
+      'Science & Technology': 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&h=450&fit=crop&q=80',
+      'Compilation': 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=800&h=450&fit=crop&q=80',
+      'Judiciary': 'https://images.unsplash.com/photo-1589994965851-a8f479c573a9?w=800&h=450&fit=crop&q=80'
+    }
+    return imageMap[subject] || 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=800&h=450&fit=crop&q=80'
+  }
+
+  // Fetch current affairs from API based on active tab
+  const { currentAffairs, loading } = useCurrentAffairs(
+    activeTab === 'all' ? {} : { type: activeTab }
+  )
+
+  // Convert API data to component format
+  const items: CAItem[] = currentAffairs.map(item => ({
+    ...item,
+    imageUrl: item.imageUrl || getSubjectImage(item.subject)
+  }))
+
+  // State for filter options (fetched from backend)
+  const [subjects, setSubjects] = useState<Array<{ value: string; label: string }>>([])
+  const [papers, setPapers] = useState<Array<{ value: string; label: string }>>([])
+  const [filtersLoading, setFiltersLoading] = useState(true)
+
+  // Fetch filter options from backend
+  useEffect(() => {
+    const fetchFilterOptions = async () => {
+      try {
+        const response = await api.filterConfigs.getVisible()
+        if (response.success && response.data) {
+          // Add "all" option at the beginning
+          setSubjects([
+            { value: 'all', label: 'All Subjects' },
+            ...response.data.subjects
+          ])
+          setPapers([
+            { value: 'all', label: 'All Papers' },
+            ...response.data.papers
+          ])
+        }
+      } catch (error) {
+        console.error('Failed to fetch filter options:', error)
+        // Fallback to default options if API fails
+        setSubjects([
+          { value: 'all', label: 'All Subjects' },
+          { value: 'Polity', label: 'Polity' },
+          { value: 'Economy', label: 'Economy' },
+          { value: 'International Relations', label: 'International Relations' },
+          { value: 'Environment', label: 'Environment' },
+          { value: 'Governance', label: 'Governance' },
+          { value: 'Science & Technology', label: 'Science & Technology' },
+          { value: 'Compilation', label: 'Compilation' }
+        ])
+        setPapers([
+          { value: 'all', label: 'All Papers' },
+          { value: 'GS-I', label: 'GS-I' },
+          { value: 'GS-II', label: 'GS-II' },
+          { value: 'GS-III', label: 'GS-III' },
+          { value: 'GS-IV', label: 'GS-IV' },
+          { value: 'GS-I/II/III', label: 'GS-I/II/III' }
+        ])
+      } finally {
+        setFiltersLoading(false)
+      }
+    }
+    fetchFilterOptions()
+  }, [])
+
+  // Date helpers for weekly/monthly filtering
+  const today = useMemo(() => {
+    const d = new Date()
+    d.setHours(0, 0, 0, 0)
+    return d
+  }, [])
+
+  const weekStart = (d: Date) => {
+    const date = new Date(d)
+    const day = date.getDay() // 0 Sun .. 6 Sat
+    const diff = day === 0 ? 6 : day - 1 // make Monday start
+    date.setDate(date.getDate() - diff)
+    date.setHours(0, 0, 0, 0)
+    return date
+  }
+  const currentWeekStart = weekStart(today)
+  const currentWeekEnd = new Date(currentWeekStart)
+  currentWeekEnd.setDate(currentWeekEnd.getDate() + 6)
+  const lastWeekStart = new Date(currentWeekStart)
+  lastWeekStart.setDate(lastWeekStart.getDate() - 7)
+  const lastWeekEnd = new Date(lastWeekStart)
+  lastWeekEnd.setDate(lastWeekEnd.getDate() + 6)
+
+  const filteredItems = items.filter((item) => {
+    // For "all" tab, filter by selectedType; for specific tabs, filter by tab type
+    if (activeTab === 'all') {
+      if (selectedType !== 'all' && item.type !== selectedType) return false
+    } else {
+      if (item.type !== activeTab) return false
+    }
+
+    if (selectedSubject !== 'all' && item.subject !== selectedSubject) return false
+    if (selectedPaper !== 'all' && item.paper !== selectedPaper) return false
+    if ((activeTab === 'daily' || (activeTab === 'all' && selectedType === 'daily')) && selectedDate && selectedDate !== 'all' && item.date !== selectedDate) return false
+
+    if ((activeTab === 'weekly' || (activeTab === 'all' && selectedType === 'weekly')) && weeklyRange !== 'all') {
+      const d = new Date(item.date)
+      d.setHours(0, 0, 0, 0)
+      const inThisWeek = d >= currentWeekStart && d <= currentWeekEnd
+      const inLastWeek = d >= lastWeekStart && d <= lastWeekEnd
+      if (weeklyRange === 'this-week' && !inThisWeek) return false
+      if (weeklyRange === 'last-week' && !inLastWeek) return false
+    }
+    if ((activeTab === 'monthly' || (activeTab === 'all' && selectedType === 'monthly')) && monthlyRange !== 'all') {
+      const d = new Date(item.date)
+      const month = d.getMonth()
+      const year = d.getFullYear()
+      const currentMonth = today.getMonth()
+      const currentYear = today.getFullYear()
+      const lastMonthDate = new Date(currentYear, currentMonth - 1, 1)
+      const lastMonth = lastMonthDate.getMonth()
+      const lastMonthYear = lastMonthDate.getFullYear()
+      if (monthlyRange === 'this-month' && !(month === currentMonth && year === currentYear)) return false
+      if (monthlyRange === 'last-month' && !(month === lastMonth && year === lastMonthYear)) return false
+    }
+    return true
+  })
+
+  const [selectedItemId, setSelectedItemId] = useState<number | string | null>(null)
+  const selectedItem = selectedItemId != null ? items.find(i => i.id === selectedItemId) : null
+  const modalRef = React.useRef<HTMLDivElement>(null)
+  const closeButtonRef = React.useRef<HTMLButtonElement>(null)
+
+  // Open item with scroll to modal and focus
+  const openItem = (itemId: number | string) => {
+    setSelectedItemId(itemId)
+    window.location.hash = `ca-modal-${itemId}`
+    setTimeout(() => {
+      modalRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      closeButtonRef.current?.focus()
+    }, 100)
+  }
+
+  // Close modal
+  const closeModal = () => {
+    setSelectedItemId(null)
+    if (window.location.hash.startsWith('#ca-modal-')) {
+      window.history.replaceState(null, '', window.location.pathname)
+    }
+  }
+
+  // Lock body scroll when modal opens
+  useEffect(() => {
+    if (selectedItemId != null) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'unset'
+    }
+  }, [selectedItemId])
+
+  // Close on ESC
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeModal()
+    }
+    window.addEventListener('keydown', handler)
+    return () => window.removeEventListener('keydown', handler)
+  }, [])
+
+  return (
+    <div>
+      {/* Hero Section */}
+      <section className="py-16 hero-section">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h1 className="text-4xl sm:text-5xl font-bold mb-4 text-gray-900 dark:text-white">Current Affairs</h1>
+          <p className="text-xl text-gray-700 dark:text-gray-300">
+            Stay updated with comprehensive analysis of current events for UPSC preparation
+          </p>
+        </div>
+      </section>
+
+      {/* Tabs, Filters and Content */}
+      <section className="py-8 current-affairs-section" data-section="current-affairs">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Main tabs - modern segmented pills */}
+          <div className="sticky top-[72px] md:top-[119px] z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-3 md:py-5 mb-6 md:mb-8 shadow-md">
+            <div className="max-w-7xl mx-auto">
+              <div className="flex gap-3 overflow-x-auto pb-2">
+                {([
+                { id: 'all', name: 'All', icon: 'grid' },
+                { id: 'daily', name: 'Daily CA', icon: 'calendar' },
+                { id: 'weekly', name: 'Weekly CA', icon: 'week' },
+                { id: 'monthly', name: 'Monthly Magazines', icon: 'book' },
+              ] as { id: TabType; name: string; icon: string }[]).map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => {
+                    setActiveTab(tab.id)
+                    setSelectedType('all')
+                    // Reset date for weekly/monthly
+                    if (tab.id !== 'daily') setSelectedDate('all')
+                    if (tab.id === 'weekly') setWeeklyRange('this-week')
+                    if (tab.id === 'monthly') setMonthlyRange('this-month')
+                    if (tab.id === 'all') {
+                      setWeeklyRange('all')
+                      setMonthlyRange('all')
+                    }
+                    setSelectedWeek('')
+                    setSelectedMonth('')
+                  }}
+                  className={`group px-6 py-2.5 rounded-full font-semibold whitespace-nowrap transition-all duration-300 border ${
+                    activeTab === tab.id
+                      ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white border-transparent shadow-lg shadow-orange-500/30'
+                      : 'bg-orange-50/70 dark:bg-orange-900/20 text-orange-700 dark:text-orange-300 hover:bg-orange-100 dark:hover:bg-orange-900/30 border-orange-200 dark:border-orange-700'
+                  }`}
+                >
+                  <span className="inline-flex items-center gap-2">
+                    {tab.icon === 'grid' && (
+                      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <rect x="3" y="3" width="7" height="7" rx="1" strokeWidth="2"/>
+                        <rect x="14" y="3" width="7" height="7" rx="1" strokeWidth="2"/>
+                        <rect x="3" y="14" width="7" height="7" rx="1" strokeWidth="2"/>
+                        <rect x="14" y="14" width="7" height="7" rx="1" strokeWidth="2"/>
+                      </svg>
+                    )}
+                    {tab.icon === 'calendar' && (
+                      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2" strokeWidth="2"/>
+                        <line x1="16" y1="2" x2="16" y2="6" strokeWidth="2" strokeLinecap="round"/>
+                        <line x1="8" y1="2" x2="8" y2="6" strokeWidth="2" strokeLinecap="round"/>
+                        <line x1="3" y1="10" x2="21" y2="10" strokeWidth="2"/>
+                      </svg>
+                    )}
+                    {tab.icon === 'week' && (
+                      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        <path strokeWidth="2" d="M9 15h2m2 0h2"/>
+                      </svg>
+                    )}
+                    {tab.icon === 'book' && (
+                      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                      </svg>
+                    )}
+                    {tab.name}
+                  </span>
+                </button>
+              ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Dependent filters - refreshed UI */}
+          <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-lg p-4 md:p-6 mb-6 md:mb-8 relative z-20">
+            <h2 className="text-lg font-semibold mb-4">Filters</h2>
+
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-3 md:gap-4">
+              {/* Type filter - shown when "All" tab is selected */}
+              {activeTab === 'all' && (
+                <div className="relative" style={{zIndex: 30}}>
+                  <PremiumSelect
+                    label="Type"
+                    value={selectedType}
+                    onChange={setSelectedType}
+                    options={[
+                      { value: 'all', label: 'All Types' },
+                      { value: 'daily', label: 'Daily CA' },
+                      { value: 'weekly', label: 'Weekly CA' },
+                      { value: 'monthly', label: 'Monthly Magazines' },
+                    ]}
+                  />
+                </div>
+              )}
+
+              <div className="relative" style={{zIndex: 30}}>
+                <PremiumSelect
+                  label="Subject"
+                  value={selectedSubject}
+                  onChange={setSelectedSubject}
+                  options={subjects}
+                />
+              </div>
+
+              <div className="relative" style={{zIndex: 30}}>
+                <PremiumSelect
+                  label="UPSC Paper"
+                  value={selectedPaper}
+                  onChange={setSelectedPaper}
+                  options={papers}
+                />
+              </div>
+
+              {(activeTab === 'daily' || (activeTab === 'all' && selectedType === 'daily')) && (
+                <div className="relative">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Date</label>
+                  <button
+                    ref={dateButtonRef}
+                    type="button"
+                    className="rounded-xl px-4 py-2.5 border border-orange-300 dark:border-orange-700 bg-gradient-to-r from-white/80 to-orange-50/40 dark:from-gray-700/80 dark:to-orange-900/20 shadow-sm hover:shadow-md text-orange-600 dark:text-orange-300 font-semibold transition-all backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 w-full text-left flex items-center justify-between"
+                    onClick={() => setOpenDate(v => !v)}
+                  >
+                    <span>{selectedDate === 'all' ? 'Select Date' : selectedDate}</span>
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                  </button>
+                  {openDate && (
+                    <div className="mt-2">
+                      <FilterCalendar
+                        mode="date"
+                        value={selectedDate === 'all' ? '' : selectedDate}
+                        onChange={(v) => setSelectedDate(v || 'all')}
+                        open={openDate}
+                        onClose={() => setOpenDate(false)}
+                        title="Select Date"
+                        triggerElement={null}
+                      />
+                    </div>
+                  )}
+                  <div className="mt-2">
+                    <button
+                      type="button"
+                      onClick={() => setSelectedDate('all')}
+                      className="px-3 py-2 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white hover:from-orange-600 hover:to-amber-600 text-xs font-semibold transition-all shadow-sm hover:shadow-md whitespace-nowrap"
+                    >All Dates</button>
+                  </div>
+                </div>
+              )}
+              {(activeTab === 'weekly' || (activeTab === 'all' && selectedType === 'weekly')) && (
+                <div className="relative">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Week</label>
+                  <button
+                    ref={weekButtonRef}
+                    type="button"
+                    className="rounded-xl px-4 py-2.5 border border-orange-300 dark:border-orange-700 bg-gradient-to-r from-white/80 to-orange-50/40 dark:from-gray-700/80 dark:to-orange-900/20 shadow-sm hover:shadow-md text-orange-600 dark:text-orange-300 font-semibold transition-all backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 w-full text-left flex items-center justify-between"
+                    onClick={() => setOpenWeek(v => !v)}
+                  >
+                    <span>{selectedWeek || 'Select Week'}</span>
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                  </button>
+                  {openWeek && (
+                    <div className="mt-2">
+                      <FilterCalendar
+                        mode="week"
+                        value={selectedWeek}
+                        onChange={(v) => { setSelectedWeek(v || ''); setWeeklyRange('all') }}
+                        open={openWeek}
+                        onClose={() => setOpenWeek(false)}
+                        title="Select Week"
+                        triggerElement={null}
+                      />
+                    </div>
+                  )}
+                  <div className="flex gap-2 mt-2">
+                    <button
+                      type="button"
+                      onClick={() => { setSelectedWeek(''); setWeeklyRange('this-week'); }}
+                      className="px-3 py-2 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white hover:from-orange-600 hover:to-amber-600 text-xs font-semibold transition-all shadow-sm hover:shadow-md whitespace-nowrap"
+                    >This Week</button>
+                    <button
+                      type="button"
+                      onClick={() => { setSelectedWeek(''); setWeeklyRange('last-week'); }}
+                      className="px-3 py-2 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white hover:from-orange-600 hover:to-amber-600 text-xs font-semibold transition-all shadow-sm hover:shadow-md whitespace-nowrap"
+                    >Last Week</button>
+                    <button
+                      type="button"
+                      onClick={() => { setSelectedWeek(''); setWeeklyRange('all'); }}
+                      className="px-3 py-2 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white hover:from-orange-600 hover:to-amber-600 text-xs font-semibold transition-all shadow-sm hover:shadow-md whitespace-nowrap"
+                    >All Weeks</button>
+                  </div>
+                </div>
+              )}
+              {(activeTab === 'monthly' || (activeTab === 'all' && selectedType === 'monthly')) && (
+                <div className="relative">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Month</label>
+                  <button
+                    ref={monthButtonRef}
+                    type="button"
+                    className="rounded-xl px-4 py-2.5 border border-orange-300 dark:border-orange-700 bg-gradient-to-r from-white/80 to-orange-50/40 dark:from-gray-700/80 dark:to-orange-900/20 shadow-sm hover:shadow-md text-orange-600 dark:text-orange-300 font-semibold transition-all backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 w-full text-left flex items-center justify-between"
+                    onClick={() => setOpenMonth(v => !v)}
+                  >
+                    <span>{selectedMonth || 'Select Month'}</span>
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                  </button>
+                  {openMonth && (
+                    <div className="mt-2">
+                      <FilterCalendar
+                        mode="month"
+                        value={selectedMonth}
+                        onChange={(v) => { setSelectedMonth(v || ''); setMonthlyRange('all') }}
+                        open={openMonth}
+                        onClose={() => setOpenMonth(false)}
+                        title="Select Month"
+                        triggerElement={null}
+                      />
+                    </div>
+                  )}
+                  <div className="flex gap-2 mt-2">
+                    <button
+                      type="button"
+                      onClick={() => { setSelectedMonth(''); setMonthlyRange('this-month'); }}
+                      className="px-3 py-2 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white hover:from-orange-600 hover:to-amber-600 text-xs font-semibold transition-all shadow-sm hover:shadow-md whitespace-nowrap"
+                    >This Month</button>
+                    <button
+                      type="button"
+                      onClick={() => { setSelectedMonth(''); setMonthlyRange('last-month'); }}
+                      className="px-3 py-2 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white hover:from-orange-600 hover:to-amber-600 text-xs font-semibold transition-all shadow-sm hover:shadow-md whitespace-nowrap"
+                    >Last Month</button>
+                    <button
+                      type="button"
+                      onClick={() => { setSelectedMonth(''); setMonthlyRange('all'); }}
+                      className="px-3 py-2 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white hover:from-orange-600 hover:to-amber-600 text-xs font-semibold transition-all shadow-sm hover:shadow-md whitespace-nowrap"
+                    >All Months</button>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {(selectedSubject !== 'all' || selectedPaper !== 'all' || (activeTab === 'all' && selectedType !== 'all') || ((activeTab === 'daily' || (activeTab === 'all' && selectedType === 'daily')) && selectedDate !== 'all') || ((activeTab === 'weekly' || (activeTab === 'all' && selectedType === 'weekly')) && weeklyRange !== 'all') || ((activeTab === 'monthly' || (activeTab === 'all' && selectedType === 'monthly')) && monthlyRange !== 'all')) && (
+              <button
+                onClick={() => {
+                  setSelectedSubject('all')
+                  setSelectedPaper('all')
+                  setSelectedType('all')
+                  setSelectedDate('all')
+                  setSelectedWeek('')
+                  setSelectedMonth('')
+                  setWeeklyRange('all')
+                  setMonthlyRange('all')
+                }}
+                className="mt-4 px-4 py-2 rounded-lg bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 hover:bg-orange-200 dark:hover:bg-orange-900/50 text-sm font-medium transition-colors"
+              >
+                Clear All Filters
+              </button>
+            )}
+          </div>
+
+          {/* Results Count */}
+          {!loading && (
+            <div className="mb-4 text-gray-600 dark:text-gray-400">
+              Showing {filteredItems.length} of {activeTab === 'all' ? items.length : items.filter(i => i.type === activeTab).length} {activeTab === 'monthly' || (activeTab === 'all' && selectedType === 'monthly') ? 'magazines' : 'articles'}
+            </div>
+          )}
+
+          {/* Loading Skeleton */}
+          {loading && (
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 items-stretch relative z-0">
+              {Array.from({ length: 6 }).map((_, index) => (
+                <div key={`skeleton-${index}`} className="bg-white/95 dark:bg-gray-900/75 rounded-2xl shadow-md overflow-hidden h-full flex flex-col animate-pulse">
+                  <div className="w-full aspect-video bg-gray-300 dark:bg-gray-700" />
+                  <div className="p-4 flex-1 flex flex-col gap-3">
+                    <div className="flex gap-2">
+                      <div className="h-6 w-16 bg-gray-300 dark:bg-gray-700 rounded-full" />
+                      <div className="h-6 w-24 bg-gray-300 dark:bg-gray-700 rounded-full" />
+                    </div>
+                    <div className="h-6 bg-gray-300 dark:bg-gray-700 rounded w-3/4" />
+                    <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-full" />
+                    <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-5/6" />
+                    <div className="flex gap-2 mt-2">
+                      <div className="h-5 w-16 bg-gray-300 dark:bg-gray-700 rounded" />
+                      <div className="h-5 w-20 bg-gray-300 dark:bg-gray-700 rounded" />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Cards Grid - compact design */}
+          {!loading && (
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 items-stretch relative z-0">
+              {filteredItems.map((item) => (
+              <div key={item.id} className="bg-white/95 dark:bg-gray-900/75 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden h-full flex flex-col">
+                {/* Top image - compact 16:9 aspect */}
+                <div className="w-full aspect-video bg-gradient-to-br from-amber-50 to-orange-50 dark:from-orange-900/20 dark:to-orange-800/20 overflow-hidden">
+                  <img
+                    src={getSubjectImage(item.subject)}
+                    alt={item.title}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+
+                {/* Content */}
+                <div className="p-4 flex-1 flex flex-col">
+                  <div className="flex items-start justify-between gap-2 mb-2">
+                    <div className="inline-block px-2.5 py-1 bg-amber-200 dark:bg-orange-900/40 text-gray-900 dark:text-orange-100 rounded-full text-xs font-medium">
+                      {item.paper}
+                    </div>
+                    <div className="text-xs px-2.5 py-1 bg-amber-100 dark:bg-orange-900/30 text-gray-900 dark:text-orange-100 rounded-full whitespace-nowrap">{item.date}</div>
+                  </div>
+
+                  <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white line-clamp-2">
+                    <button
+                      type="button"
+                      onClick={() => openItem(item.id)}
+                      className="ca-title-btn text-left focus:outline-none text-gray-900 dark:text-white hover:text-orange-600 dark:hover:text-orange-300"
+                    >{item.title}</button>
+                  </h3>
+
+                  <p className="ca-text text-sm text-gray-600 dark:text-gray-200 mb-2 line-clamp-2">{item.summary}</p>
+
+                  <div className="flex items-center justify-between gap-2 mb-2">
+                    <div className="flex flex-wrap gap-1.5">
+                      {item.topics.slice(0, 3).map((topic, index) => (
+                        <span key={index} className="ca-chip px-2 py-0.5 bg-gradient-to-br from-amber-100 to-orange-100 text-gray-800 dark:bg-orange-900/30 dark:text-orange-200 rounded text-xs">
+                          {topic}
+                        </span>
+                      ))}
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => openItem(item.id)}
+                      className="ca-read-btn text-orange-500 dark:text-orange-300 hover:text-orange-600 dark:hover:text-orange-200 font-semibold text-xs flex items-center whitespace-nowrap shrink-0"
+                    >
+                      Read
+                      <svg className="w-3 h-3 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </button>
+                  </div>
+
+                  <div className="mt-2 pt-2 border-t border-gray-200 dark:border-gray-600 mt-auto">
+                    <div className="flex items-center justify-between text-xs text-gray-600 dark:text-gray-300">
+                      <div className="flex items-center truncate">
+                        <svg className="w-3.5 h-3.5 mr-1.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                        </svg>
+                        <span className="truncate">{item.subject}</span>
+                      </div>
+                      <div className="text-xs bg-orange-100 dark:bg-orange-900/40 text-orange-700 dark:text-orange-300 px-2 py-0.5 rounded-full font-medium shrink-0">
+                        {activeTab === 'daily' ? 'Daily' : activeTab === 'weekly' ? 'Weekly' : 'Monthly'}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              ))}
+            </div>
+          )}
+
+          {/* No Results Message */}
+          {!loading && filteredItems.length === 0 && (
+            <div className="text-center py-12">
+              <p className="text-gray-600 dark:text-gray-400 text-lg">No articles found matching your filters.</p>
+              <button
+                onClick={() => {
+                  setSelectedSubject('all')
+                  setSelectedPaper('all')
+                  setSelectedDate(activeTab === 'daily' ? todayStr : 'all')
+                }}
+                className="mt-4 bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-6 rounded-lg transition-colors duration-200"
+              >
+                Clear Filters
+              </button>
+            </div>
+          )}
+
+          {/* Modal Popup */}
+          {selectedItem && (
+            <div
+              ref={modalRef}
+              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto"
+              onClick={closeModal}
+            >
+              <div
+                className="bg-white dark:bg-gray-800 w-full max-w-3xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] my-auto"
+                onClick={(e) => e.stopPropagation()}
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="ca-modal-title"
+              >
+                <div className="relative h-48 bg-gradient-to-br from-amber-50 to-orange-50 dark:from-orange-900/20 dark:to-orange-800/20 overflow-hidden">
+                  <img
+                    src={getSubjectImage(selectedItem.subject)}
+                    alt={selectedItem.title}
+                    className="w-full h-full object-cover"
+                  />
+                  <button
+                    ref={closeButtonRef}
+                    onClick={closeModal}
+                    className="absolute top-3 right-3 bg-orange-500 hover:bg-orange-600 text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg"
+                    aria-label="Close"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+                <div className="p-6 overflow-y-auto">
+                  <div className="flex items-start justify-between mb-4 gap-4">
+                    <div>
+                      <h2 id="ca-modal-title" className="text-2xl font-bold mb-2 text-gray-900 dark:text-white">{selectedItem.title}</h2>
+                      <div className="flex flex-wrap gap-2 mb-2 text-sm text-gray-600 dark:text-gray-400">
+                        <span className="px-3 py-1 bg-amber-200 dark:bg-orange-900/40 text-gray-900 dark:text-orange-100 rounded-full font-medium">{selectedItem.paper}</span>
+                        <span className="px-3 py-1 bg-amber-100 dark:bg-orange-900/30 text-gray-900 dark:text-orange-100 rounded-full">{selectedItem.date}</span>
+                        <span className="px-3 py-1 bg-amber-100 dark:bg-orange-900/30 text-gray-900 dark:text-orange-100 rounded-full">{selectedItem.subject}</span>
+                        <span className="px-3 py-1 bg-amber-100 dark:bg-orange-900/30 text-gray-900 dark:text-orange-100 rounded-full">{selectedItem.type === 'daily' ? 'Daily CA' : selectedItem.type === 'weekly' ? 'Weekly CA' : selectedItem.issue || 'Monthly'}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <p className="ca-text text-gray-700 dark:text-gray-300 leading-relaxed mb-6 whitespace-pre-line">{selectedItem.fullContent}</p>
+                  <div className="mb-6">
+                    <h3 className="text-lg font-semibold mb-3 text-gray-900 dark:text-white">Key Topics</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {selectedItem.topics.map((t, i) => (
+                        <span key={i} className="px-2 py-1 bg-gradient-to-br from-amber-100 to-orange-100 text-gray-800 rounded text-xs shadow-sm">{t}</span>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="flex justify-end">
+                    <button
+                      onClick={closeModal}
+                      className="px-5 py-2 rounded-lg bg-orange-500 hover:bg-orange-600 text-white font-semibold shadow"
+                    >Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
+    </div>
+  );
+}
